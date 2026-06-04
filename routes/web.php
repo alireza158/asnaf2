@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementCont
 use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
+use App\Http\Controllers\Admin\CommissionSessionController as AdminCommissionSessionController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
@@ -21,6 +23,7 @@ use App\Http\Controllers\Admin\VideoController as AdminVideoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
+use App\Http\Controllers\Frontend\CommissionController as FrontendCommissionController;
 use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
@@ -47,6 +50,8 @@ Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.i
 Route::get('/videos/{slug}', [FrontendVideoController::class, 'show'])->name('videos.show');
 Route::get('/systems', [FrontendSystemController::class, 'index'])->name('systems.index');
 Route::get('/systems/{slug}', [FrontendSystemController::class, 'show'])->name('systems.show');
+Route::get('/commissions', [FrontendCommissionController::class, 'index'])->name('commissions.index');
+Route::get('/commissions/{slug}', [FrontendCommissionController::class, 'show'])->name('commissions.show');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
@@ -135,6 +140,22 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('systems/{system}/edit', [AdminSystemController::class, 'edit'])->middleware('permission:systems.edit')->name('systems.edit');
     Route::put('systems/{system}', [AdminSystemController::class, 'update'])->middleware('permission:systems.edit')->name('systems.update');
     Route::delete('systems/{system}', [AdminSystemController::class, 'destroy'])->middleware('permission:systems.delete')->name('systems.destroy');
+
+    Route::get('commissions', [AdminCommissionController::class, 'index'])->middleware('permission:commissions.view')->name('commissions.index');
+    Route::get('commissions/create', [AdminCommissionController::class, 'create'])->middleware('permission:commissions.create')->name('commissions.create');
+    Route::post('commissions', [AdminCommissionController::class, 'store'])->middleware('permission:commissions.create')->name('commissions.store');
+    Route::get('commissions/{commission}', [AdminCommissionController::class, 'show'])->middleware('permission:commissions.view')->name('commissions.show');
+    Route::get('commissions/{commission}/edit', [AdminCommissionController::class, 'edit'])->middleware('permission:commissions.edit')->name('commissions.edit');
+    Route::put('commissions/{commission}', [AdminCommissionController::class, 'update'])->middleware('permission:commissions.edit')->name('commissions.update');
+    Route::delete('commissions/{commission}', [AdminCommissionController::class, 'destroy'])->middleware('permission:commissions.delete')->name('commissions.destroy');
+
+    Route::get('commissions/{commission}/sessions', [AdminCommissionSessionController::class, 'index'])->middleware('permission:commissions.view')->name('commissions.sessions.index');
+    Route::get('commissions/{commission}/sessions/create', [AdminCommissionSessionController::class, 'create'])->middleware('permission:commissions.create')->name('commissions.sessions.create');
+    Route::post('commissions/{commission}/sessions', [AdminCommissionSessionController::class, 'store'])->middleware('permission:commissions.create')->name('commissions.sessions.store');
+    Route::get('commissions/{commission}/sessions/{session}', [AdminCommissionSessionController::class, 'show'])->middleware('permission:commissions.view')->name('commissions.sessions.show');
+    Route::get('commissions/{commission}/sessions/{session}/edit', [AdminCommissionSessionController::class, 'edit'])->middleware('permission:commissions.edit')->name('commissions.sessions.edit');
+    Route::put('commissions/{commission}/sessions/{session}', [AdminCommissionSessionController::class, 'update'])->middleware('permission:commissions.edit')->name('commissions.sessions.update');
+    Route::delete('commissions/{commission}/sessions/{session}', [AdminCommissionSessionController::class, 'destroy'])->middleware('permission:commissions.delete')->name('commissions.sessions.destroy');
 
     Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
     Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
