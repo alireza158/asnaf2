@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Announcement;
 use App\Models\Commission;
 use App\Models\CommissionSession;
+use App\Models\ElectronicService;
 use App\Models\Gallery;
 use App\Models\Page;
 use App\Models\Post;
@@ -116,6 +117,16 @@ class ContentApprovalService
                 'show_route' => 'admin.systems.show',
                 'title' => 'title',
                 'summary' => ['short_description', 'description'],
+                'image' => 'image',
+            ],
+            'electronic_services' => [
+                'model' => ElectronicService::class,
+                'label' => 'خدمات الکترونیک',
+                'permission' => 'electronic_services.approve',
+                'publish_permission' => 'electronic_services.publish',
+                'show_route' => 'admin.electronic_services.show',
+                'title' => 'title',
+                'summary' => ['short_description', 'body'],
                 'image' => 'image',
             ],
             'services' => [

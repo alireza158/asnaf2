@@ -39,4 +39,9 @@ class PostCategory extends Model
     {
         return $this->hasMany(System::class, 'category_id');
     }
+
+    public function electronicServices(): HasMany
+    {
+        return $this->hasMany(ElectronicService::class, 'category_id');
+    }
 }

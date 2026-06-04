@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\CommissionSessionController as AdminCommissionSessionController;
+use App\Http\Controllers\Admin\ElectronicServiceController as AdminElectronicServiceController;
 use App\Http\Controllers\Admin\FooterSettingController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\HeaderSettingController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncement
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
 use App\Http\Controllers\Frontend\CommissionController as FrontendCommissionController;
 use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
+use App\Http\Controllers\Frontend\ElectronicServiceController as FrontendElectronicServiceController;
 use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
@@ -57,6 +59,8 @@ Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.i
 Route::get('/videos/{slug}', [FrontendVideoController::class, 'show'])->name('videos.show');
 Route::get('/systems', [FrontendSystemController::class, 'index'])->name('systems.index');
 Route::get('/systems/{slug}', [FrontendSystemController::class, 'show'])->name('systems.show');
+Route::get('/electronic-services', [FrontendElectronicServiceController::class, 'index'])->name('electronic_services.index');
+Route::get('/electronic-services/{slug}', [FrontendElectronicServiceController::class, 'show'])->name('electronic_services.show');
 Route::get('/commissions', [FrontendCommissionController::class, 'index'])->name('commissions.index');
 Route::get('/commissions/{slug}', [FrontendCommissionController::class, 'show'])->name('commissions.show');
 Route::get('/search', [FrontendSearchController::class, 'index'])->name('search');
@@ -167,6 +171,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('systems/{system}/edit', [AdminSystemController::class, 'edit'])->middleware('permission:systems.edit')->name('systems.edit');
     Route::put('systems/{system}', [AdminSystemController::class, 'update'])->middleware('permission:systems.edit')->name('systems.update');
     Route::delete('systems/{system}', [AdminSystemController::class, 'destroy'])->middleware('permission:systems.delete')->name('systems.destroy');
+
+    Route::get('electronic-services', [AdminElectronicServiceController::class, 'index'])->middleware('permission:electronic_services.view')->name('electronic_services.index');
+    Route::get('electronic-services/create', [AdminElectronicServiceController::class, 'create'])->middleware('permission:electronic_services.create')->name('electronic_services.create');
+    Route::post('electronic-services', [AdminElectronicServiceController::class, 'store'])->middleware('permission:electronic_services.create')->name('electronic_services.store');
+    Route::get('electronic-services/{electronicService}', [AdminElectronicServiceController::class, 'show'])->middleware('permission:electronic_services.view')->name('electronic_services.show');
+    Route::get('electronic-services/{electronicService}/edit', [AdminElectronicServiceController::class, 'edit'])->middleware('permission:electronic_services.edit')->name('electronic_services.edit');
+    Route::put('electronic-services/{electronicService}', [AdminElectronicServiceController::class, 'update'])->middleware('permission:electronic_services.edit')->name('electronic_services.update');
+    Route::delete('electronic-services/{electronicService}', [AdminElectronicServiceController::class, 'destroy'])->middleware('permission:electronic_services.delete')->name('electronic_services.destroy');
 
     Route::get('commissions', [AdminCommissionController::class, 'index'])->middleware('permission:commissions.view')->name('commissions.index');
     Route::get('commissions/create', [AdminCommissionController::class, 'create'])->middleware('permission:commissions.create')->name('commissions.create');

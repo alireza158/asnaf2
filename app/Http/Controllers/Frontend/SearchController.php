@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Commission;
+use App\Models\ElectronicService;
 use App\Models\Gallery;
 use App\Models\GuildUnion;
 use App\Models\Page;
@@ -73,8 +74,8 @@ class SearchController extends Controller
 
     private function services(string $term): array
     {
-        return Page::query()->published()->where(fn ($q) => $q->where('slug', 'like', '%service%')->orWhere('title', 'like', '%خدمات%'))->where(fn ($q) => $this->like($q, ['title', 'excerpt', 'body'], $term))->limit(5)->get()
-            ->map(fn ($item) => $this->result($item->title, 'خدمات الکترونیک', $item->excerpt ?: $item->body, route('pages.show', $item->slug), $item->featured_image))->all();
+        return ElectronicService::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'body'], $term))->orderBy('sort_order')->limit(5)->get()
+            ->map(fn ($item) => $this->result($item->title, 'خدمات الکترونیک', $item->short_description ?: $item->body, route('electronic_services.show', $item->slug), $item->image))->all();
     }
 
     private function tourism(string $term): array

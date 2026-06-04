@@ -85,6 +85,16 @@ class User extends Authenticatable
         return $this->hasMany(TourismPlace::class, 'approved_by');
     }
 
+    public function createdElectronicServices(): HasMany
+    {
+        return $this->hasMany(ElectronicService::class, 'created_by');
+    }
+
+    public function approvedElectronicServices(): HasMany
+    {
+        return $this->hasMany(ElectronicService::class, 'approved_by');
+    }
+
     public function hasRole(string|Role $role): bool
     {
         $roleName = $role instanceof Role ? $role->name : $role;
