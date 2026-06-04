@@ -11,7 +11,7 @@
         ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝', 'route' => 'admin.union_members.index'],
         ['title' => 'شکایات', 'icon' => '📨', 'route' => 'admin.complaints.index'],
         ['title' => 'گالری تصاویر', 'icon' => '🖼️', 'route' => 'admin.galleries.index'],
-        ['title' => 'ویدیوها', 'icon' => '▶️'],
+        ['title' => 'ویدیوها', 'icon' => '▶️', 'route' => 'admin.videos.index'],
         ['title' => 'گردشگری', 'icon' => '🌿'],
         ['title' => 'تبلیغات', 'icon' => '📌'],
         ['title' => 'سامانه‌ها', 'icon' => '💻'],

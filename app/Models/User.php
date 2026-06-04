@@ -65,6 +65,16 @@ class User extends Authenticatable
         return $this->hasMany(Gallery::class, 'approved_by');
     }
 
+    public function createdVideos(): HasMany
+    {
+        return $this->hasMany(Video::class, 'created_by');
+    }
+
+    public function approvedVideos(): HasMany
+    {
+        return $this->hasMany(Video::class, 'approved_by');
+    }
+
     public function hasRole(string|Role $role): bool
     {
         $roleName = $role instanceof Role ? $role->name : $role;

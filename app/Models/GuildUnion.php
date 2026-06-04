@@ -96,6 +96,11 @@ class GuildUnion extends Model
         return $this->hasMany(Gallery::class, 'union_id');
     }
 
+    public function videos(): HasMany
+    {
+        return $this->hasMany(Video::class, 'union_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

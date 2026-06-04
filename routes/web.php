@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UnionMemberController;
+use App\Http\Controllers\Admin\VideoController as AdminVideoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
+use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +36,8 @@ Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'sho
 Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
 Route::get('/galleries', [FrontendGalleryController::class, 'index'])->name('galleries.index');
 Route::get('/galleries/{slug}', [FrontendGalleryController::class, 'show'])->name('galleries.show');
-Route::view('/videos/{slug}', 'frontend.videos.show')->name('videos.show');
+Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.index');
+Route::get('/videos/{slug}', [FrontendVideoController::class, 'show'])->name('videos.show');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
@@ -113,6 +116,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('galleries/{gallery}/edit', [AdminGalleryController::class, 'edit'])->middleware('permission:galleries.edit')->name('galleries.edit');
     Route::put('galleries/{gallery}', [AdminGalleryController::class, 'update'])->middleware('permission:galleries.edit')->name('galleries.update');
     Route::delete('galleries/{gallery}', [AdminGalleryController::class, 'destroy'])->middleware('permission:galleries.delete')->name('galleries.destroy');
+
+    Route::get('videos', [AdminVideoController::class, 'index'])->middleware('permission:videos.view')->name('videos.index');
+    Route::get('videos/create', [AdminVideoController::class, 'create'])->middleware('permission:videos.create')->name('videos.create');
+    Route::post('videos', [AdminVideoController::class, 'store'])->middleware('permission:videos.create')->name('videos.store');
+    Route::get('videos/{video}', [AdminVideoController::class, 'show'])->middleware('permission:videos.view')->name('videos.show');
+    Route::get('videos/{video}/edit', [AdminVideoController::class, 'edit'])->middleware('permission:videos.edit')->name('videos.edit');
+    Route::put('videos/{video}', [AdminVideoController::class, 'update'])->middleware('permission:videos.edit')->name('videos.update');
+    Route::delete('videos/{video}', [AdminVideoController::class, 'destroy'])->middleware('permission:videos.delete')->name('videos.destroy');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');

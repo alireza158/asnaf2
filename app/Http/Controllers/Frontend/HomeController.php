@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\GuildUnion;
 use App\Models\HomeSection;
 use App\Models\Post;
+use App\Models\Video;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -58,13 +59,20 @@ class HomeController extends Controller
             ->take($this->sectionLimit($sections, 'galleries', 3))
             ->get();
 
+        $latestVideos = Video::query()
+            ->published()
+            ->latest('published_at')
+            ->take($this->sectionLimit($sections, 'videos', 3))
+            ->get();
+
         return view('frontend.home', compact(
             'sections',
             'importantPosts',
             'heroPosts',
             'importantAnnouncements',
             'homeUnions',
-            'latestGalleries'
+            'latestGalleries',
+            'latestVideos'
         ));
     }
 
