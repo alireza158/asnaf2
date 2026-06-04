@@ -81,6 +81,26 @@ class GuildUnion extends Model
         return $this->hasMany(Announcement::class, 'union_id');
     }
 
+    public function complaints(): HasMany
+    {
+        return $this->hasMany(Complaint::class, 'union_id');
+    }
+
+    public function smsLogs(): HasMany
+    {
+        return $this->hasMany(SmsLog::class, 'union_id');
+    }
+
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class, 'union_id');
+    }
+
+    public function videos(): HasMany
+    {
+        return $this->hasMany(Video::class, 'union_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

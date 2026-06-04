@@ -110,7 +110,7 @@
                 <section class="guild-section guild-section-alt" id="guild-videos"><h3 class="guild-section-title">ویدیوها</h3><p>ویدیوهای این اتحادیه از این بخش نمایش داده می‌شوند.</p></section>
             @endif
             @if ($union->complaint_enabled)
-                <section class="guild-section" id="guild-complaint"><h3 class="guild-section-title">ثبت شکایت صنفی</h3><p>فرم شکایت برای این اتحادیه فعال است.</p></section>
+                <section class="guild-section" id="guild-complaint"><h3 class="guild-section-title">ثبت شکایت صنفی</h3><p>فرم شکایت برای این اتحادیه فعال است.</p><a class="tab-pill active" href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت از این اتحادیه</a></section>
             @endif
             @if ($union->congratulations_enabled)
                 <section class="guild-section guild-section-alt" id="guild-congratulations"><h3 class="guild-section-title">پیام تبریک مدیر</h3><p>امکان نمایش پیام تبریک مدیر برای این اتحادیه فعال است.</p></section>
