@@ -7,7 +7,7 @@
         ['title' => 'صفحات', 'icon' => '📄', 'route' => 'admin.pages.index'],
         ['title' => 'اخبار', 'icon' => '📰', 'route' => 'admin.posts.index'],
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
-        ['title' => 'اتحادیه‌ها', 'icon' => '🏢'],
+        ['title' => 'اتحادیه‌ها', 'icon' => '🏢', 'route' => 'admin.unions.index'],
         ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝'],
         ['title' => 'شکایات', 'icon' => '📨'],
         ['title' => 'گالری تصاویر', 'icon' => '🖼️'],

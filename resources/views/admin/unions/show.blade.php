@@ -1,0 +1,60 @@
+@extends('admin.layouts.app')
+
+@section('title', 'جزئیات اتحادیه')
+
+@section('content')
+<div class="admin-page-toolbar">
+    <div><p class="admin-eyebrow">جزئیات اتحادیه</p><h2>{{ $union->display_title }}</h2></div>
+    <div class="d-flex gap-2 flex-wrap">
+        <a class="admin-secondary-btn" href="{{ route('admin.unions.index') }}">بازگشت</a>
+        <a class="admin-primary-btn" href="{{ route('admin.unions.edit', $union) }}">ویرایش</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="admin-panel-card">
+            @if ($union->cover_image)
+                <img class="img-fluid rounded mb-3" src="{{ Storage::url($union->cover_image) }}" alt="{{ $union->display_title }}">
+            @endif
+            <div class="d-flex align-items-center gap-3 mb-3">
+                @if ($union->logo)<img src="{{ Storage::url($union->logo) }}" alt="{{ $union->display_title }}" style="width:72px;height:72px;object-fit:contain">@endif
+                <div><h3 class="h5 mb-1">{{ $union->display_title }}</h3><p class="text-muted mb-0">{{ $union->short_description }}</p></div>
+            </div>
+            <div class="admin-rich-content">{!! nl2br(e($union->description)) !!}</div>
+        </div>
+        <div class="admin-panel-card mt-3">
+            <h3 class="h6">امکانات فعال</h3>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach ([
+                    'news_enabled' => 'اخبار', 'announcements_enabled' => 'اطلاعیه‌ها', 'gallery_enabled' => 'گالری',
+                    'videos_enabled' => 'ویدیوها', 'members_enabled' => 'اعضا', 'services_enabled' => 'خدمات',
+                    'complaint_enabled' => 'فرم شکایت', 'congratulations_enabled' => 'پیام تبریک مدیر'
+                ] as $field => $label)
+                    <span class="admin-status-badge {{ $union->{$field} ? 'is-active' : 'is-inactive' }}">{{ $label }}: {{ $union->{$field} ? 'فعال' : 'غیرفعال' }}</span>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="admin-panel-card">
+            <dl class="row mb-0">
+                <dt class="col-5">وضعیت</dt><dd class="col-7">{{ $union->is_active ? 'فعال' : 'غیرفعال' }}</dd>
+                <dt class="col-5">مدیر</dt><dd class="col-7">{{ $union->manager_name ?: '—' }}</dd>
+                <dt class="col-5">تلفن</dt><dd class="col-7">{{ $union->phone ?: '—' }}</dd>
+                <dt class="col-5">موبایل</dt><dd class="col-7">{{ $union->mobile ?: '—' }}</dd>
+                <dt class="col-5">ایمیل</dt><dd class="col-7">{{ $union->email ?: '—' }}</dd>
+                <dt class="col-5">وب‌سایت</dt><dd class="col-7">@if ($union->website)<a href="{{ $union->website }}" target="_blank">مشاهده</a>@else — @endif</dd>
+                <dt class="col-5">ساعات کاری</dt><dd class="col-7">{{ $union->working_hours ?: '—' }}</dd>
+                <dt class="col-5">ترتیب</dt><dd class="col-7">{{ $union->sort_order }}</dd>
+                <dt class="col-5">اخبار</dt><dd class="col-7">{{ $union->posts_count }}</dd>
+                <dt class="col-5">اطلاعیه‌ها</dt><dd class="col-7">{{ $union->announcements_count }}</dd>
+                <dt class="col-5">کاربران</dt><dd class="col-7">{{ $union->users_count }}</dd>
+            </dl>
+        </div>
+        @if ($union->manager_image)
+            <div class="admin-panel-card mt-3"><img class="img-fluid rounded" src="{{ Storage::url($union->manager_image) }}" alt="{{ $union->manager_name }}"></div>
+        @endif
+    </div>
+</div>
+@endsection

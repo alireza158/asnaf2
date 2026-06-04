@@ -7,10 +7,12 @@ use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Models\Announcement;
 use App\Models\Post;
@@ -22,7 +24,8 @@ Route::get('/', function () {
 
     return view('frontend.home', compact('importantPosts', 'importantAnnouncements'));
 })->name('home');
-Route::view('/guilds/{slug}', 'frontend.guilds.show')->name('guilds.show');
+Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+Route::get('/guilds/{slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('posts.show');
 Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
@@ -70,6 +73,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('announcements/{announcement}/approve', [AdminAnnouncementController::class, 'approve'])->middleware('permission:announcements.approve')->name('announcements.approve');
     Route::patch('announcements/{announcement}/publish', [AdminAnnouncementController::class, 'publish'])->middleware('permission:announcements.publish')->name('announcements.publish');
     Route::patch('announcements/{announcement}/reject', [AdminAnnouncementController::class, 'reject'])->middleware('permission:announcements.approve')->name('announcements.reject');
+
+    Route::get('unions', [AdminUnionController::class, 'index'])->middleware('permission:unions.view')->name('unions.index');
+    Route::get('unions/create', [AdminUnionController::class, 'create'])->middleware('permission:unions.create')->name('unions.create');
+    Route::post('unions', [AdminUnionController::class, 'store'])->middleware('permission:unions.create')->name('unions.store');
+    Route::get('unions/{union}', [AdminUnionController::class, 'show'])->middleware('permission:unions.view')->name('unions.show');
+    Route::get('unions/{union}/edit', [AdminUnionController::class, 'edit'])->middleware('permission:unions.edit')->name('unions.edit');
+    Route::put('unions/{union}', [AdminUnionController::class, 'update'])->middleware('permission:unions.edit')->name('unions.update');
+    Route::delete('unions/{union}', [AdminUnionController::class, 'destroy'])->middleware('permission:unions.delete')->name('unions.destroy');
 
     Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');
