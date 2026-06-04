@@ -1,8 +1,8 @@
 @php
     $adminMenuItems = [
-        ['title' => 'داشبورد', 'icon' => '🏠', 'active' => true],
+        ['title' => 'داشبورد', 'icon' => '🏠', 'route' => 'admin.dashboard'],
         ['title' => 'کاربران', 'icon' => '👤'],
-        ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐'],
+        ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐', 'route' => 'admin.roles.index'],
         ['title' => 'منوها', 'icon' => '☰'],
         ['title' => 'صفحات', 'icon' => '📄'],
         ['title' => 'اخبار', 'icon' => '📰'],
@@ -36,7 +36,8 @@
 
     <nav class="admin-sidebar-nav">
         @foreach ($adminMenuItems as $item)
-            <a class="admin-nav-link {{ ! empty($item['active']) ? 'is-active' : '' }}" href="{{ ! empty($item['active']) ? route('admin.dashboard') : '#' }}">
+            @php($routeName = $item['route'] ?? null)
+            <a class="admin-nav-link {{ $routeName && request()->routeIs($routeName) ? 'is-active' : '' }}" href="{{ $routeName ? route($routeName) : '#' }}">
                 <span class="admin-nav-icon">{{ $item['icon'] }}</span>
                 <span>{{ $item['title'] }}</span>
             </a>
