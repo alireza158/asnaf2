@@ -7,7 +7,7 @@
 <div class="page-header">
 <div class="site-container">
 <nav class="breadcrumb-nav">
-<a href="{{ route('frontend.home') }}">خانه</a>
+<a href="{{ route('home') }}">خانه</a>
 <span class="breadcrumb-sep">/</span>
 <span>عنوان صفحه</span>
 </nav>

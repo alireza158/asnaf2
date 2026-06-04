@@ -11,8 +11,8 @@
   <div class="site-container">
     <h1>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('frontend.home') }}">خانه</a>
-      <a href="{{ route('frontend.galleries.index') }}">گالری</a>
+      <a href="{{ route('home') }}">خانه</a>
+      <a href="{{ route('galleries.index') }}">گالری</a>
       <span>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</span>
     </nav>
   </div>
@@ -44,12 +44,12 @@
       <div class="gallery-sidebar-card">
         <h4>سایر گالری‌ها</h4>
         <ul class="gallery-sidebar-list">
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">نمایشگاه صنایع دستی گرگان</a></li>
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">دوره آموزشی قوانین کسب‌وکار</a></li>
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">افتتاح ساختمان جدید اتحادیه</a></li>
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">گزارش تصویری هفته اصناف</a></li>
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">بازدید از واحدهای صنفی</a></li>
-          <li><a href="{{ route('frontend.galleries.show', 'sample-gallery') }}">همایش اقتصاد مقاومتی</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">نمایشگاه صنایع دستی گرگان</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">دوره آموزشی قوانین کسب‌وکار</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">افتتاح ساختمان جدید اتحادیه</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">گزارش تصویری هفته اصناف</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">بازدید از واحدهای صنفی</a></li>
+          <li><a href="{{ route('galleries.show', 'sample-gallery') }}">همایش اقتصاد مقاومتی</a></li>
         </ul>
       </div>
       <div class="gallery-sidebar-card">

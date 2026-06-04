@@ -7,7 +7,7 @@
 <div class="page-header">
 <div class="site-container">
 <nav class="breadcrumb-nav">
-<a href="{{ route('frontend.home') }}">خانه</a>
+<a href="{{ route('home') }}">خانه</a>
 <span class="breadcrumb-sep">/</span>
 <span>آرشیو نوشته‌ها</span>
 </nav>
@@ -29,7 +29,7 @@
 </div>
 <div class="archive-grid">
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر خبر" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">اخبار</span>
@@ -40,7 +40,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر راهنمای صدور پروانه" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">آموزش</span>
@@ -51,7 +51,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر دوره آموزشی" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">آموزش</span>
@@ -62,7 +62,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر بازرسی" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">اخبار</span>
@@ -73,7 +73,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر نشست هماهنگی" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">اخبار</span>
@@ -84,7 +84,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر گردشگری" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">گردشگری</span>
@@ -95,7 +95,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر بخشنامه" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">اطلاعیه‌ها</span>
@@ -106,7 +106,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر سامانه نوین" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">اطلاعیه‌ها</span>
@@ -117,7 +117,7 @@
 </a>
 </article>
 <article class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="تصویر آموزش مالیات" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <span class="card-cat">آموزش</span>

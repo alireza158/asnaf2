@@ -10,9 +10,9 @@
 <div class="guild-hero-logo">ط</div>
 <div class="guild-hero-text">
 <nav class="breadcrumb-nav" style="margin-bottom:10px">
-<a href="{{ route('frontend.home') }}" style="color:rgba(255,255,255,.6)">خانه</a>
+<a href="{{ route('home') }}" style="color:rgba(255,255,255,.6)">خانه</a>
 <span class="breadcrumb-sep">/</span>
-<a href="{{ route('frontend.home') }}#representatives" style="color:rgba(255,255,255,.6)">اتحادیه‌ها</a>
+<a href="{{ route('home') }}#representatives" style="color:rgba(255,255,255,.6)">اتحادیه‌ها</a>
 <span class="breadcrumb-sep">/</span>
 <span style="color:rgba(255,255,255,.8)">اتحادیه صنف طلا و جواهر</span>
 </nav>
@@ -232,7 +232,7 @@
 <section class="guild-section" id="guild-news">
 <h3 class="guild-section-title">آخرین اخبار اتحادیه طلا و جواهر</h3>
 <div class="guild-article-list">
-<a class="guild-article-item" href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a class="guild-article-item" href="{{ route('posts.show', 'sample-post') }}">
 <img alt="خبر طلا" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div>
 <h4>نوسانات قیمت طلا و سکه در بازار گرگان</h4>
@@ -240,7 +240,7 @@
 <span class="item-date">۱۴ اردیبهشت ۱۴۰۵</span>
 </div>
 </a>
-<a class="guild-article-item" href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a class="guild-article-item" href="{{ route('posts.show', 'sample-post') }}">
 <img alt="خبر طلا" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div>
 <h4>بازرسی دوره‌ای از طلافروشی‌های سطح شهر</h4>
@@ -248,7 +248,7 @@
 <span class="item-date">۱۲ اردیبهشت ۱۴۰۵</span>
 </div>
 </a>
-<a class="guild-article-item" href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a class="guild-article-item" href="{{ route('posts.show', 'sample-post') }}">
 <img alt="خبر طلا" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div>
 <h4>آموزش شناسایی طلای اصل و جلوگیری از تقلب</h4>
@@ -263,7 +263,7 @@
 <h3 class="guild-section-title">مقاله‌ها</h3>
 <div class="guild-3col">
 <div class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="مقاله" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <h2>راهنمای خرید طلا و جواهر</h2>
@@ -273,7 +273,7 @@
 </a>
 </div>
 <div class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="مقاله" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <h2>تشخیص طلای اصل از بدل</h2>
@@ -283,7 +283,7 @@
 </a>
 </div>
 <div class="archive-card">
-<a href="{{ route('frontend.posts.show', 'sample-post') }}">
+<a href="{{ route('posts.show', 'sample-post') }}">
 <img alt="مقاله" class="archive-card-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="archive-card-body">
 <h2>تاثیر نوسانات ارز بر قیمت طلا</h2>
@@ -480,7 +480,7 @@
 </div>
 </div>
 <div class="guild-gallery-more">
-<a href="{{ route('frontend.home') }}#multimedia">مشاهده همه تصاویر و ویدیوها</a>
+<a href="{{ route('home') }}#multimedia">مشاهده همه تصاویر و ویدیوها</a>
 </div>
 </section>
 

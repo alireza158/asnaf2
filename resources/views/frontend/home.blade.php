@@ -374,7 +374,7 @@
 <div class="tab-panel active" data-tab-panel="tourism-nature">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="جنگل النگدره گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -386,7 +386,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="تالاب گمیشان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -398,7 +398,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="آبشار کبودوال" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -410,7 +410,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="پارک ملی گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -426,7 +426,7 @@
 <div class="tab-panel" data-tab-panel="tourism-historic">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="برج گنبد قابوس" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -438,7 +438,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="دیوار دفاعی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -450,7 +450,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="مسجد جامع گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -466,7 +466,7 @@
 <div class="tab-panel" data-tab-panel="tourism-shop">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="بازار بزرگ گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">خرید</div>
@@ -478,7 +478,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="پاساژ گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">خرید</div>
@@ -490,7 +490,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="{{ route('frontend.tourism.index') }}">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="هتل شیرخان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">اقامت</div>
@@ -520,7 +520,7 @@
 <div class="tab-panels" data-tab-panels="media">
 <div class="tab-panel active" data-tab-panel="media-video">
       <div class="media-grid">
-      <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="media-card media-card-lg">
+      <a href="{{ route('videos.show', 'sample-video') }}" class="media-card media-card-lg">
         <img alt="گزارش تصویری از خدمات اتاق اصناف گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -528,7 +528,7 @@
           <h3>گزارش تصویری از خدمات اتاق اصناف گرگان به کسبه شهرستان</h3>
         </div>
       </a>
-      <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="media-card">
+      <a href="{{ route('videos.show', 'sample-video') }}" class="media-card">
         <img alt="راهنمای مراحل صدور و تمدید پروانه کسب" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -536,7 +536,7 @@
           <h3>راهنمای مراحل صدور و تمدید پروانه کسب</h3>
         </div>
       </a>
-      <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="media-card">
+      <a href="{{ route('videos.show', 'sample-video') }}" class="media-card">
         <img alt="آموزش احکام تجارت برای متقاضیان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -544,7 +544,7 @@
           <h3>گفت‌وگو درباره آموزش احکام تجارت</h3>
         </div>
       </a>
-      <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="media-card">
+      <a href="{{ route('videos.show', 'sample-video') }}" class="media-card">
         <img alt="بازدید میدانی بازرسان از واحدهای صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -552,7 +552,7 @@
           <h3>بازدید میدانی بازرسان از واحدهای صنفی گرگان</h3>
         </div>
       </a>
-      <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="media-card">
+      <a href="{{ route('videos.show', 'sample-video') }}" class="media-card">
         <img alt="نشست هماهنگی اتحادیه‌های صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -565,56 +565,56 @@
 </div>
 <div class="tab-panel" data-tab-panel="media-image">
 <div class="media-grid">
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="نمایی از ساختمان اتاق اصناف گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>نمایی از ساختمان و مراجعه حضوری فعالان صنفی</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="جلسه هم‌اندیشی اتحادیه‌های صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>جلسه هم‌اندیشی اتحادیه‌های صنفی گرگان</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="خدمات مشاوره‌ای به متقاضیان پروانه کسب" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>ارائه خدمات مشاوره‌ای به متقاضیان پروانه کسب</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="دوره آموزشی احکام تجارت" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>برگزاری دوره آموزشی احکام تجارت و کسب‌وکار</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="طرح‌های نظارتی بازار گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>پیگیری طرح‌های نظارتی بازار در شهرستان گرگان</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="بخشنامه‌ها و دستورالعمل‌های صنفی" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>بخشنامه‌ها و دستورالعمل‌های جدید صنفی</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="بازار سنتی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>بازار سنتی گرگان و اصناف قدیمی شهر</h3>
 </div>
 </a>
-<a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="media-card">
+<a href="{{ route('galleries.show', 'sample-gallery') }}" class="media-card">
 <img alt="نمایشگاه صنایع دستی گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
@@ -622,7 +622,7 @@
 </div>
 </a>
 </div>
-<a class="media-view-all" href="{{ route('frontend.galleries.index') }}">مشاهده همه تصاویر</a>
+<a class="media-view-all" href="{{ route('galleries.index') }}">مشاهده همه تصاویر</a>
 </div>
 </div>
 </div>

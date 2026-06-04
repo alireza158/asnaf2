@@ -10,8 +10,8 @@
   <div class="site-container">
     <h1>گزارش تصویری از خدمات اتاق اصناف گرگان</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('frontend.home') }}">خانه</a>
-      <a href="{{ route('frontend.home') }}#multimedia">چندرسانه‌ای</a>
+      <a href="{{ route('home') }}">خانه</a>
+      <a href="{{ route('home') }}#multimedia">چندرسانه‌ای</a>
       <span>گزارش تصویری از خدمات اتاق اصناف</span>
     </nav>
   </div>
@@ -48,35 +48,35 @@
       <div class="video-sidebar-card">
         <h4>ویدیوهای مرتبط</h4>
         <div class="video-related-list">
-          <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="video-related-item">
+          <a href="{{ route('videos.show', 'sample-video') }}" class="video-related-item">
             <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
             <div class="vri-body">
               <strong>راهنمای مراحل صدور و تمدید پروانه کسب</strong>
               <span>۸:۲۱ دقیقه</span>
             </div>
           </a>
-          <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="video-related-item">
+          <a href="{{ route('videos.show', 'sample-video') }}" class="video-related-item">
             <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
             <div class="vri-body">
               <strong>گفت‌وگو درباره آموزش احکام تجارت</strong>
               <span>۱۵:۴۰ دقیقه</span>
             </div>
           </a>
-          <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="video-related-item">
+          <a href="{{ route('videos.show', 'sample-video') }}" class="video-related-item">
             <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
             <div class="vri-body">
               <strong>بازدید میدانی بازرسان از واحدهای صنفی گرگان</strong>
               <span>۱۰:۱۲ دقیقه</span>
             </div>
           </a>
-          <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="video-related-item">
+          <a href="{{ route('videos.show', 'sample-video') }}" class="video-related-item">
             <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
             <div class="vri-body">
               <strong>نشست هماهنگی اتحادیه‌های صنفی شهرستان</strong>
               <span>۲۲:۰۵ دقیقه</span>
             </div>
           </a>
-          <a href="{{ route('frontend.videos.show', 'sample-video') }}" class="video-related-item">
+          <a href="{{ route('videos.show', 'sample-video') }}" class="video-related-item">
             <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
             <div class="vri-body">
               <strong>معرفی سامانه‌های الکترونیکی اصناف</strong>

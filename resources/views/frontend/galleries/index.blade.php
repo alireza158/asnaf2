@@ -11,7 +11,7 @@
   <div class="site-container">
     <h1>گالری تصاویر و ویدیوها</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('frontend.home') }}">خانه</a>
+      <a href="{{ route('home') }}">خانه</a>
       <span>گالری</span>
     </nav>
   </div>
@@ -23,7 +23,7 @@
     <p>مجموعه تصاویر و ویدیوهای رویدادها، جلسات و فعالیت‌های اتاق اصناف</p>
   </div>
   <div class="gallery-albums-grid">
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="جلسه هیئت رئیسه اتاق اصناف" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</h3>
@@ -34,7 +34,7 @@
         </div>
       </div>
     </a>
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="نمایشگاه صنایع دستی" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>نمایشگاه صنایع دستی گرگان</h3>
@@ -45,7 +45,7 @@
         </div>
       </div>
     </a>
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="دوره آموزشی اصناف" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>دوره آموزشی قوانین کسب‌وکار</h3>
@@ -56,7 +56,7 @@
         </div>
       </div>
     </a>
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="افتتاح پروژه عمرانی" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>افتتاح ساختمان جدید اتحادیه</h3>
@@ -67,7 +67,7 @@
         </div>
       </div>
     </a>
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card gallery-album-video">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card gallery-album-video">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="گزارش تصویری" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>گزارش تصویری هفته اصناف</h3>
@@ -78,7 +78,7 @@
         </div>
       </div>
     </a>
-    <a href="{{ route('frontend.galleries.show', 'sample-gallery') }}" class="gallery-album-card">
+    <a href="{{ route('galleries.show', 'sample-gallery') }}" class="gallery-album-card">
       <img class="gallery-album-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="بازدید میدانی" loading="lazy"/>
       <div class="gallery-album-body">
         <h3>بازدید از واحدهای صنفی شهرستان</h3>

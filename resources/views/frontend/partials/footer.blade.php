@@ -9,20 +9,20 @@
 <div class="footer-col">
 <h4>دسترسی سریع</h4>
 <ul>
-<li><a href="{{ route('frontend.home') }}">صفحه اصلی</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">آرشیو اخبار</a></li>
-<li><a href="{{ route('frontend.guilds.show', 'gold-union') }}">اتحادیه‌های صنفی</a></li>
+<li><a href="{{ route('home') }}">صفحه اصلی</a></li>
+<li><a href="{{ route('posts.index') }}">آرشیو اخبار</a></li>
+<li><a href="{{ route('guilds.show', 'gold-union') }}">اتحادیه‌های صنفی</a></li>
 @if ($footerLinksVariant === 'full' || $footerLinksVariant === 'gallery-detail')
-<li><a href="{{ route('frontend.home') }}#commissions">سامانه خدمات صنفی</a></li>
+<li><a href="{{ route('home') }}#commissions">سامانه خدمات صنفی</a></li>
 @endif
-<li><a href="{{ route('frontend.galleries.index') }}">گالری تصاویر</a></li>
+<li><a href="{{ route('galleries.index') }}">گالری تصاویر</a></li>
 @if ($footerLinksVariant !== 'gallery-detail')
-<li><a href="{{ route('frontend.tourism.index') }}">گردشگری</a></li>
+<li><a href="{{ route('tourism.index') }}">گردشگری</a></li>
 @endif
 @if ($footerLinksVariant === 'full' || $footerLinksVariant === 'gallery-detail')
-<li><a href="{{ route('frontend.home') }}#multimedia">چندرسانه‌ای</a></li>
+<li><a href="{{ route('home') }}#multimedia">چندرسانه‌ای</a></li>
 @endif
-<li><a href="{{ route('frontend.home') }}#friendship">تماس با ما</a></li>
+<li><a href="{{ route('home') }}#friendship">تماس با ما</a></li>
 </ul>
 </div>
 <div class="footer-col">
@@ -34,7 +34,7 @@
 </div>
 <div class="footer-divider"></div>
 <div class="footer-orgs">
-<a href="{{ route('frontend.home') }}">اتاق اصناف شهرستان گرگان</a><a href="#">اتاق اصناف ایران</a><a href="#">سامانه نوین اصناف</a><a href="#">سامانه آموزش اصناف</a><a href="#">اداره صمت گلستان</a><a href="#">کمیسیون نظارت</a><a href="#">تعزیرات حکومتی</a><a href="#">شهرداری گرگان</a><a href="#">سازمان بازرسی</a><a href="{{ $footerLinksVariant === 'short' ? '#' : route('frontend.posts.index') }}">فرم‌ها و بخشنامه‌ها</a>
+<a href="{{ route('home') }}">اتاق اصناف شهرستان گرگان</a><a href="#">اتاق اصناف ایران</a><a href="#">سامانه نوین اصناف</a><a href="#">سامانه آموزش اصناف</a><a href="#">اداره صمت گلستان</a><a href="#">کمیسیون نظارت</a><a href="#">تعزیرات حکومتی</a><a href="#">شهرداری گرگان</a><a href="#">سازمان بازرسی</a><a href="{{ $footerLinksVariant === 'short' ? '#' : route('posts.index') }}">فرم‌ها و بخشنامه‌ها</a>
 </div>
 <div class="footer-divider"></div>
 <div class="footer-bottom">

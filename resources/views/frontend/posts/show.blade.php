@@ -7,9 +7,9 @@
 <div class="page-header">
 <div class="site-container">
 <nav class="breadcrumb-nav">
-<a href="{{ route('frontend.home') }}">خانه</a>
+<a href="{{ route('home') }}">خانه</a>
 <span class="breadcrumb-sep">/</span>
-<a href="{{ route('frontend.posts.index') }}">اخبار</a>
+<a href="{{ route('posts.index') }}">اخبار</a>
 <span class="breadcrumb-sep">/</span>
 <span>عنوان نوشته</span>
 </nav>
@@ -69,21 +69,21 @@
 <div class="sidebar-card">
 <h3>آخرین نوشته‌ها</h3>
 <ul class="sidebar-list">
-<li><a href="{{ route('frontend.posts.show', 'sample-post') }}">آخرین اخبار و اطلاعیه‌های اتاق اصناف گرگان</a></li>
-<li><a href="{{ route('frontend.posts.show', 'sample-post') }}">راهنمای صدور و تمدید پروانه کسب در سال ۱۴۰۵</a></li>
-<li><a href="{{ route('frontend.posts.show', 'sample-post') }}">برگزاری دوره آموزشی احکام تجارت برای متقاضیان</a></li>
-<li><a href="{{ route('frontend.posts.show', 'sample-post') }}">بازرسی دوره‌ای از واحدهای صنفی شهرستان گرگان</a></li>
-<li><a href="{{ route('frontend.posts.show', 'sample-post') }}">نشست هماهنگی اتحادیه‌های صنفی با اداره صمت</a></li>
+<li><a href="{{ route('posts.show', 'sample-post') }}">آخرین اخبار و اطلاعیه‌های اتاق اصناف گرگان</a></li>
+<li><a href="{{ route('posts.show', 'sample-post') }}">راهنمای صدور و تمدید پروانه کسب در سال ۱۴۰۵</a></li>
+<li><a href="{{ route('posts.show', 'sample-post') }}">برگزاری دوره آموزشی احکام تجارت برای متقاضیان</a></li>
+<li><a href="{{ route('posts.show', 'sample-post') }}">بازرسی دوره‌ای از واحدهای صنفی شهرستان گرگان</a></li>
+<li><a href="{{ route('posts.show', 'sample-post') }}">نشست هماهنگی اتحادیه‌های صنفی با اداره صمت</a></li>
 </ul>
 </div>
 <div class="sidebar-card">
 <h3>دسته‌بندی‌ها</h3>
 <ul class="sidebar-list">
-<li><a href="{{ route('frontend.posts.index') }}">اخبار اتاق اصناف</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">اطلاعیه‌ها و بخشنامه‌ها</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">آموزش و دوره‌ها</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">اخبار اتحادیه‌ها</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">گردشگری و اصناف</a></li>
+<li><a href="{{ route('posts.index') }}">اخبار اتاق اصناف</a></li>
+<li><a href="{{ route('posts.index') }}">اطلاعیه‌ها و بخشنامه‌ها</a></li>
+<li><a href="{{ route('posts.index') }}">آموزش و دوره‌ها</a></li>
+<li><a href="{{ route('posts.index') }}">اخبار اتحادیه‌ها</a></li>
+<li><a href="{{ route('posts.index') }}">گردشگری و اصناف</a></li>
 </ul>
 </div>
 <div class="sidebar-card">

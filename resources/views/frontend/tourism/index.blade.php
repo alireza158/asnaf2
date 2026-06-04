@@ -10,7 +10,7 @@
   <div class="site-container">
     <h1>گردشگری در گرگان</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('frontend.home') }}">خانه</a>
+      <a href="{{ route('home') }}">خانه</a>
       <span>گردشگری گرگان</span>
     </nav>
   </div>
@@ -203,7 +203,7 @@
     <div class="tourism-cta-box">
       <h2>اصناف مرتبط با گردشگری</h2>
       <p>اتاق اصناف شهرستان گرگان با اتحادیه‌های هتل‌داران، رستوران‌داران، صنایع دستی و آژانس‌های مسافرتی در خدمت فعالان این حوزه است.</p>
-      <a href="{{ route('frontend.guilds.show', 'gold-union') }}" class="cta-button">مشاهده اتحادیه‌های صنفی</a>
+      <a href="{{ route('guilds.show', 'gold-union') }}" class="cta-button">مشاهده اتحادیه‌های صنفی</a>
     </div>
   </div>
 </section>
