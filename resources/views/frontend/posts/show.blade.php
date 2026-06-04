@@ -1,112 +1,88 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'عنوان نوشته | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'توضیحات نوشته در صفحه داخلی اتاق اصناف شهرستان گرگان')
+@section('title', ($post->meta_title ?: $post->title).' | اتاق اصناف شهرستان گرگان')
+@section('meta_description', $post->meta_description ?: $post->excerpt)
+@section('meta_keywords', $post->meta_keywords)
 
 @section('content')
 <div class="page-header">
-<div class="site-container">
-<nav class="breadcrumb-nav">
-<a href="{{ route('home') }}">خانه</a>
-<span class="breadcrumb-sep">/</span>
-<a href="{{ route('posts.index') }}">اخبار</a>
-<span class="breadcrumb-sep">/</span>
-<span>عنوان نوشته</span>
-</nav>
-<h1>عنوان نوشته</h1>
-</div>
+    <div class="site-container">
+        <nav class="breadcrumb-nav">
+            <a href="{{ route('home') }}">خانه</a>
+            <span class="breadcrumb-sep">/</span>
+            <a href="{{ route('posts.index') }}">آرشیو اخبار</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>{{ $post->title }}</span>
+        </nav>
+        <h1>{{ $post->title }}</h1>
+    </div>
 </div>
 
-<main>
-<div class="site-container single-post-layout">
-<article class="single-post-article">
-<img alt="تصویر شاخص نوشته" class="post-featured-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
-<div class="single-post-body">
-<div class="post-meta">
-<span>تاریخ انتشار: ۱۴ اردیبهشت ۱۴۰۵</span>
-<span class="dot"></span>
-<span>دسته‌بندی: اخبار اتاق اصناف</span>
-<span class="dot"></span>
-<span>بازدید: ۲۵۶</span>
-</div>
-<h1>عنوان اصلی نوشته یا خبر</h1>
-<div class="post-excerpt">
-خلاصه یا چکیده کوتاهی از محتوای این نوشته که توجه مخاطب را جلب می‌کند و او را به مطالعه ادامه مطلب ترغیب می‌نماید.
-</div>
-<div class="post-content">
-<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می‌باشد.</p>
-<p>کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و متخصصان را می‌طلبد تا با نرم‌افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد.</p>
-<p>در این صورت می‌توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
-</div>
-<div class="post-gallery" data-gallery-group="post-g1">
-<h3>گالری تصاویر</h3>
-<div class="post-gallery-grid">
-<div class="post-gallery-item" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱" loading="lazy"/></div>
-<div class="post-gallery-item" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۲" loading="lazy"/></div>
-<div class="post-gallery-item" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۳" loading="lazy"/></div>
-<div class="post-gallery-item" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۴" loading="lazy"/></div>
-</div>
-</div>
-<div class="post-tags">
-<span class="post-tag">اصناف</span>
-<span class="post-tag">گرگان</span>
-<span class="post-tag">پروانه کسب</span>
-<span class="post-tag">آموزش</span>
-</div>
-<div class="post-nav">
-<a class="post-nav-link post-nav-prev" href="#">
-<span>→ نوشته قبلی</span>
-<strong>عنوان نوشته قبلی</strong>
-</a>
-<a class="post-nav-link post-nav-next" href="#">
-<span>نوشته بعدی ←</span>
-<strong>عنوان نوشته بعدی</strong>
-</a>
-</div>
-</div>
-</article>
-<aside class="single-post-sidebar">
-<div class="sidebar-card">
-<h3>آخرین نوشته‌ها</h3>
-<ul class="sidebar-list">
-<li><a href="{{ route('posts.show', 'sample-post') }}">آخرین اخبار و اطلاعیه‌های اتاق اصناف گرگان</a></li>
-<li><a href="{{ route('posts.show', 'sample-post') }}">راهنمای صدور و تمدید پروانه کسب در سال ۱۴۰۵</a></li>
-<li><a href="{{ route('posts.show', 'sample-post') }}">برگزاری دوره آموزشی احکام تجارت برای متقاضیان</a></li>
-<li><a href="{{ route('posts.show', 'sample-post') }}">بازرسی دوره‌ای از واحدهای صنفی شهرستان گرگان</a></li>
-<li><a href="{{ route('posts.show', 'sample-post') }}">نشست هماهنگی اتحادیه‌های صنفی با اداره صمت</a></li>
-</ul>
-</div>
-<div class="sidebar-card">
-<h3>دسته‌بندی‌ها</h3>
-<ul class="sidebar-list">
-<li><a href="{{ route('posts.index') }}">اخبار اتاق اصناف</a></li>
-<li><a href="{{ route('posts.index') }}">اطلاعیه‌ها و بخشنامه‌ها</a></li>
-<li><a href="{{ route('posts.index') }}">آموزش و دوره‌ها</a></li>
-<li><a href="{{ route('posts.index') }}">اخبار اتحادیه‌ها</a></li>
-<li><a href="{{ route('posts.index') }}">گردشگری و اصناف</a></li>
-</ul>
-</div>
-<div class="sidebar-card">
-<h3>برچسب‌ها</h3>
-<div class="post-tags">
-<span class="post-tag">پروانه کسب</span>
-<span class="post-tag">آموزش</span>
-<span class="post-tag">بازرسی</span>
-<span class="post-tag">نرخ نامه</span>
-<span class="post-tag">اصناف</span>
-</div>
-</div>
-</aside>
-</div>
+<main class="single-post-page">
+    <div class="site-container single-post-layout">
+        <article class="single-post-article">
+            <img class="post-featured-img" src="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $post->title }}">
+
+            <div class="single-post-body">
+                <div class="post-meta">
+                    <span>{{ $post->category?->title ?: 'اخبار' }}</span>
+                    <span>{{ $post->published_at?->format('Y/m/d') }}</span>
+                    <span>{{ number_format($post->views_count) }} بازدید</span>
+                    @if ($post->union)<span>{{ $post->union->name }}</span>@endif
+                    @if ($post->is_important)<span>خبر مهم</span>@endif
+                </div>
+
+                @if ($post->excerpt)
+                    <div class="post-excerpt">{{ $post->excerpt }}</div>
+                @endif
+
+                <div class="post-content">
+                    {!! $post->body !!}
+                </div>
+
+                @if ($post->galleries->isNotEmpty())
+                    <div class="post-gallery" data-gallery-group="post-{{ $post->id }}">
+                        <h2>گالری تصاویر خبر</h2>
+                        <div class="post-gallery-grid">
+                            @foreach ($post->galleries as $gallery)
+                                <div class="post-gallery-item" data-gallery-item="{{ Storage::url($gallery->image) }}">
+                                    <img src="{{ Storage::url($gallery->image) }}" alt="{{ $gallery->caption ?: $post->title }}" loading="lazy">
+                                    @if ($gallery->caption)<small>{{ $gallery->caption }}</small>@endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
+                <div class="post-tags">
+                    <span class="post-tag">{{ $post->type }}</span>
+                    @if ($post->category)<span class="post-tag">{{ $post->category->title }}</span>@endif
+                    @if ($post->union)<span class="post-tag">{{ $post->union->name }}</span>@endif
+                </div>
+            </div>
+        </article>
+
+        <aside class="single-post-sidebar">
+            <div class="sidebar-card">
+                <h3>اطلاعات خبر</h3>
+                <ul>
+                    <li>نوع محتوا: {{ $post->type }}</li>
+                    <li>دسته‌بندی: {{ $post->category?->title ?: 'بدون دسته‌بندی' }}</li>
+                    <li>اتحادیه: {{ $post->union?->name ?: 'خبر عمومی' }}</li>
+                </ul>
+            </div>
+
+            @if ($relatedPosts->isNotEmpty())
+                <div class="sidebar-card">
+                    <h3>اخبار مرتبط</h3>
+                    <ul>
+                        @foreach ($relatedPosts as $relatedPost)
+                            <li><a href="{{ route('posts.show', $relatedPost->slug) }}">{{ $relatedPost->title }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </aside>
+    </div>
 </main>
-@endsection
-
-@section('after_footer')
-<div class="lightbox">
-  <button class="lightbox-close" aria-label="بستن">✕</button>
-  <button class="lightbox-nav lightbox-prev" aria-label="قبلی">‹</button>
-  <button class="lightbox-nav lightbox-next" aria-label="بعدی">›</button>
-  <img class="lightbox-img" src="" alt="تصویر بزرگ"/>
-  <div class="lightbox-counter"></div>
-</div>
 @endsection
