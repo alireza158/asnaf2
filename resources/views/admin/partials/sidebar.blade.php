@@ -9,7 +9,7 @@
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢', 'route' => 'admin.unions.index'],
         ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝', 'route' => 'admin.union_members.index'],
-        ['title' => 'شکایات', 'icon' => '📨'],
+        ['title' => 'شکایات', 'icon' => '📨', 'route' => 'admin.complaints.index'],
         ['title' => 'گالری تصاویر', 'icon' => '🖼️'],
         ['title' => 'ویدیوها', 'icon' => '▶️'],
         ['title' => 'گردشگری', 'icon' => '🌿'],
@@ -19,7 +19,7 @@
         ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩'],
         ['title' => 'تنظیمات هدر', 'icon' => '🔝'],
         ['title' => 'تنظیمات فوتر', 'icon' => '🔚'],
-        ['title' => 'پیامک‌ها', 'icon' => '💬'],
+        ['title' => 'پیامک‌ها', 'icon' => '💬', 'route' => 'admin.sms.index'],
         ['title' => 'پیام‌های تماس', 'icon' => '☎️'],
         ['title' => 'تنظیمات سایت', 'icon' => '⚙️'],
     ];
