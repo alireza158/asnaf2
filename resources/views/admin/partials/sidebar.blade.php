@@ -17,11 +17,11 @@
         ['title' => 'سامانه‌ها', 'icon' => '💻', 'route' => 'admin.systems.index'],
         ['title' => 'کمیسیون‌ها', 'icon' => '⚖️', 'route' => 'admin.commissions.index'],
         ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index'],
-        ['title' => 'تنظیمات هدر', 'icon' => '🔝'],
-        ['title' => 'تنظیمات فوتر', 'icon' => '🔚'],
+        ['title' => 'تنظیمات هدر', 'icon' => '🔝', 'route' => 'admin.header_settings.edit'],
+        ['title' => 'تنظیمات فوتر', 'icon' => '🔚', 'route' => 'admin.footer_settings.edit'],
         ['title' => 'پیامک‌ها', 'icon' => '💬', 'route' => 'admin.sms.index'],
         ['title' => 'پیام‌های تماس', 'icon' => '☎️'],
-        ['title' => 'تنظیمات سایت', 'icon' => '⚙️'],
+        ['title' => 'تنظیمات سایت', 'icon' => '⚙️', 'route' => 'admin.settings.edit'],
     ];
 @endphp
 

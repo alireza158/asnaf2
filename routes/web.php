@@ -7,13 +7,16 @@ use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementContro
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\CommissionSessionController as AdminCommissionSessionController;
+use App\Http\Controllers\Admin\FooterSettingController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\HeaderSettingController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\Admin\SystemController as AdminSystemController;
 use App\Http\Controllers\Admin\TourismPlaceController as AdminTourismPlaceController;
@@ -156,6 +159,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('commissions/{commission}/sessions/{session}/edit', [AdminCommissionSessionController::class, 'edit'])->middleware('permission:commissions.edit')->name('commissions.sessions.edit');
     Route::put('commissions/{commission}/sessions/{session}', [AdminCommissionSessionController::class, 'update'])->middleware('permission:commissions.edit')->name('commissions.sessions.update');
     Route::delete('commissions/{commission}/sessions/{session}', [AdminCommissionSessionController::class, 'destroy'])->middleware('permission:commissions.delete')->name('commissions.sessions.destroy');
+
+    Route::get('settings', [SiteSettingController::class, 'edit'])->middleware('permission:settings.view')->name('settings.edit');
+    Route::put('settings', [SiteSettingController::class, 'update'])->middleware('permission:settings.edit')->name('settings.update');
+    Route::get('header-settings', [HeaderSettingController::class, 'edit'])->middleware('permission:header_settings.view')->name('header_settings.edit');
+    Route::put('header-settings', [HeaderSettingController::class, 'update'])->middleware('permission:header_settings.edit')->name('header_settings.update');
+    Route::get('footer-settings', [FooterSettingController::class, 'edit'])->middleware('permission:footer_settings.view')->name('footer_settings.edit');
+    Route::put('footer-settings', [FooterSettingController::class, 'update'])->middleware('permission:footer_settings.edit')->name('footer_settings.update');
 
     Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
     Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
