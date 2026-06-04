@@ -13,7 +13,7 @@
         ['title' => 'گالری تصاویر', 'icon' => '🖼️', 'route' => 'admin.galleries.index'],
         ['title' => 'ویدیوها', 'icon' => '▶️', 'route' => 'admin.videos.index'],
         ['title' => 'گردشگری', 'icon' => '🌿', 'route' => 'admin.tourism.index'],
-        ['title' => 'تبلیغات', 'icon' => '📌'],
+        ['title' => 'تبلیغات', 'icon' => '📌', 'route' => 'admin.advertisements.index'],
         ['title' => 'سامانه‌ها', 'icon' => '💻'],
         ['title' => 'کمیسیون‌ها', 'icon' => '⚖️'],
         ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index'],

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementController;
+use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
@@ -106,6 +108,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('sms', [SmsController::class, 'store'])->middleware('permission:sms.send')->name('sms.store');
     Route::get('sms/logs', [SmsController::class, 'logs'])->middleware('permission:sms.logs')->name('sms.logs');
     Route::get('sms/logs/{smsLog}', [SmsController::class, 'show'])->middleware('permission:sms.logs')->name('sms.show');
+
+    Route::get('advertisement-positions', [AdminAdvertisementPositionController::class, 'index'])->middleware('permission:advertisements.view')->name('advertisement_positions.index');
+    Route::get('advertisement-positions/create', [AdminAdvertisementPositionController::class, 'create'])->middleware('permission:advertisements.create')->name('advertisement_positions.create');
+    Route::post('advertisement-positions', [AdminAdvertisementPositionController::class, 'store'])->middleware('permission:advertisements.create')->name('advertisement_positions.store');
+    Route::get('advertisement-positions/{advertisement_position}/edit', [AdminAdvertisementPositionController::class, 'edit'])->middleware('permission:advertisements.edit')->name('advertisement_positions.edit');
+    Route::put('advertisement-positions/{advertisement_position}', [AdminAdvertisementPositionController::class, 'update'])->middleware('permission:advertisements.edit')->name('advertisement_positions.update');
+    Route::delete('advertisement-positions/{advertisement_position}', [AdminAdvertisementPositionController::class, 'destroy'])->middleware('permission:advertisements.delete')->name('advertisement_positions.destroy');
+
+    Route::get('advertisements', [AdminAdvertisementController::class, 'index'])->middleware('permission:advertisements.view')->name('advertisements.index');
+    Route::get('advertisements/create', [AdminAdvertisementController::class, 'create'])->middleware('permission:advertisements.create')->name('advertisements.create');
+    Route::post('advertisements', [AdminAdvertisementController::class, 'store'])->middleware('permission:advertisements.create')->name('advertisements.store');
+    Route::get('advertisements/{advertisement}', [AdminAdvertisementController::class, 'show'])->middleware('permission:advertisements.view')->name('advertisements.show');
+    Route::get('advertisements/{advertisement}/edit', [AdminAdvertisementController::class, 'edit'])->middleware('permission:advertisements.edit')->name('advertisements.edit');
+    Route::put('advertisements/{advertisement}', [AdminAdvertisementController::class, 'update'])->middleware('permission:advertisements.edit')->name('advertisements.update');
+    Route::delete('advertisements/{advertisement}', [AdminAdvertisementController::class, 'destroy'])->middleware('permission:advertisements.delete')->name('advertisements.destroy');
 
     Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
     Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
