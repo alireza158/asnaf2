@@ -1,0 +1,117 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const sidebarToggles = document.querySelectorAll('[data-admin-sidebar-toggle]');
+    const sidebarClosers = document.querySelectorAll('[data-admin-sidebar-close]');
+
+    const openSidebar = () => document.body.classList.add('admin-sidebar-open');
+    const closeSidebar = () => document.body.classList.remove('admin-sidebar-open');
+
+    sidebarToggles.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (document.body.classList.contains('admin-sidebar-open')) {
+                closeSidebar();
+                return;
+            }
+
+            openSidebar();
+        });
+    });
+
+    sidebarClosers.forEach((element) => {
+        element.addEventListener('click', closeSidebar);
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            closeSidebar();
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const sortArea = document.querySelector('[data-menu-sort]');
+
+    if (!sortArea) {
+        return;
+    }
+
+    let draggedItem = null;
+
+    sortArea.querySelectorAll('[data-menu-item-id]').forEach((item) => {
+        item.addEventListener('dragstart', (event) => {
+            draggedItem = item;
+            item.classList.add('is-dragging');
+            event.dataTransfer.effectAllowed = 'move';
+        });
+
+        item.addEventListener('dragend', () => {
+            item.classList.remove('is-dragging');
+            draggedItem = null;
+        });
+    });
+
+    sortArea.querySelectorAll('[data-menu-list]').forEach((list) => {
+        list.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            const afterElement = getDragAfterElement(list, event.clientY);
+
+            if (!draggedItem || draggedItem.contains(list)) {
+                return;
+            }
+
+            if (afterElement == null) {
+                list.appendChild(draggedItem);
+            } else {
+                list.insertBefore(draggedItem, afterElement);
+            }
+        });
+    });
+
+    sortArea.querySelector('[data-menu-save-sort]')?.addEventListener('click', async () => {
+        const message = sortArea.querySelector('[data-menu-sort-message]');
+        const rootList = sortArea.querySelector(':scope > [data-menu-list]');
+
+        if (!rootList) {
+            return;
+        }
+
+        message.textContent = 'در حال ذخیره...';
+
+        const response = await fetch(sortArea.dataset.sortUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': sortArea.dataset.csrf,
+            },
+            body: JSON.stringify({ items: serializeMenuList(rootList) }),
+        });
+
+        message.textContent = response.ok ? 'ترتیب ذخیره شد.' : 'ذخیره ترتیب با خطا مواجه شد.';
+    });
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll(':scope > [data-menu-item-id]:not(.is-dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+
+        if (offset < 0 && offset > closest.offset) {
+            return { offset, element: child };
+        }
+
+        return closest;
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function serializeMenuList(list) {
+    return [...list.querySelectorAll(':scope > [data-menu-item-id]')].map((item) => {
+        const childList = item.querySelector(':scope > [data-menu-list]');
+
+        return {
+            id: Number(item.dataset.menuItemId),
+            children: childList ? serializeMenuList(childList) : [],
+        };
+    });
+}
