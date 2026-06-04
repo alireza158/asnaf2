@@ -9,7 +9,7 @@
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢', 'route' => 'admin.unions.index'],
         ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝', 'route' => 'admin.union_members.index'],
-        ['title' => 'شکایات', 'icon' => '📨'],
+        ['title' => 'شکایات', 'icon' => '📨', 'route' => 'admin.complaints.index'],
         ['title' => 'گالری تصاویر', 'icon' => '🖼️'],
         ['title' => 'ویدیوها', 'icon' => '▶️'],
         ['title' => 'گردشگری', 'icon' => '🌿'],
