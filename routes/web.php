@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SmsController;
+use App\Http\Controllers\Admin\TourismPlaceController as AdminTourismPlaceController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\VideoController as AdminVideoController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\TourismController as FrontendTourismController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -33,7 +35,8 @@ Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.inde
 Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('posts.show');
 Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'show'])->name('announcements.show');
-Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
+Route::get('/tourism', [FrontendTourismController::class, 'index'])->name('tourism.index');
+Route::get('/tourism/{slug}', [FrontendTourismController::class, 'show'])->name('tourism.show');
 Route::get('/galleries', [FrontendGalleryController::class, 'index'])->name('galleries.index');
 Route::get('/galleries/{slug}', [FrontendGalleryController::class, 'show'])->name('galleries.show');
 Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.index');
@@ -124,6 +127,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('videos/{video}/edit', [AdminVideoController::class, 'edit'])->middleware('permission:videos.edit')->name('videos.edit');
     Route::put('videos/{video}', [AdminVideoController::class, 'update'])->middleware('permission:videos.edit')->name('videos.update');
     Route::delete('videos/{video}', [AdminVideoController::class, 'destroy'])->middleware('permission:videos.delete')->name('videos.destroy');
+
+    Route::get('tourism', [AdminTourismPlaceController::class, 'index'])->middleware('permission:tourism.view')->name('tourism.index');
+    Route::get('tourism/create', [AdminTourismPlaceController::class, 'create'])->middleware('permission:tourism.create')->name('tourism.create');
+    Route::post('tourism', [AdminTourismPlaceController::class, 'store'])->middleware('permission:tourism.create')->name('tourism.store');
+    Route::get('tourism/{tourism}', [AdminTourismPlaceController::class, 'show'])->middleware('permission:tourism.view')->name('tourism.show');
+    Route::get('tourism/{tourism}/edit', [AdminTourismPlaceController::class, 'edit'])->middleware('permission:tourism.edit')->name('tourism.edit');
+    Route::put('tourism/{tourism}', [AdminTourismPlaceController::class, 'update'])->middleware('permission:tourism.edit')->name('tourism.update');
+    Route::delete('tourism/{tourism}', [AdminTourismPlaceController::class, 'destroy'])->middleware('permission:tourism.delete')->name('tourism.destroy');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
