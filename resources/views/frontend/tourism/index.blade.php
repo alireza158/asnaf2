@@ -1,57 +1,11 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>گردشگری گرگان | اتاق اصناف شهرستان گرگان</title>
-<link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/asnaf-favicon.svg') }}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;850;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
-</head>
-<body>
+@extends('frontend.layouts.app')
 
-<header id="header" class="site-header">
-  <div class="site-container header-inner">
-    <div class="header-hamburger" aria-label="منو" role="button" tabindex="0"><span class="hh-bar"></span></div>
-    <a href="{{ route('frontend.home') }}" class="header-logo" aria-label="اتاق اصناف شهرستان گرگان">
-      <img src="{{ asset('assets/img/asnaf-logo.svg') }}" alt="لوگوی اتاق اصناف شهرستان گرگان"/>
-    </a>
-    <div class="header-actions">
-      <button class="search-trigger" aria-label="جستجو" aria-expanded="false"></button>
-      <a href="{{ route('frontend.home') }}#friendship" class="header-cta-link">تماس با ما</a>
-    </div>
-    <div id="headerSearchPanel" class="header-search-panel" hidden>
-      <form class="header-search-form" role="search">
-        <input id="siteSearchInput" class="header-search-input" type="search" placeholder="جستجو در سایت…" autocomplete="off"/>
-      </form>
-      <div class="header-search-results" aria-live="polite"></div>
-    </div>
-  </div>
-  <nav id="mainNav" class="top-nav">
-    <div class="site-container top-nav-inner">
-      <ul class="top-nav-list">
-        <li class="top-nav-item"><a href="{{ route('frontend.home') }}" class="top-nav-link">خانه</a></li>
-        <li class="top-nav-item has-top-submenu">
-          <button class="top-nav-link" aria-expanded="false">اصناف و اتحادیه‌ها</button>
-          <div class="top-submenu">
-            <a href="{{ route('frontend.guilds.show', 'gold-union') }}">معرفی اتحادیه طلا</a>
-            <a href="{{ route('frontend.posts.index') }}">آرشیو اتحادیه‌ها</a>
-          </div>
-        </li>
-        <li class="top-nav-item"><a href="{{ route('frontend.posts.index') }}" class="top-nav-link">اخبار و مقالات</a></li>
-        <li class="top-nav-item"><a href="{{ route('frontend.galleries.index') }}" class="top-nav-link">گالری تصاویر</a></li>
-        <li class="top-nav-item"><a href="{{ route('frontend.tourism.index') }}" class="top-nav-link">گردشگری</a></li>
-        <li class="top-nav-item"><a href="{{ route('frontend.pages.show', 'services') }}" class="top-nav-link">خدمات الکترونیک</a></li>
-        <li class="top-nav-item"><a href="{{ route('frontend.home') }}#friendship" class="top-nav-link">تماس با ما</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
+@section('title', 'گردشگری گرگان | اتاق اصناف شهرستان گرگان')
+@section('meta_description', '')
+@section('frontend_variant', 'compact')
+@section('footer_links_variant', 'short')
 
+@section('content')
 <section class="page-header page-header-alt page-header-tourism">
   <div class="site-container">
     <h1>گردشگری در گرگان</h1>
@@ -253,51 +207,9 @@
     </div>
   </div>
 </section>
+@endsection
 
-<footer class="site-footer">
-<div class="site-container">
-<div class="footer-main">
-<div class="footer-col footer-brand-col">
-<img alt="اتاق اصناف شهرستان گرگان" src="{{ asset('assets/img/asnaf-footer-mark.svg') }}"/>
-<p>اتاق اصناف شهرستان گرگان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.</p>
-</div>
-<div class="footer-col">
-<h4>دسترسی سریع</h4>
-<ul>
-<li><a href="{{ route('frontend.home') }}">صفحه اصلی</a></li>
-<li><a href="{{ route('frontend.posts.index') }}">آرشیو اخبار</a></li>
-<li><a href="{{ route('frontend.guilds.show', 'gold-union') }}">اتحادیه‌های صنفی</a></li>
-<li><a href="{{ route('frontend.galleries.index') }}">گالری تصاویر</a></li>
-<li><a href="{{ route('frontend.tourism.index') }}">گردشگری</a></li>
-<li><a href="{{ route('frontend.home') }}#friendship">تماس با ما</a></li>
-</ul>
-</div>
-<div class="footer-col">
-<h4>اطلاعات تماس</h4>
-<div class="footer-contact-item"><span class="fc-icon">📍</span><span>گرگان، خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف</span></div>
-<div class="footer-contact-item"><span class="fc-icon">📞</span><span>۰۱۷-۳۲۱۵۲۹۱۲<br/>۰۱۷-۳۲۱۵۴۷۶۷</span></div>
-<div class="footer-contact-item"><span class="fc-icon">✉️</span><span>info@asnaf-gorgan.ir</span></div>
-</div>
-</div>
-<div class="footer-divider"></div>
-<div class="footer-orgs">
-<a href="{{ route('frontend.home') }}">اتاق اصناف شهرستان گرگان</a><a href="#">اتاق اصناف ایران</a><a href="#">سامانه نوین اصناف</a><a href="#">سامانه آموزش اصناف</a><a href="#">اداره صمت گلستان</a><a href="#">کمیسیون نظارت</a><a href="#">تعزیرات حکومتی</a><a href="#">شهرداری گرگان</a><a href="#">سازمان بازرسی</a><a href="#">فرم‌ها و بخشنامه‌ها</a>
-</div>
-<div class="footer-divider"></div>
-<div class="footer-bottom">
-<div class="footer-social">
-<a href="#" aria-label="اینستاگرام">📷</a>
-<a href="#" aria-label="تلگرام">✈️</a>
-<a href="#" aria-label="واتساپ">💬</a>
-<a href="#" aria-label="ایتا">📱</a>
-<a href="#" aria-label="بله">🔵</a>
-<a href="#" aria-label="روبیکا">🟣</a>
-</div>
-<div class="footer-copy">تمام حقوق مادی و معنوی این وبسایت متعلق به اتاق اصناف شهرستان گرگان می‌باشد</div>
-</div>
-</div>
-</footer>
-
+@section('after_footer')
 <div class="lightbox">
   <button class="lightbox-close" aria-label="بستن">✕</button>
   <button class="lightbox-nav lightbox-prev" aria-label="قبلی">‹</button>
@@ -305,7 +217,4 @@
   <img class="lightbox-img" src="" alt="تصویر بزرگ"/>
   <div class="lightbox-counter"></div>
 </div>
-
-<script src="{{ asset('assets/js/main.js') }}"></script>
-</body>
-</html>
+@endsection
