@@ -1,19 +1,36 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UnionController as AdminUnionController;
+use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
+use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Models\Announcement;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'frontend.home')->name('home');
-Route::view('/guilds/{slug}', 'frontend.guilds.show')->name('guilds.show');
-Route::view('/posts', 'frontend.posts.index')->name('posts.index');
-Route::view('/posts/{slug}', 'frontend.posts.show')->name('posts.show');
+Route::get('/', function () {
+    $importantPosts = Post::query()->published()->important()->with('category')->latest('published_at')->take(6)->get();
+    $importantAnnouncements = Announcement::query()->published()->important()->shownOnHome()->latest('published_at')->take(5)->get();
+
+    return view('frontend.home', compact('importantPosts', 'importantAnnouncements'));
+})->name('home');
+Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+Route::get('/guilds/{slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
+Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('posts.show');
+Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'show'])->name('announcements.show');
 Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
 Route::view('/galleries', 'frontend.galleries.index')->name('galleries.index');
 Route::view('/galleries/{slug}', 'frontend.galleries.show')->name('galleries.show');
@@ -35,6 +52,44 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('pages/{page}/approve', [AdminPageController::class, 'approve'])->middleware('permission:pages.approve')->name('pages.approve');
     Route::patch('pages/{page}/publish', [AdminPageController::class, 'publish'])->middleware('permission:pages.approve')->name('pages.publish');
     Route::patch('pages/{page}/reject', [AdminPageController::class, 'reject'])->middleware('permission:pages.approve')->name('pages.reject');
+
+    Route::get('posts', [AdminPostController::class, 'index'])->middleware('permission:posts.view')->name('posts.index');
+    Route::get('posts/create', [AdminPostController::class, 'create'])->middleware('permission:posts.create')->name('posts.create');
+    Route::post('posts', [AdminPostController::class, 'store'])->middleware('permission:posts.create')->name('posts.store');
+    Route::get('posts/{post}', [AdminPostController::class, 'show'])->middleware('permission:posts.view')->name('posts.show');
+    Route::get('posts/{post}/edit', [AdminPostController::class, 'edit'])->middleware('permission:posts.edit')->name('posts.edit');
+    Route::put('posts/{post}', [AdminPostController::class, 'update'])->middleware('permission:posts.edit')->name('posts.update');
+    Route::delete('posts/{post}', [AdminPostController::class, 'destroy'])->middleware('permission:posts.delete')->name('posts.destroy');
+    Route::patch('posts/{post}/approve', [AdminPostController::class, 'approve'])->middleware('permission:posts.approve')->name('posts.approve');
+    Route::patch('posts/{post}/publish', [AdminPostController::class, 'publish'])->middleware('permission:posts.publish')->name('posts.publish');
+    Route::patch('posts/{post}/reject', [AdminPostController::class, 'reject'])->middleware('permission:posts.approve')->name('posts.reject');
+
+    Route::get('announcements', [AdminAnnouncementController::class, 'index'])->middleware('permission:announcements.view')->name('announcements.index');
+    Route::get('announcements/create', [AdminAnnouncementController::class, 'create'])->middleware('permission:announcements.create')->name('announcements.create');
+    Route::post('announcements', [AdminAnnouncementController::class, 'store'])->middleware('permission:announcements.create')->name('announcements.store');
+    Route::get('announcements/{announcement}', [AdminAnnouncementController::class, 'show'])->middleware('permission:announcements.view')->name('announcements.show');
+    Route::get('announcements/{announcement}/edit', [AdminAnnouncementController::class, 'edit'])->middleware('permission:announcements.edit')->name('announcements.edit');
+    Route::put('announcements/{announcement}', [AdminAnnouncementController::class, 'update'])->middleware('permission:announcements.edit')->name('announcements.update');
+    Route::delete('announcements/{announcement}', [AdminAnnouncementController::class, 'destroy'])->middleware('permission:announcements.delete')->name('announcements.destroy');
+    Route::patch('announcements/{announcement}/approve', [AdminAnnouncementController::class, 'approve'])->middleware('permission:announcements.approve')->name('announcements.approve');
+    Route::patch('announcements/{announcement}/publish', [AdminAnnouncementController::class, 'publish'])->middleware('permission:announcements.publish')->name('announcements.publish');
+    Route::patch('announcements/{announcement}/reject', [AdminAnnouncementController::class, 'reject'])->middleware('permission:announcements.approve')->name('announcements.reject');
+
+    Route::get('unions', [AdminUnionController::class, 'index'])->middleware('permission:unions.view')->name('unions.index');
+    Route::get('unions/create', [AdminUnionController::class, 'create'])->middleware('permission:unions.create')->name('unions.create');
+    Route::post('unions', [AdminUnionController::class, 'store'])->middleware('permission:unions.create')->name('unions.store');
+    Route::get('unions/{union}', [AdminUnionController::class, 'show'])->middleware('permission:unions.view')->name('unions.show');
+    Route::get('unions/{union}/edit', [AdminUnionController::class, 'edit'])->middleware('permission:unions.edit')->name('unions.edit');
+    Route::put('unions/{union}', [AdminUnionController::class, 'update'])->middleware('permission:unions.edit')->name('unions.update');
+    Route::delete('unions/{union}', [AdminUnionController::class, 'destroy'])->middleware('permission:unions.delete')->name('unions.destroy');
+
+    Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
+    Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
+    Route::post('union-members', [UnionMemberController::class, 'store'])->middleware('permission:union_members.create')->name('union_members.store');
+    Route::get('union-members/{union_member}', [UnionMemberController::class, 'show'])->middleware('permission:union_members.view')->name('union_members.show');
+    Route::get('union-members/{union_member}/edit', [UnionMemberController::class, 'edit'])->middleware('permission:union_members.edit')->name('union_members.edit');
+    Route::put('union-members/{union_member}', [UnionMemberController::class, 'update'])->middleware('permission:union_members.edit')->name('union_members.update');
+    Route::delete('union-members/{union_member}', [UnionMemberController::class, 'destroy'])->middleware('permission:union_members.delete')->name('union_members.destroy');
 
     Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');
