@@ -1,25 +1,31 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'عنوان صفحه | اتاق اصناف شهرستان گرگان')
-@section('meta_description', '')
+@section('title', $page->meta_title ?: $page->title.' | اتاق اصناف شهرستان گرگان')
+@section('meta_description', $page->meta_description ?: $page->excerpt)
 
 @section('content')
-<div class="page-header">
-<div class="site-container">
-<nav class="breadcrumb-nav">
-<a href="{{ route('home') }}">خانه</a>
-<span class="breadcrumb-sep">/</span>
-<span>عنوان صفحه</span>
-</nav>
-<h1>عنوان صفحه</h1>
-</div>
-</div>
+<section class="page-header">
+    <div class="site-container">
+        <nav class="breadcrumb-nav">
+            <a href="{{ route('home') }}">خانه</a>
+            <span class="breadcrumb-sep">/</span>
+            <span>{{ $page->title }}</span>
+        </nav>
+        <h1>{{ $page->title }}</h1>
+        @if ($page->excerpt)
+            <p>{{ $page->excerpt }}</p>
+        @endif
+    </div>
+</section>
 
-<main class="blank-page">
-<div class="site-container blank-page-content">
-<h1>عنوان محتوای صفحه</h1>
-<p>محتوای خود را در این بخش قرار دهید. این صفحه یک برگه خالی (Blank Page) است که می‌توانید هر نوع محتوایی را در آن جایگذاری کنید. از این قالب برای ایجاد برگه‌های سفارشی، صفحات فرود، فرم‌های خاص و هر نوع صفحه دیگری که نیاز دارید استفاده نمایید.</p>
-<p>برای افزودن محتوای دلخواه خود، کد HTML مورد نظر را در این بخش قرار دهید. می‌توانید از جداول، فرم‌ها، تصاویر، ویدیوها و هر المان دیگری استفاده کنید.</p>
-</div>
+<main class="site-container single-layout">
+    <article class="single-main">
+        @if ($page->featured_image)
+            <img class="single-featured-img" src="{{ asset('storage/'.$page->featured_image) }}" alt="{{ $page->title }}" loading="lazy">
+        @endif
+        <div class="single-content">
+            {!! $page->body !!}
+        </div>
+    </article>
 </main>
 @endsection

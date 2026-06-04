@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
+use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,12 +18,23 @@ Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
 Route::view('/galleries', 'frontend.galleries.index')->name('galleries.index');
 Route::view('/galleries/{slug}', 'frontend.galleries.show')->name('galleries.show');
 Route::view('/videos/{slug}', 'frontend.videos.show')->name('videos.show');
-Route::view('/pages/{slug}', 'frontend.pages.show')->name('pages.show');
+Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])
         ->middleware('permission:dashboard.view')
         ->name('dashboard');
+
+    Route::get('pages', [AdminPageController::class, 'index'])->middleware('permission:pages.view')->name('pages.index');
+    Route::get('pages/create', [AdminPageController::class, 'create'])->middleware('permission:pages.create')->name('pages.create');
+    Route::post('pages', [AdminPageController::class, 'store'])->middleware('permission:pages.create')->name('pages.store');
+    Route::get('pages/{page}', [AdminPageController::class, 'show'])->middleware('permission:pages.view')->name('pages.show');
+    Route::get('pages/{page}/edit', [AdminPageController::class, 'edit'])->middleware('permission:pages.edit')->name('pages.edit');
+    Route::put('pages/{page}', [AdminPageController::class, 'update'])->middleware('permission:pages.edit')->name('pages.update');
+    Route::delete('pages/{page}', [AdminPageController::class, 'destroy'])->middleware('permission:pages.delete')->name('pages.destroy');
+    Route::patch('pages/{page}/approve', [AdminPageController::class, 'approve'])->middleware('permission:pages.approve')->name('pages.approve');
+    Route::patch('pages/{page}/publish', [AdminPageController::class, 'publish'])->middleware('permission:pages.approve')->name('pages.publish');
+    Route::patch('pages/{page}/reject', [AdminPageController::class, 'reject'])->middleware('permission:pages.approve')->name('pages.reject');
 
     Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');

@@ -782,3 +782,24 @@ body {
         margin-inline-start: 12px;
     }
 }
+
+.admin-content-preview {
+    padding: 18px;
+    border: 1px solid var(--admin-border);
+    border-radius: 16px;
+    background: #fff;
+    line-height: 2;
+}
+
+.admin-reject-form {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.status-draft { background: #f1f5f9; color: #475569; }
+.status-pending { background: #fff7ed; color: #c2410c; }
+.status-approved { background: #eff6ff; color: #1d4ed8; }
+.status-rejected { background: #fef2f2; color: #dc2626; }
+.status-published { background: #ecfdf5; color: #047857; }
+.status-archived { background: #f8fafc; color: #64748b; }

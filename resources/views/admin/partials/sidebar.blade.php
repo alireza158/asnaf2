@@ -4,7 +4,7 @@
         ['title' => 'کاربران', 'icon' => '👤', 'route' => 'admin.users.index'],
         ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐', 'route' => 'admin.roles.index'],
         ['title' => 'منوها', 'icon' => '☰', 'route' => 'admin.menus.index'],
-        ['title' => 'صفحات', 'icon' => '📄'],
+        ['title' => 'صفحات', 'icon' => '📄', 'route' => 'admin.pages.index'],
         ['title' => 'اخبار', 'icon' => '📰'],
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢'],

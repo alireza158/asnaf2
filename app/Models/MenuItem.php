@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Route;
+use Throwable;
 
 class MenuItem extends Model
 {
@@ -69,7 +70,11 @@ class MenuItem extends Model
     public function getResolvedUrlAttribute(): string
     {
         if ($this->route_name && Route::has($this->route_name)) {
-            return route($this->route_name);
+            try {
+                return route($this->route_name);
+            } catch (Throwable) {
+                return $this->url ?: '#';
+            }
         }
 
         return $this->url ?: '#';
