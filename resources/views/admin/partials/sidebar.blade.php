@@ -8,7 +8,7 @@
         ['title' => 'اخبار', 'icon' => '📰', 'route' => 'admin.posts.index'],
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢', 'route' => 'admin.unions.index'],
-        ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝'],
+        ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝', 'route' => 'admin.union_members.index'],
         ['title' => 'شکایات', 'icon' => '📨'],
         ['title' => 'گالری تصاویر', 'icon' => '🖼️'],
         ['title' => 'ویدیوها', 'icon' => '▶️'],

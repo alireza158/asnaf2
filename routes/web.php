@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
+use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
@@ -81,6 +82,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('unions/{union}/edit', [AdminUnionController::class, 'edit'])->middleware('permission:unions.edit')->name('unions.edit');
     Route::put('unions/{union}', [AdminUnionController::class, 'update'])->middleware('permission:unions.edit')->name('unions.update');
     Route::delete('unions/{union}', [AdminUnionController::class, 'destroy'])->middleware('permission:unions.delete')->name('unions.destroy');
+
+    Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
+    Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
+    Route::post('union-members', [UnionMemberController::class, 'store'])->middleware('permission:union_members.create')->name('union_members.store');
+    Route::get('union-members/{union_member}', [UnionMemberController::class, 'show'])->middleware('permission:union_members.view')->name('union_members.show');
+    Route::get('union-members/{union_member}/edit', [UnionMemberController::class, 'edit'])->middleware('permission:union_members.edit')->name('union_members.edit');
+    Route::put('union-members/{union_member}', [UnionMemberController::class, 'update'])->middleware('permission:union_members.edit')->name('union_members.update');
+    Route::delete('union-members/{union_member}', [UnionMemberController::class, 'destroy'])->middleware('permission:union_members.delete')->name('union_members.destroy');
 
     Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');

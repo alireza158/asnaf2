@@ -66,6 +66,11 @@ class GuildUnion extends Model
         return $this->hasMany(User::class, 'union_id');
     }
 
+    public function members(): HasMany
+    {
+        return $this->hasMany(UnionMember::class, 'union_id');
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'union_id');
