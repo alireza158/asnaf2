@@ -1,6 +1,6 @@
 <section class="friendship-section section-white" id="contact">
     <div class="site-container">
-        <div class="section-heading friendship-heading"><h2>{{ $section->title }}</h2><a class="tab-pill" href="#">راهنمای تماس</a></div>
+        <div class="section-heading friendship-heading"><h2>{{ $section->title }}</h2><a class="tab-pill" href="{{ route('contact.create') }}">فرم تماس با ما</a></div>
         <div class="friendship-layout">
             <div class="world-map-wrap"><img alt="اتاق اصناف شهرستان گرگان" class="world-map-img" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/></div>
             <aside class="friend-list"><div class="friend-scroll-wrap"><ul>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementCont
 use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\CommissionSessionController as AdminCommissionSessionController;
 use App\Http\Controllers\Admin\FooterSettingController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
 use App\Http\Controllers\Frontend\CommissionController as FrontendCommissionController;
+use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
@@ -58,6 +60,8 @@ Route::get('/systems/{slug}', [FrontendSystemController::class, 'show'])->name('
 Route::get('/commissions', [FrontendCommissionController::class, 'index'])->name('commissions.index');
 Route::get('/commissions/{slug}', [FrontendCommissionController::class, 'show'])->name('commissions.show');
 Route::get('/search', [FrontendSearchController::class, 'index'])->name('search');
+Route::get('/contact', [FrontendContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [FrontendContactController::class, 'store'])->name('contact.store');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
@@ -129,6 +133,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('complaints/{complaint}/reply', [AdminComplaintController::class, 'reply'])->middleware('permission:complaints.reply')->name('complaints.reply');
     Route::get('complaints/{complaint}/download', [AdminComplaintController::class, 'download'])->middleware('permission:complaints.view')->name('complaints.download');
     Route::delete('complaints/{complaint}', [AdminComplaintController::class, 'destroy'])->middleware('permission:complaints.delete')->name('complaints.destroy');
+
+    Route::get('contact-messages', [ContactMessageController::class, 'index'])->middleware('permission:contact_messages.view')->name('contact_messages.index');
+    Route::get('contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])->middleware('permission:contact_messages.view')->name('contact_messages.show');
+    Route::patch('contact-messages/{contactMessage}/mark-read', [ContactMessageController::class, 'markAsRead'])->middleware('permission:contact_messages.view')->name('contact_messages.mark_read');
+    Route::delete('contact-messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->middleware('permission:contact_messages.delete')->name('contact_messages.destroy');
 
     Route::get('sms', [SmsController::class, 'index'])->middleware('permission:sms.view')->name('sms.index');
     Route::get('sms/create', [SmsController::class, 'create'])->middleware('permission:sms.send')->name('sms.create');

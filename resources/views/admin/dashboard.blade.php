@@ -51,8 +51,8 @@
     <article class="admin-stat-card stat-info">
         <div class="admin-stat-icon">☎️</div>
         <div>
-            <span>پیام‌های تماس</span>
-            <strong>۲۳</strong>
+            <span>پیام‌های تماس خوانده‌نشده</span>
+            <strong>{{ $unreadContactMessagesCount }}</strong>
         </div>
     </article>
 

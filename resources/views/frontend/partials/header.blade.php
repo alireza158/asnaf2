@@ -6,7 +6,7 @@
     $topText = $settings->get('header.top_text', 'اتاق اصناف شهرستان گرگان؛ پشتیبان کسب‌وکارهای صنفی');
     $topDateEnabled = $settings->get('header.top_date_enabled', true);
     $contactText = $settings->get('header.contact_button_text', 'تماس با اتاق');
-    $contactLink = $settings->get('header.contact_button_link', 'tel:01732152912');
+    $contactLink = $settings->get('header.contact_button_link', route('contact.create'));
     $serviceText = $settings->get('header.service_button_text', 'سامانه خدمات صنفی');
     $serviceLink = $settings->get('header.service_button_link', route('systems.index'));
     $specialLinks = collect([1, 2])->map(fn ($i) => [

@@ -21,7 +21,7 @@
         ['title' => 'تنظیمات هدر', 'icon' => '🔝', 'route' => 'admin.header_settings.edit'],
         ['title' => 'تنظیمات فوتر', 'icon' => '🔚', 'route' => 'admin.footer_settings.edit'],
         ['title' => 'پیامک‌ها', 'icon' => '💬', 'route' => 'admin.sms.index'],
-        ['title' => 'پیام‌های تماس', 'icon' => '☎️'],
+        ['title' => 'پیام‌های تماس', 'icon' => '☎️', 'route' => 'admin.contact_messages.index'],
         ['title' => 'تنظیمات سایت', 'icon' => '⚙️', 'route' => 'admin.settings.edit'],
     ];
 @endphp
