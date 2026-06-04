@@ -651,3 +651,69 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.admin-search-form {
+    display: grid;
+    grid-template-columns: auto minmax(220px, 1fr) auto auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-search-form .form-control {
+    min-height: 44px;
+    border-color: var(--admin-border);
+    border-radius: 14px;
+}
+
+.admin-badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.admin-badge-list span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #3730a3;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.admin-badge-list em {
+    color: var(--admin-muted);
+    font-size: 12px;
+    font-style: normal;
+}
+
+.admin-badge-list-lg span {
+    padding: 9px 12px;
+    font-size: 13px;
+}
+
+.admin-status-badge {
+    display: inline-flex;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.admin-status-badge.is-active {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.admin-status-badge.is-inactive {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+@media (max-width: 768px) {
+    .admin-search-form {
+        grid-template-columns: 1fr;
+    }
+}

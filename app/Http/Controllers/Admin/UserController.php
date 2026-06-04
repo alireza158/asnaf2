@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StoreUserRequest;
+use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\GuildUnion;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class UserController extends Controller
+{
+    public function index(Request $request): View
+    {
+        $search = trim((string) $request->query('search'));
+
+        $users = User::query()
+            ->with(['roles', 'union'])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('mobile', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.users.index', compact('users', 'search'));
+    }
+
+    public function create(): View
+    {
+        return view('admin.users.create', [
+            'roles' => Role::query()->orderBy('label')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'selectedRoles' => collect(),
+            'user' => null,
+        ]);
+    }
+
+    public function store(StoreUserRequest $request): RedirectResponse
+    {
+        $user = User::create($this->userData($request->validated()));
+        $user->roles()->sync($request->input('roles', []));
+
+        return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد.');
+    }
+
+    public function show(User $user): View
+    {
+        $user->load(['roles.permissions', 'union']);
+
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function edit(User $user): View
+    {
+        return view('admin.users.edit', [
+            'user' => $user->load(['roles', 'union']),
+            'roles' => Role::query()->orderBy('label')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'selectedRoles' => $user->roles()->pluck('roles.id'),
+        ]);
+    }
+
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    {
+        $user->update($this->userData($request->validated(), updating: true));
+        $user->roles()->sync($request->input('roles', []));
+
+        return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ویرایش شد.');
+    }
+
+    public function destroy(User $user): RedirectResponse
+    {
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت حذف شد.');
+    }
+
+    /**
+     * @param array<string, mixed> $validated
+     * @return array<string, mixed>
+     */
+    private function userData(array $validated, bool $updating = false): array
+    {
+        $data = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'mobile' => $validated['mobile'] ?? null,
+            'union_id' => $validated['union_id'] ?? null,
+            'is_active' => (bool) $validated['is_active'],
+        ];
+
+        if (! $updating || filled($validated['password'] ?? null)) {
+            $data['password'] = $validated['password'];
+        }
+
+        return $data;
+    }
+}

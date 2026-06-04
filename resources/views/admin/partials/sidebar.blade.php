@@ -1,7 +1,7 @@
 @php
     $adminMenuItems = [
         ['title' => 'داشبورد', 'icon' => '🏠', 'route' => 'admin.dashboard'],
-        ['title' => 'کاربران', 'icon' => '👤'],
+        ['title' => 'کاربران', 'icon' => '👤', 'route' => 'admin.users.index'],
         ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐', 'route' => 'admin.roles.index'],
         ['title' => 'منوها', 'icon' => '☰'],
         ['title' => 'صفحات', 'icon' => '📄'],
