@@ -25,6 +25,9 @@
                 <div class="col-md-6"><strong>نامک:</strong><p dir="ltr">{{ $system->slug }}</p></div>
                 <div class="col-md-6"><strong>دسته‌بندی:</strong><p>{{ $system->category?->title ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>آیکن:</strong><p>{{ $system->icon ?: '—' }}</p></div>
+                <div class="col-md-6"><strong>وضعیت:</strong><p>{{ $system->status_label }}</p></div>
+                <div class="col-md-6"><strong>انتشار:</strong><p>{{ $system->published_at?->format('Y/m/d H:i') ?: '—' }}</p></div>
+                <div class="col-md-6"><strong>دلیل رد:</strong><p>{{ $system->rejected_reason ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>فعال:</strong><p>{{ $system->is_active ? 'بله' : 'خیر' }}</p></div>
                 <div class="col-md-6"><strong>Target:</strong><p dir="ltr">{{ $system->target }} ({{ $system->target_label }})</p></div>
                 <div class="col-md-6"><strong>ترتیب:</strong><p>{{ $system->sort_order }}</p></div>

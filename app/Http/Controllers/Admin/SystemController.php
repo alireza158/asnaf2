@@ -28,8 +28,7 @@ class SystemController extends Controller
                 ->orWhere('short_description', 'like', "%{$search}%")
                 ->orWhere('link', 'like', "%{$search}%")))
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
-            ->when($status === 'active', fn ($query) => $query->where('is_active', true))
-            ->when($status === 'inactive', fn ($query) => $query->where('is_active', false))
+            ->when($status !== '', fn ($query) => $query->where('status', $status))
             ->orderBy('sort_order')
             ->latest()
             ->paginate(15)
@@ -39,6 +38,7 @@ class SystemController extends Controller
             'systems' => $systems,
             'categories' => $this->categories(),
             'targetLabels' => System::targetLabels(),
+            'statusLabels' => System::statusLabels(),
             'search' => $search,
             'categoryId' => $categoryId,
             'status' => $status,
@@ -50,6 +50,7 @@ class SystemController extends Controller
         return view('admin.systems.create', [
             'categories' => $this->categories(),
             'targetLabels' => System::targetLabels(),
+            'statusLabels' => System::statusLabels(),
         ]);
     }
 
@@ -59,6 +60,7 @@ class SystemController extends Controller
 
         System::create([
             ...$this->systemData($validated),
+            'created_by' => $request->user()?->id,
             'image' => $request->hasFile('image') ? $request->file('image')->store('systems', 'public') : null,
         ]);
 
@@ -67,7 +69,7 @@ class SystemController extends Controller
 
     public function show(System $system): View
     {
-        $system->load('category');
+        $system->load(['category', 'creator', 'approver']);
 
         return view('admin.systems.show', compact('system'));
     }
@@ -78,6 +80,7 @@ class SystemController extends Controller
             'system' => $system,
             'categories' => $this->categories(),
             'targetLabels' => System::targetLabels(),
+            'statusLabels' => System::statusLabels(),
         ]);
     }
 
@@ -122,6 +125,9 @@ class SystemController extends Controller
             'link' => ['nullable', 'url', 'max:500'],
             'category_id' => ['nullable', 'exists:post_categories,id'],
             'target' => ['required', Rule::in(System::TARGETS)],
+            'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['systems.approve', 'systems.publish']))],
+            'published_at' => ['nullable', 'date'],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', Rule::in(['0', '1'])],
         ], [], [
@@ -134,6 +140,9 @@ class SystemController extends Controller
             'link' => 'لینک',
             'category_id' => 'دسته‌بندی',
             'target' => 'نحوه باز شدن لینک',
+            'status' => 'وضعیت',
+            'published_at' => 'تاریخ انتشار',
+            'rejected_reason' => 'دلیل رد',
             'sort_order' => 'ترتیب نمایش',
             'is_active' => 'فعال',
         ]);
@@ -150,6 +159,10 @@ class SystemController extends Controller
             'link' => $validated['link'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
             'target' => $validated['target'],
+            'status' => $validated['status'],
+            'published_at' => ($validated['status'] === 'published' && empty($validated['published_at'])) ? now() : ($validated['published_at'] ?? null),
+            'rejected_reason' => $validated['rejected_reason'] ?? null,
+            'approved_by' => in_array($validated['status'], ['approved', 'published'], true) ? (auth()->id() ?: $system?->approved_by) : $system?->approved_by,
             'sort_order' => $validated['sort_order'] ?? 0,
             'is_active' => (bool) $validated['is_active'],
         ];

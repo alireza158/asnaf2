@@ -1,4 +1,4 @@
-@php($systems = \App\Models\System::query()->active()->orderBy('sort_order')->take(6)->get())
+@php($systems = \App\Models\System::query()->published()->orderBy('sort_order')->take(6)->get())
 
 <section class="fractions-section section-gray" id="systems">
     <div class="site-container">

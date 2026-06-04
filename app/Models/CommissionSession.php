@@ -10,9 +10,9 @@ class CommissionSession extends Model
 {
     use HasFactory;
 
-    public const STATUSES = ['draft', 'published', 'archived'];
+    public const STATUSES = ['draft', 'pending', 'approved', 'rejected', 'published', 'archived'];
 
-    protected $fillable = ['commission_id', 'title', 'description', 'session_date', 'minutes_file', 'attachments', 'images', 'status', 'published_at', 'sort_order', 'is_active'];
+    protected $fillable = ['commission_id', 'title', 'description', 'session_date', 'minutes_file', 'attachments', 'images', 'status', 'published_at', 'created_by', 'approved_by', 'rejected_reason', 'sort_order', 'is_active'];
 
     protected function casts(): array
     {
@@ -34,7 +34,14 @@ class CommissionSession extends Model
 
     public static function statusLabels(): array
     {
-        return ['draft' => 'پیش‌نویس', 'published' => 'منتشر شده', 'archived' => 'آرشیو شده'];
+        return [
+            'draft' => 'پیش‌نویس',
+            'pending' => 'در انتظار تایید',
+            'approved' => 'تایید شده',
+            'rejected' => 'رد شده',
+            'published' => 'منتشر شده',
+            'archived' => 'آرشیو شده',
+        ];
     }
 
     public function getStatusLabelAttribute(): string

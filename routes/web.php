@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
+use App\Http\Controllers\Admin\PendingApprovalController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SiteSettingController;
@@ -68,6 +69,18 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->middleware('permission:dashboard.view')
         ->name('dashboard');
 
+    Route::get('pending-approvals', [PendingApprovalController::class, 'index'])
+        ->middleware('permission:pending_approvals.view')
+        ->name('pending_approvals.index');
+    Route::patch('pending-approvals/{type}/{id}/approve', [PendingApprovalController::class, 'approve'])
+        ->name('pending_approvals.approve');
+    Route::patch('pending-approvals/{type}/{id}/reject', [PendingApprovalController::class, 'reject'])
+        ->name('pending_approvals.reject');
+    Route::patch('pending-approvals/{type}/{id}/publish', [PendingApprovalController::class, 'publish'])
+        ->name('pending_approvals.publish');
+    Route::patch('pending-approvals/{type}/{id}/archive', [PendingApprovalController::class, 'archive'])
+        ->name('pending_approvals.archive');
+
     Route::get('pages', [AdminPageController::class, 'index'])->middleware('permission:pages.view')->name('pages.index');
     Route::get('pages/create', [AdminPageController::class, 'create'])->middleware('permission:pages.create')->name('pages.create');
     Route::post('pages', [AdminPageController::class, 'store'])->middleware('permission:pages.create')->name('pages.store');
@@ -76,7 +89,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::put('pages/{page}', [AdminPageController::class, 'update'])->middleware('permission:pages.edit')->name('pages.update');
     Route::delete('pages/{page}', [AdminPageController::class, 'destroy'])->middleware('permission:pages.delete')->name('pages.destroy');
     Route::patch('pages/{page}/approve', [AdminPageController::class, 'approve'])->middleware('permission:pages.approve')->name('pages.approve');
-    Route::patch('pages/{page}/publish', [AdminPageController::class, 'publish'])->middleware('permission:pages.approve')->name('pages.publish');
+    Route::patch('pages/{page}/publish', [AdminPageController::class, 'publish'])->middleware('permission:pages.publish')->name('pages.publish');
     Route::patch('pages/{page}/reject', [AdminPageController::class, 'reject'])->middleware('permission:pages.approve')->name('pages.reject');
 
     Route::get('posts', [AdminPostController::class, 'index'])->middleware('permission:posts.view')->name('posts.index');

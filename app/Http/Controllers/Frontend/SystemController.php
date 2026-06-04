@@ -16,7 +16,7 @@ class SystemController extends Controller
         $search = trim((string) $request->query('search'));
 
         $systems = System::query()
-            ->active()
+            ->published()
             ->with('category')
             ->when($category !== '', fn ($query) => $query->whereHas('category', fn ($query) => $query
                 ->where('slug', $category)
@@ -41,13 +41,13 @@ class SystemController extends Controller
     public function show(string $slug): View
     {
         $system = System::query()
-            ->active()
+            ->published()
             ->with('category')
             ->where('slug', $slug)
             ->firstOrFail();
 
         $relatedSystems = System::query()
-            ->active()
+            ->published()
             ->with('category')
             ->whereKeyNot($system->id)
             ->when($system->category_id, fn ($query) => $query->where('category_id', $system->category_id))
@@ -57,7 +57,7 @@ class SystemController extends Controller
 
         if ($relatedSystems->isEmpty()) {
             $relatedSystems = System::query()
-                ->active()
+                ->published()
                 ->with('category')
                 ->whereKeyNot($system->id)
                 ->orderBy('sort_order')
@@ -72,7 +72,7 @@ class SystemController extends Controller
     {
         return PostCategory::query()
             ->where('is_active', true)
-            ->whereHas('systems', fn ($query) => $query->active())
+            ->whereHas('systems', fn ($query) => $query->published())
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();

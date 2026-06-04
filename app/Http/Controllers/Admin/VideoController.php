@@ -160,9 +160,9 @@ class VideoController extends Controller
             'aparat_url' => ['nullable', 'url', 'max:500'],
             'category_id' => ['nullable', 'integer', 'min:1'],
             'union_id' => ['nullable', 'exists:unions,id'],
-            'status' => ['required', Rule::in(Video::STATUSES)],
+            'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['videos.approve', 'videos.publish']))],
             'published_at' => ['nullable', 'date'],
-            'rejected_reason' => ['nullable', 'string'],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', Rule::in(['0', '1'])],
         ], [], [

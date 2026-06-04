@@ -22,8 +22,9 @@
         </select>
         <select class="form-control" name="status" aria-label="فیلتر وضعیت">
             <option value="">همه وضعیت‌ها</option>
-            <option value="active" @selected($status === 'active')>فعال</option>
-            <option value="inactive" @selected($status === 'inactive')>غیرفعال</option>
+            @foreach($statusLabels as $value => $label)
+                <option value="{{ $value }}" @selected($status === $value)>{{ $label }}</option>
+            @endforeach
         </select>
         <button class="admin-primary-btn" type="submit">اعمال فیلتر</button>
         <a class="admin-secondary-btn" href="{{ route('admin.systems.index') }}">حذف فیلتر</a>
@@ -41,7 +42,7 @@
                     <td><strong>{{ $system->title }}</strong><br><small dir="ltr">{{ $system->slug }}</small></td>
                     <td>{{ $system->category?->title ?: '—' }}</td>
                     <td><small dir="ltr">{{ $system->link ? Str::limit($system->link, 45) : '—' }}</small></td>
-                    <td>{{ $system->is_active ? 'فعال' : 'غیرفعال' }}</td>
+                    <td>{{ $system->status_label }} / {{ $system->is_active ? 'فعال' : 'غیرفعال' }}</td>
                     <td>{{ $system->sort_order }}</td>
                     <td>
                         <div class="admin-actions">

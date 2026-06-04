@@ -30,7 +30,7 @@ class UpdatePageRequest extends FormRequest
             'meta_keywords' => ['nullable', 'string', 'max:500'],
             'status' => ['required', 'string', Rule::in($this->allowedStatuses())],
             'published_at' => ['nullable', 'date'],
-            'rejected_reason' => ['nullable', 'string', 'max:1000'],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', 'boolean'],
         ];
@@ -39,6 +39,6 @@ class UpdatePageRequest extends FormRequest
     /** @return array<int, string> */
     private function allowedStatuses(): array
     {
-        return $this->user()?->hasPermission('pages.approve') ? Page::STATUSES : Page::LIMITED_STATUSES;
+        return app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($this->user(), ['pages.approve', 'pages.publish']);
     }
 }

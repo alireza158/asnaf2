@@ -30,6 +30,7 @@ class CommissionSessionController extends Controller
         $validated = $this->validatedData($request);
         $session = $commission->sessions()->create([
             ...$this->sessionData($validated),
+            'created_by' => $request->user()?->id,
             'minutes_file' => $request->hasFile('minutes_file') ? $request->file('minutes_file')->store('commission-sessions/minutes', 'public') : null,
             'attachments' => $this->storeFiles($request, 'attachments', 'commission-sessions/attachments'),
             'images' => $this->storeFiles($request, 'images', 'commission-sessions/images'),
@@ -105,7 +106,8 @@ class CommissionSessionController extends Controller
             'images.*' => ['image', 'max:4096'],
             'existing_attachments' => ['nullable', 'array'],
             'existing_images' => ['nullable', 'array'],
-            'status' => ['required', Rule::in(CommissionSession::STATUSES)],
+            'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['commissions.approve', 'commissions.publish']))],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'published_at' => ['nullable', 'date'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', Rule::in(['0', '1'])],
@@ -119,7 +121,9 @@ class CommissionSessionController extends Controller
             'description' => $validated['description'] ?? null,
             'session_date' => $this->jalaliDateTimeToGregorian($validated['session_date_jalali'] ?? null, $validated['session_time'] ?? null),
             'status' => $validated['status'],
-            'published_at' => $validated['published_at'] ?? null,
+            'published_at' => ($validated['status'] === 'published' && empty($validated['published_at'])) ? now() : ($validated['published_at'] ?? null),
+            'rejected_reason' => $validated['rejected_reason'] ?? null,
+            'approved_by' => in_array($validated['status'], ['approved', 'published'], true) ? (auth()->id() ?: null) : null,
             'sort_order' => $validated['sort_order'] ?? 0,
             'is_active' => (bool) $validated['is_active'],
         ];

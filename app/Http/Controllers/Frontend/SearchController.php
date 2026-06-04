@@ -67,7 +67,7 @@ class SearchController extends Controller
 
     private function unions(string $term): array
     {
-        return GuildUnion::query()->active()->where(fn ($q) => $this->like($q, ['title', 'name', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return GuildUnion::query()->published()->where(fn ($q) => $this->like($q, ['title', 'name', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->display_title, 'اتحادیه', $item->short_description ?: $item->description, route('guilds.show', $item->slug), $item->logo ?: $item->cover_image))->all();
     }
 
@@ -91,7 +91,7 @@ class SearchController extends Controller
 
     private function systems(string $term): array
     {
-        return SystemModel::query()->active()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return SystemModel::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'سامانه', $item->short_description ?: $item->description, route('systems.show', $item->slug), $item->image))->all();
     }
 

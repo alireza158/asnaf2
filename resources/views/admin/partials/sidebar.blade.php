@@ -5,6 +5,7 @@
         ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐', 'route' => 'admin.roles.index'],
         ['title' => 'منوها', 'icon' => '☰', 'route' => 'admin.menus.index'],
         ['title' => 'صفحات', 'icon' => '📄', 'route' => 'admin.pages.index'],
+        ['title' => 'در انتظار تایید', 'icon' => '✅', 'route' => 'admin.pending_approvals.index'],
         ['title' => 'اخبار', 'icon' => '📰', 'route' => 'admin.posts.index'],
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢', 'route' => 'admin.unions.index'],

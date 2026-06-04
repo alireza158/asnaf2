@@ -44,6 +44,7 @@ class CommissionController extends Controller
 
         $commission = Commission::create([
             ...$this->commissionData($validated),
+            'created_by' => $request->user()?->id,
             'image' => $request->hasFile('image') ? $request->file('image')->store('commissions/images', 'public') : null,
             'attachments' => $this->storeFiles($request, 'attachments', 'commissions/attachments'),
         ]);
@@ -113,7 +114,9 @@ class CommissionController extends Controller
             'attachments' => ['nullable', 'array'],
             'attachments.*' => ['file', 'max:10240'],
             'existing_attachments' => ['nullable', 'array'],
-            'status' => ['required', Rule::in(Commission::STATUSES)],
+            'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['commissions.approve', 'commissions.publish']))],
+            'published_at' => ['nullable', 'date'],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', Rule::in(['0', '1'])],
         ]);
@@ -127,6 +130,9 @@ class CommissionController extends Controller
             'description' => $validated['description'] ?? null,
             'members' => $this->membersFromText($validated['members'] ?? ''),
             'status' => $validated['status'],
+            'published_at' => ($validated['status'] === 'published' && empty($validated['published_at'])) ? now() : ($validated['published_at'] ?? null),
+            'rejected_reason' => $validated['rejected_reason'] ?? null,
+            'approved_by' => in_array($validated['status'], ['approved', 'published'], true) ? (auth()->id() ?: $commission?->approved_by) : $commission?->approved_by,
             'sort_order' => $validated['sort_order'] ?? 0,
             'is_active' => (bool) $validated['is_active'],
         ];
