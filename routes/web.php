@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\UserController;
@@ -96,6 +97,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('complaints/{complaint}/reply', [AdminComplaintController::class, 'reply'])->middleware('permission:complaints.reply')->name('complaints.reply');
     Route::get('complaints/{complaint}/download', [AdminComplaintController::class, 'download'])->middleware('permission:complaints.view')->name('complaints.download');
     Route::delete('complaints/{complaint}', [AdminComplaintController::class, 'destroy'])->middleware('permission:complaints.delete')->name('complaints.destroy');
+
+    Route::get('sms', [SmsController::class, 'index'])->middleware('permission:sms.view')->name('sms.index');
+    Route::get('sms/create', [SmsController::class, 'create'])->middleware('permission:sms.send')->name('sms.create');
+    Route::post('sms', [SmsController::class, 'store'])->middleware('permission:sms.send')->name('sms.store');
+    Route::get('sms/logs', [SmsController::class, 'logs'])->middleware('permission:sms.logs')->name('sms.logs');
+    Route::get('sms/logs/{smsLog}', [SmsController::class, 'show'])->middleware('permission:sms.logs')->name('sms.show');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
