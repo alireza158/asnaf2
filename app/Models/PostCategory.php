@@ -34,4 +34,9 @@ class PostCategory extends Model
     {
         return $this->hasMany(TourismPlace::class, 'category_id');
     }
+
+    public function systems(): HasMany
+    {
+        return $this->hasMany(System::class, 'category_id');
+    }
 }

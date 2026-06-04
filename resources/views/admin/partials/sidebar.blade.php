@@ -14,7 +14,7 @@
         ['title' => 'ویدیوها', 'icon' => '▶️', 'route' => 'admin.videos.index'],
         ['title' => 'گردشگری', 'icon' => '🌿', 'route' => 'admin.tourism.index'],
         ['title' => 'تبلیغات', 'icon' => '📌', 'route' => 'admin.advertisements.index'],
-        ['title' => 'سامانه‌ها', 'icon' => '💻'],
+        ['title' => 'سامانه‌ها', 'icon' => '💻', 'route' => 'admin.systems.index'],
         ['title' => 'کمیسیون‌ها', 'icon' => '⚖️'],
         ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index'],
         ['title' => 'تنظیمات هدر', 'icon' => '🔝'],

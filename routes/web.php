@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SmsController;
+use App\Http\Controllers\Admin\SystemController as AdminSystemController;
 use App\Http\Controllers\Admin\TourismPlaceController as AdminTourismPlaceController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UnionMemberController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\SystemController as FrontendSystemController;
 use App\Http\Controllers\Frontend\TourismController as FrontendTourismController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
@@ -43,6 +45,8 @@ Route::get('/galleries', [FrontendGalleryController::class, 'index'])->name('gal
 Route::get('/galleries/{slug}', [FrontendGalleryController::class, 'show'])->name('galleries.show');
 Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.index');
 Route::get('/videos/{slug}', [FrontendVideoController::class, 'show'])->name('videos.show');
+Route::get('/systems', [FrontendSystemController::class, 'index'])->name('systems.index');
+Route::get('/systems/{slug}', [FrontendSystemController::class, 'show'])->name('systems.show');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
@@ -123,6 +127,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('advertisements/{advertisement}/edit', [AdminAdvertisementController::class, 'edit'])->middleware('permission:advertisements.edit')->name('advertisements.edit');
     Route::put('advertisements/{advertisement}', [AdminAdvertisementController::class, 'update'])->middleware('permission:advertisements.edit')->name('advertisements.update');
     Route::delete('advertisements/{advertisement}', [AdminAdvertisementController::class, 'destroy'])->middleware('permission:advertisements.delete')->name('advertisements.destroy');
+
+    Route::get('systems', [AdminSystemController::class, 'index'])->middleware('permission:systems.view')->name('systems.index');
+    Route::get('systems/create', [AdminSystemController::class, 'create'])->middleware('permission:systems.create')->name('systems.create');
+    Route::post('systems', [AdminSystemController::class, 'store'])->middleware('permission:systems.create')->name('systems.store');
+    Route::get('systems/{system}', [AdminSystemController::class, 'show'])->middleware('permission:systems.view')->name('systems.show');
+    Route::get('systems/{system}/edit', [AdminSystemController::class, 'edit'])->middleware('permission:systems.edit')->name('systems.edit');
+    Route::put('systems/{system}', [AdminSystemController::class, 'update'])->middleware('permission:systems.edit')->name('systems.update');
+    Route::delete('systems/{system}', [AdminSystemController::class, 'destroy'])->middleware('permission:systems.delete')->name('systems.destroy');
 
     Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
     Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
