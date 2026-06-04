@@ -62,6 +62,20 @@
 </aside>
 <div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper" dir="ltr">
 <div class="swiper-wrapper">
+@if (($importantPosts ?? collect())->isNotEmpty())
+@foreach ($importantPosts as $importantPost)
+<article class="news-card news-card-main swiper-slide">
+<a href="{{ route('posts.show', $importantPost->slug) }}">
+<img alt="{{ $importantPost->title }}" src="{{ $importantPost->featured_image ? Storage::url($importantPost->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
+<div class="news-overlay"></div>
+<div class="news-content">
+<span class="news-kicker">{{ $importantPost->category?->title ?: 'خبر مهم' }}</span>
+<h1>{{ $importantPost->title }}</h1>
+</div>
+</a>
+</article>
+@endforeach
+@else
 <article class="news-card news-card-main swiper-slide">
 <img alt="تصویر پیش‌فرض اتاق اصناف شهرستان گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="news-overlay"></div>
@@ -86,6 +100,7 @@
 <h1>پیگیری شکایات مردمی و صیانت از حقوق مصرف‌کنندگان و واحدهای صنفی</h1>
 </div>
 </article>
+@endif
 </div>
 <button aria-label="خبر بعدی" class="hero-slider-arrow hero-slider-next" type="button"></button>
 <button aria-label="خبر قبلی" class="hero-slider-arrow hero-slider-prev" type="button"></button>
