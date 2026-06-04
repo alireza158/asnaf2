@@ -16,7 +16,7 @@
         ['title' => 'تبلیغات', 'icon' => '📌'],
         ['title' => 'سامانه‌ها', 'icon' => '💻'],
         ['title' => 'کمیسیون‌ها', 'icon' => '⚖️'],
-        ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩'],
+        ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index'],
         ['title' => 'تنظیمات هدر', 'icon' => '🔝'],
         ['title' => 'تنظیمات فوتر', 'icon' => '🔚'],
         ['title' => 'پیامک‌ها', 'icon' => '💬', 'route' => 'admin.sms.index'],

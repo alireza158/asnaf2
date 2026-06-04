@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -14,20 +15,14 @@ use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Models\Announcement;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $importantPosts = Post::query()->published()->important()->with('category')->latest('published_at')->take(6)->get();
-    $importantAnnouncements = Announcement::query()->published()->important()->shownOnHome()->latest('published_at')->take(5)->get();
-
-    return view('frontend.home', compact('importantPosts', 'importantAnnouncements'));
-})->name('home');
+Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
 Route::get('/guilds/{slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
@@ -103,6 +98,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::post('sms', [SmsController::class, 'store'])->middleware('permission:sms.send')->name('sms.store');
     Route::get('sms/logs', [SmsController::class, 'logs'])->middleware('permission:sms.logs')->name('sms.logs');
     Route::get('sms/logs/{smsLog}', [SmsController::class, 'show'])->middleware('permission:sms.logs')->name('sms.show');
+
+    Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
+    Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
+    Route::put('home-sections/{homeSection}', [HomeSectionController::class, 'update'])->middleware('permission:home_sections.edit')->name('home_sections.update');
+    Route::post('home-sections/sort', [HomeSectionController::class, 'sort'])->middleware('permission:home_sections.edit')->name('home_sections.sort');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
