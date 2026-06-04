@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
+use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
@@ -30,8 +32,8 @@ Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('post
 Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'show'])->name('announcements.show');
 Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
-Route::view('/galleries', 'frontend.galleries.index')->name('galleries.index');
-Route::view('/galleries/{slug}', 'frontend.galleries.show')->name('galleries.show');
+Route::get('/galleries', [FrontendGalleryController::class, 'index'])->name('galleries.index');
+Route::get('/galleries/{slug}', [FrontendGalleryController::class, 'show'])->name('galleries.show');
 Route::view('/videos/{slug}', 'frontend.videos.show')->name('videos.show');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
@@ -103,6 +105,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
     Route::put('home-sections/{homeSection}', [HomeSectionController::class, 'update'])->middleware('permission:home_sections.edit')->name('home_sections.update');
     Route::post('home-sections/sort', [HomeSectionController::class, 'sort'])->middleware('permission:home_sections.edit')->name('home_sections.sort');
+
+    Route::get('galleries', [AdminGalleryController::class, 'index'])->middleware('permission:galleries.view')->name('galleries.index');
+    Route::get('galleries/create', [AdminGalleryController::class, 'create'])->middleware('permission:galleries.create')->name('galleries.create');
+    Route::post('galleries', [AdminGalleryController::class, 'store'])->middleware('permission:galleries.create')->name('galleries.store');
+    Route::get('galleries/{gallery}', [AdminGalleryController::class, 'show'])->middleware('permission:galleries.view')->name('galleries.show');
+    Route::get('galleries/{gallery}/edit', [AdminGalleryController::class, 'edit'])->middleware('permission:galleries.edit')->name('galleries.edit');
+    Route::put('galleries/{gallery}', [AdminGalleryController::class, 'update'])->middleware('permission:galleries.edit')->name('galleries.update');
+    Route::delete('galleries/{gallery}', [AdminGalleryController::class, 'destroy'])->middleware('permission:galleries.delete')->name('galleries.destroy');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');

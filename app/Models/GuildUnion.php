@@ -91,6 +91,11 @@ class GuildUnion extends Model
         return $this->hasMany(SmsLog::class, 'union_id');
     }
 
+    public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class, 'union_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

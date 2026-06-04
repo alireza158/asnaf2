@@ -55,6 +55,16 @@ class User extends Authenticatable
         return $this->hasMany(SmsLog::class, 'sender_id');
     }
 
+    public function createdGalleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class, 'created_by');
+    }
+
+    public function approvedGalleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class, 'approved_by');
+    }
+
     public function hasRole(string|Role $role): bool
     {
         $roleName = $role instanceof Role ? $role->name : $role;
