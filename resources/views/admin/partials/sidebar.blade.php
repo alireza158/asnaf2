@@ -3,7 +3,7 @@
         ['title' => 'داشبورد', 'icon' => '🏠', 'route' => 'admin.dashboard'],
         ['title' => 'کاربران', 'icon' => '👤', 'route' => 'admin.users.index'],
         ['title' => 'نقش‌ها و دسترسی‌ها', 'icon' => '🔐', 'route' => 'admin.roles.index'],
-        ['title' => 'منوها', 'icon' => '☰'],
+        ['title' => 'منوها', 'icon' => '☰', 'route' => 'admin.menus.index'],
         ['title' => 'صفحات', 'icon' => '📄'],
         ['title' => 'اخبار', 'icon' => '📰'],
         ['title' => 'اطلاعیه‌ها', 'icon' => '📣'],

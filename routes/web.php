@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -20,6 +22,22 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/', [AdminDashboardController::class, 'index'])
         ->middleware('permission:dashboard.view')
         ->name('dashboard');
+
+    Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
+    Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');
+    Route::post('menus', [MenuController::class, 'store'])->middleware('permission:menus.create')->name('menus.store');
+    Route::get('menus/{menu}', [MenuController::class, 'show'])->middleware('permission:menus.view')->name('menus.show');
+    Route::get('menus/{menu}/edit', [MenuController::class, 'edit'])->middleware('permission:menus.edit')->name('menus.edit');
+    Route::put('menus/{menu}', [MenuController::class, 'update'])->middleware('permission:menus.edit')->name('menus.update');
+    Route::delete('menus/{menu}', [MenuController::class, 'destroy'])->middleware('permission:menus.delete')->name('menus.destroy');
+
+    Route::get('menus/{menu}/items/create', [MenuItemController::class, 'create'])->middleware('permission:menus.create')->name('menus.items.create');
+    Route::post('menus/{menu}/items', [MenuItemController::class, 'store'])->middleware('permission:menus.create')->name('menus.items.store');
+    Route::get('menus/{menu}/items/{item}/edit', [MenuItemController::class, 'edit'])->middleware('permission:menus.edit')->name('menus.items.edit');
+    Route::put('menus/{menu}/items/{item}', [MenuItemController::class, 'update'])->middleware('permission:menus.edit')->name('menus.items.update');
+    Route::patch('menus/{menu}/items/{item}/toggle', [MenuItemController::class, 'toggle'])->middleware('permission:menus.edit')->name('menus.items.toggle');
+    Route::delete('menus/{menu}/items/{item}', [MenuItemController::class, 'destroy'])->middleware('permission:menus.delete')->name('menus.items.destroy');
+    Route::post('menus/{menu}/items/sort', [MenuItemController::class, 'sort'])->middleware('permission:menus.edit')->name('menus.items.sort');
 
     Route::get('users', [UserController::class, 'index'])->middleware('permission:users.view')->name('users.index');
     Route::get('users/create', [UserController::class, 'create'])->middleware('permission:users.create')->name('users.create');

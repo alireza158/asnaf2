@@ -717,3 +717,68 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+.admin-menu-sort {
+    display: grid;
+    gap: 16px;
+}
+
+.admin-menu-tree {
+    display: grid;
+    gap: 10px;
+    min-height: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.admin-menu-tree .admin-menu-tree {
+    margin-top: 10px;
+    margin-inline-start: 34px;
+    padding-inline-start: 14px;
+    border-inline-start: 2px dashed var(--admin-border);
+}
+
+.admin-menu-tree-item.is-dragging {
+    opacity: .55;
+}
+
+.admin-menu-tree-row {
+    display: grid;
+    grid-template-columns: auto minmax(180px, 1fr) auto auto;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--admin-border);
+    border-radius: 14px;
+    background: #f8fafc;
+}
+
+.admin-drag-handle {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #e2e8f0;
+    cursor: grab;
+}
+
+.admin-menu-item-info {
+    display: grid;
+    gap: 4px;
+}
+
+.admin-menu-item-info small {
+    color: var(--admin-muted);
+}
+
+@media (max-width: 768px) {
+    .admin-menu-tree-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-menu-tree .admin-menu-tree {
+        margin-inline-start: 12px;
+    }
+}
