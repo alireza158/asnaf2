@@ -31,6 +31,7 @@ use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController
 use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\SearchController as FrontendSearchController;
 use App\Http\Controllers\Frontend\SystemController as FrontendSystemController;
 use App\Http\Controllers\Frontend\TourismController as FrontendTourismController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
@@ -55,6 +56,7 @@ Route::get('/systems', [FrontendSystemController::class, 'index'])->name('system
 Route::get('/systems/{slug}', [FrontendSystemController::class, 'show'])->name('systems.show');
 Route::get('/commissions', [FrontendCommissionController::class, 'index'])->name('commissions.index');
 Route::get('/commissions/{slug}', [FrontendCommissionController::class, 'show'])->name('commissions.show');
+Route::get('/search', [FrontendSearchController::class, 'index'])->name('search');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
 Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
