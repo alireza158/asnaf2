@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
+use App\Models\PostCategory;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -84,6 +85,17 @@ class RolePermissionSeeder extends Seeder
             ['name' => 'کارشناس اتحادیه', 'password' => Hash::make('password')]
         );
         $expertUser->roles()->syncWithoutDetaching([$unionExpert->id]);
+
+        foreach ([
+            ['title' => 'اخبار', 'slug' => 'news', 'sort_order' => 1],
+            ['title' => 'مقالات', 'slug' => 'articles', 'sort_order' => 2],
+            ['title' => 'اطلاعیه‌ها', 'slug' => 'announcements', 'sort_order' => 3],
+        ] as $category) {
+            PostCategory::updateOrCreate(
+                ['slug' => $category['slug']],
+                ['title' => $category['title'], 'sort_order' => $category['sort_order'], 'is_active' => true]
+            );
+        }
     }
 
     private function makeLabel(string $permission): string
