@@ -2,40 +2,50 @@
 
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
+use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SmsController;
+use App\Http\Controllers\Admin\TourismPlaceController as AdminTourismPlaceController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
 use App\Http\Controllers\Admin\UnionMemberController;
+use App\Http\Controllers\Admin\VideoController as AdminVideoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
+use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
+use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
+use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
+use App\Http\Controllers\Frontend\TourismController as FrontendTourismController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
+use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
 use App\Http\Controllers\Admin\PermissionController;
-use App\Models\Announcement;
-use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $importantPosts = Post::query()->published()->important()->with('category')->latest('published_at')->take(6)->get();
-    $importantAnnouncements = Announcement::query()->published()->important()->shownOnHome()->latest('published_at')->take(5)->get();
-
-    return view('frontend.home', compact('importantPosts', 'importantAnnouncements'));
-})->name('home');
+Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
 Route::get('/guilds/{slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('posts.show');
 Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
 Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'show'])->name('announcements.show');
-Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
-Route::view('/galleries', 'frontend.galleries.index')->name('galleries.index');
-Route::view('/galleries/{slug}', 'frontend.galleries.show')->name('galleries.show');
-Route::view('/videos/{slug}', 'frontend.videos.show')->name('videos.show');
+Route::get('/tourism', [FrontendTourismController::class, 'index'])->name('tourism.index');
+Route::get('/tourism/{slug}', [FrontendTourismController::class, 'show'])->name('tourism.show');
+Route::get('/galleries', [FrontendGalleryController::class, 'index'])->name('galleries.index');
+Route::get('/galleries/{slug}', [FrontendGalleryController::class, 'show'])->name('galleries.show');
+Route::get('/videos', [FrontendVideoController::class, 'index'])->name('videos.index');
+Route::get('/videos/{slug}', [FrontendVideoController::class, 'show'])->name('videos.show');
 Route::get('/pages/{slug}', [FrontendPageController::class, 'show'])->name('pages.show');
+Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
+Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
+Route::get('/complaints/track', [FrontendComplaintController::class, 'track'])->name('complaints.track');
+Route::post('/complaints/track', [FrontendComplaintController::class, 'lookup'])->name('complaints.lookup');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])
@@ -82,6 +92,49 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('unions/{union}/edit', [AdminUnionController::class, 'edit'])->middleware('permission:unions.edit')->name('unions.edit');
     Route::put('unions/{union}', [AdminUnionController::class, 'update'])->middleware('permission:unions.edit')->name('unions.update');
     Route::delete('unions/{union}', [AdminUnionController::class, 'destroy'])->middleware('permission:unions.delete')->name('unions.destroy');
+
+    Route::get('complaints', [AdminComplaintController::class, 'index'])->middleware('permission:complaints.view')->name('complaints.index');
+    Route::get('complaints/{complaint}', [AdminComplaintController::class, 'show'])->middleware('permission:complaints.view')->name('complaints.show');
+    Route::get('complaints/{complaint}/edit', [AdminComplaintController::class, 'edit'])->middleware('permission:complaints.edit')->name('complaints.edit');
+    Route::put('complaints/{complaint}', [AdminComplaintController::class, 'update'])->middleware('permission:complaints.edit')->name('complaints.update');
+    Route::patch('complaints/{complaint}/reply', [AdminComplaintController::class, 'reply'])->middleware('permission:complaints.reply')->name('complaints.reply');
+    Route::get('complaints/{complaint}/download', [AdminComplaintController::class, 'download'])->middleware('permission:complaints.view')->name('complaints.download');
+    Route::delete('complaints/{complaint}', [AdminComplaintController::class, 'destroy'])->middleware('permission:complaints.delete')->name('complaints.destroy');
+
+    Route::get('sms', [SmsController::class, 'index'])->middleware('permission:sms.view')->name('sms.index');
+    Route::get('sms/create', [SmsController::class, 'create'])->middleware('permission:sms.send')->name('sms.create');
+    Route::post('sms', [SmsController::class, 'store'])->middleware('permission:sms.send')->name('sms.store');
+    Route::get('sms/logs', [SmsController::class, 'logs'])->middleware('permission:sms.logs')->name('sms.logs');
+    Route::get('sms/logs/{smsLog}', [SmsController::class, 'show'])->middleware('permission:sms.logs')->name('sms.show');
+
+    Route::get('home-sections', [HomeSectionController::class, 'index'])->middleware('permission:home_sections.view')->name('home_sections.index');
+    Route::get('home-sections/{homeSection}/edit', [HomeSectionController::class, 'edit'])->middleware('permission:home_sections.edit')->name('home_sections.edit');
+    Route::put('home-sections/{homeSection}', [HomeSectionController::class, 'update'])->middleware('permission:home_sections.edit')->name('home_sections.update');
+    Route::post('home-sections/sort', [HomeSectionController::class, 'sort'])->middleware('permission:home_sections.edit')->name('home_sections.sort');
+
+    Route::get('galleries', [AdminGalleryController::class, 'index'])->middleware('permission:galleries.view')->name('galleries.index');
+    Route::get('galleries/create', [AdminGalleryController::class, 'create'])->middleware('permission:galleries.create')->name('galleries.create');
+    Route::post('galleries', [AdminGalleryController::class, 'store'])->middleware('permission:galleries.create')->name('galleries.store');
+    Route::get('galleries/{gallery}', [AdminGalleryController::class, 'show'])->middleware('permission:galleries.view')->name('galleries.show');
+    Route::get('galleries/{gallery}/edit', [AdminGalleryController::class, 'edit'])->middleware('permission:galleries.edit')->name('galleries.edit');
+    Route::put('galleries/{gallery}', [AdminGalleryController::class, 'update'])->middleware('permission:galleries.edit')->name('galleries.update');
+    Route::delete('galleries/{gallery}', [AdminGalleryController::class, 'destroy'])->middleware('permission:galleries.delete')->name('galleries.destroy');
+
+    Route::get('videos', [AdminVideoController::class, 'index'])->middleware('permission:videos.view')->name('videos.index');
+    Route::get('videos/create', [AdminVideoController::class, 'create'])->middleware('permission:videos.create')->name('videos.create');
+    Route::post('videos', [AdminVideoController::class, 'store'])->middleware('permission:videos.create')->name('videos.store');
+    Route::get('videos/{video}', [AdminVideoController::class, 'show'])->middleware('permission:videos.view')->name('videos.show');
+    Route::get('videos/{video}/edit', [AdminVideoController::class, 'edit'])->middleware('permission:videos.edit')->name('videos.edit');
+    Route::put('videos/{video}', [AdminVideoController::class, 'update'])->middleware('permission:videos.edit')->name('videos.update');
+    Route::delete('videos/{video}', [AdminVideoController::class, 'destroy'])->middleware('permission:videos.delete')->name('videos.destroy');
+
+    Route::get('tourism', [AdminTourismPlaceController::class, 'index'])->middleware('permission:tourism.view')->name('tourism.index');
+    Route::get('tourism/create', [AdminTourismPlaceController::class, 'create'])->middleware('permission:tourism.create')->name('tourism.create');
+    Route::post('tourism', [AdminTourismPlaceController::class, 'store'])->middleware('permission:tourism.create')->name('tourism.store');
+    Route::get('tourism/{tourism}', [AdminTourismPlaceController::class, 'show'])->middleware('permission:tourism.view')->name('tourism.show');
+    Route::get('tourism/{tourism}/edit', [AdminTourismPlaceController::class, 'edit'])->middleware('permission:tourism.edit')->name('tourism.edit');
+    Route::put('tourism/{tourism}', [AdminTourismPlaceController::class, 'update'])->middleware('permission:tourism.edit')->name('tourism.update');
+    Route::delete('tourism/{tourism}', [AdminTourismPlaceController::class, 'destroy'])->middleware('permission:tourism.delete')->name('tourism.destroy');
 
     Route::get('union-members', [UnionMemberController::class, 'index'])->middleware('permission:union_members.view')->name('union_members.index');
     Route::get('union-members/create', [UnionMemberController::class, 'create'])->middleware('permission:union_members.create')->name('union_members.create');
