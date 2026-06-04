@@ -6,38 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class GuildUnion extends Model
+class AnnouncementCategory extends Model
 {
     use HasFactory;
 
-    protected $table = 'unions';
-
     protected $fillable = [
-        'name',
+        'title',
         'slug',
-        'description',
+        'sort_order',
         'is_active',
     ];
 
     protected function casts(): array
     {
         return [
+            'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];
     }
 
-    public function users(): HasMany
-    {
-        return $this->hasMany(User::class, 'union_id');
-    }
-
-    public function posts(): HasMany
-    {
-        return $this->hasMany(Post::class, 'union_id');
-    }
-
     public function announcements(): HasMany
     {
-        return $this->hasMany(Announcement::class, 'union_id');
+        return $this->hasMany(Announcement::class, 'category_id');
     }
 }

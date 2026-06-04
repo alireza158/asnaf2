@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AnnouncementCategory;
 use App\Models\Permission;
 use App\Models\PostCategory;
 use App\Models\Role;
@@ -92,6 +93,17 @@ class RolePermissionSeeder extends Seeder
             ['title' => 'اطلاعیه‌ها', 'slug' => 'announcements', 'sort_order' => 3],
         ] as $category) {
             PostCategory::updateOrCreate(
+                ['slug' => $category['slug']],
+                ['title' => $category['title'], 'sort_order' => $category['sort_order'], 'is_active' => true]
+            );
+        }
+
+        foreach ([
+            ['title' => 'عمومی', 'slug' => 'general', 'sort_order' => 1],
+            ['title' => 'فراخوان', 'slug' => 'call', 'sort_order' => 2],
+            ['title' => 'بخشنامه', 'slug' => 'directive', 'sort_order' => 3],
+        ] as $category) {
+            AnnouncementCategory::updateOrCreate(
                 ['slug' => $category['slug']],
                 ['title' => $category['title'], 'sort_order' => $category['sort_order'], 'is_active' => true]
             );

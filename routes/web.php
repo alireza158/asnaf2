@@ -1,26 +1,32 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\PageController as FrontendPageController;
 use App\Http\Controllers\Frontend\PostController as FrontendPostController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Models\Announcement;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $importantPosts = Post::query()->published()->important()->with('category')->latest('published_at')->take(6)->get();
+    $importantAnnouncements = Announcement::query()->published()->important()->shownOnHome()->latest('published_at')->take(5)->get();
 
-    return view('frontend.home', compact('importantPosts'));
+    return view('frontend.home', compact('importantPosts', 'importantAnnouncements'));
 })->name('home');
 Route::view('/guilds/{slug}', 'frontend.guilds.show')->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{slug}', [FrontendPostController::class, 'show'])->name('posts.show');
+Route::get('/announcements', [FrontendAnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/announcements/{slug}', [FrontendAnnouncementController::class, 'show'])->name('announcements.show');
 Route::view('/tourism', 'frontend.tourism.index')->name('tourism.index');
 Route::view('/galleries', 'frontend.galleries.index')->name('galleries.index');
 Route::view('/galleries/{slug}', 'frontend.galleries.show')->name('galleries.show');
@@ -53,6 +59,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::patch('posts/{post}/approve', [AdminPostController::class, 'approve'])->middleware('permission:posts.approve')->name('posts.approve');
     Route::patch('posts/{post}/publish', [AdminPostController::class, 'publish'])->middleware('permission:posts.publish')->name('posts.publish');
     Route::patch('posts/{post}/reject', [AdminPostController::class, 'reject'])->middleware('permission:posts.approve')->name('posts.reject');
+
+    Route::get('announcements', [AdminAnnouncementController::class, 'index'])->middleware('permission:announcements.view')->name('announcements.index');
+    Route::get('announcements/create', [AdminAnnouncementController::class, 'create'])->middleware('permission:announcements.create')->name('announcements.create');
+    Route::post('announcements', [AdminAnnouncementController::class, 'store'])->middleware('permission:announcements.create')->name('announcements.store');
+    Route::get('announcements/{announcement}', [AdminAnnouncementController::class, 'show'])->middleware('permission:announcements.view')->name('announcements.show');
+    Route::get('announcements/{announcement}/edit', [AdminAnnouncementController::class, 'edit'])->middleware('permission:announcements.edit')->name('announcements.edit');
+    Route::put('announcements/{announcement}', [AdminAnnouncementController::class, 'update'])->middleware('permission:announcements.edit')->name('announcements.update');
+    Route::delete('announcements/{announcement}', [AdminAnnouncementController::class, 'destroy'])->middleware('permission:announcements.delete')->name('announcements.destroy');
+    Route::patch('announcements/{announcement}/approve', [AdminAnnouncementController::class, 'approve'])->middleware('permission:announcements.approve')->name('announcements.approve');
+    Route::patch('announcements/{announcement}/publish', [AdminAnnouncementController::class, 'publish'])->middleware('permission:announcements.publish')->name('announcements.publish');
+    Route::patch('announcements/{announcement}/reject', [AdminAnnouncementController::class, 'reject'])->middleware('permission:announcements.approve')->name('announcements.reject');
 
     Route::get('menus', [MenuController::class, 'index'])->middleware('permission:menus.view')->name('menus.index');
     Route::get('menus/create', [MenuController::class, 'create'])->middleware('permission:menus.create')->name('menus.create');

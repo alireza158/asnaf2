@@ -6,7 +6,7 @@
         ['title' => 'منوها', 'icon' => '☰', 'route' => 'admin.menus.index'],
         ['title' => 'صفحات', 'icon' => '📄', 'route' => 'admin.pages.index'],
         ['title' => 'اخبار', 'icon' => '📰', 'route' => 'admin.posts.index'],
-        ['title' => 'اطلاعیه‌ها', 'icon' => '📣'],
+        ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index'],
         ['title' => 'اتحادیه‌ها', 'icon' => '🏢'],
         ['title' => 'اعضای اتحادیه‌ها', 'icon' => '🤝'],
         ['title' => 'شکایات', 'icon' => '📨'],
