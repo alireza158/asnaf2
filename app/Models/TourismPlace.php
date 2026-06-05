@@ -5,12 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TourismPlace extends Model
 {
     use HasFactory;
 
     public const STATUSES = ['draft', 'pending', 'approved', 'rejected', 'published', 'archived'];
+    public const TYPES = ['nature', 'historic', 'shop'];
 
     protected $fillable = [
         'title',
@@ -20,6 +23,10 @@ class TourismPlace extends Model
         'featured_image',
         'gallery',
         'category_id',
+        'badge',
+        'image',
+        'location',
+        'type',
         'address',
         'map_url',
         'latitude',
@@ -46,6 +53,41 @@ class TourismPlace extends Model
             'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];
+    }
+
+
+    public function getHomeImageUrlAttribute(): string
+    {
+        $image = $this->image ?: $this->featured_image;
+
+        if (! $image) {
+            return asset('assets/img/asnaf-gorgan-default.jpg');
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, ['assets/'])) {
+            return asset($image);
+        }
+
+        return Storage::url($image);
+    }
+
+    public function getHomeDescriptionAttribute(): string
+    {
+        return $this->short_description ?: strip_tags((string) $this->description);
+    }
+
+    public function getHomeBadgeAttribute(): string
+    {
+        return $this->badge ?: ($this->category?->title ?: 'گردشگری');
+    }
+
+    public function getHomeLocationAttribute(): string
+    {
+        return $this->location ?: (string) $this->address;
     }
 
     public function category(): BelongsTo
