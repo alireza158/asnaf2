@@ -40,6 +40,16 @@ class Commission extends Model
         return $this->sessions()->published();
     }
 
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(CommissionTask::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function activeTasks(): HasMany
+    {
+        return $this->tasks()->active();
+    }
+
     public function scopePublished($query)
     {
         return $query

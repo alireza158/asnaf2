@@ -24,7 +24,7 @@ class CommissionController extends Controller
     {
         $commission = Commission::query()
             ->published()
-            ->with(['publishedSessions' => fn ($query) => $query->orderByDesc('session_date')])
+            ->with(['activeTasks', 'publishedSessions' => fn ($query) => $query->orderByDesc('session_date')])
             ->where('slug', $slug)
             ->firstOrFail();
 

@@ -49,18 +49,22 @@ class CommissionController extends Controller
             'attachments' => $this->storeFiles($request, 'attachments', 'commissions/attachments'),
         ]);
 
+        $this->syncTasks($commission, $validated['tasks'] ?? []);
+
         return redirect()->route('admin.commissions.show', $commission)->with('success', 'کمیسیون با موفقیت ایجاد شد.');
     }
 
     public function show(Commission $commission): View
     {
-        $commission->load(['sessions' => fn ($query) => $query->latest('session_date')]);
+        $commission->load(['tasks', 'sessions' => fn ($query) => $query->latest('session_date')]);
 
         return view('admin.commissions.show', compact('commission'));
     }
 
     public function edit(Commission $commission): View
     {
+        $commission->load('tasks');
+
         return view('admin.commissions.edit', ['commission' => $commission, 'statusLabels' => Commission::statusLabels()]);
     }
 
@@ -78,6 +82,7 @@ class CommissionController extends Controller
 
         $data['attachments'] = $this->syncAttachments($request, $commission);
         $commission->update($data);
+        $this->syncTasks($commission, $validated['tasks'] ?? []);
 
         return redirect()->route('admin.commissions.show', $commission)->with('success', 'کمیسیون با موفقیت ویرایش شد.');
     }
@@ -119,6 +124,12 @@ class CommissionController extends Controller
             'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', Rule::in(['0', '1'])],
+            'tasks' => ['nullable', 'array'],
+            'tasks.*.id' => ['nullable', 'integer', 'exists:commission_tasks,id'],
+            'tasks.*.title' => ['nullable', 'string', 'max:255'],
+            'tasks.*.description' => ['nullable', 'string', 'max:1000'],
+            'tasks.*.sort_order' => ['nullable', 'integer', 'min:0'],
+            'tasks.*.is_active' => ['nullable', Rule::in(['0', '1'])],
         ]);
     }
 
@@ -163,6 +174,49 @@ class CommissionController extends Controller
 
         return $existing->reject(fn ($file) => $file['delete'])->map(fn ($file) => collect($file)->except('delete')->all())->values()
             ->merge($this->storeFiles($request, 'attachments', 'commissions/attachments'))->all();
+    }
+
+    /** @param array<int, array<string, mixed>> $tasks */
+    private function syncTasks(Commission $commission, array $tasks): void
+    {
+        $keptIds = [];
+
+        foreach ($tasks as $index => $task) {
+            $title = trim((string) ($task['title'] ?? ''));
+
+            if ($title === '') {
+                continue;
+            }
+
+            $payload = [
+                'title' => $title,
+                'description' => $task['description'] ?? null,
+                'sort_order' => $task['sort_order'] ?? $index,
+                'is_active' => (bool) ($task['is_active'] ?? true),
+            ];
+
+            $taskModel = filled($task['id'] ?? null)
+                ? $commission->tasks()->whereKey($task['id'])->first()
+                : null;
+
+            if ($taskModel) {
+                $taskModel->update($payload);
+            } else {
+                $taskModel = $commission->tasks()->create($payload);
+            }
+
+            $keptIds[] = $taskModel->id;
+        }
+
+        if ($keptIds === []) {
+            if ($tasks !== []) {
+                $commission->tasks()->delete();
+            }
+
+            return;
+        }
+
+        $commission->tasks()->whereNotIn('id', $keptIds)->delete();
     }
 
     private function uniqueSlug(string $value, ?Commission $commission = null): string

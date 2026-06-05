@@ -163,6 +163,7 @@ class PostController extends Controller
             'type' => $validated['type'],
             'is_important' => (bool) $validated['is_important'],
             'is_featured' => (bool) $validated['is_featured'],
+            'is_top' => (bool) $validated['is_top'],
             'status' => $validated['status'],
             'published_at' => $validated['published_at'] ?: null,
             'rejected_reason' => $validated['rejected_reason'] ?? null,
