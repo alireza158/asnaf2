@@ -26,7 +26,7 @@ class ComplaintController extends Controller
         $validated = $request->validate([
             'union_id' => [
                 'required',
-                Rule::exists('unions', 'id')->where(fn ($query) => $query->where('is_active', true)->where('complaint_enabled', true)),
+                Rule::exists('unions', 'id')->where(fn ($query) => $query->where('is_active', true)),
             ],
             'full_name' => ['required', 'string', 'max:255'],
             'national_code' => ['nullable', 'string', 'max:20'],
@@ -104,8 +104,6 @@ class ComplaintController extends Controller
     {
         return GuildUnion::query()
             ->active()
-            ->where('complaint_enabled', true)
-            ->orderBy('sort_order')
             ->orderBy('title')
             ->get();
     }

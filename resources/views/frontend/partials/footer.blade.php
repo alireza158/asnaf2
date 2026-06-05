@@ -2,11 +2,11 @@
     $settings = app(\App\Services\SettingService::class);
     $footerItems = app(\App\Services\MenuService::class)->items('footer');
     $logo = $settings->get('footer.logo', 'assets/img/asnaf-footer-mark.svg');
-    $description = $settings->get('footer.description', 'اتاق اصناف شهرستان گرگان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.');
+    $description = $settings->get('footer.description', 'اتاق اصناف مرکز استان گلستان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.');
     $phone = $settings->get('site.phone', '۰۱۷-۳۲۱۵۲۹۱۲<br/>۰۱۷-۳۲۱۵۴۷۶۷');
     $address = $settings->get('site.address', 'گرگان، خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف');
     $email = $settings->get('site.email', 'info@asnaf-gorgan.ir');
-    $copyright = $settings->get('footer.copyright', 'تمام حقوق مادی و معنوی این وبسایت متعلق به اتاق اصناف شهرستان گرگان می‌باشد');
+    $copyright = $settings->get('footer.copyright', 'تمام حقوق مادی و معنوی این وبسایت متعلق به اتاق اصناف مرکز استان گلستان می‌باشد');
     $socials = $settings->get('footer.social_links', []);
     $quickFallbacks = collect([
         ['title' => 'صفحه اصلی', 'url' => route('home')],
@@ -19,7 +19,7 @@
         ['title' => 'تماس با ما', 'url' => '#friendship'],
     ]);
     $orgFallbacks = collect([
-        ['title' => 'اتاق اصناف شهرستان گرگان', 'url' => route('home')],
+        ['title' => 'اتاق اصناف مرکز استان گلستان', 'url' => route('home')],
         ['title' => 'اتاق اصناف ایران', 'url' => '#'],
         ['title' => 'سامانه نوین اصناف', 'url' => route('systems.index')],
         ['title' => 'سامانه آموزش اصناف', 'url' => route('electronic-services.index')],
@@ -35,7 +35,7 @@
 <div class="site-container">
 <div class="footer-main">
 <div class="footer-col footer-brand-col">
-<img alt="اتاق اصناف شهرستان گرگان" src="{{ asset($logo) }}"/>
+<img alt="اتاق اصناف مرکز استان گلستان" src="{{ asset($logo) }}"/>
 <p>{{ $description }}</p>
 </div>
 <div class="footer-col">

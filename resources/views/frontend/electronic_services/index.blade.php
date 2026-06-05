@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'خدمات الکترونیک | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'لیست خدمات الکترونیک صنفی اتاق اصناف شهرستان گرگان')
+@section('title', 'خدمات الکترونیک | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'لیست خدمات الکترونیک صنفی اتاق اصناف مرکز استان گلستان')
 @section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 
