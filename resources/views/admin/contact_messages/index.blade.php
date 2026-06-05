@@ -50,7 +50,7 @@
                                 <span class="badge text-bg-warning">خوانده‌نشده</span>
                             @endif
                         </td>
-                        <td>{{ $message->created_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($message->created_at) ?: '—' }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.contact_messages.show', $message) }}">مشاهده</a>

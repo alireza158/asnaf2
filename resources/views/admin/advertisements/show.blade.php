@@ -20,8 +20,8 @@
                 <div class="col-md-6"><strong>کلید جایگاه:</strong><p dir="ltr">{{ $advertisement->position?->key ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>وضعیت:</strong><p>{{ $advertisement->status_label }}</p></div>
                 <div class="col-md-6"><strong>فعال:</strong><p>{{ $advertisement->is_active ? 'بله' : 'خیر' }}</p></div>
-                <div class="col-md-6"><strong>شروع:</strong><p>{{ $advertisement->starts_at?->format('Y/m/d H:i') }}</p></div>
-                <div class="col-md-6"><strong>پایان:</strong><p>{{ $advertisement->expires_at?->format('Y/m/d H:i') ?: 'نامحدود' }}</p></div>
+                <div class="col-md-6"><strong>شروع:</strong><p>{{ jalali_datetime($advertisement->starts_at) }}</p></div>
+                <div class="col-md-6"><strong>پایان:</strong><p>{{ jalali_datetime($advertisement->expires_at) ?: 'نامحدود' }}</p></div>
                 <div class="col-md-6"><strong>نمایش:</strong><p>{{ $advertisement->views_count }}</p></div>
                 <div class="col-md-6"><strong>کلیک:</strong><p>{{ $advertisement->clicks_count }}</p></div>
                 <div class="col-md-6"><strong>ترتیب:</strong><p>{{ $advertisement->sort_order }}</p></div>

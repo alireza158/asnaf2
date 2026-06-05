@@ -26,7 +26,7 @@
 
       <div class="news-single-body">
         <div class="post-meta">
-          <span>📅 {{ $place->published_at?->format('Y/m/d') ?: $place->created_at?->format('Y/m/d') }}</span>
+          <span>📅 {{ jalali_date($place->published_at) ?: jalali_date($place->created_at) }}</span>
           <span>🏷 {{ $place->category?->title ?: 'گردشگری' }}</span>
         </div>
         <h2>{{ $place->title }}</h2>

@@ -34,7 +34,7 @@
                         <td><code>{{ $page->slug }}</code></td>
                         <td><span class="admin-status-badge status-{{ $page->status }}">{{ $page->status }}</span></td>
                         <td>{{ $page->author?->name ?: '—' }}</td>
-                        <td>{{ $page->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($page->published_at) ?: '—' }}</td>
                         <td><span class="admin-status-badge {{ $page->is_active ? 'is-active' : 'is-inactive' }}">{{ $page->is_active ? 'فعال' : 'غیرفعال' }}</span></td>
                         <td>
                             <div class="admin-actions">

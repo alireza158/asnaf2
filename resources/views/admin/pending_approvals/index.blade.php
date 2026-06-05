@@ -38,7 +38,7 @@
                                     </td>
                                     <td><span class="badge text-bg-secondary">{{ $item['label'] }}</span></td>
                                     <td class="text-muted" style="max-width: 360px;">{{ $item['summary'] }}</td>
-                                    <td>{{ optional($item['created_at'])->format('Y/m/d H:i') ?? '-' }}</td>
+                                    <td>{{ jalali_datetime($item['created_at'] ?? null) ?? '-' }}</td>
                                     <td>
                                         <div class="d-flex flex-wrap justify-content-center gap-2">
                                             @if($item['show_url'])

@@ -51,7 +51,7 @@
         </div>
         <div class="col-md-3">
             <label class="form-label" for="published_at">تاریخ انتشار</label>
-            <input class="form-control" id="published_at" name="published_at" type="datetime-local" value="{{ old('published_at', $post?->published_at?->format('Y-m-d\\TH:i')) }}">
+            <input class="form-control" id="published_at" name="published_at" type="text" data-jalali-datepicker value="{{ jalali_input_datetime(old('published_at', $post?->published_at)) }}">
         </div>
         <div class="col-md-3">
             <label class="form-label" for="sort_order">ترتیب نمایش</label>

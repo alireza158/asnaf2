@@ -52,8 +52,8 @@
         <ul class="gallery-sidebar-list">
           <li>تعداد تصاویر: {{ $gallery->images->count() }}</li>
           <li>نوع گالری: {{ $gallery->union?->display_title ?: 'عمومی' }}</li>
-          <li>تاریخ انتشار: {{ $gallery->published_at?->format('Y/m/d') ?: '—' }}</li>
-          <li>آخرین بروزرسانی: {{ $gallery->updated_at?->format('Y/m/d') ?: '—' }}</li>
+          <li>تاریخ انتشار: {{ jalali_date($gallery->published_at) ?: '—' }}</li>
+          <li>آخرین بروزرسانی: {{ jalali_date($gallery->updated_at) ?: '—' }}</li>
         </ul>
       </div>
     </aside>

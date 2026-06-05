@@ -24,7 +24,7 @@
             <h3 class="h5 mb-3">پاسخ ثبت‌شده</h3>
             @if ($complaint->admin_response)
                 <p>{{ $complaint->admin_response }}</p>
-                <small class="text-muted">ثبت‌کننده پاسخ: {{ $complaint->answerer?->name ?: '—' }} | {{ $complaint->answered_at?->format('Y/m/d H:i') ?: '—' }}</small>
+                <small class="text-muted">ثبت‌کننده پاسخ: {{ $complaint->answerer?->name ?: '—' }} | {{ jalali_datetime($complaint->answered_at) ?: '—' }}</small>
             @else
                 <p class="text-muted mb-0">هنوز پاسخی ثبت نشده است.</p>
             @endif
@@ -61,8 +61,8 @@
                 <dt class="col-5">نام</dt><dd class="col-7">{{ $complaint->full_name }}</dd>
                 <dt class="col-5">کد ملی</dt><dd class="col-7">{{ $complaint->national_code ?: '—' }}</dd>
                 <dt class="col-5">موبایل</dt><dd class="col-7">{{ $complaint->mobile }}</dd>
-                <dt class="col-5">ثبت</dt><dd class="col-7">{{ $complaint->created_at?->format('Y/m/d H:i') ?: '—' }}</dd>
-                <dt class="col-5">آخرین تغییر</dt><dd class="col-7">{{ $complaint->updated_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">ثبت</dt><dd class="col-7">{{ jalali_datetime($complaint->created_at) ?: '—' }}</dd>
+                <dt class="col-5">آخرین تغییر</dt><dd class="col-7">{{ jalali_datetime($complaint->updated_at) ?: '—' }}</dd>
             </dl>
         </div>
 

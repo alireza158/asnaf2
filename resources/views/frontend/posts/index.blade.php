@@ -50,7 +50,7 @@
                             <span class="card-cat">{{ $post->category?->title ?: 'اخبار' }}</span>
                             <h2>{{ $post->title }}</h2>
                             <p>{{ $post->excerpt ?: Str::limit(strip_tags($post->body), 150) }}</p>
-                            <span class="card-date">{{ $post->published_at?->format('Y/m/d') }}</span>
+                            <span class="card-date">{{ jalali_date($post->published_at) }}</span>
                             @if ($post->union)<span class="card-date">{{ $post->union->name }}</span>@endif
                         </div>
                     </a>

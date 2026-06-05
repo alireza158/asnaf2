@@ -38,7 +38,7 @@
           <p>{{ Str::limit(strip_tags($gallery->description), 130) ?: 'گالری تصاویر اتاق اصناف شهرستان گرگان' }}</p>
           <div class="gallery-album-meta">
             <span>{{ $gallery->images_count }} تصویر</span>
-            <span>{{ $gallery->published_at?->format('Y/m/d') ?: $gallery->created_at?->format('Y/m/d') }}</span>
+            <span>{{ jalali_date($gallery->published_at) ?: jalali_date($gallery->created_at) }}</span>
           </div>
         </div>
       </a>

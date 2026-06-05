@@ -43,7 +43,7 @@
                     <td>{{ $place->category?->title ?: '—' }}</td>
                     <td><span class="admin-badge">{{ $place->status_label }}</span></td>
                     <td>{{ $place->is_active ? 'فعال' : 'غیرفعال' }}</td>
-                    <td>{{ $place->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                    <td>{{ jalali_datetime($place->published_at) ?: '—' }}</td>
                     <td>{{ $place->sort_order }}</td>
                     <td>
                         <div class="admin-actions">

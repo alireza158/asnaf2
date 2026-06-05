@@ -41,7 +41,7 @@
                         <td>{{ Str::limit($complaint->subject, 45) }}</td>
                         <td>{{ $complaint->union?->display_title ?: '—' }}</td>
                         <td><span class="admin-status-badge status-{{ $complaint->status }}">{{ $complaint->status_label }}</span></td>
-                        <td>{{ $complaint->created_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($complaint->created_at) ?: '—' }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.complaints.show', $complaint) }}">مشاهده</a>
