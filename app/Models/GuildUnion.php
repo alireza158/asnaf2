@@ -10,6 +10,10 @@ class GuildUnion extends Model
 {
     use HasFactory;
 
+    public const TYPE_PRODUCTION = 'production';
+    public const TYPE_DISTRIBUTION = 'distribution';
+    public const TYPE_SERVICE = 'service';
+
     protected $table = 'unions';
 
     protected $fillable = [
@@ -26,6 +30,7 @@ class GuildUnion extends Model
         'email',
         'website',
         'manager_name',
+        'union_type',
         'manager_image',
         'working_hours',
         'social_links',
@@ -104,6 +109,20 @@ class GuildUnion extends Model
     public function congratulationMessages(): HasMany
     {
         return $this->hasMany(CongratulationMessage::class, 'union_id');
+    }
+
+    public static function typeLabels(): array
+    {
+        return [
+            self::TYPE_PRODUCTION => 'اتحادیه‌های تولیدی',
+            self::TYPE_DISTRIBUTION => 'اتحادیه‌های توزیعی',
+            self::TYPE_SERVICE => 'اتحادیه‌های خدماتی',
+        ];
+    }
+
+    public function getUnionTypeLabelAttribute(): string
+    {
+        return self::typeLabels()[$this->union_type] ?? 'نامشخص';
     }
 
     public function scopeActive($query)
