@@ -15,6 +15,6 @@
             @endforeach
         </div>
     @else
-        <a class="{{ $linkClass }}" href="{{ $menuItem->resolved_url }}" target="{{ $menuItem->target }}">{{ $menuItem->icon }} {{ $menuItem->title }}</a>
+        <a class="{{ $linkClass }}{{ request()->url() === $menuItem->resolved_url ? ' active' : '' }}" href="{{ $menuItem->resolved_url }}" target="{{ $menuItem->target }}">{{ $menuItem->icon }} {{ $menuItem->title }}</a>
     @endif
 </li>

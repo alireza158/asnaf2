@@ -2,28 +2,30 @@
     $settings = app(\App\Services\SettingService::class);
     $topItems = app(\App\Services\MenuService::class)->items('top');
     $mainItems = app(\App\Services\MenuService::class)->items('main');
-    $logo = $settings->get('header.logo', 'assets/img/asnaf-wordmark.svg');
     $topText = $settings->get('header.top_text', 'اتاق اصناف شهرستان گرگان؛ پشتیبان کسب‌وکارهای صنفی');
     $serviceText = $settings->get('header.service_button_text', 'سامانه خدمات صنفی');
-    $serviceLink = $settings->get('header.service_button_link', route('systems.index'));
+    $serviceLink = $settings->get('header.service_button_link', '#commissions');
     $phone = $settings->get('site.phone', '۰۱۷۳۲۱۵۲۹۱۲');
     $contactText = $settings->get('header.contact_button_text', 'تماس با اتاق');
+    $jalaliParts = explode('/', jalali_date(now(), 'Y/m/d'));
+    $weekdays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
+    $months = [1 => 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
+    $todayLabel = ($weekdays[now()->dayOfWeek] ?? '') . '، ' . (int) ($jalaliParts[2] ?? 1) . ' ' . ($months[(int) ($jalaliParts[1] ?? 1)] ?? '') . ' ' . ($jalaliParts[0] ?? '');
 @endphp
 <header class="site-header">
 <div class="header-top site-container">
 <div class="brand-note">
-<a href="{{ route('home') }}"><img alt="اتاق اصناف شهرستان گرگان" class="flag-img" src="{{ asset($logo) }}"/></a>
+<img alt="پرچم ایران" class="flag-img" src="{{ asset('assets/img/flag-iran.png') }}"/>
 <div>
-<span>{{ jalali_date(now(), 'Y/m/d') }}</span>
+<span>{{ $todayLabel }}</span>
 <strong>{{ $topText }}</strong>
 </div>
 </div>
 
 <div class="header-left-actions" aria-label="راه‌های دسترسی سریع هدر">
 @if($topItems->isNotEmpty())
-    @foreach($topItems->take(3) as $topItem)
-        <a class="header-service-pill" href="{{ $topItem->resolved_url }}" target="{{ $topItem->target }}">{{ $topItem->title }}</a>
-    @endforeach
+@php($topItem = $topItems->first())
+<a class="header-service-pill" href="{{ $topItem->resolved_url ?: $serviceLink }}" target="{{ $topItem->target }}">{{ $topItem->title }}</a>
 @else
 <a class="header-service-pill" href="{{ $serviceLink }}">{{ $serviceText }}</a>
 @endif
@@ -46,9 +48,33 @@
     @endforeach
 @else
 <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">صفحه اصلی</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ route('posts.index') }}">اخبار</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ route('guilds.index') }}">اتحادیه‌ها</a></li>
-<li class="nav-item"><a class="nav-link" href="{{ route('contact.create') }}">تماس با ما</a></li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">درباره اتاق<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="#representatives">معرفی اتاق اصناف گرگان</a></li><li><a href="#representatives">هیئت رئیسه و ساختار اداری</a></li><li><a href="#friendship">آدرس و راهنمای مراجعه</a></li></ul>
+</li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">خدمات صنفی<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="#fractions">صدور پروانه کسب</a></li><li><a href="#fractions">تمدید و انتقال پروانه</a></li><li><a href="#commissions">فرم‌ها و درخواست‌ها</a></li></ul>
+</li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">اتحادیه‌ها<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="{{ route('guilds.index') }}">فهرست اتحادیه‌های صنفی</a></li><li><a href="#representatives">رسته‌های شغلی</a></li><li><a href="#friendship">اطلاعات تماس اتحادیه‌ها</a></li></ul>
+</li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">بازرسی و نظارت<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="{{ route('complaints.create') }}">ثبت شکایت صنفی</a></li><li><a href="{{ route('complaints.create') }}">گزارش تخلف</a></li><li><a href="{{ route('complaints.track') }}">پیگیری بازرسی‌ها</a></li></ul>
+</li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">آموزش و اطلاعیه‌ها<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="#fractions">دوره‌های آموزشی</a></li><li><a href="{{ route('announcements.index') }}">بخشنامه‌ها و اطلاعیه‌ها</a></li><li><a href="{{ route('posts.index') }}">اخبار اتاق اصناف</a></li></ul>
+</li>
+<li class="nav-item top-nav-item has-top-submenu">
+<button aria-expanded="false" class="nav-link top-nav-link" type="button">سامانه‌ها<span class="top-submenu-caret"></span></button>
+<ul class="top-submenu"><li><a href="{{ route('systems.index') }}">سامانه نوین اصناف</a></li><li><a href="#fractions">سامانه آموزش اصناف</a></li><li><a href="{{ route('electronic-services.index') }}">راهنمای خدمات الکترونیک</a></li></ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="{{ route('galleries.index') }}">گالری تصاویر</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ route('tourism.index') }}">گردشگری</a></li>
+<li class="nav-item"><a class="nav-link" href="#friendship">تماس با ما</a></li>
 @endif
 </ul>
 </div>
