@@ -99,14 +99,14 @@
         'title' => $service->title,
         'description' => $service->short_description ?: $plain($service->body, 120),
         'url' => ($service->link_type === 'external' && filled($service->link)) ? $service->link : route('electronic-services.show', $service->slug),
-        'target' => $service->target ?: '_self',
+        'target' => ($service->link_type === 'external' && filled($service->link)) ? ($service->target ?: '_blank') : '_self',
         'label' => 'مشاهده راهنما ←',
     ])->concat(($systems ?? collect())->map(fn ($system) => [
         'icon' => $system->icon ?: '💻',
         'title' => $system->title,
         'description' => $system->short_description ?: $plain($system->description, 120),
         'url' => filled($system->link) ? $system->link : route('systems.show', $system->slug),
-        'target' => $system->target ?: '_self',
+        'target' => filled($system->link) ? ($system->target ?: '_blank') : '_self',
         'label' => 'ورود به سامانه ←',
     ]))->take(6)->values();
     $serviceItems = $serviceItems->isNotEmpty() ? $serviceItems : $serviceFallbacks;
@@ -118,16 +118,11 @@
     $adItems = ($homeAdvertisements ?? collect())->take(2)->map(fn ($ad) => ['title' => $ad->title ?: 'فضای تبلیغات شما', 'url' => $ad->link ?: '#', 'image' => $assetImage($ad->image), 'target' => $ad->target ?: '_self'])->values();
     $adItems = $adItems->isNotEmpty() ? $adItems : $adFallbacks;
 
-    $unionFallbacks = collect([
-        'rep-12' => [['اتحادیه صنف خبازان', 'نانوایی‌ها و واحدهای مرتبط با تولید نان'], ['اتحادیه صنف طلا و جواهر', 'واحدهای فروش، ساخت و تعمیرات طلا و جواهر'], ['اتحادیه صنف چاپ و تکثیر', 'چاپخانه‌ها، تکثیر و خدمات چاپی'], ['اتحادیه صنف درودگران', 'تولید و خدمات چوب، کابینت و مصنوعات چوبی'], ['اتحادیه صنف شیشه‌فروشان', 'فروش و خدمات شیشه و آینه'], ['اتحادیه صنف ساعت‌سازان و عینک', 'خدمات ساعت، عینک و تجهیزات مرتبط'], ['اتحادیه صنف لبنیات', 'تولید و فروش لبنیات سنتی و صنعتی'], ['اتحادیه صنف قصابان', 'واحدهای عرضه گوشت قرمز و سفید'], ['اتحادیه صنف میوه و تره بار', 'فروشندگان میوه، سبزی و صیفی جات'], ['اتحادیه صنف قنادان', 'شیرینی‌فروشی‌ها و قنادی‌های سطح شهر']],
-        'rep-11' => [['اتحادیه خواربار و مواد غذایی', 'فروشگاه‌ها و واحدهای عرضه مواد غذایی'], ['اتحادیه پوشاک', 'فروشندگان پوشاک و منسوجات'], ['اتحادیه لوازم خانگی', 'عرضه‌کنندگان لوازم خانگی و کالای بادوام'], ['اتحادیه موبایل و رایانه', 'فروش و خدمات تجهیزات ارتباطی و دیجیتال'], ['اتحادیه مصالح ساختمانی', 'توزیع مصالح و تجهیزات ساختمانی'], ['اتحادیه لوازم تحریر', 'فروش لوازم التحریر و محصولات فرهنگی'], ['اتحادیه فرش و موکت', 'عرضه فرش، موکت و کفپوش']],
-        'rep-all' => [['اتحادیه تعمیرکاران خودرو', 'خدمات تعمیر، صافکاری و امور فنی خودرو'], ['اتحادیه آرایشگران', 'خدمات آرایشی و بهداشتی مجاز'], ['اتحادیه رستوران و اغذیه', 'رستوران‌ها، اغذیه‌فروشی‌ها و پذیرایی'], ['اتحادیه مشاوران املاک', 'خدمات خرید، فروش و اجاره املاک'], ['اتحادیه خدمات فنی ساختمان', 'تأسیسات، شوفاژ و خدمات فنی'], ['اتحادیه هتل و مهمانپذیر', 'مراکز اقامتی و پذیرایی بین راهی']],
+    $unionPanels = collect([
+        'rep-production' => ($productionUnions ?? collect()),
+        'rep-distribution' => ($distributionUnions ?? collect()),
+        'rep-service' => ($serviceUnions ?? collect()),
     ]);
-    $dbUnions = ($homeUnions ?? collect())->values();
-    $unionPanels = $dbUnions->isNotEmpty()
-        ? collect(['rep-12' => $dbUnions->slice(0, 10)->values(), 'rep-11' => $dbUnions->slice(10, 7)->values(), 'rep-all' => $dbUnions->slice(17, 7)->values()])
-        : $unionFallbacks;
-    $unionPanels = $unionPanels->map(fn ($items, $key) => $items->isNotEmpty() ? $items : collect($unionFallbacks[$key]));
 
     $commissionFallbacks = collect([
         ['icon' => '⚖️', 'title' => 'کمیسیون نظارت و بازرسی', 'description' => 'نظارت بر عملکرد واحدهای صنفی، اجرای طرح‌های بازرسی دوره‌ای و رسیدگی به تخلفات صنفی در سطح شهرستان'],
@@ -180,13 +175,15 @@
 <div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper">
 <div class="swiper-wrapper">
 @foreach($heroItems as $item)
-<article class="news-card news-card-main swiper-slide" data-href="{{ $item['url'] }}">
+<article class="news-card news-card-main swiper-slide">
+<a href="{{ $item['url'] }}">
 <img alt="{{ $item['title'] }}" src="{{ $item['image'] }}"/>
 <div class="news-overlay"></div>
 <div class="news-content">
 <span class="news-kicker">{{ $item['kicker'] }}</span>
 <h1>{{ $item['title'] }}</h1>
 </div>
+</a>
 </article>
 @endforeach
 </div>
@@ -196,10 +193,12 @@
 </div>
 <div aria-label="خبرهای کناری" class="side-news">
 @foreach($sideItems as $item)
-<article class="news-card side-card" data-href="{{ $item['url'] }}">
+<article class="news-card side-card">
+<a href="{{ $item['url'] }}">
 <img alt="{{ $item['title'] }}" src="{{ $item['image'] }}"/>
 <div class="news-overlay"></div>
 <div class="news-content"><h2>{{ $item['title'] }}</h2></div>
+</a>
 </article>
 @endforeach
 </div>
@@ -238,13 +237,13 @@
 <div class="section-heading">
 <h2>اتحادیه‌های صنفی گرگان</h2>
 <div aria-label="نماینده‌ها" class="tabs" data-tab-group="representatives" role="tablist">
-<button class="tab-pill active" data-tab-target="rep-12" type="button">اتحادیه‌های تولیدی</button>
-<button class="tab-pill" data-tab-target="rep-11" type="button">اتحادیه‌های توزیعی</button>
-<button class="tab-pill" data-tab-target="rep-all" type="button">اتحادیه‌های خدماتی</button>
+<button class="tab-pill active" data-tab-target="rep-production" type="button">اتحادیه‌های تولیدی</button>
+<button class="tab-pill" data-tab-target="rep-distribution" type="button">اتحادیه‌های توزیعی</button>
+<button class="tab-pill" data-tab-target="rep-service" type="button">اتحادیه‌های خدماتی</button>
 </div>
 </div>
 <div class="tab-panels" data-tab-panels="representatives">
-@foreach(['rep-12' => ['حوزه فعالیت شهرستان گرگان', 'map-img'], 'rep-11' => ['اتحادیه‌های توزیعی', 'map-img muted-map'], 'rep-all' => ['اتحادیه‌های خدماتی', 'map-img faded-map']] as $panel => $map)
+@foreach(['rep-production' => ['اتحادیه‌های تولیدی شهرستان گرگان', 'map-img'], 'rep-distribution' => ['اتحادیه‌های توزیعی شهرستان گرگان', 'map-img muted-map'], 'rep-service' => ['اتحادیه‌های خدماتی شهرستان گرگان', 'map-img faded-map']] as $panel => $map)
 <div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
 <div class="representative-layout">
 <div class="representative-map">
@@ -255,15 +254,11 @@
 <div class="searchbox"><span class="search-icon"></span><input data-filter-input="" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
 <div class="people-scroll-wrap">
 <ul class="person-list">
-@foreach($unionPanels[$panel] as $union)
-@php
-    $isModel = is_object($union);
-    $unionTitle = $isModel ? $union->display_title : $union[0];
-    $unionDesc = $isModel ? ($union->short_description ?: $plain($union->description, 90)) : $union[1];
-    $unionUrl = $isModel ? route('guilds.show', $union->slug) : $guildsUrl;
-@endphp
-<li data-href="{{ $unionUrl }}"><span class="person-avatar avatar-{{ ($loop->iteration - 1) % 6 + 1 }}"></span><div><strong>{{ $unionTitle }}</strong><small>{{ $unionDesc }}</small></div></li>
-@endforeach
+@forelse($unionPanels[$panel] as $union)
+<li><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a></li>
+@empty
+<li><span class="person-avatar avatar-1"></span><div><strong>اتحادیه‌ای ثبت نشده است</strong><small>لطفاً از پنل مدیریت اتحادیه جدید ثبت کنید.</small></div></li>
+@endforelse
 </ul>
 </div>
 </aside>
@@ -290,7 +285,7 @@
         'com-12' => [['صدور پروانه','ثبت، بررسی و راهنمای صدور پروانه کسب',$servicesUrl], ['تمدید پروانه','تمدید، تغییر نشانی و انتقال واحد صنفی',$servicesUrl], ['استعلام صنفی','پیگیری وضعیت درخواست‌ها و مجوزها',$systemsUrl], ['رسته‌های شغلی','راهنمای انتخاب رسته و اتحادیه مرتبط',$guildsUrl], ['فرم‌ها','دریافت فرم‌های اداری و درخواست‌ها',route('announcements.index')], ['بخشنامه‌ها','آخرین ابلاغیه‌های مرتبط با اصناف',route('announcements.index')], ['مشاوره صنفی','راهنمایی متقاضیان و مباشرین',$contactUrl], ['پرونده صنفی','تکمیل و اصلاح مدارک پرونده‌ها',$servicesUrl], ['شناسه صنفی','راهنمای دریافت شناسه و کد واحد',$systemsUrl], ['نوبت‌دهی','مدیریت مراجعه حضوری و پیگیری',$contactUrl], ['آمار اصناف','گزارش‌های آماری و اطلاعات رسته‌ها',$guildsUrl], ['اطلاع‌رسانی','خبرها و اطلاعیه‌های مهم اتاق',$postsUrl]],
         'com-11' => [['بازرسی','نظارت بر واحدهای صنفی و رعایت مقررات',$complaintsUrl], ['شکایات','ثبت و پیگیری شکایات شهروندان',$complaintsUrl], ['تخلفات صنفی','گزارش تخلف و ارجاع به مراجع ذی‌ربط',$complaintsUrl], ['نرخ‌گذاری','اطلاع‌رسانی ضوابط قیمت و نرخ خدمات',route('announcements.index')], ['حقوق مصرف‌کننده','صیانت از حقوق مردم و کسبه',$complaintsUrl], ['صلح و سازش','رسیدگی اولیه به اختلافات صنفی',$commissionsUrl], ['بهداشت و ایمنی','هماهنگی با دستگاه‌های نظارتی مرتبط',$commissionsUrl], ['طرح‌های نظارتی','اجرای طرح‌های مناسبتی و دوره‌ای',$postsUrl]],
         'com-10' => [['احکام تجارت','دوره‌های آموزشی متقاضیان پروانه کسب',$servicesUrl], ['آموزش آنلاین','معرفی سامانه آموزش الکترونیکی اصناف',$servicesUrl], ['قانون نظام صنفی','آشنایی با تکالیف و حقوق واحد صنفی',$servicesUrl], ['مالیات','راهنمای تکالیف مالیاتی کسب‌وکارها',$servicesUrl], ['بیمه','اطلاع‌رسانی بیمه و روابط کار',$servicesUrl], ['بهداشت صنفی','راهنمای الزامات بهداشتی کسب‌وکار',$servicesUrl], ['تجارت دیجیتال','نکات فروش اینترنتی و کسب‌وکار آنلاین',$servicesUrl], ['سوالات پرتکرار','پاسخ به پرسش‌های متقاضیان',$contactUrl]],
-        'com-all' => [['اتحادیه‌ها','هماهنگی بین اتحادیه‌های صنفی شهرستان',$guildsUrl], ['اداره صمت','تعامل با اداره صنعت، معدن و تجارت','#'], ['تعزیرات','همکاری در پرونده‌های نظارتی و تخلفات','#'], ['شهرداری','هماهنگی مسائل شهری واحدهای صنفی','#'], ['امور مالیاتی','پیگیری میز خدمت و آموزش مالیاتی',$servicesUrl], ['اتاق ایران','ارتباط با اتاق اصناف ایران و سامانه‌های ملی','#'], ['رویدادها','نشست‌ها، نمایشگاه‌ها و جلسات صنفی',$postsUrl], ['کمیسیون نظارت','پیگیری مصوبات و الزامات نظارتی',$commissionsUrl]],
+        'com-all' => [['اتحادیه‌ها','هماهنگی بین اتحادیه‌های صنفی شهرستان',$guildsUrl], ['اداره صمت','تعامل با اداره صنعت، معدن و تجارت',$contactUrl], ['تعزیرات','همکاری در پرونده‌های نظارتی و تخلفات',$complaintsUrl], ['شهرداری','هماهنگی مسائل شهری واحدهای صنفی',$contactUrl], ['امور مالیاتی','پیگیری میز خدمت و آموزش مالیاتی',$servicesUrl], ['اتاق ایران','ارتباط با اتاق اصناف ایران و سامانه‌های ملی',$systemsUrl], ['رویدادها','نشست‌ها، نمایشگاه‌ها و جلسات صنفی',$postsUrl], ['کمیسیون نظارت','پیگیری مصوبات و الزامات نظارتی',$commissionsUrl]],
     ];
 @endphp
 <div class="tab-panels" data-tab-panels="commissions">
@@ -346,7 +341,13 @@
 </div>
 <aside class="friend-list">
 <div class="friend-scroll-wrap">
-<ul><li>اتاق اصناف شهرستان گرگان؛ خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف</li><li>تلفن‌های ثبت‌شده در فهرست اتاق‌های اصناف ایران: ۰۱۷۳۲۱۵۲۹۱۲ و ۰۱۷۳۲۱۵۴۷۶۷</li><li>پیگیری امور اتحادیه‌ها و رسته‌های شغلی شهرستان گرگان</li><li>راهنمای صدور و تمدید پروانه کسب و تکمیل پرونده صنفی</li><li>ثبت و پیگیری شکایات، گزارش تخلف و امور بازرسی بازار</li><li>هماهنگی با اداره صنعت، معدن و تجارت و کمیسیون نظارت</li><li>اطلاع‌رسانی دوره‌های آموزش احکام تجارت و کسب‌وکار</li><li>همکاری با اتحادیه‌های صنفی و دستگاه‌های اجرایی شهرستان</li><li>پیگیری مصوبات کمیسیون نظارت و طرح‌های بازرسی</li><li>پاسخگویی به مراجعان و فعالان صنفی گرگان</li></ul>
+<ul>
+@forelse($orgLinks ?? collect() as $link)
+<li><a href="{{ $link->url ?: '#' }}" target="{{ $link->target ?? '_self' }}" class="text-decoration-none" @if(($link->target ?? '_self') === '_blank') rel="noopener" @endif>@if($link->icon)<span>{{ $link->icon }}</span>@endif <strong>{{ $link->title }}</strong>@if($link->description)<small>{{ $link->description }}</small>@endif</a></li>
+@empty
+<li><a href="{{ $contactUrl }}">اتاق اصناف شهرستان گرگان؛ مشاهده اطلاعات تماس و راهنمای مراجعه</a></li>
+@endforelse
+</ul>
 </div>
 </aside>
 </div>
