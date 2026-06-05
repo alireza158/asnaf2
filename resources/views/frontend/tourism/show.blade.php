@@ -147,13 +147,8 @@ $isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
       <div class="admin-panel-card mt-4">
         <h3>گالری تصاویر</h3>
         <div class="tourism-gallery-grid" data-gallery-group="tourism-place-{{ $place->id }}">
-          @forelse (collect($place->gallery ?? [])->sortBy('sort_order') as $image)
-            @php
-              $path = is_array($image) ? ($image['path'] ?? $image['image'] ?? '') : $image;
-              $caption = is_array($image) ? ($image['caption'] ?? $place->title) : $place->title;
-              $imageUrl = filled($path) ? (Str::startsWith($path, ['http://', 'https://', '/']) ? $path : (Str::startsWith($path, 'assets/') ? asset($path) : Storage::url($path))) : asset('assets/img/asnaf-gorgan-default.jpg');
-            @endphp
-            <div class="tourism-gallery-item" data-gallery-item="{{ $imageUrl }}"><img src="{{ $imageUrl }}" alt="{{ $caption }}" loading="lazy"/></div>
+          @forelse ($place->gallery_items as $image)
+            <div class="tourism-gallery-item" data-gallery-item="{{ $image['url'] }}"><img src="{{ $image['url'] }}" alt="{{ $image['caption'] }}" loading="lazy"/></div>
           @empty
             <div class="tourism-gallery-item" data-gallery-item="{{ $place->home_image_url }}"><img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/></div>
           @endforelse
@@ -213,4 +208,14 @@ $isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
 
 
 @endif
+@endsection
+
+@section('after_footer')
+<div class="lightbox">
+  <button class="lightbox-close" aria-label="بستن">✕</button>
+  <button class="lightbox-nav lightbox-prev" aria-label="قبلی">‹</button>
+  <button class="lightbox-nav lightbox-next" aria-label="بعدی">›</button>
+  <img class="lightbox-img" src="" alt="تصویر بزرگ"/>
+  <div class="lightbox-counter"></div>
+</div>
 @endsection

@@ -28,9 +28,9 @@
                 @forelse (($heroPosts ?? $importantPosts ?? collect()) as $post)
                     <article class="news-card news-card-main swiper-slide">
                         <a href="{{ route('posts.show', $post->slug) }}">
-                            <img alt="{{ $post->title }}" src="{{ $imageUrl($post->featured_image) }}" loading="lazy"/>
+                            <img alt="{{ $post->title }}" src="{{ $post->featured_image_url }}" loading="lazy"/>
                             <div class="news-overlay"></div>
-                            <div class="news-content"><span class="news-kicker">{{ $post->category?->title ?: 'خبر مهم' }}</span><h1>{{ $post->title }}</h1></div>
+                            <div class="news-content"><span class="news-kicker">{{ $post->category_title }}</span><h1>{{ $post->title }}</h1></div>
                         </a>
                     </article>
                 @empty

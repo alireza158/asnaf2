@@ -60,19 +60,7 @@ class TourismPlace extends Model
     {
         $image = $this->image ?: $this->featured_image;
 
-        if (! $image) {
-            return asset('assets/img/asnaf-gorgan-default.jpg');
-        }
-
-        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
-            return $image;
-        }
-
-        if (Str::startsWith($image, ['assets/'])) {
-            return asset($image);
-        }
-
-        return Storage::url($image);
+        return $this->resolveImageUrl($image);
     }
 
     public function getHomeDescriptionAttribute(): string
@@ -88,6 +76,37 @@ class TourismPlace extends Model
     public function getHomeLocationAttribute(): string
     {
         return $this->location ?: (string) $this->address;
+    }
+
+
+    public function getGalleryItemsAttribute(): array
+    {
+        return collect($this->gallery ?? [])->map(function ($image) {
+            $path = is_array($image) ? ($image['path'] ?? $image['image'] ?? null) : $image;
+            $caption = is_array($image) ? ($image['caption'] ?? $this->title) : $this->title;
+
+            return [
+                'url' => $this->resolveImageUrl($path),
+                'caption' => $caption ?: $this->title,
+            ];
+        })->values()->all();
+    }
+
+    private function resolveImageUrl(?string $image): string
+    {
+        if (! $image) {
+            return asset('assets/img/asnaf-gorgan-default.jpg');
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, ['assets/'])) {
+            return asset($image);
+        }
+
+        return Storage::url($image);
     }
 
     public function category(): BelongsTo

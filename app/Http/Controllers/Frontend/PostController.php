@@ -19,17 +19,16 @@ class PostController extends Controller
 
         $posts = Post::query()
             ->published()
-            ->with(['category', 'union'])
+            ->with(['category', 'union', 'galleries'])
+            ->withCount('galleries')
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->where('title', 'like', "%{$search}%")
                 ->orWhere('excerpt', 'like', "%{$search}%")
                 ->orWhere('body', 'like', "%{$search}%")))
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($unionId, fn ($query) => $query->where('union_id', $unionId))
-            ->orderByDesc('is_important')
             ->orderByDesc('published_at')
-            ->paginate(12)
-            ->withQueryString();
+            ->get();
 
         return view('frontend.posts.index', [
             'posts' => $posts,
@@ -47,6 +46,7 @@ class PostController extends Controller
             ->published()
             ->where('slug', $slug)
             ->with(['category', 'union', 'author', 'galleries'])
+            ->withCount('galleries')
             ->firstOrFail();
 
         $post->increment('views_count');
@@ -55,11 +55,25 @@ class PostController extends Controller
         $relatedPosts = Post::query()
             ->published()
             ->whereKeyNot($post->id)
+            ->with(['category', 'galleries'])
+            ->withCount('galleries')
             ->when($post->category_id, fn ($query) => $query->where('category_id', $post->category_id))
-            ->latest('published_at')
-            ->take(3)
+            ->orderByDesc('published_at')
+            ->take(5)
             ->get();
 
-        return view('frontend.posts.show', compact('post', 'relatedPosts'));
+        $previousPost = Post::query()
+            ->published()
+            ->where('published_at', '<', $post->published_at)
+            ->orderByDesc('published_at')
+            ->first();
+
+        $nextPost = Post::query()
+            ->published()
+            ->where('published_at', '>', $post->published_at)
+            ->orderBy('published_at')
+            ->first();
+
+        return view('frontend.posts.show', compact('post', 'relatedPosts', 'previousPost', 'nextPost'));
     }
 }

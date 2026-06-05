@@ -1,4 +1,86 @@
 <?php
+
 namespace Database\Seeders;
-use App\Models\GuildUnion;use App\Models\Post;use App\Models\PostCategory;use App\Models\PostGallery;use App\Models\User;use Illuminate\Database\Seeder;
-class PostSeeder extends Seeder{public function run():void{$admin=User::first();$cat=PostCategory::firstOrCreate(['slug'=>'guild-news'],['title'=>'اخبار اصناف','is_active'=>true]);$unions=GuildUnion::all()->values();$titles=['نشست هیئت رئیسه اتاق اصناف گرگان برگزار شد','اطلاعیه مهم درباره تمدید پروانه کسب','آغاز دوره آموزشی احکام تجارت برای واحدهای صنفی','بازدید از واحدهای صنفی سطح شهر گرگان','جلسه مشترک اتحادیه‌ها با مدیرکل برگزار شد','طرح نظارت ویژه بازار گرگان آغاز شد','تقدیر از پیشکسوتان اصناف شهرستان گرگان','راه‌اندازی میز خدمت الکترونیک اتاق اصناف','بررسی مشکلات واحدهای صنفی در کمیسیون نظارت','اطلاع‌رسانی درباره سامانه نوین اصناف','همایش آموزشی حقوق مصرف‌کننده برگزار شد','بازرسی مشترک از بازار نعلبندان انجام شد','برنامه‌ریزی هفته اصناف در گرگان','گزارش عملکرد اتحادیه‌های فعال منتشر شد','فراخوان تکمیل اطلاعات واحدهای صنفی'];foreach($titles as $i=>$title){$post=Post::updateOrCreate(['slug'=>'gorgan-news-'.($i+1)],['title'=>$title,'excerpt'=>'خلاصه خبر درباره فعالیت‌ها، خدمات و رویدادهای اتاق اصناف شهرستان گرگان.','body'=>'<p>این خبر نمونه با محتوای فارسی برای تست آرشیو، جزئیات، فیلترها و نمایش داده‌های واقعی از پایگاه داده ایجاد شده است.</p><p>مدیر سامانه می‌تواند متن کامل خبر را از پنل مدیریت ویرایش کند.</p>','featured_image'=>'assets/img/asnaf-gorgan-default.jpg','category_id'=>$cat->id,'union_id'=>$unions->isNotEmpty()?$unions[$i%$unions->count()]->id:null,'type'=>'news','is_important'=>$i<5,'is_featured'=>$i<3,'views_count'=>100+$i*23,'status'=>'published','published_at'=>now()->subDays($i),'created_by'=>$admin?->id,'approved_by'=>$admin?->id,'sort_order'=>$i+1,'is_active'=>true]);for($g=1;$g<=3;$g++){PostGallery::updateOrCreate(['post_id'=>$post->id,'sort_order'=>$g],['image'=>'assets/img/asnaf-gorgan-default.jpg','caption'=>'تصویر خبر '.$g]);}}foreach([1,2,3] as $i){Post::updateOrCreate(['slug'=>'pending-news-'.$i],['title'=>'خبر در انتظار تایید '.$i,'excerpt'=>'برای تست وضعیت pending','body'=>'<p>خبر آزمایشی در انتظار تایید.</p>','category_id'=>$cat->id,'status'=>'pending','published_at'=>null,'created_by'=>$admin?->id,'sort_order'=>100+$i,'is_active'=>true]);}}}
+
+use App\Models\GuildUnion;
+use App\Models\Post;
+use App\Models\PostCategory;
+use App\Models\PostGallery;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+
+class PostSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $admin = User::first();
+        $newsCategory = PostCategory::firstOrCreate(['slug' => 'guild-news'], ['title' => 'اخبار اصناف', 'is_active' => true]);
+        $educationCategory = PostCategory::firstOrCreate(['slug' => 'guild-education'], ['title' => 'آموزش اصناف', 'is_active' => true]);
+        $unions = GuildUnion::all()->values();
+
+        $posts = [
+            ['نشست هیئت رئیسه اتاق اصناف گرگان برگزار شد', $newsCategory->id, 'news', true],
+            ['اطلاعیه مهم درباره تمدید پروانه کسب', $newsCategory->id, 'announcement', true],
+            ['آغاز دوره آموزشی احکام تجارت برای واحدهای صنفی', $educationCategory->id, 'article', true],
+            ['ویدیو راهنمای ثبت درخواست در سامانه نوین اصناف', $educationCategory->id, 'video', true],
+            ['بازدید از واحدهای صنفی سطح شهر گرگان', $newsCategory->id, 'news', true],
+            ['جلسه مشترک اتحادیه‌ها با مدیرکل برگزار شد', $newsCategory->id, 'news', true],
+            ['طرح نظارت ویژه بازار گرگان آغاز شد', $newsCategory->id, 'news', false],
+            ['تقدیر از پیشکسوتان اصناف شهرستان گرگان', $newsCategory->id, 'news', true],
+            ['راه‌اندازی میز خدمت الکترونیک اتاق اصناف', $educationCategory->id, 'article', false],
+            ['گزارش ویدیویی از نمایشگاه توانمندی‌های اصناف', $newsCategory->id, 'video', true],
+            ['بررسی مشکلات واحدهای صنفی در کمیسیون نظارت', $newsCategory->id, 'news', false],
+            ['اطلاع‌رسانی درباره سامانه نوین اصناف', $educationCategory->id, 'article', false],
+        ];
+
+        foreach ($posts as $index => [$title, $categoryId, $type, $hasGallery]) {
+            $post = Post::updateOrCreate(
+                ['slug' => 'gorgan-news-'.($index + 1)],
+                [
+                    'title' => $title,
+                    'excerpt' => 'خلاصه فارسی '.$title.' برای نمایش در کارت‌های صفحه اصلی، آرشیو نوشته‌ها و بخش‌های خبری سایت.',
+                    'body' => '<p>'.$title.' به عنوان محتوای نمونه برای تست نمایش داینامیک نوشته‌ها از پایگاه داده ثبت شده است.</p><p>این متن شامل جزئیات خبر، توضیحات تکمیلی و اطلاعات قابل ویرایش توسط مدیر سامانه است.</p>',
+                    'featured_image' => 'assets/img/asnaf-gorgan-default.jpg',
+                    'category_id' => $categoryId,
+                    'union_id' => $unions->isNotEmpty() ? $unions[$index % $unions->count()]->id : null,
+                    'type' => $type,
+                    'is_important' => $index < 6,
+                    'is_featured' => $index < 4,
+                    'views_count' => 100 + ($index * 23),
+                    'status' => 'published',
+                    'published_at' => now()->subDays($index),
+                    'created_by' => $admin?->id,
+                    'approved_by' => $admin?->id,
+                    'sort_order' => $index + 1,
+                    'is_active' => true,
+                ]
+            );
+
+            if ($hasGallery) {
+                for ($galleryIndex = 1; $galleryIndex <= 3; $galleryIndex++) {
+                    PostGallery::updateOrCreate(
+                        ['post_id' => $post->id, 'sort_order' => $galleryIndex],
+                        ['image' => 'assets/img/asnaf-gorgan-default.jpg', 'caption' => 'تصویر '.$galleryIndex.' '.$title]
+                    );
+                }
+            }
+        }
+
+        foreach ([1, 2, 3] as $index) {
+            Post::updateOrCreate(
+                ['slug' => 'pending-news-'.$index],
+                [
+                    'title' => 'خبر در انتظار تایید '.$index,
+                    'excerpt' => 'برای تست وضعیت pending',
+                    'body' => '<p>خبر آزمایشی در انتظار تایید.</p>',
+                    'category_id' => $newsCategory->id,
+                    'status' => 'pending',
+                    'published_at' => null,
+                    'created_by' => $admin?->id,
+                    'sort_order' => 100 + $index,
+                    'is_active' => true,
+                ]
+            );
+        }
+    }
+}

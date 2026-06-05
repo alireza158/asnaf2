@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
     use HasFactory;
 
-    public const TYPES = ['news', 'article', 'announcement'];
+    public const TYPES = ['news', 'article', 'announcement', 'video'];
     public const STATUSES = ['draft', 'pending', 'approved', 'rejected', 'published', 'archived'];
     public const LIMITED_STATUSES = ['draft', 'pending'];
 
@@ -49,6 +51,51 @@ class Post extends Model
             'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];
+    }
+
+
+    public function getShortDescriptionAttribute(): ?string
+    {
+        return $this->excerpt;
+    }
+
+    public function getDescriptionAttribute(): ?string
+    {
+        return $this->body;
+    }
+
+    public function getSummaryAttribute(): string
+    {
+        return $this->excerpt ?: Str::limit(strip_tags((string) $this->body), 120);
+    }
+
+    public function getCategoryTitleAttribute(): string
+    {
+        return $this->category?->title ?: 'عمومی';
+    }
+
+    public function getFeaturedImageUrlAttribute(): string
+    {
+        $image = $this->featured_image;
+
+        if (! $image) {
+            return asset('assets/img/asnaf-gorgan-default.jpg');
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, ['assets/'])) {
+            return asset($image);
+        }
+
+        return Storage::url($image);
+    }
+
+    public function getHasGalleryBadgeAttribute(): bool
+    {
+        return $this->relationLoaded('galleries') ? $this->galleries->isNotEmpty() : $this->galleries()->exists();
     }
 
     public function category(): BelongsTo
