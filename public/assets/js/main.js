@@ -233,7 +233,11 @@
 
         qsa('input[type="search"]', panelWrap).forEach((input) => {
           input.value = '';
-          filterList(input, '');
+          if (input.hasAttribute('data-union-search-url')) {
+            fetchUnionResults(input, '');
+          } else {
+            filterList(input, '');
+          }
         });
       }
     });
@@ -249,8 +253,111 @@
     });
   }
 
+  const unionSearchTimers = new WeakMap();
+  const unionSearchControllers = new WeakMap();
+
+  function renderUnionResults(input, items) {
+    const area = input.closest('[data-search-area]') || input.closest('section') || document;
+    const list = qs('[data-union-results]', area);
+    if (!list) return;
+
+    list.innerHTML = '';
+
+    if (!items.length) {
+      const item = document.createElement('li');
+      const avatar = document.createElement('span');
+      const content = document.createElement('div');
+      const title = document.createElement('strong');
+      const description = document.createElement('small');
+
+      avatar.className = 'person-avatar avatar-1';
+      title.textContent = 'اتحادیه‌ای یافت نشد';
+      description.textContent = 'عبارت دیگری را برای جستجو وارد کنید.';
+      content.append(title, description);
+      item.append(avatar, content);
+      list.appendChild(item);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    items.forEach((union) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      const avatar = document.createElement('span');
+      const content = document.createElement('div');
+      const title = document.createElement('strong');
+      const description = document.createElement('small');
+
+      link.href = union.url;
+      link.className = 'd-flex align-items-center gap-2 text-decoration-none';
+      avatar.className = `person-avatar ${union.avatar_class || 'avatar-1'}`;
+      title.textContent = union.title || '';
+      description.textContent = union.description || '';
+      content.append(title, description);
+      link.append(avatar, content);
+      item.appendChild(link);
+      fragment.appendChild(item);
+    });
+
+    list.appendChild(fragment);
+  }
+
+  function fetchUnionResults(input, query) {
+    const endpoint = input.getAttribute('data-union-search-url');
+    if (!endpoint || !window.fetch) {
+      filterList(input, query);
+      return;
+    }
+
+    const previousController = unionSearchControllers.get(input);
+    if (previousController) previousController.abort();
+
+    const controller = new AbortController();
+    unionSearchControllers.set(input, controller);
+
+    const url = new URL(endpoint, window.location.origin);
+    url.searchParams.set('q', query || '');
+    const type = input.getAttribute('data-union-type');
+    if (type) url.searchParams.set('type', type);
+
+    input.setAttribute('aria-busy', 'true');
+
+    fetch(url.toString(), {
+      headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      signal: controller.signal
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Union search request failed.');
+        return response.json();
+      })
+      .then((data) => renderUnionResults(input, Array.isArray(data.items) ? data.items : []))
+      .catch((error) => {
+        if (error.name !== 'AbortError') filterList(input, query);
+      })
+      .finally(() => {
+        if (unionSearchControllers.get(input) === controller) {
+          unionSearchControllers.delete(input);
+          input.removeAttribute('aria-busy');
+        }
+      });
+  }
+
+  function debounceUnionSearch(input) {
+    const previousTimer = unionSearchTimers.get(input);
+    if (previousTimer) window.clearTimeout(previousTimer);
+
+    const timer = window.setTimeout(() => fetchUnionResults(input, input.value), 250);
+    unionSearchTimers.set(input, timer);
+  }
+
   qsa('[data-filter-input]').forEach((input) => {
-    input.addEventListener('input', () => filterList(input, input.value));
+    input.addEventListener('input', () => {
+      if (input.hasAttribute('data-union-search-url')) {
+        debounceUnionSearch(input);
+      } else {
+        filterList(input, input.value);
+      }
+    });
   });
 
   qsa('[data-global-filter]').forEach((input) => {

@@ -8,9 +8,9 @@
         </div>
         <div class="tab-panels" data-tab-panels="representatives">
             @foreach([
-                'rep-production' => ['title' => 'اتحادیه‌های تولیدی شهرستان گرگان', 'alt' => 'اتحادیه‌های تولیدی', 'items' => $productionUnions ?? collect()],
-                'rep-distribution' => ['title' => 'اتحادیه‌های توزیعی شهرستان گرگان', 'alt' => 'اتحادیه‌های توزیعی', 'items' => $distributionUnions ?? collect()],
-                'rep-service' => ['title' => 'اتحادیه‌های خدماتی شهرستان گرگان', 'alt' => 'اتحادیه‌های خدماتی', 'items' => $serviceUnions ?? collect()],
+                'rep-production' => ['title' => 'اتحادیه‌های تولیدی شهرستان گرگان', 'alt' => 'اتحادیه‌های تولیدی', 'type' => 'production', 'items' => $productionUnions ?? collect()],
+                'rep-distribution' => ['title' => 'اتحادیه‌های توزیعی شهرستان گرگان', 'alt' => 'اتحادیه‌های توزیعی', 'type' => 'distribution', 'items' => $distributionUnions ?? collect()],
+                'rep-service' => ['title' => 'اتحادیه‌های خدماتی شهرستان گرگان', 'alt' => 'اتحادیه‌های خدماتی', 'type' => 'service', 'items' => $serviceUnions ?? collect()],
             ] as $panel => $data)
                 <div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
                     <div class="representative-layout">
@@ -22,11 +22,11 @@
                         <aside class="people-panel" data-search-area>
                             <div class="searchbox">
                                 <span class="search-icon"></span>
-                                <input data-filter-input placeholder="جستجوی سریع اتحادیه..." type="search">
+                                <input data-filter-input data-union-search-url="{{ route('guilds.search') }}" data-union-type="{{ $data['type'] }}" placeholder="جستجوی سریع اتحادیه..." type="search">
                             </div>
 
                             <div class="people-scroll-wrap">
-                                <ul class="person-list">
+                                <ul class="person-list" data-union-results>
                                     @forelse($data['items'] as $union)
                                         <li>
                                             <a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none">

@@ -225,6 +225,7 @@ class HomeController extends Controller
         return GuildUnion::query()
             ->active()
             ->where('union_type', $type)
+            ->orderBy('sort_order')
             ->orderBy('title')
             ->take(10)
             ->get();
