@@ -43,7 +43,7 @@
                         <td>{{ $gallery->union?->display_title ?: 'عمومی' }}</td>
                         <td>{{ $gallery->images_count }}</td>
                         <td><span class="admin-status-badge status-{{ $gallery->status }}">{{ $gallery->status_label }}</span><br><small>{{ $gallery->is_active ? 'فعال' : 'غیرفعال' }}</small></td>
-                        <td>{{ $gallery->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($gallery->published_at) ?: '—' }}</td>
                         <td>{{ $gallery->sort_order }}</td>
                         <td>
                             <div class="admin-actions">

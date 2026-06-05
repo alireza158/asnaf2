@@ -6,11 +6,8 @@
 
 @section('content')
 <main>
-    @forelse ($sections as $section)
+    @foreach ($sections as $section)
         @includeIf('frontend.home.sections.'.$section->key, ['section' => $section])
-    @empty
-        @include('frontend.home.sections.hero_slider', ['section' => new \App\Models\HomeSection(['title' => 'اتاق اصناف شهرستان گرگان'])])
-        @include('frontend.home.sections.electronic_services', ['section' => new \App\Models\HomeSection(['title' => 'خدمات الکترونیک صنفی'])])
-    @endforelse
+    @endforeach
 </main>
 @endsection

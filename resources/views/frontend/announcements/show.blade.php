@@ -25,10 +25,10 @@
             <div class="single-post-body">
                 <div class="post-meta">
                     <span>{{ $announcement->category?->title ?: 'اطلاعیه' }}</span>
-                    <span>{{ $announcement->published_at?->format('Y/m/d') }}</span>
+                    <span>{{ jalali_date($announcement->published_at) }}</span>
                     @if ($announcement->union)<span>{{ $announcement->union->name }}</span>@endif
                     @if ($announcement->is_important)<span>اطلاعیه مهم</span>@endif
-                    @if ($announcement->expires_at)<span>مهلت: {{ $announcement->expires_at->format('Y/m/d') }}</span>@endif
+                    @if ($announcement->expires_at)<span>مهلت: {{ jalali_date($announcement->expires_at) }}</span>@endif
                 </div>
 
                 @if ($announcement->excerpt)
@@ -53,8 +53,8 @@
                 <ul>
                     <li>دسته‌بندی: {{ $announcement->category?->title ?: 'بدون دسته‌بندی' }}</li>
                     <li>اتحادیه: {{ $announcement->union?->name ?: 'اطلاعیه عمومی' }}</li>
-                    <li>شروع نمایش: {{ $announcement->starts_at?->format('Y/m/d H:i') ?: 'بدون محدودیت' }}</li>
-                    <li>انقضا: {{ $announcement->expires_at?->format('Y/m/d H:i') ?: 'بدون انقضا' }}</li>
+                    <li>شروع نمایش: {{ jalali_datetime($announcement->starts_at) ?: 'بدون محدودیت' }}</li>
+                    <li>انقضا: {{ jalali_datetime($announcement->expires_at) ?: 'بدون انقضا' }}</li>
                 </ul>
             </div>
 

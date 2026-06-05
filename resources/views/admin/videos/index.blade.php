@@ -49,7 +49,7 @@
                         <td>{{ $video->type_label }}</td>
                         <td>{{ $video->union?->display_title ?: 'عمومی' }}</td>
                         <td><span class="admin-status-badge status-{{ $video->status }}">{{ $video->status_label }}</span><br><small>{{ $video->is_active ? 'فعال' : 'غیرفعال' }}</small></td>
-                        <td>{{ $video->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($video->published_at) ?: '—' }}</td>
                         <td>{{ $video->sort_order }}</td>
                         <td>
                             <div class="admin-actions">

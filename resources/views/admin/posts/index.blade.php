@@ -42,7 +42,7 @@
                         <td>{{ $post->type }}</td>
                         <td><span class="admin-status-badge status-{{ $post->status }}">{{ $post->status }}</span></td>
                         <td>{{ number_format($post->views_count) }}</td>
-                        <td>{{ $post->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($post->published_at) ?: '—' }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.posts.show', $post) }}">مشاهده</a>

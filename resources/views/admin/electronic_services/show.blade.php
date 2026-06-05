@@ -19,7 +19,7 @@
                 <div class="col-md-6"><strong>دسته‌بندی:</strong><p>{{ $service->category?->title ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>نوع لینک:</strong><p>{{ $service->link_type_label }}</p></div>
                 <div class="col-md-6"><strong>وضعیت:</strong><p>{{ $service->status_label }}</p></div>
-                <div class="col-md-6"><strong>انتشار:</strong><p>{{ $service->published_at?->format('Y/m/d H:i') ?: '—' }}</p></div>
+                <div class="col-md-6"><strong>انتشار:</strong><p>{{ jalali_datetime($service->published_at) ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>فعال:</strong><p>{{ $service->is_active ? 'بله' : 'خیر' }}</p></div>
                 <div class="col-md-6"><strong>Target:</strong><p dir="ltr">{{ $service->target }} ({{ $service->target_label }})</p></div>
                 <div class="col-md-6"><strong>ترتیب:</strong><p>{{ $service->sort_order }}</p></div>

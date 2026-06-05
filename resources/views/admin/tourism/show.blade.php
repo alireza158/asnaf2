@@ -20,7 +20,7 @@
                 <div class="col-md-6"><strong>دسته‌بندی:</strong><p>{{ $place->category?->title ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>وضعیت:</strong><p>{{ $place->status_label }}</p></div>
                 <div class="col-md-6"><strong>فعال:</strong><p>{{ $place->is_active ? 'بله' : 'خیر' }}</p></div>
-                <div class="col-md-6"><strong>تاریخ انتشار:</strong><p>{{ $place->published_at?->format('Y/m/d H:i') ?: '—' }}</p></div>
+                <div class="col-md-6"><strong>تاریخ انتشار:</strong><p>{{ jalali_datetime($place->published_at) ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>ترتیب نمایش:</strong><p>{{ $place->sort_order }}</p></div>
                 <div class="col-md-6"><strong>ایجادکننده:</strong><p>{{ $place->creator?->name ?: '—' }}</p></div>
                 <div class="col-md-6"><strong>تأییدکننده:</strong><p>{{ $place->approver?->name ?: '—' }}</p></div>

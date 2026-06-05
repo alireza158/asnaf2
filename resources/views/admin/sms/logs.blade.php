@@ -48,7 +48,7 @@
                         <td>{{ $log->recipient_count }}</td>
                         <td><span class="admin-status-badge status-{{ $log->status }}">{{ $log->status_label }}</span></td>
                         <td>{{ $log->sender?->name ?: '—' }}</td>
-                        <td>{{ $log->created_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($log->created_at) ?: '—' }}</td>
                         <td><a href="{{ route('admin.sms.show', $log) }}">جزئیات</a></td>
                     </tr>
                 @empty

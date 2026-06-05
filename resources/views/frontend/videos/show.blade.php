@@ -37,7 +37,7 @@
       </div>
       <div class="video-single-body">
         <div class="video-meta">
-          <span>📅 {{ $video->published_at?->format('Y/m/d') ?: $video->created_at?->format('Y/m/d') }}</span>
+          <span>📅 {{ jalali_date($video->published_at) ?: jalali_date($video->created_at) }}</span>
           <span>🏢 {{ $video->union?->display_title ?: 'عمومی' }}</span>
           <span>🎬 {{ $video->type_label }}</span>
         </div>

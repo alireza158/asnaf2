@@ -115,3 +115,48 @@ function serializeMenuList(list) {
         };
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const jalaliInputs = document.querySelectorAll('[data-jalali-datepicker]');
+
+    jalaliInputs.forEach((input) => {
+        const dateOnly = input.hasAttribute('data-jalali-date-only');
+        input.setAttribute('dir', 'ltr');
+        input.setAttribute('inputmode', 'numeric');
+        input.setAttribute('placeholder', input.getAttribute('placeholder') || (dateOnly ? '1403/01/15' : '1403/01/15 10:30'));
+        input.classList.add('jalali-date-input');
+    });
+
+    if (!window.jQuery || !window.jQuery.fn || !window.jQuery.fn.persianDatepicker) {
+        return;
+    }
+
+    window.jQuery('[data-jalali-datepicker]').each(function initializeJalaliDatepicker() {
+        const input = window.jQuery(this);
+        const dateOnly = this.hasAttribute('data-jalali-date-only');
+
+        input.persianDatepicker({
+            autoClose: true,
+            calendar: {
+                persian: {
+                    locale: 'fa',
+                    showHint: true,
+                },
+            },
+            format: dateOnly ? 'YYYY/MM/DD' : 'YYYY/MM/DD HH:mm',
+            initialValue: false,
+            observer: true,
+            timePicker: {
+                enabled: !dateOnly,
+                meridiem: {
+                    enabled: false,
+                },
+            },
+            toolbox: {
+                calendarSwitch: {
+                    enabled: false,
+                },
+            },
+        });
+    });
+});

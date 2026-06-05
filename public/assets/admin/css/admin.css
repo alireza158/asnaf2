@@ -803,3 +803,9 @@ body {
 .status-rejected { background: #fef2f2; color: #dc2626; }
 .status-published { background: #ecfdf5; color: #047857; }
 .status-archived { background: #f8fafc; color: #64748b; }
+
+.jalali-date-input {
+    direction: ltr;
+    text-align: left;
+    font-family: Tahoma, Arial, sans-serif;
+}

@@ -1,10 +1,12 @@
+@if (($tourismPlaces ?? collect())->isNotEmpty())
 <section class="tourism-section" id="tourism">
     <div class="site-container">
         <div class="section-heading"><h2>{{ $section->title }}</h2><a class="tab-pill" href="{{ route('tourism.index') }}">مشاهده گردشگری</a></div>
         <div class="tourism-grid">
-            @foreach ([['طبیعت','جنگل النگدره','یکی از زیباترین جاذبه‌های طبیعی استان گلستان'],['تاریخی','برج گنبد قابوس','میراث جهانی یونسکو در استان گلستان'],['خرید','بازار بزرگ گرگان','مرکز خرید اصیل و سنتی گرگان'],['اقامت','مرکز خرید گلستان','مجتمع تجاری مدرن با خدمات رفاهی']] as [$badge, $title, $text])
-                <div class="tourism-card"><a href="{{ route('tourism.index') }}"><div class="tourism-img-wrap"><img alt="{{ $title }}" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/><div class="tourism-badge">{{ $badge }}</div></div><div class="tourism-card-body"><h3>{{ $title }}</h3><p>{{ $text }}</p></div></a></div>
+            @foreach ($tourismPlaces as $place)
+                <div class="tourism-card"><a href="{{ route('tourism.show', $place->slug) }}"><div class="tourism-img-wrap"><img alt="{{ $place->title }}" src="{{ $place->featured_image ? Storage::url($place->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}"/><div class="tourism-badge">{{ $place->category?->title ?: 'گردشگری' }}</div></div><div class="tourism-card-body"><h3>{{ $place->title }}</h3><p>{{ Str::limit($place->short_description ?: strip_tags($place->description), 100) }}</p></div></a></div>
             @endforeach
         </div>
     </div>
 </section>
+@endif

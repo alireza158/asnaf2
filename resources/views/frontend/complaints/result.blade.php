@@ -39,7 +39,7 @@
             <h2 class="h5 mb-3">پاسخ اتحادیه / مدیریت</h2>
             @if ($complaint->admin_response)
                 <p>{{ $complaint->admin_response }}</p>
-                <small class="text-muted">تاریخ پاسخ: {{ $complaint->answered_at?->format('Y/m/d H:i') ?: '—' }}</small>
+                <small class="text-muted">تاریخ پاسخ: {{ jalali_datetime($complaint->answered_at) ?: '—' }}</small>
             @else
                 <p class="mb-0 text-muted">هنوز پاسخی برای این شکایت ثبت نشده است.</p>
             @endif

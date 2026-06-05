@@ -51,8 +51,8 @@
                 <dt class="col-5">تعداد گیرندگان</dt><dd class="col-7">{{ $smsLog->recipient_count }}</dd>
                 <dt class="col-5">اتحادیه</dt><dd class="col-7">{{ $smsLog->union?->display_title ?: 'چند اتحادیه / عمومی' }}</dd>
                 <dt class="col-5">ارسال‌کننده</dt><dd class="col-7">{{ $smsLog->sender?->name ?: '—' }}</dd>
-                <dt class="col-5">زمان ارسال</dt><dd class="col-7">{{ $smsLog->sent_at?->format('Y/m/d H:i') ?: '—' }}</dd>
-                <dt class="col-5">زمان ثبت</dt><dd class="col-7">{{ $smsLog->created_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">زمان ارسال</dt><dd class="col-7">{{ jalali_datetime($smsLog->sent_at) ?: '—' }}</dd>
+                <dt class="col-5">زمان ثبت</dt><dd class="col-7">{{ jalali_datetime($smsLog->created_at) ?: '—' }}</dd>
             </dl>
         </div>
     </div>
