@@ -2,8 +2,6 @@
 
 @section('title', $gallery->title.' | اتاق اصناف شهرستان گرگان')
 @section('meta_description', Str::limit(strip_tags($gallery->description), 160))
-@section('frontend_variant', 'compact')
-@section('compact_show_tourism_nav', 'false')
 @section('footer_links_variant', 'gallery-detail')
 
 @section('content')

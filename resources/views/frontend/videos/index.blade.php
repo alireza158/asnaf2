@@ -2,7 +2,6 @@
 
 @section('title', 'آرشیو ویدیوها | اتاق اصناف شهرستان گرگان')
 @section('meta_description', 'آرشیو ویدیوهای آموزشی، خبری و گزارش‌های تصویری اتاق اصناف شهرستان گرگان')
-@section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 
 @section('content')
@@ -47,6 +46,6 @@
     @endforelse
   </div>
 
-  <div class="mt-4">{{ $videos->links() }}</div>
+  {{ $videos->links('frontend.partials.pagination') }}
 </section>
 @endsection

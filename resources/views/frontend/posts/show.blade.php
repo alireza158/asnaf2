@@ -18,19 +18,23 @@
     </div>
 </div>
 
-<main class="single-post-page">
+<main>
     <div class="site-container single-post-layout">
         <article class="single-post-article">
             <img class="post-featured-img" src="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $post->title }}">
 
             <div class="single-post-body">
                 <div class="post-meta">
-                    <span>{{ $post->category?->title ?: 'اخبار' }}</span>
-                    <span>{{ jalali_date($post->published_at) }}</span>
-                    <span>{{ number_format($post->views_count) }} بازدید</span>
-                    @if ($post->union)<span>{{ $post->union->name }}</span>@endif
-                    @if ($post->is_important)<span>خبر مهم</span>@endif
+                    <span>تاریخ انتشار: {{ jalali_date($post->published_at) }}</span>
+                    <span class="dot"></span>
+                    <span>دسته‌بندی: {{ $post->category?->title ?: 'اخبار' }}</span>
+                    <span class="dot"></span>
+                    <span>بازدید: {{ number_format($post->views_count) }}</span>
+                    @if ($post->union)<span class="dot"></span><span>{{ $post->union->name }}</span>@endif
+                    @if ($post->is_important)<span class="dot"></span><span>خبر مهم</span>@endif
                 </div>
+
+                <h1>{{ $post->title }}</h1>
 
                 @if ($post->excerpt)
                     <div class="post-excerpt">{{ $post->excerpt }}</div>
@@ -42,7 +46,7 @@
 
                 @if ($post->galleries->isNotEmpty())
                     <div class="post-gallery" data-gallery-group="post-{{ $post->id }}">
-                        <h2>گالری تصاویر خبر</h2>
+                        <h3>گالری تصاویر</h3>
                         <div class="post-gallery-grid">
                             @foreach ($post->galleries as $gallery)
                                 <div class="post-gallery-item" data-gallery-item="{{ Storage::url($gallery->image) }}">
@@ -65,7 +69,7 @@
         <aside class="single-post-sidebar">
             <div class="sidebar-card">
                 <h3>اطلاعات خبر</h3>
-                <ul>
+                <ul class="sidebar-list">
                     <li>نوع محتوا: {{ $post->type }}</li>
                     <li>دسته‌بندی: {{ $post->category?->title ?: 'بدون دسته‌بندی' }}</li>
                     <li>اتحادیه: {{ $post->union?->name ?: 'خبر عمومی' }}</li>
@@ -75,7 +79,7 @@
             @if ($relatedPosts->isNotEmpty())
                 <div class="sidebar-card">
                     <h3>اخبار مرتبط</h3>
-                    <ul>
+                    <ul class="sidebar-list">
                         @foreach ($relatedPosts as $relatedPost)
                             <li><a href="{{ route('posts.show', $relatedPost->slug) }}">{{ $relatedPost->title }}</a></li>
                         @endforeach

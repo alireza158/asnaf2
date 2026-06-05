@@ -60,9 +60,7 @@
             @endforelse
         </div>
 
-        <div class="mt-4">
-            {{ $posts->links() }}
-        </div>
+        {{ $posts->links('frontend.partials.pagination') }}
     </div>
 </main>
 @endsection

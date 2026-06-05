@@ -2,8 +2,6 @@
 
 @section('title', 'گالری تصاویر | اتاق اصناف شهرستان گرگان')
 @section('meta_description', 'فهرست گالری تصاویر رویدادها، جلسات و فعالیت‌های اتاق اصناف شهرستان گرگان')
-@section('frontend_variant', 'compact')
-@section('compact_show_tourism_nav', 'false')
 @section('footer_links_variant', 'full')
 
 @section('content')
@@ -32,7 +30,7 @@
   <div class="gallery-albums-grid">
     @forelse ($galleries as $gallery)
       <a href="{{ route('galleries.show', $gallery->slug) }}" class="gallery-album-card">
-        <img class="gallery-album-img" src="{{ $gallery->cover_image ? Storage::url($gallery->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $gallery->title }}" loading="lazy"/>
+        <div class="gallery-album-img"><img src="{{ $gallery->cover_image ? Storage::url($gallery->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $gallery->title }}" loading="lazy"/></div>
         <div class="gallery-album-body">
           <h3>{{ $gallery->title }}</h3>
           <p>{{ Str::limit(strip_tags($gallery->description), 130) ?: 'گالری تصاویر اتاق اصناف شهرستان گرگان' }}</p>
@@ -47,6 +45,6 @@
     @endforelse
   </div>
 
-  <div class="mt-4">{{ $galleries->links() }}</div>
+  {{ $galleries->links('frontend.partials.pagination') }}
 </section>
 @endsection
