@@ -56,7 +56,11 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth
 
 Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+<<<<<<< codex/apply-full-site-updates-to-frontend-gooekr
+Route::get('/guilds/ajax-search', [FrontendUnionController::class, 'ajaxSearch'])->name('guilds.ajax-search');
+=======
 Route::get('/guilds/search', [FrontendUnionController::class, 'search'])->name('guilds.search');
+>>>>>>> main
 Route::get('/guilds/{union:slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [FrontendPostController::class, 'show'])->name('posts.show');

@@ -38,6 +38,40 @@ class UnionController extends Controller
         return view('frontend.guilds.index', compact('unions', 'search'));
     }
 
+<<<<<<< codex/apply-full-site-updates-to-frontend-gooekr
+
+    public function ajaxSearch(Request $request)
+    {
+        $search = trim((string) $request->query('q', ''));
+        $type = (string) $request->query('type', '');
+
+        $unions = GuildUnion::query()
+            ->active()
+            ->when($search === '' && in_array($type, [GuildUnion::TYPE_PRODUCTION, GuildUnion::TYPE_DISTRIBUTION, GuildUnion::TYPE_SERVICE], true), fn ($query) => $query->where('union_type', $type))
+            ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
+                ->where('title', 'like', "%{$search}%")
+                ->orWhere('name', 'like', "%{$search}%")
+                ->orWhere('manager_name', 'like', "%{$search}%")
+                ->orWhere('short_description', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")))
+            ->orderBy('title')
+            ->take(24)
+            ->get();
+
+        return response()->json([
+            'items' => $unions->values()->map(fn (GuildUnion $union, int $index) => [
+                'title' => $union->display_title,
+                'description' => $union->short_description ?: $union->manager_name ?: $union->union_type_label,
+                'url' => route('guilds.show', $union->slug),
+                'complaint_url' => route('complaints.create', $union->id),
+                'avatar_class' => 'avatar-'.(($index % 6) + 1),
+                'social_links' => $union->social_link_items,
+            ]),
+        ]);
+    }
+
+=======
+>>>>>>> main
     public function show(string $slug): View
     {
         $union = GuildUnion::query()
