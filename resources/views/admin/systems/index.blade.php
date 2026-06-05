@@ -49,7 +49,7 @@
                             <a class="admin-secondary-btn" href="{{ route('admin.systems.show', $system) }}">نمایش</a>
                             @if (request()->user()->hasPermission('systems.edit'))<a class="admin-secondary-btn" href="{{ route('admin.systems.edit', $system) }}">ویرایش</a>@endif
                             @if (request()->user()->hasPermission('systems.delete'))
-                                <form action="{{ route('admin.systems.destroy', $system) }}" method="POST" onsubmit="return confirm('این سامانه حذف شود؟')">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
+                                <form action="{{ route('admin.systems.destroy', $system) }}" method="POST">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
                             @endif
                         </div>
                     </td>

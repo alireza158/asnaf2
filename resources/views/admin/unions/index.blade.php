@@ -12,8 +12,13 @@
     <form class="admin-search-form" action="{{ route('admin.unions.index') }}" method="GET">
         <label class="form-label mb-0" for="search">جستجو</label>
         <input class="form-control" id="search" name="search" value="{{ $search }}" placeholder="عنوان، مدیر، تلفن یا ایمیل...">
-        <button class="admin-primary-btn" type="submit">جستجو</button>
-        @if ($search !== '')<a class="admin-secondary-btn" href="{{ route('admin.unions.index') }}">حذف جستجو</a>@endif
+        <select class="form-control" name="status" aria-label="فیلتر وضعیت">
+            <option value="">همه وضعیت‌ها</option>
+            <option value="active" @selected($status === 'active')>فعال</option>
+            <option value="inactive" @selected($status === 'inactive')>غیرفعال</option>
+        </select>
+        <button class="admin-primary-btn" type="submit">اعمال فیلتر</button>
+        @if ($search !== '' || $status !== '')<a class="admin-secondary-btn" href="{{ route('admin.unions.index') }}">حذف فیلتر</a>@endif
     </form>
 </div>
 
@@ -40,7 +45,7 @@
                             <div class="admin-actions">
                                 <a href="{{ route('admin.unions.show', $union) }}">مشاهده</a>
                                 <a href="{{ route('admin.unions.edit', $union) }}">ویرایش</a>
-                                <form action="{{ route('admin.unions.destroy', $union) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این اتحادیه حذف شود؟')">حذف</button></form>
+                                <form action="{{ route('admin.unions.destroy', $union) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                             </div>
                         </td>
                     </tr>

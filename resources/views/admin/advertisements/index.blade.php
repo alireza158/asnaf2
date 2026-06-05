@@ -55,7 +55,7 @@
                             <a class="admin-secondary-btn" href="{{ route('admin.advertisements.show', $advertisement) }}">نمایش</a>
                             @if (request()->user()->hasPermission('advertisements.edit'))<a class="admin-secondary-btn" href="{{ route('admin.advertisements.edit', $advertisement) }}">ویرایش</a>@endif
                             @if (request()->user()->hasPermission('advertisements.delete'))
-                                <form action="{{ route('admin.advertisements.destroy', $advertisement) }}" method="POST" onsubmit="return confirm('این تبلیغ حذف شود؟')">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
+                                <form action="{{ route('admin.advertisements.destroy', $advertisement) }}" method="POST">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
                             @endif
                         </div>
                     </td>

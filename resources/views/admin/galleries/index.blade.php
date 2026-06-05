@@ -50,7 +50,7 @@
                                 <a href="{{ route('admin.galleries.show', $gallery) }}">مشاهده</a>
                                 @if (request()->user()->hasPermission('galleries.edit'))<a href="{{ route('admin.galleries.edit', $gallery) }}">ویرایش</a>@endif
                                 @if (request()->user()->hasPermission('galleries.delete'))
-                                    <form action="{{ route('admin.galleries.destroy', $gallery) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این گالری حذف شود؟')">حذف</button></form>
+                                    <form action="{{ route('admin.galleries.destroy', $gallery) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                                 @endif
                             </div>
                         </td>

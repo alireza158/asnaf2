@@ -47,7 +47,7 @@
                             <div class="admin-actions">
                                 <a href="{{ route('admin.announcements.show', $announcement) }}">مشاهده</a>
                                 <a href="{{ route('admin.announcements.edit', $announcement) }}">ویرایش</a>
-                                <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این اطلاعیه حذف شود؟')">حذف</button></form>
+                                <form action="{{ route('admin.announcements.destroy', $announcement) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                             </div>
                         </td>
                     </tr>

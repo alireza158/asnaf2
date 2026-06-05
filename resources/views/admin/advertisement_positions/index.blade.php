@@ -40,7 +40,7 @@
                         <div class="admin-actions">
                             @if (request()->user()->hasPermission('advertisements.edit'))<a class="admin-secondary-btn" href="{{ route('admin.advertisement_positions.edit', $position) }}">ویرایش</a>@endif
                             @if (request()->user()->hasPermission('advertisements.delete'))
-                                <form action="{{ route('admin.advertisement_positions.destroy', $position) }}" method="POST" onsubmit="return confirm('این جایگاه و تبلیغات آن حذف شوند؟')">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
+                                <form action="{{ route('admin.advertisement_positions.destroy', $position) }}" method="POST">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
                             @endif
                         </div>
                     </td>

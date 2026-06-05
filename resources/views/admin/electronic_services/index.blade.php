@@ -44,7 +44,7 @@
                     <td><small dir="ltr">{{ $service->link ? Str::limit($service->link, 45) : $service->link_type_label }}</small></td>
                     <td>{{ $service->status_label }} / {{ $service->is_active ? 'فعال' : 'غیرفعال' }}</td>
                     <td>{{ $service->sort_order }}</td>
-                    <td><div class="admin-actions"><a class="admin-secondary-btn" href="{{ route('admin.electronic_services.show', $service) }}">نمایش</a>@if (request()->user()->hasPermission('electronic_services.edit'))<a class="admin-secondary-btn" href="{{ route('admin.electronic_services.edit', $service) }}">ویرایش</a>@endif @if (request()->user()->hasPermission('electronic_services.delete'))<form action="{{ route('admin.electronic_services.destroy', $service) }}" method="POST" onsubmit="return confirm('این خدمت حذف شود؟')">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>@endif</div></td>
+                    <td><div class="admin-actions"><a class="admin-secondary-btn" href="{{ route('admin.electronic_services.show', $service) }}">نمایش</a>@if (request()->user()->hasPermission('electronic_services.edit'))<a class="admin-secondary-btn" href="{{ route('admin.electronic_services.edit', $service) }}">ویرایش</a>@endif @if (request()->user()->hasPermission('electronic_services.delete'))<form action="{{ route('admin.electronic_services.destroy', $service) }}" method="POST">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>@endif</div></td>
                 </tr>
             @empty
                 <tr><td colspan="7" class="text-center text-muted">خدمت الکترونیکی ثبت نشده است.</td></tr>

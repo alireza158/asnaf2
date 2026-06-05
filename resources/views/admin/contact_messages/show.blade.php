@@ -11,7 +11,7 @@
     <div class="d-flex gap-2 flex-wrap">
         <a class="admin-secondary-btn" href="{{ route('admin.contact_messages.index') }}">بازگشت</a>
         @if (request()->user()->hasPermission('contact_messages.delete'))
-            <form action="{{ route('admin.contact_messages.destroy', $contactMessage) }}" method="POST" onsubmit="return confirm('این پیام حذف شود؟')">
+            <form action="{{ route('admin.contact_messages.destroy', $contactMessage) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button class="admin-danger-btn" type="submit">حذف پیام</button>
