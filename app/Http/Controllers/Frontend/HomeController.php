@@ -16,12 +16,13 @@ use App\Models\TourismPlace;
 use App\Models\Video;
 use App\Services\AdvertisementService;
 use App\Services\MenuService;
+use App\Services\SettingService;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(AdvertisementService $advertisements, MenuService $menus): View
+    public function index(AdvertisementService $advertisements, MenuService $menus, SettingService $settings): View
     {
         $sections = HomeSection::query()
             ->active()
@@ -152,16 +153,36 @@ class HomeController extends Controller
 
         $quickMenuItems = $this->hasSection($sections, 'quick_menu') ? $menus->items('quick') : collect();
 
+        $latestPosts = Post::query()
+            ->published()
+            ->with(['category', 'union'])
+            ->orderByDesc('published_at')
+            ->take(8)
+            ->get();
+        $announcements = $importantAnnouncements;
+        $unions = $homeUnions;
+        $videos = $latestVideos;
+        $advertisements = $homeAdvertisements;
+        $homeSections = $sections;
+        $quickMenu = $quickMenuItems;
+        $mainMenu = $menus->items('main');
+        $footerMenu = $menus->items('footer');
+        $siteSettings = $settings->all();
+
         return view('frontend.home', compact(
             'sections',
             'importantPosts',
+            'latestPosts',
             'heroPosts',
             'importantAnnouncements',
+            'announcements',
             'homeUnions',
+            'unions',
             'electronicServices',
             'galleries',
             'latestGalleries',
             'latestVideos',
+            'videos',
             'tourismPlaces',
             'tourismNature',
             'tourismHistoric',
@@ -170,7 +191,13 @@ class HomeController extends Controller
             'commissions',
             'congratulationMessages',
             'homeAdvertisements',
-            'quickMenuItems'
+            'advertisements',
+            'quickMenuItems',
+            'quickMenu',
+            'mainMenu',
+            'footerMenu',
+            'siteSettings',
+            'homeSections'
         ));
     }
 

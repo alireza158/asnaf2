@@ -22,7 +22,8 @@ class GalleryController extends Controller
                 ->orWhere('description', 'like', "%{$search}%")))
             ->orderBy('sort_order')
             ->latest('published_at')
-            ->get();
+            ->paginate(12)
+            ->withQueryString();
 
         return view('frontend.galleries.index', compact('galleries', 'search'));
     }

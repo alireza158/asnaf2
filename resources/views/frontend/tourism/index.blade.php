@@ -18,9 +18,9 @@
   <div class="site-container">
     <div class="tourism-intro-grid">
       <div class="tourism-intro-text">
-        <h2>به شهر گرگان خوش آمدید</h2>
-        <p>گرگان، مرکز استان گلستان، با پیشینه‌ای غنی از تاریخ و فرهنگ، یکی از مقاصد جذاب گردشگری در شمال ایران است. از جنگل‌های انبوه و آبشارهای خروشان گرفته تا بناهای تاریخی و بازارهای سنتی، گرگان پذیرای گردشگران و مسافران عزیز است.</p>
-        <p>اتاق اصناف شهرستان گرگان با همراهی اتحادیه‌های صنفی، همواره در خدمت فعالان حوزه گردشگری و مسافران محترم می‌باشد.</p>
+        <h2>{{ $tourismSettings['tourism.intro_title'] ?? 'به شهر گرگان خوش آمدید' }}</h2>
+        <p>{{ $tourismSettings['tourism.intro_text'] ?? 'گرگان با جاذبه‌های طبیعی، تاریخی و بازارهای متنوع، یکی از مقصدهای مهم گردشگری استان گلستان است.' }}</p>
+        <p>{{ $tourismSettings['tourism.intro_subtext'] ?? 'اتاق اصناف شهرستان گرگان با همراهی اتحادیه‌های صنفی، پشتیبان فعالان حوزه گردشگری و مسافران محترم است.' }}</p>
         <div class="tourism-stats">
           <div class="tourism-stat"><strong>{{ $places->count() }}</strong><span>جاذبه ثبت‌شده</span></div>
           <div class="tourism-stat"><strong>{{ $tourismNature->count() }}</strong><span>طبیعت‌گردی</span></div>
