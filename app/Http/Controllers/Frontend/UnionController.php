@@ -38,6 +38,7 @@ class UnionController extends Controller
         return view('frontend.guilds.index', compact('unions', 'search'));
     }
 
+<<<<<<< codex/apply-full-site-updates-to-frontend-gooekr
 
     public function ajaxSearch(Request $request)
     {
@@ -69,6 +70,8 @@ class UnionController extends Controller
         ]);
     }
 
+=======
+>>>>>>> main
     public function show(string $slug): View
     {
         $union = GuildUnion::query()
