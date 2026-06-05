@@ -1,13 +1,17 @@
 @php
     $frontendVariant = trim($__env->yieldContent('frontend_variant', 'classic')) ?: 'classic';
+    $siteSettings = app(\App\Services\SettingService::class);
+    $siteTitle = $siteSettings->get('site.site_title', 'اتاق اصناف شهرستان گرگان');
+    $metaTitle = $siteSettings->get('site.default_meta_title', $siteTitle);
+    $metaDescription = $siteSettings->get('site.default_meta_description', $siteSettings->get('site.site_description', ''));
 @endphp
 <!DOCTYPE html>
 <html dir="rtl" lang="fa">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>@yield('title', 'اتاق اصناف شهرستان گرگان')</title>
-<meta content="@yield('meta_description', '')" name="description"/>
+<title>@yield('title', $metaTitle)</title>
+<meta content="@yield('meta_description', $metaDescription)" name="description"/>
 @include('frontend.partials.styles')
 </head>
 <body>

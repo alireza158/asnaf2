@@ -17,10 +17,10 @@
 
 <section class="admin-stats-grid" aria-label="آمار کلی پنل مدیریت">
     <article class="admin-stat-card stat-warning">
-        <div class="admin-stat-icon">📰</div>
+        <div class="admin-stat-icon">✅</div>
         <div>
-            <span>اخبار در انتظار تایید</span>
-            <strong>۱۲</strong>
+            <span>محتواهای در انتظار تایید</span>
+            <strong>{{ $pendingApprovals->count() }}</strong>
         </div>
     </article>
 
@@ -51,8 +51,8 @@
     <article class="admin-stat-card stat-info">
         <div class="admin-stat-icon">☎️</div>
         <div>
-            <span>پیام‌های تماس</span>
-            <strong>۲۳</strong>
+            <span>پیام‌های تماس خوانده‌نشده</span>
+            <strong>{{ $unreadContactMessagesCount }}</strong>
         </div>
     </article>
 
@@ -77,6 +77,28 @@
             <li><span></span>بازبینی پیام‌های فرم تماس</li>
             <li><span></span>به‌روزرسانی اطلاعیه‌های صفحه اصلی</li>
         </ul>
+    </div>
+
+
+    <div class="admin-panel-card">
+        <div class="admin-panel-header">
+            <h3>محتواهای در انتظار تایید</h3>
+            <a href="{{ route('admin.pending_approvals.index') }}" class="btn btn-sm btn-outline-primary">مشاهده همه</a>
+        </div>
+        @if($pendingApprovals->isNotEmpty())
+            <div class="admin-status-list">
+                @foreach($pendingApprovals as $item)
+                    <div>
+                        <span>{{ $item['label'] }} - {{ $item['title'] }}</span>
+                        @if($item['show_url'])
+                            <a href="{{ $item['show_url'] }}" class="btn btn-sm btn-light">مشاهده</a>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-muted mb-0">در حال حاضر محتوایی برای تایید وجود ندارد.</p>
+        @endif
     </div>
 
     <div class="admin-panel-card">

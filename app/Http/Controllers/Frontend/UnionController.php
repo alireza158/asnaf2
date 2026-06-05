@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GuildUnion;
 use App\Models\Post;
 use App\Models\Announcement;
+use App\Models\CongratulationMessage;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -45,6 +46,10 @@ class UnionController extends Controller
             ? Announcement::query()->published()->where('union_id', $union->id)->latest('published_at')->take(6)->get()
             : collect();
 
-        return view('frontend.guilds.show', compact('union', 'posts', 'announcements'));
+        $congratulationMessages = $union->congratulations_enabled
+            ? CongratulationMessage::query()->forUnionPage()->where('union_id', $union->id)->orderBy('sort_order')->latest('published_at')->take(3)->get()
+            : collect();
+
+        return view('frontend.guilds.show', compact('union', 'posts', 'announcements', 'congratulationMessages'));
     }
 }

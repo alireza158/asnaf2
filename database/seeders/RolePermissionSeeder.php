@@ -15,29 +15,31 @@ class RolePermissionSeeder extends Seeder
 {
     /** @var array<int, string> */
     private array $basePermissions = [
-        'dashboard.view',
+        'dashboard.view', 'pending_approvals.view',
         'users.view', 'users.create', 'users.edit', 'users.delete',
         'roles.view', 'roles.create', 'roles.edit', 'roles.delete',
         'permissions.view', 'permissions.create', 'permissions.edit', 'permissions.delete',
         'menus.view', 'menus.create', 'menus.edit', 'menus.delete',
-        'pages.view', 'pages.create', 'pages.edit', 'pages.delete', 'pages.approve',
+        'pages.view', 'pages.create', 'pages.edit', 'pages.delete', 'pages.approve', 'pages.publish',
         'posts.view', 'posts.create', 'posts.edit', 'posts.delete', 'posts.approve', 'posts.publish',
         'announcements.view', 'announcements.create', 'announcements.edit', 'announcements.delete', 'announcements.approve', 'announcements.publish',
         'unions.view', 'unions.create', 'unions.edit', 'unions.delete',
         'union_members.view', 'union_members.create', 'union_members.edit', 'union_members.delete',
         'complaints.view', 'complaints.edit', 'complaints.reply', 'complaints.delete',
-        'galleries.view', 'galleries.create', 'galleries.edit', 'galleries.delete',
-        'videos.view', 'videos.create', 'videos.edit', 'videos.delete',
-        'tourism.view', 'tourism.create', 'tourism.edit', 'tourism.delete',
+        'galleries.view', 'galleries.create', 'galleries.edit', 'galleries.delete', 'galleries.approve', 'galleries.publish',
+        'videos.view', 'videos.create', 'videos.edit', 'videos.delete', 'videos.approve', 'videos.publish',
+        'tourism.view', 'tourism.create', 'tourism.edit', 'tourism.delete', 'tourism.approve', 'tourism.publish',
         'advertisements.view', 'advertisements.create', 'advertisements.edit', 'advertisements.delete',
-        'systems.view', 'systems.create', 'systems.edit', 'systems.delete',
-        'commissions.view', 'commissions.create', 'commissions.edit', 'commissions.delete',
+        'systems.view', 'systems.create', 'systems.edit', 'systems.delete', 'systems.approve', 'systems.publish',
+        'electronic_services.view', 'electronic_services.create', 'electronic_services.edit', 'electronic_services.delete', 'electronic_services.approve', 'electronic_services.publish',
+        'commissions.view', 'commissions.create', 'commissions.edit', 'commissions.delete', 'commissions.approve', 'commissions.publish',
         'home_sections.view', 'home_sections.edit',
         'header_settings.view', 'header_settings.edit',
         'footer_settings.view', 'footer_settings.edit',
         'sms.view', 'sms.send', 'sms.logs',
         'contact_messages.view', 'contact_messages.delete',
         'settings.view', 'settings.edit',
+        'services.approve', 'services.publish', 'congratulation_messages.view', 'congratulation_messages.create', 'congratulation_messages.edit', 'congratulation_messages.delete', 'congratulation_messages.approve', 'congratulation_messages.publish',
     ];
 
     public function run(): void
@@ -115,13 +117,14 @@ class RolePermissionSeeder extends Seeder
         [$group, $action] = explode('.', $permission);
 
         $groups = [
-            'dashboard' => 'داشبورد', 'users' => 'کاربران', 'roles' => 'نقش‌ها', 'permissions' => 'دسترسی‌ها',
+            'dashboard' => 'داشبورد', 'pending_approvals' => 'تایید محتوا', 'users' => 'کاربران', 'roles' => 'نقش‌ها', 'permissions' => 'دسترسی‌ها',
             'menus' => 'منوها', 'pages' => 'صفحات', 'posts' => 'اخبار', 'announcements' => 'اطلاعیه‌ها',
             'unions' => 'اتحادیه‌ها', 'union_members' => 'اعضای اتحادیه‌ها', 'complaints' => 'شکایات',
             'galleries' => 'گالری تصاویر', 'videos' => 'ویدیوها', 'tourism' => 'گردشگری',
-            'advertisements' => 'تبلیغات', 'systems' => 'سامانه‌ها', 'commissions' => 'کمیسیون‌ها',
+            'advertisements' => 'تبلیغات', 'systems' => 'سامانه‌ها', 'electronic_services' => 'خدمات الکترونیک', 'commissions' => 'کمیسیون‌ها',
             'home_sections' => 'تنظیمات صفحه اصلی', 'header_settings' => 'تنظیمات هدر', 'footer_settings' => 'تنظیمات فوتر',
             'sms' => 'پیامک‌ها', 'contact_messages' => 'پیام‌های تماس', 'settings' => 'تنظیمات سایت',
+            'services' => 'خدمات', 'congratulation_messages' => 'پیام‌های تبریک',
         ];
 
         $actions = [
