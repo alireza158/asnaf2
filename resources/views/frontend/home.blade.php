@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'آخرین اخبار، اطلاعیه‌ها، خدمات، اتحادیه‌ها و جاذبه‌های گردشگری اتاق اصناف شهرستان گرگان.')
+@section('title', 'اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'آخرین اخبار، اطلاعیه‌ها، خدمات، اتحادیه‌ها و جاذبه‌های گردشگری اتاق اصناف مرکز استان گلستان.')
 
 @php
     $defaultImage = asset('assets/img/asnaf-gorgan-default.jpg');
@@ -36,7 +36,7 @@
     $heroFallbacks = collect([
         ['title' => 'راهنمای صدور، تمدید و انتقال پروانه کسب برای فعالان صنفی گرگان', 'kicker' => 'خدمات صنفی', 'url' => $servicesUrl, 'image' => $defaultImage],
         ['title' => 'پیگیری شکایات مردمی و صیانت از حقوق مصرف‌کنندگان و واحدهای صنفی', 'kicker' => 'نظارت و بازرسی', 'url' => $complaintsUrl, 'image' => $defaultImage],
-        ['title' => 'آخرین خبرها و اطلاعیه‌های اتاق اصناف شهرستان گرگان', 'kicker' => 'اخبار اتاق', 'url' => $postsUrl, 'image' => $defaultImage],
+        ['title' => 'آخرین خبرها و اطلاعیه‌های اتاق اصناف مرکز استان گلستان', 'kicker' => 'اخبار اتاق', 'url' => $postsUrl, 'image' => $defaultImage],
     ]);
     $heroItems = ($heroPosts ?? collect())->take(3)->map(fn ($post) => [
         'title' => $post->title,
@@ -74,7 +74,7 @@
     $quickFallbacks = collect([
         ['title' => 'صدور و تمدید پروانه کسب', 'url' => $servicesUrl, 'children' => collect([['title' => 'راهنمای صدور پروانه کسب', 'url' => $servicesUrl], ['title' => 'تمدید و انتقال پروانه کسب', 'url' => $servicesUrl], ['title' => 'مدارک مورد نیاز متقاضیان', 'url' => $servicesUrl]])],
         ['title' => 'ثبت و پیگیری شکایات', 'url' => $complaintsUrl, 'children' => collect([['title' => 'ثبت شکایت صنفی', 'url' => $complaintsUrl], ['title' => 'گزارش تخلف واحد صنفی', 'url' => $complaintsUrl], ['title' => 'پیگیری نتیجه شکایت', 'url' => route('complaints.track')]])],
-        ['title' => 'اتحادیه‌های صنفی گرگان', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'رسته‌های شغلی', 'url' => $guildsUrl]])],
+        ['title' => 'اتحادیه‌های صنفی استان گلستان', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'رسته‌های شغلی', 'url' => $guildsUrl]])],
         ['title' => 'سامانه‌ها و فرم‌ها', 'url' => $systemsUrl, 'children' => collect([['title' => 'سامانه نوین اصناف', 'url' => $systemsUrl], ['title' => 'فرم‌ها و بخشنامه‌ها', 'url' => $servicesUrl], ['title' => 'راهنمای خدمات الکترونیک', 'url' => $servicesUrl]])],
         ['title' => 'اخبار و اطلاعیه‌ها', 'url' => $postsUrl, 'children' => collect([['title' => 'آرشیو اخبار', 'url' => $postsUrl], ['title' => 'اطلاعیه‌ها', 'url' => route('announcements.index')], ['title' => 'چندرسانه‌ای', 'url' => '#multimedia']])],
         ['title' => 'ارتباط با اتاق', 'url' => $contactUrl, 'children' => collect([['title' => 'آدرس و تلفن تماس', 'url' => '#friendship'], ['title' => 'ارسال پیام', 'url' => $contactUrl], ['title' => 'راهنمای مراجعه حضوری', 'url' => '#friendship']])],
@@ -125,16 +125,16 @@
     ]);
 
     $commissionFallbacks = collect([
-        ['icon' => '⚖️', 'title' => 'کمیسیون نظارت و بازرسی', 'description' => 'نظارت بر عملکرد واحدهای صنفی، اجرای طرح‌های بازرسی دوره‌ای و رسیدگی به تخلفات صنفی در سطح شهرستان'],
+        ['icon' => '⚖️', 'title' => 'کمیسیون تشخیص', 'description' => 'نظارت بر عملکرد واحدهای صنفی، اجرای طرح‌های بازرسی دوره‌ای و رسیدگی به تخلفات صنفی در سطح شهرستان'],
         ['icon' => '🎓', 'title' => 'کمیسیون آموزش', 'description' => 'برنامه‌ریزی و برگزاری دوره‌های آموزش احکام تجارت و کسب‌وکار برای متقاضیان پروانه کسب و فعالان صنفی'],
-        ['icon' => '🤝', 'title' => 'کمیسیون حل اختلاف', 'description' => 'رسیدگی به اختلافات صنفی میان اعضای اتحادیه‌ها و ارائه راهکارهای سازش و مصالحه'],
+        ['icon' => '🤝', 'title' => 'کمیسیون بازرسی', 'description' => 'رسیدگی به اختلافات صنفی میان اعضای اتحادیه‌ها و ارائه راهکارهای سازش و مصالحه'],
         ['icon' => '📊', 'title' => 'کمیسیون بازاریابی و توسعه', 'description' => 'حمایت از بازاریابی محصولات صنفی، توسعه بازارچه‌های محلی و برگزاری نمایشگاه‌های تخصصی'],
         ['icon' => '🏛', 'title' => 'کمیسیون صنایع دستی', 'description' => 'حمایت از هنرمندان و فعالان صنایع دستی، ساماندهی تولید و فروش محصولات سنتی و محلی'],
         ['icon' => '🌿', 'title' => 'کمیسیون گردشگری', 'description' => 'هماهنگی با فعالان حوزه گردشگری، هتل‌داران، رستوران‌داران و آژانس‌های مسافرتی شهرستان'],
         ['icon' => '💳', 'title' => 'کمیسیون مالی و اداری', 'description' => 'مدیریت منابع مالی، بودجه‌ریزی، امور اداری و پشتیبانی از فعالیت‌های اتاق اصناف شهرستان'],
         ['icon' => '📋', 'title' => 'کمیسیون امور صنفی', 'description' => 'پیگیری مسائل و نیازهای صنفی اتحادیه‌ها، صدور و تمدید پروانه‌های کسب و رسیدگی به درخواست‌ها'],
     ]);
-    $commissionItems = ($commissions ?? collect())->take(8)->map(fn ($commission) => ['icon' => '⚖️', 'title' => $commission->title, 'description' => $plain($commission->description, 130), 'url' => route('commissions.show', $commission->slug)])->values();
+    $commissionItems = ($commissions ?? collect())->take(8)->map(fn ($commission) => ['icon' => '⚖️', 'title' => $commission->title, 'description' => $plain($commission->description, 130), 'tasks' => $commission->activeTasks->take(3)->map(fn ($task) => ['title' => $task->title, 'description' => $task->description])->values(), 'url' => route('commissions.show', $commission->slug)])->values();
     $commissionItems = $commissionItems->isNotEmpty() ? $commissionItems : $commissionFallbacks;
 
     $tourismFallbacks = [
@@ -149,7 +149,7 @@
     ])->map(fn ($places, $key) => $places->isNotEmpty() ? $places : $tourismFallbacks[$key]);
 
     $videoFallbacks = collect(['گزارش تصویری از خدمات اتاق اصناف گرگان به کسبه شهرستان', 'راهنمای مراحل صدور و تمدید پروانه کسب', 'آموزش احکام تجارت برای متقاضیان', 'بازدید میدانی بازرسان از واحدهای صنفی گرگان', 'نشست هماهنگی اتحادیه‌های صنفی شهرستان گرگان']);
-    $galleryFallbacks = collect(['نمایی از ساختمان و مراجعه حضوری فعالان صنفی', 'جلسه هم‌اندیشی اتحادیه‌های صنفی گرگان', 'ارائه خدمات مشاوره‌ای به متقاضیان پروانه کسب', 'برگزاری دوره آموزشی احکام تجارت و کسب‌وکار', 'پیگیری طرح‌های نظارتی بازار در شهرستان گرگان', 'بخشنامه‌ها و دستورالعمل‌های جدید صنفی', 'بازار سنتی گرگان و اصناف قدیمی شهر', 'نمایشگاه صنایع دستی و سوغات استان گلستان']);
+    $galleryFallbacks = collect(['نمایی از ساختمان و مراجعه حضوری فعالان صنفی', 'جلسه هم‌اندیشی اتحادیه‌های صنفی استان گلستان', 'ارائه خدمات مشاوره‌ای به متقاضیان پروانه کسب', 'برگزاری دوره آموزشی احکام تجارت و کسب‌وکار', 'پیگیری طرح‌های نظارتی بازار در شهرستان گرگان', 'بخشنامه‌ها و دستورالعمل‌های جدید صنفی', 'بازار سنتی گرگان و اصناف قدیمی شهر', 'نمایشگاه صنایع دستی و سوغات استان گلستان']);
 @endphp
 
 @section('content')
@@ -232,172 +232,6 @@
 @endforeach
 </section>
 
-<section class="representatives-section section-white" id="representatives">
-<div class="site-container">
-<div class="section-heading">
-<h2>اتحادیه‌های صنفی گرگان</h2>
-<div aria-label="نماینده‌ها" class="tabs" data-tab-group="representatives" role="tablist">
-<button class="tab-pill active" data-tab-target="rep-production" type="button">اتحادیه‌های تولیدی</button>
-<button class="tab-pill" data-tab-target="rep-distribution" type="button">اتحادیه‌های توزیعی</button>
-<button class="tab-pill" data-tab-target="rep-service" type="button">اتحادیه‌های خدماتی</button>
-</div>
-</div>
-<div class="tab-panels" data-tab-panels="representatives">
-@foreach(['rep-production' => ['اتحادیه‌های تولیدی شهرستان گرگان', 'map-img'], 'rep-distribution' => ['اتحادیه‌های توزیعی شهرستان گرگان', 'map-img muted-map'], 'rep-service' => ['اتحادیه‌های خدماتی شهرستان گرگان', 'map-img faded-map']] as $panel => $map)
-<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
-<div class="representative-layout">
-<div class="representative-map">
-<button class="soft-button map-badge">{{ $map[0] }}</button>
-<img alt="تصویر پیش‌فرض اتاق اصناف شهرستان گرگان" class="{{ $map[1] }}" src="{{ $defaultImage }}"/>
-</div>
-<aside class="people-panel" data-search-area="">
-<div class="searchbox"><span class="search-icon"></span><input data-filter-input="" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
-<div class="people-scroll-wrap">
-<ul class="person-list">
-@forelse($unionPanels[$panel] as $union)
-<li><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a></li>
-@empty
-<li><span class="person-avatar avatar-1"></span><div><strong>اتحادیه‌ای ثبت نشده است</strong><small>لطفاً از پنل مدیریت اتحادیه جدید ثبت کنید.</small></div></li>
-@endforelse
-</ul>
-</div>
-</aside>
-</div>
-</div>
-@endforeach
-</div>
-</div>
-</section>
-
-<section class="commissions-section ds-tint-block" id="commissions">
-<div class="site-container">
-<div class="section-heading">
-<h2>خدمات و کمیسیون‌های اتاق</h2>
-<div aria-label="کمیسیون‌ها" class="tabs" data-tab-group="commissions" role="tablist">
-<button class="tab-pill active" data-tab-target="com-12" type="button">خدمات اصلی</button>
-<button class="tab-pill" data-tab-target="com-11" type="button">نظارت و رسیدگی</button>
-<button class="tab-pill" data-tab-target="com-10" type="button">آموزش و راهنما</button>
-<button class="tab-pill" data-tab-target="com-all" type="button">همکاری‌های صنفی</button>
-</div>
-</div>
-@php
-    $commissionTabs = [
-        'com-12' => [['صدور پروانه','ثبت، بررسی و راهنمای صدور پروانه کسب',$servicesUrl], ['تمدید پروانه','تمدید، تغییر نشانی و انتقال واحد صنفی',$servicesUrl], ['استعلام صنفی','پیگیری وضعیت درخواست‌ها و مجوزها',$systemsUrl], ['رسته‌های شغلی','راهنمای انتخاب رسته و اتحادیه مرتبط',$guildsUrl], ['فرم‌ها','دریافت فرم‌های اداری و درخواست‌ها',route('announcements.index')], ['بخشنامه‌ها','آخرین ابلاغیه‌های مرتبط با اصناف',route('announcements.index')], ['مشاوره صنفی','راهنمایی متقاضیان و مباشرین',$contactUrl], ['پرونده صنفی','تکمیل و اصلاح مدارک پرونده‌ها',$servicesUrl], ['شناسه صنفی','راهنمای دریافت شناسه و کد واحد',$systemsUrl], ['نوبت‌دهی','مدیریت مراجعه حضوری و پیگیری',$contactUrl], ['آمار اصناف','گزارش‌های آماری و اطلاعات رسته‌ها',$guildsUrl], ['اطلاع‌رسانی','خبرها و اطلاعیه‌های مهم اتاق',$postsUrl]],
-        'com-11' => [['بازرسی','نظارت بر واحدهای صنفی و رعایت مقررات',$complaintsUrl], ['شکایات','ثبت و پیگیری شکایات شهروندان',$complaintsUrl], ['تخلفات صنفی','گزارش تخلف و ارجاع به مراجع ذی‌ربط',$complaintsUrl], ['نرخ‌گذاری','اطلاع‌رسانی ضوابط قیمت و نرخ خدمات',route('announcements.index')], ['حقوق مصرف‌کننده','صیانت از حقوق مردم و کسبه',$complaintsUrl], ['صلح و سازش','رسیدگی اولیه به اختلافات صنفی',$commissionsUrl], ['بهداشت و ایمنی','هماهنگی با دستگاه‌های نظارتی مرتبط',$commissionsUrl], ['طرح‌های نظارتی','اجرای طرح‌های مناسبتی و دوره‌ای',$postsUrl]],
-        'com-10' => [['احکام تجارت','دوره‌های آموزشی متقاضیان پروانه کسب',$servicesUrl], ['آموزش آنلاین','معرفی سامانه آموزش الکترونیکی اصناف',$servicesUrl], ['قانون نظام صنفی','آشنایی با تکالیف و حقوق واحد صنفی',$servicesUrl], ['مالیات','راهنمای تکالیف مالیاتی کسب‌وکارها',$servicesUrl], ['بیمه','اطلاع‌رسانی بیمه و روابط کار',$servicesUrl], ['بهداشت صنفی','راهنمای الزامات بهداشتی کسب‌وکار',$servicesUrl], ['تجارت دیجیتال','نکات فروش اینترنتی و کسب‌وکار آنلاین',$servicesUrl], ['سوالات پرتکرار','پاسخ به پرسش‌های متقاضیان',$contactUrl]],
-        'com-all' => [['اتحادیه‌ها','هماهنگی بین اتحادیه‌های صنفی شهرستان',$guildsUrl], ['اداره صمت','تعامل با اداره صنعت، معدن و تجارت',$contactUrl], ['تعزیرات','همکاری در پرونده‌های نظارتی و تخلفات',$complaintsUrl], ['شهرداری','هماهنگی مسائل شهری واحدهای صنفی',$contactUrl], ['امور مالیاتی','پیگیری میز خدمت و آموزش مالیاتی',$servicesUrl], ['اتاق ایران','ارتباط با اتاق اصناف ایران و سامانه‌های ملی',$systemsUrl], ['رویدادها','نشست‌ها، نمایشگاه‌ها و جلسات صنفی',$postsUrl], ['کمیسیون نظارت','پیگیری مصوبات و الزامات نظارتی',$commissionsUrl]],
-    ];
-@endphp
-<div class="tab-panels" data-tab-panels="commissions">
-@foreach($commissionTabs as $panel => $items)
-<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
-<div class="commission-card"><div class="commission-grid compact-grid">
-@foreach($items as $item)
-<a class="commission-item {{ $loop->iteration % 2 ? 'blue' : 'green' }}" href="{{ $item[2] }}"><strong>{{ $item[0] }}</strong><span>{{ $item[1] }}</span></a>
-@endforeach
-</div></div>
-</div>
-@endforeach
-</div>
-</div>
-</section>
-<section class="commissions-real" id="commissions-real">
-<div class="site-container">
-<div class="section-heading section-heading-centered">
-<h2>کمیسیون‌های اتاق اصناف گرگان</h2>
-<p>کمیسیون‌های تخصصی اتاق اصناف شهرستان گرگان متشکل از فعالان صنفی، کارشناسان و نمایندگان دستگاه‌های اجرایی</p>
-</div>
-<div class="comreal-grid">
-@foreach($commissionItems as $item)
-<a href="{{ $item['url'] ?? $commissionsUrl }}" class="comreal-card">
-<div class="comreal-icon">{{ $item['icon'] }}</div>
-<h3>{{ $item['title'] }}</h3>
-<p>{{ $item['description'] }}</p>
-</a>
-@endforeach
-</div>
-</div>
-</section>
-
-<section class="fractions-section section-gray" id="fractions">
-<div class="site-container">
-<div class="section-heading">
-<h2>موضوعات پیگیری اصناف</h2>
-</div>
-<div class="fraction-grid">
-@foreach(['تسهیل صدور پروانه کسب','کاهش زمان پاسخگویی','راهنمای تکمیل مدارک','شفاف‌سازی مراحل اداری','به‌روزرسانی اطلاعات واحدها','پیگیری درخواست‌های متقاضیان','ساماندهی رسته‌های شغلی','همکاری با اتحادیه‌ها','اطلاع‌رسانی بخشنامه‌ها','مدیریت مراجعات حضوری','ثبت و اصلاح پرونده‌ها','پشتیبانی کسب‌وکارهای کوچک','حمایت از تولید و فروش محلی','توسعه خدمات الکترونیکی','تعامل با دستگاه‌های اجرایی','افزایش رضایت مراجعه‌کنندگان','پاسخگویی به اصناف','تقویت اعتماد عمومی'] as $fraction)
-<a href="{{ $servicesUrl }}" class="fraction-link">{{ $fraction }}</a>
-@endforeach
-</div>
-</div>
-</section>
-
-<section class="friendship-section section-white" id="friendship">
-<div class="site-container">
-<div class="section-heading friendship-heading"><h2>ارتباط با اتاق و دستگاه‌های همکار</h2><a class="tab-pill" href="{{ $contactUrl }}">راهنمای تماس</a></div>
-<div class="friendship-layout">
-<div class="world-map-wrap">
-<img alt="تصویر پیش‌فرض اتاق اصناف شهرستان گرگان" class="world-map-img" src="{{ $defaultImage }}"/>
-</div>
-<aside class="friend-list">
-<div class="friend-scroll-wrap">
-<ul>
-@forelse($orgLinks ?? collect() as $link)
-<li><a href="{{ $link->url ?: '#' }}" target="{{ $link->target ?? '_self' }}" class="text-decoration-none" @if(($link->target ?? '_self') === '_blank') rel="noopener" @endif>@if($link->icon)<span>{{ $link->icon }}</span>@endif <strong>{{ $link->title }}</strong>@if($link->description)<small>{{ $link->description }}</small>@endif</a></li>
-@empty
-<li><a href="{{ $contactUrl }}">اتاق اصناف شهرستان گرگان؛ مشاهده اطلاعات تماس و راهنمای مراجعه</a></li>
-@endforelse
-</ul>
-</div>
-</aside>
-</div>
-</div>
-</section>
-
-<section class="tourism-section" id="tourism">
-<div class="site-container">
-<div class="section-heading">
-<h2>گردشگری گرگان و گلستان</h2>
-<div aria-label="دسته‌بندی گردشگری" class="tabs" data-tab-group="tourism" role="tablist">
-<button class="tab-pill active" data-tab-target="tourism-nature" type="button">طبیعت‌گردی</button>
-<button class="tab-pill" data-tab-target="tourism-historic" type="button">تاریخی</button>
-<button class="tab-pill" data-tab-target="tourism-shop" type="button">بازار و خرید</button>
-</div>
-</div>
-<div class="tab-panels" data-tab-panels="tourism">
-@foreach($tourismPanels as $panel => $places)
-<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
-<div class="tourism-grid">
-@foreach($places as $place)
-@php
-    $isModel = is_object($place);
-    $placeTitle = $isModel ? $place->title : $place['title'];
-    $placeDesc = $isModel ? (\Illuminate\Support\Str::limit($place->home_description, 120) ?: 'توضیحی برای این جاذبه ثبت نشده است.') : $place['description'];
-    $placeBadge = $isModel ? $place->home_badge : $place['badge'];
-    $placeAlt = $isModel ? $place->title : $place['alt'];
-    $placeImage = $isModel ? $place->home_image_url : $defaultImage;
-    $placeUrl = $isModel ? route('tourism.show', $place->slug) : $tourismUrl;
-@endphp
-<div class="tourism-card">
-<a href="{{ $placeUrl }}">
-<div class="tourism-img-wrap">
-<img alt="{{ $placeAlt }}" src="{{ $placeImage }}"/>
-<div class="tourism-badge">{{ $placeBadge }}</div>
-</div>
-<div class="tourism-card-body">
-<h3>{{ $placeTitle }}</h3>
-<p>{{ $placeDesc }}</p>
-</div>
-</a>
-</div>
-@endforeach
-</div>
-</div>
-@endforeach
-</div>
-</div>
-</section>
-
 <section class="multimedia-section" id="multimedia">
 <div class="site-container">
 <div class="media-header" data-tab-group="media">
@@ -461,5 +295,176 @@
 </div>
 </div>
 </section>
+
+<section class="price-ticker-section site-container" id="prices">
+<div class="price-ticker-card">
+<div class="price-ticker-heading"><span>💰</span><div><h2>قیمت روز طلا و ارز</h2><p>مقادیر از تنظیمات سایت خوانده می‌شود و در صورت نبود داده با خط تیره نمایش داده می‌شود.</p></div></div>
+<div class="price-ticker-grid">
+@foreach(($priceItems ?? collect()) as $price)
+<div class="price-ticker-item">
+<span>{{ $price['label'] }}</span>
+<strong>{{ $price['value'] }}</strong>
+<small>{{ $price['unit'] }} @if(filled($price['trend'] ?? null)) · {{ $price['trend'] }} @endif</small>
+</div>
+@endforeach
+</div>
+</div>
+</section>
+
+
+<section class="representatives-section section-white" id="representatives" data-union-ajax-url="{{ route('guilds.ajax-search') }}">
+<div class="site-container">
+<div class="section-heading">
+<h2>اتحادیه‌های صنفی استان گلستان</h2>
+<div aria-label="نماینده‌ها" class="tabs" data-tab-group="representatives" role="tablist">
+<button class="tab-pill active" data-tab-target="rep-production" type="button">اتحادیه‌های تولیدی</button>
+<button class="tab-pill" data-tab-target="rep-distribution" type="button">اتحادیه‌های توزیعی</button>
+<button class="tab-pill" data-tab-target="rep-service" type="button">اتحادیه‌های خدماتی</button>
+</div>
+</div>
+<div class="tab-panels" data-tab-panels="representatives">
+@foreach(['rep-production' => ['اتحادیه‌های تولیدی شهرستان گرگان', 'map-img'], 'rep-distribution' => ['اتحادیه‌های توزیعی شهرستان گرگان', 'map-img muted-map'], 'rep-service' => ['اتحادیه‌های خدماتی شهرستان گرگان', 'map-img faded-map']] as $panel => $map)
+<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
+<div class="representative-layout">
+<div class="representative-map">
+<button class="soft-button map-badge">{{ $map[0] }}</button>
+<img alt="تصویر پیش‌فرض اتاق اصناف مرکز استان گلستان" class="{{ $map[1] }}" src="{{ $defaultImage }}"/>
+</div>
+<aside class="people-panel" data-search-area="">
+<div class="searchbox"><span class="search-icon"></span><input data-union-ajax-input="" data-union-type="{{ str_replace('rep-', '', $panel) }}" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
+<div class="people-scroll-wrap">
+<ul class="person-list" data-union-results="{{ $panel }}">
+@forelse($unionPanels[$panel] as $union)
+<li class="union-home-item"><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a><div class="union-home-actions"><a href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت</a>@foreach(($union->social_links ?? []) as $network => $link)@if(filled($link))<a href="{{ $link }}" target="_blank" rel="noopener">{{ $network }}</a>@endif @endforeach</div></li>
+@empty
+<li><span class="person-avatar avatar-1"></span><div><strong>اتحادیه‌ای ثبت نشده است</strong><small>لطفاً از پنل مدیریت اتحادیه جدید ثبت کنید.</small></div></li>
+@endforelse
+</ul>
+<div class="union-ajax-status" data-union-status="{{ $panel }}" hidden></div>
+</div>
+</aside>
+</div>
+</div>
+@endforeach
+</div>
+</div>
+</section>
+
+<section class="commissions-section ds-tint-block office-services-section" id="commissions">
+<div class="site-container">
+<div class="section-heading">
+<h2>خدمات اتاق</h2>
+<a class="tab-pill" href="{{ $servicesUrl }}">مشاهده همه خدمات</a>
+</div>
+<div class="commission-card"><div class="commission-grid compact-grid">
+@foreach($serviceItems as $item)
+<a class="commission-item service-color-{{ ($loop->iteration % 4) + 1 }}" href="{{ $item['url'] }}" target="{{ $item['target'] ?? '_self' }}"><strong>{{ $item['title'] }}</strong><span>{{ $item['description'] }}</span></a>
+@endforeach
+</div></div>
+</div>
+</section>
+<section class="commissions-real" id="commissions-real">
+<div class="site-container">
+<div class="section-heading section-heading-centered">
+<h2>کمیسیون‌های اتاق اصناف مرکز استان گلستان</h2>
+<p>کمیسیون‌های تخصصی، پایین‌تر از خدمات اتاق نمایش داده شده‌اند و وظایف هر کمیسیون به‌صورت داینامیک از دیتابیس خوانده می‌شود.</p>
+</div>
+<div class="comreal-grid">
+@foreach($commissionItems as $item)
+<a href="{{ $item['url'] ?? $commissionsUrl }}" class="comreal-card">
+<div class="comreal-icon">{{ $item['icon'] }}</div>
+<h3>{{ $item['title'] }}</h3>
+<p>{{ $item['description'] }}</p>
+@if(($item['tasks'] ?? collect())->isNotEmpty())
+<ul class="commission-task-mini">@foreach($item['tasks'] as $task)<li>{{ $task['title'] }}</li>@endforeach</ul>
+@else
+<ul class="commission-task-mini"><li>فضای ثبت وظایف کمیسیون در پنل مدیریت آماده است.</li></ul>
+@endif
+</a>
+@endforeach
+</div>
+</div>
+</section>
+
+<section class="fractions-section section-gray" id="fractions">
+<div class="site-container">
+<div class="section-heading">
+<h2>موضوعات پیگیری اصناف</h2>
+</div>
+<div class="fraction-grid">
+@foreach(['تسهیل صدور پروانه کسب','کاهش زمان پاسخگویی','راهنمای تکمیل مدارک','شفاف‌سازی مراحل اداری','به‌روزرسانی اطلاعات واحدها','پیگیری درخواست‌های متقاضیان','ساماندهی رسته‌های شغلی','همکاری با اتحادیه‌ها','اطلاع‌رسانی بخشنامه‌ها','مدیریت مراجعات حضوری','ثبت و اصلاح پرونده‌ها','پشتیبانی کسب‌وکارهای کوچک','حمایت از تولید و فروش محلی','توسعه خدمات الکترونیکی','تعامل با دستگاه‌های اجرایی','افزایش رضایت مراجعه‌کنندگان','پاسخگویی به اصناف','تقویت اعتماد عمومی'] as $fraction)
+<a href="{{ $servicesUrl }}" class="fraction-link">{{ $fraction }}</a>
+@endforeach
+</div>
+</div>
+</section>
+
+<section class="friendship-section section-white" id="friendship">
+<div class="site-container">
+<div class="section-heading friendship-heading"><h2>ارتباط با اتاق و دستگاه‌های همکار</h2><a class="tab-pill" href="{{ $contactUrl }}">راهنمای تماس</a></div>
+<div class="friendship-layout">
+<div class="world-map-wrap">
+<img alt="تصویر پیش‌فرض اتاق اصناف مرکز استان گلستان" class="world-map-img" src="{{ $defaultImage }}"/>
+</div>
+<aside class="friend-list">
+<div class="friend-scroll-wrap">
+<ul>
+@forelse($orgLinks ?? collect() as $link)
+<li><a href="{{ $link->url ?: '#' }}" target="{{ $link->target ?? '_self' }}" class="text-decoration-none" @if(($link->target ?? '_self') === '_blank') rel="noopener" @endif>@if($link->icon)<span>{{ $link->icon }}</span>@endif <strong>{{ $link->title }}</strong>@if($link->description)<small>{{ $link->description }}</small>@endif</a></li>
+@empty
+<li><a href="{{ $contactUrl }}">اتاق اصناف مرکز استان گلستان؛ مشاهده اطلاعات تماس و راهنمای مراجعه</a></li>
+@endforelse
+</ul>
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+<section class="tourism-section" id="tourism">
+<div class="site-container">
+<div class="section-heading">
+<h2>گردشگری گرگان و گلستان</h2>
+<div aria-label="دسته‌بندی گردشگری" class="tabs" data-tab-group="tourism" role="tablist">
+<button class="tab-pill active" data-tab-target="tourism-nature" type="button">طبیعت‌گردی</button>
+<button class="tab-pill" data-tab-target="tourism-historic" type="button">تاریخی</button>
+<button class="tab-pill" data-tab-target="tourism-shop" type="button">بازار و خرید</button>
+</div>
+</div>
+<div class="tab-panels" data-tab-panels="tourism">
+@foreach($tourismPanels as $panel => $places)
+<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
+<div class="tourism-grid">
+@foreach($places as $place)
+@php
+    $isModel = is_object($place);
+    $placeTitle = $isModel ? $place->title : $place['title'];
+    $placeDesc = $isModel ? (\Illuminate\Support\Str::limit($place->home_description, 120) ?: 'توضیحی برای این جاذبه ثبت نشده است.') : $place['description'];
+    $placeBadge = $isModel ? $place->home_badge : $place['badge'];
+    $placeAlt = $isModel ? $place->title : $place['alt'];
+    $placeImage = $isModel ? $place->home_image_url : $defaultImage;
+    $placeUrl = $isModel ? route('tourism.show', $place->slug) : $tourismUrl;
+@endphp
+<div class="tourism-card">
+<a href="{{ $placeUrl }}">
+<div class="tourism-img-wrap">
+<img alt="{{ $placeAlt }}" src="{{ $placeImage }}"/>
+<div class="tourism-badge">{{ $placeBadge }}</div>
+</div>
+<div class="tourism-card-body">
+<h3>{{ $placeTitle }}</h3>
+<p>{{ $placeDesc }}</p>
+</div>
+</a>
+</div>
+@endforeach
+</div>
+</div>
+@endforeach
+</div>
+</div>
+</section>
+
+
 </main>
 @endsection

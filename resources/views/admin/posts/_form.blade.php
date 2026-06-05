@@ -72,6 +72,14 @@
             </select>
         </div>
         <div class="col-md-4">
+            <label class="form-label" for="is_top">تاپ اصلی صفحه اول</label>
+            <select class="form-control" id="is_top" name="is_top">
+                <option value="1" @selected((string) old('is_top', (int) ($post?->is_top ?? false)) === '1')>بله</option>
+                <option value="0" @selected((string) old('is_top', (int) ($post?->is_top ?? false)) === '0')>خیر</option>
+            </select>
+            <small class="text-muted">در صورت فعال بودن، خبر در اسلایدر اصلی صفحه اول اولویت می‌گیرد.</small>
+        </div>
+        <div class="col-md-4">
             <label class="form-label" for="is_active">فعال</label>
             <select class="form-control" id="is_active" name="is_active">
                 <option value="1" @selected((string) old('is_active', (int) ($post?->is_active ?? true)) === '1')>فعال</option>

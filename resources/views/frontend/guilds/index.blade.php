@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'اتحادیه‌های صنفی گرگان | اتاق اصناف شهرستان گرگان')
+@section('title', 'اتحادیه‌های صنفی گرگان | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', 'فهرست اتحادیه‌های صنفی فعال شهرستان گرگان')
 
 @section('content')

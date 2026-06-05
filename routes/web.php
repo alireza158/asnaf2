@@ -56,6 +56,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth
 
 Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+Route::get('/guilds/ajax-search', [FrontendUnionController::class, 'ajaxSearch'])->name('guilds.ajax-search');
 Route::get('/guilds/{union:slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [FrontendPostController::class, 'show'])->name('posts.show');
@@ -78,7 +79,7 @@ Route::get('/search', [FrontendSearchController::class, 'index'])->name('search'
 Route::get('/contact', [FrontendContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [FrontendContactController::class, 'store'])->name('contact.store');
 Route::get('/pages/{page:slug}', [FrontendPageController::class, 'show'])->name('pages.show');
-Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
+Route::get('/complaints/create/{union?}', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
 Route::get('/complaints/track', [FrontendComplaintController::class, 'track'])->name('complaints.track');
 Route::post('/complaints/track', [FrontendComplaintController::class, 'trackResult'])->name('complaints.track.result');
