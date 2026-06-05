@@ -99,6 +99,8 @@ class UnionController extends Controller
     /** @param array<string, mixed> $validated @return array<string, mixed> */
     private function unionData(array $validated): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $socialLinks = collect($validated['social_links'] ?? [])
             ->filter(fn ($url) => filled($url))
             ->all();

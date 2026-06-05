@@ -168,6 +168,8 @@ class AnnouncementController extends Controller
     /** @param array<string, mixed> $validated @return array<string, mixed> */
     private function announcementData(array $validated, ?Announcement $announcement = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $data = [
             'title' => $validated['title'],
             'slug' => $validated['slug'],

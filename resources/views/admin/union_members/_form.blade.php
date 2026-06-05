@@ -60,7 +60,7 @@
         </div>
         <div class="col-12">
             <label class="form-label" for="description">توضیحات</label>
-            <textarea class="form-control" id="description" name="description" rows="4">{{ old('description', $member?->description) }}</textarea>
+            <textarea class="form-control js-rich-editor" id="description" name="description" rows="4">{{ old('description', $member?->description) }}</textarea>
         </div>
         <div class="col-12">
             <label class="form-label" for="attachments">پیوست‌ها</label>

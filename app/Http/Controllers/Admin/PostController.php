@@ -153,6 +153,8 @@ class PostController extends Controller
     /** @param array<string, mixed> $validated @return array<string, mixed> */
     private function postData(array $validated, ?Post $post = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $data = [
             'title' => $validated['title'],
             'slug' => $validated['slug'],

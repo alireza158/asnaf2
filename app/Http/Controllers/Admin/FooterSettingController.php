@@ -27,6 +27,8 @@ class FooterSettingController extends Controller
             'footer_social_links' => ['nullable', 'json'],
         ]);
 
+        $validated = $this->sanitizeRichTextFields($validated, ['footer_description']);
+
         if ($request->hasFile('footer_logo')) {
             if ($old = $settings->get('footer.footer_logo')) {
                 Storage::disk('public')->delete($old);

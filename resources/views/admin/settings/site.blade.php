@@ -6,7 +6,7 @@
 <div class="row g-3">
 <div class="col-md-6"><label class="form-label">عنوان سایت</label><input class="form-control" name="site_title" value="{{ old('site_title', $settings->get('site.site_title', 'اتاق اصناف شهرستان گرگان')) }}"></div>
 <div class="col-md-6"><label class="form-label">عنوان متای پیش‌فرض</label><input class="form-control" name="default_meta_title" value="{{ old('default_meta_title', $settings->get('site.default_meta_title')) }}"></div>
-<div class="col-12"><label class="form-label">توضیح سایت</label><textarea class="form-control" name="site_description" rows="3">{{ old('site_description', $settings->get('site.site_description')) }}</textarea></div>
+<div class="col-12"><label class="form-label">توضیح سایت</label><textarea class="form-control js-rich-editor" name="site_description" rows="3">{{ old('site_description', $settings->get('site.site_description')) }}</textarea></div>
 <div class="col-12"><label class="form-label">توضیح متای پیش‌فرض</label><textarea class="form-control" name="default_meta_description" rows="3">{{ old('default_meta_description', $settings->get('site.default_meta_description')) }}</textarea></div>
 <div class="col-md-6"><label class="form-label">لوگو</label><input class="form-control" type="file" name="site_logo" accept="image/*">@if($settings->get('site.site_logo'))<small><a href="{{ Storage::url($settings->get('site.site_logo')) }}" target="_blank">مشاهده فعلی</a></small>@endif</div>
 <div class="col-md-6"><label class="form-label">فاوآیکن</label><input class="form-control" type="file" name="site_favicon" accept="image/*">@if($settings->get('site.site_favicon'))<small><a href="{{ Storage::url($settings->get('site.site_favicon')) }}" target="_blank">مشاهده فعلی</a></small>@endif</div>

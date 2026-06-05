@@ -46,7 +46,7 @@
           @if($video->union)<span>🏢 {{ $video->union->display_title }}</span>@endif
         </div>
         <h2>{{ $video->title }}</h2>
-        {!! $video->description ? '<p>'.nl2br(e($video->description)).'</p>' : '<p>توضیحی برای این ویدیو ثبت نشده است.</p>' !!}
+        {!! $video->description ?: '<p>توضیحی برای این ویدیو ثبت نشده است.</p>' !!}
         <div class="video-tags">
           <span class="post-tag">ویدیو</span>
           <span class="post-tag">{{ $video->type_label }}</span>

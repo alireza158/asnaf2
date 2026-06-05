@@ -9,7 +9,7 @@
     </div>
     <div class="col-12">
         <label class="form-label" for="description">توضیحات</label>
-        <textarea class="form-control" id="description" name="description" rows="3">{{ old('description', $role?->description) }}</textarea>
+        <textarea class="form-control js-rich-editor" id="description" name="description" rows="3">{{ old('description', $role?->description) }}</textarea>
     </div>
 </div>
 

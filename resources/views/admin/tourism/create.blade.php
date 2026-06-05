@@ -30,8 +30,8 @@
         <div class="col-md-4"><label class="form-label" for="longitude">طول جغرافیایی</label><input class="form-control" id="longitude" name="longitude" value="{{ old('longitude') }}" dir="ltr"></div>
         <div class="col-12"><label class="form-label" for="map_url">لینک نقشه</label><input class="form-control" id="map_url" name="map_url" value="{{ old('map_url') }}" dir="ltr" placeholder="https://..."></div>
         <div class="col-12"><label class="form-label" for="address">آدرس</label><textarea class="form-control" id="address" name="address" rows="2">{{ old('address') }}</textarea></div>
-        <div class="col-12"><label class="form-label" for="short_description">توضیح کوتاه</label><textarea class="form-control" id="short_description" name="short_description" rows="3">{{ old('short_description') }}</textarea></div>
-        <div class="col-12"><label class="form-label" for="description">توضیحات کامل</label><textarea class="form-control" id="description" name="description" rows="6">{{ old('description') }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="short_description">توضیح کوتاه</label><textarea class="form-control js-rich-editor" id="short_description" name="short_description" rows="3">{{ old('short_description') }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="description">توضیحات کامل</label><textarea class="form-control js-rich-editor" id="description" name="description" rows="6">{{ old('description') }}</textarea></div>
         <div class="col-12"><label class="form-label" for="gallery_images">گالری تصاویر</label><input class="form-control" id="gallery_images" name="gallery_images[]" type="file" accept="image/*" multiple></div>
         <div class="col-12"><label class="form-label" for="rejected_reason">دلیل رد</label><textarea class="form-control" id="rejected_reason" name="rejected_reason" rows="2">{{ old('rejected_reason') }}</textarea></div>
     </div>

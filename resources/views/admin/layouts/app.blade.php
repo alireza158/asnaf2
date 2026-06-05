@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'پنل مدیریت') | اتاق اصناف شهرستان گرگان</title>
     <link href="https://cdn.jsdelivr.net" rel="preconnect">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
@@ -51,7 +52,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@7/tinymce.min.js" referrerpolicy="origin"></script>
     <script src="{{ asset('assets/admin/js/admin.js') }}"></script>
+    <script>window.adminRichTextUploadUrl = @json(route('admin.rich_text.upload'));</script>
+    <script src="{{ asset('assets/admin/js/rich-editor.js') }}"></script>
     @stack('scripts')
 </body>
 </html>

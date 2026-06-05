@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PendingApprovalController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RichTextUploadController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\Admin\SystemController as AdminSystemController;
@@ -87,6 +88,9 @@ Route::post('/complaints/track', [FrontendComplaintController::class, 'trackResu
 Route::post('/complaints/lookup', [FrontendComplaintController::class, 'lookup'])->name('complaints.lookup');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
+    Route::post('rich-text/upload', [RichTextUploadController::class, 'store'])
+        ->name('rich_text.upload');
+
     Route::get('/', [AdminDashboardController::class, 'index'])
         ->middleware('permission:dashboard.view')
         ->name('dashboard');

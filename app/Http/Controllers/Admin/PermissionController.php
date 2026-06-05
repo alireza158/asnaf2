@@ -66,11 +66,13 @@ class PermissionController extends Controller
      */
     private function validatePermission(Request $request, ?Permission $permission = null): array
     {
-        return $request->validate([
+        $validated = $request->validate([
             'name' => ['required', 'string', 'max:150', 'regex:/^[a-z0-9_]+\.[a-z0-9_]+$/', Rule::unique('permissions', 'name')->ignore($permission)],
             'label' => ['required', 'string', 'max:150'],
             'group' => ['required', 'string', 'max:80', 'alpha_dash:ascii'],
             'description' => ['nullable', 'string', 'max:1000'],
         ]);
+
+        return $this->sanitizeRichTextFields($validated, ['description']);
     }
 }

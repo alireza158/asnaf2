@@ -56,7 +56,7 @@ class SystemController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
         System::create([
             ...$this->systemData($validated),
@@ -86,7 +86,7 @@ class SystemController extends Controller
 
     public function update(Request $request, System $system): RedirectResponse
     {
-        $validated = $this->validatedData($request, $system);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $system), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->systemData($validated, $system);
 
         if ($request->hasFile('image')) {
@@ -150,6 +150,8 @@ class SystemController extends Controller
 
     private function systemData(array $validated, ?System $system = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         return [
             'title' => $validated['title'],
             'slug' => $this->uniqueSlug($validated['slug'] ?: $validated['title'], $system),

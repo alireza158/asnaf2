@@ -51,7 +51,7 @@ class CongratulationMessageController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
         $message = CongratulationMessage::create([
             ...$this->messageData($validated),
@@ -79,7 +79,7 @@ class CongratulationMessageController extends Controller
 
     public function update(Request $request, CongratulationMessage $congratulationMessage): RedirectResponse
     {
-        $validated = $this->validatedData($request, $congratulationMessage);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $congratulationMessage), ['body']);
         $data = $this->messageData($validated, $congratulationMessage);
 
         if ($request->hasFile('manager_image')) {
@@ -143,6 +143,8 @@ class CongratulationMessageController extends Controller
 
     private function messageData(array $validated, ?CongratulationMessage $message = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body']);
+
         return [
             'title' => $validated['title'],
             'slug' => $this->uniqueSlug($validated['slug'] ?: $validated['title'], $message),

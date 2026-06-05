@@ -40,6 +40,6 @@
 <div class="admin-panel-card mt-3">
     <h3>توضیحات</h3>
     <p><strong>توضیح کوتاه:</strong> {{ $system->short_description ?: '—' }}</p>
-    <div>{!! nl2br(e($system->description ?: '—')) !!}</div>
+    <div>{!! $system->description ?: '—' !!}</div>
 </div>
 @endsection

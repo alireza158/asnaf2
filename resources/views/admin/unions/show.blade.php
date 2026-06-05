@@ -21,7 +21,7 @@
                 @if ($union->logo)<img src="{{ Storage::url($union->logo) }}" alt="{{ $union->display_title }}" style="width:72px;height:72px;object-fit:contain">@endif
                 <div><h3 class="h5 mb-1">{{ $union->display_title }}</h3><p class="text-muted mb-0">{{ $union->short_description }}</p></div>
             </div>
-            <div class="admin-rich-content">{!! nl2br(e($union->description)) !!}</div>
+            <div class="admin-rich-content">{!! $union->description ?: '—' !!}</div>
         </div>
         <div class="admin-panel-card mt-3">
             <h3 class="h6">امکانات فعال</h3>

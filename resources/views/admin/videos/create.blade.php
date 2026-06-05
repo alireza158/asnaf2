@@ -23,7 +23,7 @@
         <div class="col-md-4"><label class="form-label" for="cover_image">تصویر کاور</label><input class="form-control" id="cover_image" name="cover_image" type="file" accept="image/*"></div>
         <div class="col-md-4 video-upload-field"><label class="form-label" for="video_file">فایل ویدیو</label><input class="form-control" id="video_file" name="video_file" type="file" accept="video/*"><small class="text-muted">حداکثر حجم ۱۰۰ مگابایت.</small></div>
         <div class="col-md-4 video-aparat-field"><label class="form-label" for="aparat_url">لینک آپارات</label><input class="form-control" id="aparat_url" name="aparat_url" value="{{ old('aparat_url') }}" dir="ltr" placeholder="https://www.aparat.com/v/..."></div>
-        <div class="col-12"><label class="form-label" for="description">توضیحات</label><textarea class="form-control" id="description" name="description" rows="4">{{ old('description') }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="description">توضیحات</label><textarea class="form-control js-rich-editor" id="description" name="description" rows="4">{{ old('description') }}</textarea></div>
         <div class="col-12"><label class="form-label" for="rejected_reason">دلیل رد</label><textarea class="form-control" id="rejected_reason" name="rejected_reason" rows="2">{{ old('rejected_reason') }}</textarea></div>
     </div>
     <div class="mt-3 d-flex gap-2"><button class="admin-primary-btn" type="submit">ذخیره ویدیو</button><a class="admin-secondary-btn" href="{{ route('admin.videos.index') }}">انصراف</a></div>

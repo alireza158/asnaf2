@@ -24,8 +24,8 @@
         <div class="col-md-4"><label class="form-label" for="rejected_reason">دلیل رد</label><input class="form-control" id="rejected_reason" name="rejected_reason" value="{{ old('rejected_reason', $system->rejected_reason) }}"></div>
         <div class="col-md-6"><label class="form-label" for="sort_order">ترتیب نمایش</label><input class="form-control" id="sort_order" name="sort_order" type="number" min="0" value="{{ old('sort_order', $system->sort_order) }}"></div>
         <div class="col-md-6"><label class="form-label" for="is_active">فعال</label><select class="form-control" id="is_active" name="is_active"><option value="1" @selected((string) old('is_active', (int) $system->is_active) === '1')>فعال</option><option value="0" @selected((string) old('is_active', (int) $system->is_active) === '0')>غیرفعال</option></select></div>
-        <div class="col-12"><label class="form-label" for="short_description">توضیح کوتاه</label><textarea class="form-control" id="short_description" name="short_description" rows="3">{{ old('short_description', $system->short_description) }}</textarea></div>
-        <div class="col-12"><label class="form-label" for="description">توضیحات کامل</label><textarea class="form-control" id="description" name="description" rows="6">{{ old('description', $system->description) }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="short_description">توضیح کوتاه</label><textarea class="form-control js-rich-editor" id="short_description" name="short_description" rows="3">{{ old('short_description', $system->short_description) }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="description">توضیحات کامل</label><textarea class="form-control js-rich-editor" id="description" name="description" rows="6">{{ old('description', $system->description) }}</textarea></div>
     </div>
     <div class="mt-3 d-flex gap-2"><button class="admin-primary-btn" type="submit">ذخیره تغییرات</button><a class="admin-secondary-btn" href="{{ route('admin.systems.show', $system) }}">انصراف</a></div>
 </form>

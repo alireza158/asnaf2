@@ -39,7 +39,7 @@
 <h1>{{ $post->title }}</h1>
 @if($post->short_description)
 <div class="post-excerpt">
-{{ $post->short_description }}
+{!! $post->short_description !!}
 </div>
 @endif
 <div class="post-content">

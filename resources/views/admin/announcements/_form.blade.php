@@ -78,7 +78,7 @@
         </div>
         <div class="col-12">
             <label class="form-label" for="excerpt">خلاصه اطلاعیه</label>
-            <textarea class="form-control" id="excerpt" name="excerpt" rows="3">{{ old('excerpt', $announcement?->excerpt) }}</textarea>
+            <textarea class="form-control js-rich-editor" id="excerpt" name="excerpt" rows="3">{{ old('excerpt', $announcement?->excerpt) }}</textarea>
         </div>
         <div class="col-12">
             <label class="form-label" for="body">متن کامل اطلاعیه</label>
