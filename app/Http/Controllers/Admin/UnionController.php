@@ -16,6 +16,7 @@ class UnionController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search'));
+        $status = (string) $request->query('status', '');
 
         $unions = GuildUnion::query()
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
@@ -25,12 +26,13 @@ class UnionController extends Controller
                 ->orWhere('phone', 'like', "%{$search}%")
                 ->orWhere('mobile', 'like', "%{$search}%")
                 ->orWhere('email', 'like', "%{$search}%")))
+            ->when(in_array($status, ['active', 'inactive'], true), fn ($query) => $query->where('is_active', $status === 'active'))
             ->orderBy('sort_order')
             ->orderBy('title')
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.unions.index', compact('unions', 'search'));
+        return view('admin.unions.index', compact('unions', 'search', 'status'));
     }
 
     public function create(): View

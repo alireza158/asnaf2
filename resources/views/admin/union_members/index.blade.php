@@ -46,7 +46,7 @@
                             <div class="admin-actions">
                                 <a href="{{ route('admin.union_members.show', $member) }}">مشاهده</a>
                                 <a href="{{ route('admin.union_members.edit', $member) }}">ویرایش</a>
-                                <form action="{{ route('admin.union_members.destroy', $member) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این عضو حذف شود؟')">حذف</button></form>
+                                <form action="{{ route('admin.union_members.destroy', $member) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                             </div>
                         </td>
                     </tr>

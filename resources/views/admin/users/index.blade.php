@@ -15,8 +15,13 @@
     <form class="admin-search-form" action="{{ route('admin.users.index') }}" method="GET">
         <label class="form-label mb-0" for="search">جستجو</label>
         <input class="form-control" id="search" name="search" value="{{ $search }}" placeholder="نام، ایمیل یا موبایل را وارد کنید...">
-        <button class="admin-primary-btn" type="submit">جستجو</button>
-        @if ($search !== '')
+        <select class="form-control" name="status" aria-label="فیلتر وضعیت">
+            <option value="">همه وضعیت‌ها</option>
+            <option value="active" @selected($status === 'active')>فعال</option>
+            <option value="inactive" @selected($status === 'inactive')>غیرفعال</option>
+        </select>
+        <button class="admin-primary-btn" type="submit">اعمال فیلتر</button>
+        @if ($search !== '' || $status !== '')
             <a class="admin-secondary-btn" href="{{ route('admin.users.index') }}">حذف فیلتر</a>
         @endif
     </form>
@@ -66,7 +71,7 @@
                                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('این کاربر حذف شود؟')">حذف</button>
+                                    <button type="submit">حذف</button>
                                 </form>
                             </div>
                         </td>

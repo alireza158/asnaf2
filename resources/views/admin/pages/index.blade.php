@@ -40,7 +40,7 @@
                             <div class="admin-actions">
                                 <a href="{{ route('admin.pages.show', $page) }}">مشاهده</a>
                                 <a href="{{ route('admin.pages.edit', $page) }}">ویرایش</a>
-                                <form action="{{ route('admin.pages.destroy', $page) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این صفحه حذف شود؟')">حذف</button></form>
+                                <form action="{{ route('admin.pages.destroy', $page) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                             </div>
                         </td>
                     </tr>

@@ -17,6 +17,7 @@ class UserController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search'));
+        $status = (string) $request->query('status', '');
 
         $users = User::query()
             ->with(['roles', 'union'])
@@ -27,11 +28,12 @@ class UserController extends Controller
                         ->orWhere('mobile', 'like', "%{$search}%");
                 });
             })
+            ->when(in_array($status, ['active', 'inactive'], true), fn ($query) => $query->where('is_active', $status === 'active'))
             ->latest()
             ->paginate(15)
             ->withQueryString();
 
-        return view('admin.users.index', compact('users', 'search'));
+        return view('admin.users.index', compact('users', 'search', 'status'));
     }
 
     public function create(): View

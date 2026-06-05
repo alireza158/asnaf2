@@ -12,11 +12,21 @@ use Illuminate\View\View;
 
 class RoleController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $roles = Role::withCount(['permissions', 'users'])->latest()->paginate(15);
+        $search = trim((string) $request->query('search'));
 
-        return view('admin.roles.index', compact('roles'));
+        $roles = Role::query()
+            ->withCount(['permissions', 'users'])
+            ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('label', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")))
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.roles.index', compact('roles', 'search'));
     }
 
     public function create(): View

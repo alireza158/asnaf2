@@ -16,7 +16,7 @@
             <form action="{{ route('admin.menus.items.destroy', [$menu, $item]) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" onclick="return confirm('این آیتم حذف شود؟')">حذف</button>
+                <button type="submit">حذف</button>
             </form>
         </div>
     </div>

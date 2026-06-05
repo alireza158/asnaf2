@@ -49,7 +49,7 @@
                                     <a href="{{ route('admin.complaints.edit', $complaint) }}">ویرایش</a>
                                 @endif
                                 @if (request()->user()->hasPermission('complaints.delete'))
-                                    <form action="{{ route('admin.complaints.destroy', $complaint) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این شکایت حذف شود؟')">حذف</button></form>
+                                    <form action="{{ route('admin.complaints.destroy', $complaint) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                                 @endif
                             </div>
                         </td>

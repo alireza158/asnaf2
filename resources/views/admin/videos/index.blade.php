@@ -56,7 +56,7 @@
                                 <a href="{{ route('admin.videos.show', $video) }}">مشاهده</a>
                                 @if (request()->user()->hasPermission('videos.edit'))<a href="{{ route('admin.videos.edit', $video) }}">ویرایش</a>@endif
                                 @if (request()->user()->hasPermission('videos.delete'))
-                                    <form action="{{ route('admin.videos.destroy', $video) }}" method="POST">@csrf @method('DELETE')<button type="submit" onclick="return confirm('این ویدیو حذف شود؟')">حذف</button></form>
+                                    <form action="{{ route('admin.videos.destroy', $video) }}" method="POST">@csrf @method('DELETE')<button type="submit">حذف</button></form>
                                 @endif
                             </div>
                         </td>
