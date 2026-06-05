@@ -2,7 +2,6 @@
 
 @section('title', $place->title.' | گردشگری گرگان')
 @section('meta_description', Str::limit($place->short_description ?: strip_tags($place->description), 160))
-@section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 
 @section('content')

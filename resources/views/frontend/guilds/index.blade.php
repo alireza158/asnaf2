@@ -46,7 +46,7 @@
             @endforelse
         </div>
 
-        <div class="mt-4">{{ $unions->links() }}</div>
+        {{ $unions->links('frontend.partials.pagination') }}
     </div>
 </main>
 @endsection

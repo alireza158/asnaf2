@@ -2,7 +2,6 @@
 
 @section('title', $video->title.' | اتاق اصناف شهرستان گرگان')
 @section('meta_description', Str::limit(strip_tags($video->description), 160))
-@section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 
 @section('content')

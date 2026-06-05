@@ -4,7 +4,7 @@
 @section('meta_description', $page->meta_description ?: $page->excerpt)
 
 @section('content')
-<section class="page-header">
+<div class="page-header">
     <div class="site-container">
         <nav class="breadcrumb-nav">
             <a href="{{ route('home') }}">خانه</a>
@@ -12,20 +12,20 @@
             <span>{{ $page->title }}</span>
         </nav>
         <h1>{{ $page->title }}</h1>
-        @if ($page->excerpt)
-            <p>{{ $page->excerpt }}</p>
-        @endif
     </div>
-</section>
+</div>
 
-<main class="site-container single-layout">
-    <article class="single-main">
+<main class="blank-page">
+    <div class="site-container blank-page-content">
         @if ($page->featured_image)
-            <img class="single-featured-img" src="{{ asset('storage/'.$page->featured_image) }}" alt="{{ $page->title }}" loading="lazy">
+            <p><img class="post-featured-img" src="{{ Storage::url($page->featured_image) }}" alt="{{ $page->title }}" loading="lazy"></p>
         @endif
-        <div class="single-content">
-            {!! $page->body !!}
-        </div>
-    </article>
+
+        @if ($page->excerpt)
+            <p class="lead">{{ $page->excerpt }}</p>
+        @endif
+
+        {!! $page->body ?: '<p>محتوای این صفحه به‌زودی تکمیل می‌شود.</p>' !!}
+    </div>
 </main>
 @endsection
