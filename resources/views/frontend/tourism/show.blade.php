@@ -20,7 +20,7 @@
   <div class="news-single-layout">
     <article class="news-single-main">
       <div class="news-single-cover">
-        <img src="{{ $place->featured_image ? Storage::url($place->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $place->title }}" loading="lazy"/>
+        <img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/>
       </div>
 
       <div class="news-single-body">
@@ -56,20 +56,21 @@
         @endif
       </div>
 
-      @if (! empty($place->gallery))
-        <div class="admin-panel-card mt-4">
-          <h3>گالری تصاویر</h3>
-          <div class="tourism-grid" data-gallery-group>
-            @foreach (collect($place->gallery)->sortBy('sort_order') as $image)
-              @php($imageUrl = Storage::url($image['path'] ?? ''))
-              <a class="tourism-card" href="{{ $imageUrl }}" data-gallery-item data-caption="{{ $image['caption'] ?? $place->title }}">
-                <div class="tourism-img-wrap"><img src="{{ $imageUrl }}" alt="{{ $image['caption'] ?? $place->title }}" loading="lazy"></div>
-                @if (! empty($image['caption']))<div class="tourism-card-body"><p>{{ $image['caption'] }}</p></div>@endif
-              </a>
-            @endforeach
-          </div>
+      <div class="admin-panel-card mt-4">
+        <h3>گالری تصاویر</h3>
+        <div class="tourism-gallery-grid" data-gallery-group="tourism-place-{{ $place->id }}">
+          @forelse (collect($place->gallery ?? [])->sortBy('sort_order') as $image)
+            @php
+              $path = is_array($image) ? ($image['path'] ?? $image['image'] ?? '') : $image;
+              $caption = is_array($image) ? ($image['caption'] ?? $place->title) : $place->title;
+              $imageUrl = filled($path) ? (Str::startsWith($path, ['http://', 'https://', '/']) ? $path : (Str::startsWith($path, 'assets/') ? asset($path) : Storage::url($path))) : asset('assets/img/asnaf-gorgan-default.jpg');
+            @endphp
+            <div class="tourism-gallery-item" data-gallery-item="{{ $imageUrl }}"><img src="{{ $imageUrl }}" alt="{{ $caption }}" loading="lazy"/></div>
+          @empty
+            <div class="tourism-gallery-item" data-gallery-item="{{ $place->home_image_url }}"><img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/></div>
+          @endforelse
         </div>
-      @endif
+      </div>
     </article>
 
     <aside class="news-sidebar">
@@ -78,7 +79,7 @@
         <div class="related-post-list">
           @forelse ($relatedPlaces as $related)
             <a href="{{ route('tourism.show', $related->slug) }}" class="related-post-item">
-              <div class="related-post-thumb"><img src="{{ $related->featured_image ? Storage::url($related->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $related->title }}" loading="lazy"/></div>
+              <div class="related-post-thumb"><img src="{{ $related->home_image_url }}" alt="{{ $related->title }}" loading="lazy"/></div>
               <div><strong>{{ $related->title }}</strong><span>{{ $related->category?->title ?: 'گردشگری' }}</span></div>
             </a>
           @empty
