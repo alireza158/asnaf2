@@ -35,9 +35,4 @@ return [
         ],
     ],
 
-    'market_prices' => [
-        'source_url' => env('MARKET_PRICE_SOURCE_URL'),
-        'source_name' => env('MARKET_PRICE_SOURCE_NAME'),
-    ],
-
 ];

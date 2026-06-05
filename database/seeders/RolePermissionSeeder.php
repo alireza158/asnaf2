@@ -19,7 +19,6 @@ class RolePermissionSeeder extends Seeder
         'users.view', 'users.create', 'users.edit', 'users.delete',
         'roles.view', 'roles.create', 'roles.edit', 'roles.delete',
         'permissions.view', 'permissions.create', 'permissions.edit', 'permissions.delete',
-        'market_prices.view', 'market_prices.edit', 'market_prices.fetch',
         'menus.view', 'menus.create', 'menus.edit', 'menus.delete',
         'pages.view', 'pages.create', 'pages.edit', 'pages.delete', 'pages.approve', 'pages.publish',
         'posts.view', 'posts.create', 'posts.edit', 'posts.delete', 'posts.approve', 'posts.publish',
@@ -118,7 +117,7 @@ class RolePermissionSeeder extends Seeder
         [$group, $action] = explode('.', $permission);
 
         $groups = [
-            'dashboard' => 'داشبورد', 'pending_approvals' => 'تایید محتوا', 'users' => 'کاربران', 'roles' => 'نقش‌ها', 'permissions' => 'دسترسی‌ها', 'market_prices' => 'قیمت روز طلا و ارز',
+            'dashboard' => 'داشبورد', 'pending_approvals' => 'تایید محتوا', 'users' => 'کاربران', 'roles' => 'نقش‌ها', 'permissions' => 'دسترسی‌ها',
             'menus' => 'منوها', 'pages' => 'صفحات', 'posts' => 'اخبار', 'announcements' => 'اطلاعیه‌ها',
             'unions' => 'اتحادیه‌ها', 'union_members' => 'اعضای اتحادیه‌ها', 'complaints' => 'شکایات',
             'galleries' => 'گالری تصاویر', 'videos' => 'ویدیوها', 'tourism' => 'گردشگری',
@@ -130,7 +129,7 @@ class RolePermissionSeeder extends Seeder
 
         $actions = [
             'view' => 'مشاهده', 'create' => 'ایجاد', 'edit' => 'ویرایش', 'delete' => 'حذف',
-            'approve' => 'تایید', 'publish' => 'انتشار', 'reply' => 'پاسخ', 'send' => 'ارسال', 'logs' => 'گزارش‌ها', 'fetch' => 'به‌روزرسانی',
+            'approve' => 'تایید', 'publish' => 'انتشار', 'reply' => 'پاسخ', 'send' => 'ارسال', 'logs' => 'گزارش‌ها',
         ];
 
         return ($actions[$action] ?? $action).' '.($groups[$group] ?? $group);
