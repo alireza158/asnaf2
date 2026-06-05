@@ -37,7 +37,7 @@
                                 <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('این منو و همه آیتم‌های آن حذف شود؟')">حذف</button>
+                                    <button type="submit">حذف</button>
                                 </form>
                             </div>
                         </td>

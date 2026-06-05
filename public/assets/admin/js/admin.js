@@ -160,3 +160,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const deleteModalElement = document.getElementById('adminDeleteModal');
+
+    if (!deleteModalElement || !window.bootstrap) {
+        return;
+    }
+
+    const deleteModal = new window.bootstrap.Modal(deleteModalElement);
+    const confirmButton = deleteModalElement.querySelector('[data-admin-delete-confirm]');
+    const messageElement = deleteModalElement.querySelector('[data-admin-delete-message]');
+    let pendingDeleteForm = null;
+
+    document.querySelectorAll('form').forEach((form) => {
+        const methodInput = form.querySelector('input[name="_method"]');
+        const isDeleteForm = methodInput && methodInput.value.toUpperCase() === 'DELETE';
+
+        if (!isDeleteForm) {
+            return;
+        }
+
+        form.setAttribute('data-admin-delete-form', 'true');
+
+        form.addEventListener('submit', (event) => {
+            if (form.dataset.adminDeleteConfirmed === 'true') {
+                return;
+            }
+
+            event.preventDefault();
+            pendingDeleteForm = form;
+
+            if (messageElement) {
+                const rowTitle = form.closest('tr')?.querySelector('strong')?.textContent?.trim();
+                messageElement.textContent = rowTitle ? `مورد انتخاب‌شده: ${rowTitle}` : '';
+            }
+
+            deleteModal.show();
+        });
+    });
+
+    confirmButton?.addEventListener('click', () => {
+        if (!pendingDeleteForm) {
+            return;
+        }
+
+        pendingDeleteForm.dataset.adminDeleteConfirmed = 'true';
+        deleteModal.hide();
+        pendingDeleteForm.requestSubmit();
+    });
+
+    deleteModalElement.addEventListener('hidden.bs.modal', () => {
+        if (pendingDeleteForm?.dataset.adminDeleteConfirmed !== 'true') {
+            pendingDeleteForm = null;
+        }
+    });
+});

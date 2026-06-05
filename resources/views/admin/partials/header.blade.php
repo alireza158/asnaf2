@@ -18,11 +18,15 @@
         </div>
         <a class="admin-view-site" href="{{ route('home') }}" target="_blank" rel="noopener">مشاهده سایت</a>
         <div class="admin-user-card">
-            <div class="admin-avatar">م</div>
+            <div class="admin-avatar">{{ mb_substr(auth()->user()?->name ?? 'م', 0, 1) }}</div>
             <div>
-                <strong>مدیر سامانه</strong>
+                <strong>{{ auth()->user()?->name ?? 'مدیر سامانه' }}</strong>
                 <span>خوش آمدید</span>
             </div>
         </div>
+        <form class="admin-logout-form" action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button class="admin-secondary-btn" type="submit">خروج</button>
+        </form>
     </div>
 </header>

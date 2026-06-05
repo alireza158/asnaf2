@@ -62,7 +62,7 @@
                                     </form>
                                 @endunless
                                 @if (request()->user()->hasPermission('contact_messages.delete'))
-                                    <form action="{{ route('admin.contact_messages.destroy', $message) }}" method="POST" onsubmit="return confirm('این پیام حذف شود؟')">
+                                    <form action="{{ route('admin.contact_messages.destroy', $message) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit">حذف</button>

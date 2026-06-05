@@ -11,11 +11,23 @@ use Illuminate\View\View;
 
 class PermissionController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $permissions = Permission::withCount('roles')->orderBy('group')->orderBy('name')->paginate(20);
+        $search = trim((string) $request->query('search'));
 
-        return view('admin.permissions.index', compact('permissions'));
+        $permissions = Permission::query()
+            ->withCount('roles')
+            ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('label', 'like', "%{$search}%")
+                ->orWhere('group', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%")))
+            ->orderBy('group')
+            ->orderBy('name')
+            ->paginate(20)
+            ->withQueryString();
+
+        return view('admin.permissions.index', compact('permissions', 'search'));
     }
 
     public function create(): View

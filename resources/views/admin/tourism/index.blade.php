@@ -50,7 +50,7 @@
                             <a class="admin-secondary-btn" href="{{ route('admin.tourism.show', $place) }}">نمایش</a>
                             @if (request()->user()->hasPermission('tourism.edit'))<a class="admin-secondary-btn" href="{{ route('admin.tourism.edit', $place) }}">ویرایش</a>@endif
                             @if (request()->user()->hasPermission('tourism.delete'))
-                                <form action="{{ route('admin.tourism.destroy', $place) }}" method="POST" onsubmit="return confirm('این مکان حذف شود؟')">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
+                                <form action="{{ route('admin.tourism.destroy', $place) }}" method="POST">@csrf @method('DELETE')<button class="admin-danger-btn" type="submit">حذف</button></form>
                             @endif
                         </div>
                     </td>
