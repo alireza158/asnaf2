@@ -1,32 +1,45 @@
-@php
-    $settings = app(\App\Services\SettingService::class);
-    $footerLogo = $settings->get('footer.footer_logo') ?: $settings->get('site.site_logo');
-    $footerLogoUrl = $footerLogo ? Storage::url($footerLogo) : asset('assets/img/asnaf-footer-mark.svg');
-    $footerDescription = $settings->get('footer.footer_description');
-    $footerColumns = collect($settings->get('footer.footer_columns', []));
-    $footerMenuItems = app(\App\Services\MenuService::class)->items('footer');
-    $contactInfo = collect($settings->get('footer.footer_contact_info', []))->filter(fn ($item) => filled($item['text'] ?? null));
-    $socialLinks = collect($settings->get('footer.footer_social_links', $settings->get('site.social_links', [])))->filter(fn ($link) => filled($link['url'] ?? null));
-    $copyright = $settings->get('footer.copyright_text');
-@endphp
-<footer class="site-footer"><div class="site-container"><div class="footer-main">
-<div class="footer-col footer-brand-col"><img alt="{{ $settings->get('site.site_title', 'اتاق اصناف شهرستان گرگان') }}" src="{{ $footerLogoUrl }}"/>@if($footerDescription)<p>{{ $footerDescription }}</p>@endif</div>
-@if($footerColumns->isNotEmpty())
-    @foreach($footerColumns as $column)
-        @if(filled($column['title'] ?? null) || !empty($column['links'] ?? []))
-            <div class="footer-col"><h4>{{ $column['title'] ?? 'لینک‌ها' }}</h4><ul>@foreach(($column['links'] ?? []) as $link)@if(filled($link['title'] ?? null))<li><a href="{{ $link['url'] ?? '#' }}">{{ $link['title'] }}</a></li>@endif @endforeach</ul></div>
-        @endif
-    @endforeach
-@elseif($footerMenuItems->isNotEmpty())
-    <div class="footer-col"><h4>دسترسی سریع</h4><ul>@foreach($footerMenuItems as $item)<li><a href="{{ $item->resolved_url }}" target="{{ $item->target }}" @if($item->target === '_blank') rel="noopener" @endif>{{ $item->icon }} {{ $item->title }}</a></li>@endforeach</ul></div>
-@endif
-@if($contactInfo->isNotEmpty())
-<div class="footer-col"><h4>اطلاعات تماس</h4>@foreach($contactInfo as $item)<div class="footer-contact-item"><span class="fc-icon">{{ $item['icon'] ?? '•' }}</span><span>{!! nl2br(e($item['text'] ?? '')) !!}</span></div>@endforeach</div>
-@endif
-</div><div class="footer-divider"></div>
-@if($footerColumns->isNotEmpty() && $footerMenuItems->isNotEmpty())
-<div class="footer-orgs">@foreach($footerMenuItems as $item)<a href="{{ $item->resolved_url }}" target="{{ $item->target }}" @if($item->target === '_blank') rel="noopener" @endif>{{ $item->title }}</a>@endforeach</div>
+<footer class="site-footer">
+<div class="site-container">
+<div class="footer-main">
+<div class="footer-col footer-brand-col">
+<img alt="اتاق اصناف شهرستان گرگان" src="{{ asset('assets/img/asnaf-footer-mark.svg') }}"/>
+<p>اتاق اصناف شهرستان گرگان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.</p>
+</div>
+<div class="footer-col">
+<h4>دسترسی سریع</h4>
+<ul>
+<li><a href="index.html">صفحه اصلی</a></li>
+<li><a href="archive.html">آرشیو اخبار</a></li>
+<li><a href="guild.html">اتحادیه‌های صنفی</a></li>
+<li><a href="blank.html">سامانه خدمات صنفی</a></li>
+<li><a href="gallery.html">گالری تصاویر</a></li>
+<li><a href="tourism.html">گردشگری</a></li>
+<li><a href="#multimedia">چندرسانه‌ای</a></li>
+<li><a href="#friendship">تماس با ما</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>اطلاعات تماس</h4>
+<div class="footer-contact-item"><span class="fc-icon">📍</span><span>گرگان، خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف</span></div>
+<div class="footer-contact-item"><span class="fc-icon">📞</span><span>۰۱۷-۳۲۱۵۲۹۱۲<br/>۰۱۷-۳۲۱۵۴۷۶۷</span></div>
+<div class="footer-contact-item"><span class="fc-icon">✉️</span><span>info@asnaf-gorgan.ir</span></div>
+</div>
+</div>
 <div class="footer-divider"></div>
-@endif
-<div class="footer-bottom">@if($socialLinks->isNotEmpty())<div class="footer-social">@foreach($socialLinks as $link)<a href="{{ $link['url'] }}" aria-label="{{ $link['title'] ?? 'شبکه اجتماعی' }}" target="_blank" rel="noopener">{{ $link['icon'] ?? '🔗' }}</a>@endforeach</div>@endif @if($copyright)<div class="footer-copy">{{ $copyright }}</div>@endif</div>
-</div></footer>
+<div class="footer-orgs">
+<a href="#">اتاق اصناف شهرستان گرگان</a><a href="#">اتاق اصناف ایران</a><a href="#">سامانه نوین اصناف</a><a href="#">سامانه آموزش اصناف</a><a href="#">اداره صمت گلستان</a><a href="#">کمیسیون نظارت</a><a href="#">تعزیرات حکومتی</a><a href="#">شهرداری گرگان</a><a href="#">سازمان بازرسی</a><a href="#">فرم‌ها و بخشنامه‌ها</a>
+</div>
+<div class="footer-divider"></div>
+<div class="footer-bottom">
+<div class="footer-social">
+<a href="#" aria-label="اینستاگرام">📷</a>
+<a href="#" aria-label="تلگرام">✈️</a>
+<a href="#" aria-label="واتساپ">💬</a>
+<a href="#" aria-label="ایتا">📱</a>
+<a href="#" aria-label="بله">🔵</a>
+<a href="#" aria-label="روبیکا">🟣</a>
+</div>
+<div class="footer-copy">تمام حقوق مادی و معنوی این وبسایت متعلق به اتاق اصناف شهرستان گرگان می‌باشد</div>
+</div>
+</div>
+</footer>
