@@ -312,11 +312,7 @@
 </section>
 
 
-<<<<<<< codex/apply-full-site-updates-to-frontend-gooekr
 <section class="representatives-section section-white" id="representatives" data-union-ajax-url="{{ route('guilds.ajax-search') }}">
-=======
-<section class="representatives-section section-white" id="representatives">
->>>>>>> main
 <div class="site-container">
 <div class="section-heading">
 <h2>اتحادیه‌های صنفی استان گلستان</h2>
@@ -335,15 +331,9 @@
 <img alt="تصویر پیش‌فرض اتاق اصناف مرکز استان گلستان" class="{{ $map[1] }}" src="{{ $defaultImage }}"/>
 </div>
 <aside class="people-panel" data-search-area="">
-<<<<<<< codex/apply-full-site-updates-to-frontend-gooekr
 <div class="searchbox"><span class="search-icon"></span><input data-union-ajax-input="" data-union-type="{{ str_replace('rep-', '', $panel) }}" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
 <div class="people-scroll-wrap">
 <ul class="person-list" data-union-results="{{ $panel }}">
-=======
-<div class="searchbox"><span class="search-icon"></span><input data-filter-input="" data-union-search-url="{{ route('guilds.search') }}" data-union-type="{{ $map[2] }}" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
-<div class="people-scroll-wrap">
-<ul class="person-list" data-union-results>
->>>>>>> main
 @forelse($unionPanels[$panel] as $union)
 <li class="union-home-item"><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a><div class="union-home-actions"><a href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت</a>@foreach(($union->social_links ?? []) as $network => $link)@if(filled($link))<a href="{{ $link }}" target="_blank" rel="noopener">{{ $network }}</a>@endif @endforeach</div></li>
 @empty
