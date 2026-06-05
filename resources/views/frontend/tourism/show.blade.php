@@ -6,208 +6,198 @@
 
 @section('content')
 @php
-$imageUrl = function ($path) {
-if (! $path) {
-return asset('assets/img/asnaf-gorgan-default.jpg');
-}
+    $title = $place->title ?? 'مکان گردشگری';
+    $categoryTitle = $place->category?->title ?: 'گردشگری گرگان';
+    $summary = $place->short_description ?: \Illuminate\Support\Str::limit(strip_tags((string) $place->description), 220);
+    $featuredImage = image_url($place->featured_image ?: ($place->image ?: null));
+    $galleryImages = collect($place->gallery_items ?? [])
+        ->filter(fn ($image) => filled($image['url'] ?? null))
+        ->values();
 
-
-    if (filter_var($path, FILTER_VALIDATE_URL)) {
-        return $path;
+    if ($galleryImages->isEmpty()) {
+        $galleryImages = collect([['url' => $featuredImage, 'caption' => $title]]);
     }
 
-    if (str_starts_with($path, 'assets/')) {
-        return asset($path);
-    }
+    $latitude = filled($place->latitude) ? (string) $place->latitude : null;
+    $longitude = filled($place->longitude) ? (string) $place->longitude : null;
+    $coordinates = $latitude && $longitude ? $latitude.', '.$longitude : null;
+    $mapUrl = filled($place->map_url) ? (string) $place->map_url : null;
+    $coordinateMapUrl = $coordinates ? 'https://www.google.com/maps/search/?api=1&query='.urlencode($coordinates) : null;
+    $mapLink = $mapUrl ?: $coordinateMapUrl;
+    $isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
+    $phoneHref = filled($place->phone) ? 'tel:'.preg_replace('/[^0-9+]/', '', (string) $place->phone) : null;
 
-    if (str_starts_with($path, 'storage/')) {
-        return asset($path);
-    }
-
-    return \Illuminate\Support\Facades\Storage::url($path);
-};
-
-$featuredImage = $imageUrl($place->featured_image ?? null);
-
-$galleryItems = collect($place->gallery ?? [])
-    ->filter(fn ($item) => ! empty($item['path'] ?? null))
-    ->sortBy('sort_order');
-
-$categoryTitle = $place->category?->title ?: 'گردشگری';
-
-$mapUrl = $place->map_url ?? null;
-$isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
-
-
+    $visitInfoCards = [
+        ['icon' => '📍', 'title' => 'آدرس', 'value' => $place->address ?: 'آدرس این مکان هنوز ثبت نشده است.', 'link' => $mapLink, 'linkLabel' => $mapLink ? 'مشاهده روی نقشه' : null],
+        ['icon' => '⏰', 'title' => 'ساعت بازدید', 'value' => $place->working_hours ?: 'ساعت بازدید هنوز ثبت نشده است.', 'link' => null, 'linkLabel' => null],
+        ['icon' => '💳', 'title' => 'هزینه بازدید', 'value' => $place->visit_price ?: 'هزینه بازدید هنوز ثبت نشده است.', 'link' => null, 'linkLabel' => null],
+        ['icon' => '☎️', 'title' => 'تلفن تماس', 'value' => $place->phone ?: 'شماره تماس ثبت نشده است.', 'link' => $phoneHref, 'linkLabel' => $phoneHref ? 'تماس مستقیم' : null],
+        ['icon' => '🧭', 'title' => 'مختصات', 'value' => $coordinates ?: 'مختصات جغرافیایی ثبت نشده است.', 'link' => $coordinateMapUrl, 'linkLabel' => $coordinateMapUrl ? 'مسیریابی' : null, 'dir' => $coordinates ? 'ltr' : 'rtl'],
+        ['icon' => '🗺️', 'title' => 'نقشه', 'value' => $mapLink ? 'لینک نقشه برای این مکان ثبت شده است.' : 'لینک نقشه هنوز ثبت نشده است.', 'link' => $mapLink, 'linkLabel' => $mapLink ? 'باز کردن نقشه' : null],
+    ];
 @endphp
 
-<section class="page-header page-header-alt page-header-tourism">
-    <div class="site-container">
-        <h1>{{ $place->title ?? 'مکان گردشگری' }}</h1>
+<main class="bg-light">
+    <section class="py-5 bg-white border-bottom">
+        <div class="container">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('home') }}">خانه</a></li>
+                    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('tourism.index') }}">گردشگری</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+                </ol>
+            </nav>
 
-
-    <nav class="breadcrumb">
-        <a href="{{ route('home') }}">خانه</a>
-        <a href="{{ route('tourism.index') }}">گردشگری</a>
-        <span>{{ $place->title ?? 'مکان گردشگری' }}</span>
-    </nav>
-</div>
-
-
-</section>
-
-<section class="site-container">
-  <div class="news-single-layout">
-    <article class="news-single-main">
-      <div class="news-single-cover">
-        <img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/>
-      </div>
-
-      <div class="news-single-body">
-        <div class="post-meta">
-          <span>📅 {{ jalali_date($place->published_at) ?: jalali_date($place->created_at) }}</span>
-          <span>🏷 {{ $place->category?->title ?: 'گردشگری' }}</span>
-        </div>
-
-        <div class="tourism-intro-img">
-            <img src="{{ $featuredImage }}" alt="{{ $place->title ?? 'مکان گردشگری' }}" loading="lazy">
-        </div>
-    </div>
-</div>
-
-
-</section>
-
-<section class="tourism-attractions">
-    <div class="site-container">
-        <div class="section-heading section-heading-centered">
-            <h2>اطلاعات بازدید</h2>
-            <p>جزئیات دسترسی، ساعت بازدید و راه‌های ارتباطی این مکان گردشگری</p>
-        </div>
-
-
-    <div class="tourism-grid tourism-grid-lg">
-        <div class="tourism-card tourism-card-lg">
-            <div class="tourism-card-body">
-                <h3>آدرس</h3>
-                <p>{{ $place->address ?: 'آدرس این مکان هنوز ثبت نشده است.' }}</p>
-                <div class="tourism-card-footer">
-                    <span>📍 موقعیت مکانی</span>
+            <div class="row g-4 align-items-center">
+                <div class="col-lg-6">
+                    <span class="badge text-bg-success rounded-pill px-3 py-2 mb-3">{{ $categoryTitle }}</span>
+                    <h1 class="display-6 fw-bold lh-base mb-3">{{ $title }}</h1>
+                    <p class="lead text-secondary mb-4">{{ $summary ?: 'توضیح کوتاهی برای این مکان گردشگری ثبت نشده است.' }}</p>
+                    <div class="d-flex flex-wrap gap-2 text-secondary small">
+                        <span class="badge text-bg-light border rounded-pill px-3 py-2">📅 {{ jalali_date($place->published_at) ?: jalali_date($place->created_at) ?: 'بدون تاریخ' }}</span>
+                        @if($place->location || $place->address)
+                            <span class="badge text-bg-light border rounded-pill px-3 py-2">📍 {{ $place->location ?: \Illuminate\Support\Str::limit($place->address, 55) }}</span>
+                        @endif
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="tourism-card tourism-card-lg">
-            <div class="tourism-card-body">
-                <h3>ساعت بازدید</h3>
-                <p>{{ $place->working_hours ?: 'ساعت بازدید هنوز ثبت نشده است.' }}</p>
-                <div class="tourism-card-footer">
-                    <span>⏰ زمان مراجعه</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="tourism-card tourism-card-lg">
-            <div class="tourism-card-body">
-                <h3>هزینه بازدید</h3>
-                <p>{{ $place->visit_price ?: 'هزینه بازدید هنوز ثبت نشده است.' }}</p>
-                <div class="tourism-card-footer">
-                    <span>💳 هزینه ورود</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="tourism-card tourism-card-lg">
-            <div class="tourism-card-body">
-                <h3>تلفن تماس</h3>
-                <p>{{ $place->phone ?: 'شماره تماس ثبت نشده است.' }}</p>
-                <div class="tourism-card-footer">
-                    @if (! empty($place->phone))
-                        <span>☎ {{ $place->phone }}</span>
-                    @else
-                        <span>☎ اطلاعات تماس</span>
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        @if (! empty($place->latitude) && ! empty($place->longitude))
-            <div class="tourism-card tourism-card-lg">
-                <div class="tourism-card-body">
-                    <h3>مختصات جغرافیایی</h3>
-                    <p dir="ltr">{{ $place->latitude }}, {{ $place->longitude }}</p>
-                    <div class="tourism-card-footer">
-                        <span>🗺 مختصات</span>
+                <div class="col-lg-6">
+                    <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm bg-secondary-subtle">
+                        <img class="w-100 h-100 object-fit-cover" src="{{ $featuredImage }}" alt="{{ $title }}" loading="lazy">
                     </div>
                 </div>
             </div>
-        @endif
-      </div>
-
-      <div class="admin-panel-card mt-4">
-        <h3>گالری تصاویر</h3>
-        <div class="tourism-gallery-grid" data-gallery-group="tourism-place-{{ $place->id }}">
-          @forelse ($place->gallery_items as $image)
-            <div class="tourism-gallery-item" data-gallery-item="{{ $image['url'] }}"><img src="{{ $image['url'] }}" alt="{{ $image['caption'] }}" loading="lazy"/></div>
-          @empty
-            <div class="tourism-gallery-item" data-gallery-item="{{ $place->home_image_url }}"><img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/></div>
-          @endforelse
         </div>
-      </div>
-    </article>
+    </section>
 
-    <aside class="news-sidebar">
-      <div class="news-sidebar-card">
-        <h4>مکان‌های مرتبط</h4>
-        <div class="related-post-list">
-          @forelse ($relatedPlaces as $related)
-            <a href="{{ route('tourism.show', $related->slug) }}" class="related-post-item">
-              <div class="related-post-thumb"><img src="{{ $related->home_image_url }}" alt="{{ $related->title }}" loading="lazy"/></div>
-              <div><strong>{{ $related->title }}</strong><span>{{ $related->category?->title ?: 'گردشگری' }}</span></div>
-            </a>
-          @empty
-            <p class="text-muted mb-0">مکان مرتبطی برای نمایش وجود ندارد.</p>
-          @endforelse
-        </div>
-    </div>
-</section>
-
-@if (! empty($relatedPlaces) && $relatedPlaces->count()) <section class="tourism-attractions"> <div class="site-container"> <div class="section-heading section-heading-centered"> <h2>مکان‌های مرتبط</h2> <p>جاذبه‌های مشابه و نزدیک برای بازدید بیشتر</p> </div>
-
-```
-        <div class="tourism-grid tourism-grid-lg">
-            @foreach ($relatedPlaces as $related)
-                <div class="tourism-card tourism-card-lg">
-                    <a href="{{ route('tourism.show', $related->slug) }}">
-                        <div class="tourism-img-wrap">
-                            <img
-                                src="{{ $imageUrl($related->featured_image ?? null) }}"
-                                alt="{{ $related->title }}"
-                                loading="lazy"
-                            >
-                            <div class="tourism-badge">
-                                {{ $related->category?->title ?: 'گردشگری' }}
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <article class="card border-0 shadow-sm rounded-4 mb-4">
+                        <div class="card-body p-4 p-lg-5">
+                            <h2 class="h4 fw-bold mb-3">معرفی {{ $title }}</h2>
+                            <div class="text-secondary lh-lg fs-6">
+                                {!! $place->description ? nl2br(e($place->description)) : '<p class="mb-0">توضیحات کامل این مکان هنوز در پایگاه داده ثبت نشده است.</p>' !!}
                             </div>
                         </div>
-                    </a>
+                    </article>
 
-                    <div class="tourism-card-body">
-                        <h3>{{ $related->title }}</h3>
-                        <p>{{ $related->short_description ?: \Illuminate\Support\Str::limit(strip_tags($related->description), 120) }}</p>
+                    <section class="card border-0 shadow-sm rounded-4 mb-4" aria-labelledby="visit-info-heading">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                                <div>
+                                    <p class="text-success fw-bold mb-1">اطلاعات بازدید</p>
+                                    <h2 id="visit-info-heading" class="h4 fw-bold mb-0">دسترسی، هزینه و راه‌های ارتباطی</h2>
+                                </div>
+                                @if($mapLink)
+                                    <a class="btn btn-success rounded-pill px-4" href="{{ $mapLink }}" target="_blank" rel="noopener">مشاهده نقشه</a>
+                                @endif
+                            </div>
 
-                        <div class="tourism-card-footer">
-                            <span>📍 {{ $related->address ?: 'گرگان' }}</span>
-                            <span>🏷 {{ $related->category?->title ?: 'گردشگری' }}</span>
+                            <div class="row g-3">
+                                @foreach($visitInfoCards as $info)
+                                    <div class="col-md-6">
+                                        <div class="card h-100 border-0 bg-light rounded-4">
+                                            <div class="card-body p-4">
+                                                <div class="d-flex align-items-start gap-3">
+                                                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-white shadow-sm fs-4" style="width:48px;height:48px">{{ $info['icon'] }}</span>
+                                                    <div class="flex-grow-1">
+                                                        <h3 class="h6 fw-bold mb-2">{{ $info['title'] }}</h3>
+                                                        <p class="text-secondary mb-3" dir="{{ $info['dir'] ?? 'rtl' }}">{{ $info['value'] }}</p>
+                                                        @if($info['link'])
+                                                            <a class="small fw-bold text-success text-decoration-none" href="{{ $info['link'] }}" @if(! str_starts_with($info['link'], 'tel:')) target="_blank" rel="noopener" @endif>{{ $info['linkLabel'] }}</a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if($isEmbeddableMap)
+                                <div class="ratio ratio-16x9 rounded-4 overflow-hidden mt-4 border">
+                                    <iframe src="{{ $mapUrl }}" title="نقشه {{ $title }}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+                            @endif
+                        </div>
+                    </section>
+
+                    <section class="card border-0 shadow-sm rounded-4" aria-labelledby="gallery-heading">
+                        <div class="card-body p-4 p-lg-5">
+                            <div class="mb-4">
+                                <p class="text-success fw-bold mb-1">گالری تصاویر</p>
+                                <h2 id="gallery-heading" class="h4 fw-bold mb-0">تصاویر {{ $title }}</h2>
+                            </div>
+
+                            <div class="row g-3" data-gallery-group="tourism-place-{{ $place->id }}">
+                                @foreach($galleryImages as $image)
+                                    <div class="col-6 col-md-4">
+                                        <button type="button" class="btn p-0 border-0 bg-transparent w-100 rounded-4 overflow-hidden shadow-sm" data-gallery-item="{{ $image['url'] }}" aria-label="مشاهده تصویر {{ $image['caption'] ?? $title }}">
+                                            <span class="ratio ratio-1x1 d-block bg-secondary-subtle">
+                                                <img class="w-100 h-100 object-fit-cover" src="{{ $image['url'] }}" alt="{{ $image['caption'] ?? $title }}" loading="lazy">
+                                            </span>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="col-lg-4">
+                    <div class="position-sticky" style="top: 110px;">
+                        <div class="card border-0 shadow-sm rounded-4 mb-4">
+                            <div class="card-body p-4">
+                                <h2 class="h5 fw-bold mb-3">خلاصه اطلاعات</h2>
+                                <ul class="list-unstyled d-grid gap-3 mb-0 text-secondary">
+                                    <li class="d-flex justify-content-between gap-3"><span>دسته‌بندی</span><strong class="text-dark">{{ $categoryTitle }}</strong></li>
+                                    <li class="d-flex justify-content-between gap-3"><span>محدوده</span><strong class="text-dark">{{ $place->location ?: 'گرگان' }}</strong></li>
+                                    <li class="d-flex justify-content-between gap-3"><span>تعداد تصاویر</span><strong class="text-dark">{{ $galleryImages->count() }}</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card border-0 shadow-sm rounded-4">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+                                    <h2 class="h5 fw-bold mb-0">مکان‌های مرتبط</h2>
+                                    <a class="small text-success fw-bold text-decoration-none" href="{{ route('tourism.index') }}">همه مکان‌ها</a>
+                                </div>
+
+                                <div class="row g-3">
+                                    @forelse($relatedPlaces as $related)
+                                        @php($relatedImage = image_url($related->featured_image ?: ($related->image ?: null)))
+                                        <div class="col-12">
+                                            <a class="card h-100 border-0 bg-light rounded-4 text-decoration-none text-dark overflow-hidden" href="{{ route('tourism.show', $related->slug) }}">
+                                                <div class="row g-0 align-items-stretch">
+                                                    <div class="col-4">
+                                                        <img class="w-100 h-100 object-fit-cover" src="{{ $relatedImage }}" alt="{{ $related->title }}" loading="lazy">
+                                                    </div>
+                                                    <div class="col-8">
+                                                        <div class="card-body p-3">
+                                                            <span class="badge bg-white border text-secondary mb-2">{{ $related->category?->title ?: 'گردشگری' }}</span>
+                                                            <h3 class="h6 fw-bold lh-base mb-2">{{ $related->title }}</h3>
+                                                            <p class="small text-secondary mb-0">{{ \Illuminate\Support\Str::limit($related->short_description ?: strip_tags((string) $related->description), 80) ?: 'توضیحی ثبت نشده است.' }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    @empty
+                                        <div class="col-12">
+                                            <div class="alert alert-light border rounded-4 mb-0">مکان مرتبطی برای نمایش ثبت نشده است.</div>
+                                        </div>
+                                    @endforelse
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                </aside>
+            </div>
         </div>
-    </div>
-</section>
-
-
-@endif
+    </section>
+</main>
 @endsection
 
 @section('after_footer')

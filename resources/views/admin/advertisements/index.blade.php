@@ -66,6 +66,6 @@
             </tbody>
         </table>
     </div>
-    {{ $advertisements->links() }}
+    @include('admin.partials.pagination', ['paginator' => $advertisements])
 </div>
 @endsection

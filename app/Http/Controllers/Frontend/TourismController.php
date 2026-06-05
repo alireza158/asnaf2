@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\PostCategory;
 use App\Models\TourismPlace;
+use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class TourismController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, SettingService $settings): View
     {
         $category = trim((string) $request->query('category'));
         $search = trim((string) $request->query('search'));
@@ -44,6 +45,7 @@ class TourismController extends Controller
             'categories' => $this->categories(),
             'activeCategory' => $category,
             'search' => $search,
+            'tourismSettings' => $settings->group('tourism'),
         ]);
     }
 

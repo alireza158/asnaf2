@@ -12,6 +12,8 @@
       <span>گالری</span>
     </nav>
   </div>
+
+  {{ $galleries->links('frontend.partials.pagination') }}
 </section>
 
 <section class="site-container">
@@ -43,5 +45,7 @@
       </a>
     @endforelse
   </div>
+
+  {{ $galleries->links('frontend.partials.pagination') }}
 </section>
 @endsection
