@@ -28,6 +28,7 @@ class Post extends Model
         'type',
         'is_important',
         'is_featured',
+        'is_top',
         'views_count',
         'status',
         'published_at',
@@ -46,6 +47,7 @@ class Post extends Model
         return [
             'is_important' => 'boolean',
             'is_featured' => 'boolean',
+            'is_top' => 'boolean',
             'views_count' => 'integer',
             'published_at' => 'datetime',
             'sort_order' => 'integer',
@@ -134,6 +136,11 @@ class Post extends Model
     public function scopeImportant($query)
     {
         return $query->where('is_important', true);
+    }
+
+    public function scopeTop($query)
+    {
+        return $query->where('is_top', true);
     }
 
     public function getRouteKeyName(): string

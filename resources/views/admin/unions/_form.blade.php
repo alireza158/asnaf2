@@ -73,8 +73,8 @@
             <div class="col-md-3">
                 <label class="form-label" for="{{ $field }}">{{ $label }}</label>
                 <select class="form-control" id="{{ $field }}" name="{{ $field }}">
-                    <option value="1" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled'], true))) === '1')>فعال</option>
-                    <option value="0" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled'], true))) === '0')>غیرفعال</option>
+                    <option value="1" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled', 'complaint_enabled'], true))) === '1')>فعال</option>
+                    <option value="0" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled', 'complaint_enabled'], true))) === '0')>غیرفعال</option>
                 </select>
             </div>
         @endforeach
