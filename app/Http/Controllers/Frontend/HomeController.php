@@ -12,6 +12,7 @@ use App\Models\GuildUnion;
 use App\Models\HomeSection;
 use App\Models\OrgLink;
 use App\Models\Post;
+use App\Models\Price;
 use App\Models\System;
 use App\Models\TourismPlace;
 use App\Models\Video;
@@ -225,7 +226,6 @@ class HomeController extends Controller
         return GuildUnion::query()
             ->active()
             ->where('union_type', $type)
-            ->orderBy('sort_order')
             ->orderBy('title')
             ->take(10)
             ->get();
@@ -245,6 +245,24 @@ class HomeController extends Controller
 
     private function priceItems(SettingService $settings): Collection
     {
+        $prices = Price::query()
+            ->active()
+            ->whereIn('type', ['gold', 'coin', 'silver', 'currency'])
+            ->orderBy('sort_order')
+            ->latest('published_at')
+            ->take(4)
+            ->get()
+            ->map(fn (Price $price) => [
+                'label' => $price->title,
+                'value' => filled($price->amount) ? number_format((float) $price->amount) : '—',
+                'unit' => $price->unit,
+                'trend' => $price->source ?: '',
+            ]);
+
+        if ($prices->isNotEmpty()) {
+            return $prices->values();
+        }
+
         $defaults = [
             'gold' => ['label' => 'طلا ۱۸ عیار', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],
             'coin' => ['label' => 'سکه امامی', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],

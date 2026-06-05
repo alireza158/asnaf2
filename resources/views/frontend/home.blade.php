@@ -335,7 +335,7 @@
 <div class="people-scroll-wrap">
 <ul class="person-list" data-union-results>
 @forelse($unionPanels[$panel] as $union)
-<li><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a></li>
+<li class="union-home-item"><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a><div class="union-home-actions"><a href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت</a>@foreach(($union->social_links ?? []) as $network => $link)@if(filled($link))<a href="{{ $link }}" target="_blank" rel="noopener">{{ $network }}</a>@endif @endforeach</div></li>
 @empty
 <li><span class="person-avatar avatar-1"></span><div><strong>اتحادیه‌ای ثبت نشده است</strong><small>لطفاً از پنل مدیریت اتحادیه جدید ثبت کنید.</small></div></li>
 @endforelse
@@ -355,18 +355,6 @@
 <h2>خدمات اتاق</h2>
 <a class="tab-pill" href="{{ $servicesUrl }}">مشاهده همه خدمات</a>
 </div>
-</div>
-@php
-    $commissionTabs = [
-        'com-12' => [['صدور پروانه','ثبت، بررسی و راهنمای صدور پروانه کسب',$servicesUrl], ['تمدید پروانه','تمدید، تغییر نشانی و انتقال واحد صنفی',$servicesUrl], ['استعلام صنفی','پیگیری وضعیت درخواست‌ها و مجوزها',$systemsUrl], ['رسته‌های شغلی','راهنمای انتخاب رسته و اتحادیه مرتبط',$guildsUrl], ['فرم‌ها','دریافت فرم‌های اداری و درخواست‌ها',route('announcements.index')], ['بخشنامه‌ها','آخرین ابلاغیه‌های مرتبط با اصناف',route('announcements.index')], ['مشاوره صنفی','راهنمایی متقاضیان و مباشرین',$contactUrl], ['پرونده صنفی','تکمیل و اصلاح مدارک پرونده‌ها',$servicesUrl], ['شناسه صنفی','راهنمای دریافت شناسه و کد واحد',$systemsUrl], ['نوبت‌دهی','مدیریت مراجعه حضوری و پیگیری',$contactUrl], ['آمار اصناف','گزارش‌های آماری و اطلاعات رسته‌ها',$guildsUrl], ['اطلاع‌رسانی','خبرها و اطلاعیه‌های مهم اتاق',$postsUrl]],
-        'com-11' => [['بازرسی','نظارت بر واحدهای صنفی و رعایت مقررات',$complaintsUrl], ['شکایات','ثبت و پیگیری شکایات شهروندان',$complaintsUrl], ['تخلفات صنفی','گزارش تخلف و ارجاع به مراجع ذی‌ربط',$complaintsUrl], ['نرخ‌گذاری','اطلاع‌رسانی ضوابط قیمت و نرخ خدمات',route('announcements.index')], ['حقوق مصرف‌کننده','صیانت از حقوق مردم و کسبه',$complaintsUrl], ['صلح و سازش','رسیدگی اولیه به اختلافات صنفی',$commissionsUrl], ['بهداشت و ایمنی','هماهنگی با دستگاه‌های نظارتی مرتبط',$commissionsUrl], ['طرح‌های نظارتی','اجرای طرح‌های مناسبتی و دوره‌ای',$postsUrl]],
-        'com-10' => [['احکام تجارت','دوره‌های آموزشی متقاضیان پروانه کسب',$servicesUrl], ['آموزش آنلاین','معرفی سامانه آموزش الکترونیکی اصناف',$servicesUrl], ['قانون نظام صنفی','آشنایی با تکالیف و حقوق واحد صنفی',$servicesUrl], ['مالیات','راهنمای تکالیف مالیاتی کسب‌وکارها',$servicesUrl], ['بیمه','اطلاع‌رسانی بیمه و روابط کار',$servicesUrl], ['بهداشت صنفی','راهنمای الزامات بهداشتی کسب‌وکار',$servicesUrl], ['تجارت دیجیتال','نکات فروش اینترنتی و کسب‌وکار آنلاین',$servicesUrl], ['سوالات پرتکرار','پاسخ به پرسش‌های متقاضیان',$contactUrl]],
-        'com-all' => [['اتحادیه‌ها','هماهنگی بین اتحادیه‌های صنفی شهرستان',$guildsUrl], ['اداره صمت','تعامل با اداره صنعت، معدن و تجارت',$contactUrl], ['تعزیرات','همکاری در پرونده‌های نظارتی و تخلفات',$complaintsUrl], ['شهرداری','هماهنگی مسائل شهری واحدهای صنفی',$contactUrl], ['امور مالیاتی','پیگیری میز خدمت و آموزش مالیاتی',$servicesUrl], ['اتاق ایران','ارتباط با اتاق اصناف ایران و سامانه‌های ملی',$systemsUrl], ['رویدادها','نشست‌ها، نمایشگاه‌ها و جلسات صنفی',$postsUrl], ['کمیسیون نظارت','پیگیری مصوبات و الزامات نظارتی',$commissionsUrl]],
-    ];
-@endphp
-<div class="tab-panels" data-tab-panels="commissions">
-@foreach($commissionTabs as $panel => $items)
-<div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
 <div class="commission-card"><div class="commission-grid compact-grid">
 @foreach($serviceItems as $item)
 <a class="commission-item service-color-{{ ($loop->iteration % 4) + 1 }}" href="{{ $item['url'] }}" target="{{ $item['target'] ?? '_self' }}"><strong>{{ $item['title'] }}</strong><span>{{ $item['description'] }}</span></a>
@@ -423,7 +411,7 @@
 @forelse($orgLinks ?? collect() as $link)
 <li><a href="{{ $link->url ?: '#' }}" target="{{ $link->target ?? '_self' }}" class="text-decoration-none" @if(($link->target ?? '_self') === '_blank') rel="noopener" @endif>@if($link->icon)<span>{{ $link->icon }}</span>@endif <strong>{{ $link->title }}</strong>@if($link->description)<small>{{ $link->description }}</small>@endif</a></li>
 @empty
-<li><a href="{{ $contactUrl }}">اتاق اصناف شهرستان گرگان؛ مشاهده اطلاعات تماس و راهنمای مراجعه</a></li>
+<li><a href="{{ $contactUrl }}">اتاق اصناف مرکز استان گلستان؛ مشاهده اطلاعات تماس و راهنمای مراجعه</a></li>
 @endforelse
 </ul>
 </div>

@@ -79,7 +79,7 @@ Route::get('/search', [FrontendSearchController::class, 'index'])->name('search'
 Route::get('/contact', [FrontendContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [FrontendContactController::class, 'store'])->name('contact.store');
 Route::get('/pages/{page:slug}', [FrontendPageController::class, 'show'])->name('pages.show');
-Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])->name('complaints.create');
+Route::get('/complaints/create/{union?}', [FrontendComplaintController::class, 'create'])->name('complaints.create');
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
 Route::get('/complaints/track', [FrontendComplaintController::class, 'track'])->name('complaints.track');
 Route::post('/complaints/track', [FrontendComplaintController::class, 'trackResult'])->name('complaints.track.result');

@@ -3701,3 +3701,88 @@ img { display: block; max-width: 100%; }
   .home-ad-banners { gap: 18px; }
   .ad-banner { min-height: 140px; }
 }
+
+/* Dynamic guild Blade page refinements */
+.guild-logo-img {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.guild-hero-breadcrumb,
+.guild-hero-breadcrumb a,
+.guild-hero-breadcrumb span {
+  color: rgba(255,255,255,.72) !important;
+}
+.guild-commission-dynamic {
+  align-items: flex-start;
+  background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+}
+.guild-task-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 5px;
+}
+.guild-task-list li {
+  position: relative;
+  padding-right: 14px;
+  color: var(--color-ink-600);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.guild-task-list li::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: .8em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+.guild-member-card,
+.guild-rule-item,
+.guild-article-item,
+.guild-edu-item,
+.guild-announce-item,
+.guild-minute-item,
+.guild-contact-card {
+  border-color: rgba(12,116,185,.12);
+}
+.guild-members-grid .guild-member-card:nth-child(1n) { background: linear-gradient(180deg, #fff, #eff8ff); }
+.guild-members-grid .guild-member-card:nth-child(2n) { background: linear-gradient(180deg, #fff, #effcf6); }
+.guild-members-grid .guild-member-card:nth-child(3n) { background: linear-gradient(180deg, #fff, #fff7ec); }
+.guild-announce-item {
+  text-decoration: none;
+  color: inherit;
+}
+.guild-article-list > .guild-info-card,
+.guild-announce-list > .guild-info-card,
+.guild-minutes-list > .guild-info-card,
+.guild-gallery-grid > .guild-info-card {
+  width: 100%;
+}
+.guild-gallery-grid > .guild-info-card {
+  grid-column: 1 / -1;
+}
+.guild-complaint-cta {
+  background: linear-gradient(135deg, #0c74b9 0%, #1f8f66 100%);
+}
+.guild-complaint-cta .tab-pill:not(.active) {
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+}
+.guild-complaint-cta .tab-pill.active {
+  background: #fff;
+  color: var(--color-primary-700);
+}
+.guild-social a {
+  background: #fff;
+}
+@media (max-width: 575.98px) {
+  .guild-head-card { grid-template-columns: 1fr; text-align: center; }
+  .guild-head-avatar { margin: 0 auto; }
+}

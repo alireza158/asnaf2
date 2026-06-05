@@ -111,6 +111,25 @@ class GuildUnion extends Model
         return $this->hasMany(CongratulationMessage::class, 'union_id');
     }
 
+    public function commissions(): HasMany
+    {
+        return $this->hasMany(UnionCommission::class, 'union_id')->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function activeCommissions(): HasMany
+    {
+        return $this->commissions()->active();
+    }
+
+    public function getSocialLinkItemsAttribute(): array
+    {
+        return collect($this->social_links ?? [])
+            ->filter(fn ($url) => filled($url))
+            ->map(fn ($url, $label) => ['label' => (string) $label, 'url' => (string) $url])
+            ->values()
+            ->all();
+    }
+
     public static function typeLabels(): array
     {
         return [

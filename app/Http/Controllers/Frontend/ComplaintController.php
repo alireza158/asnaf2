@@ -13,11 +13,20 @@ use Illuminate\View\View;
 
 class ComplaintController extends Controller
 {
-    public function create(Request $request): View
+    public function create(Request $request, ?string $union = null): View
     {
+        $selectedUnionId = $request->query('union_id');
+
+        if (filled($union)) {
+            $selectedUnionId = GuildUnion::query()
+                ->active()
+                ->where(fn ($query) => $query->whereKey($union)->orWhere('slug', $union))
+                ->value('id') ?: $selectedUnionId;
+        }
+
         return view('frontend.complaints.create', [
             'unions' => $this->enabledUnions(),
-            'selectedUnionId' => $request->query('union_id'),
+            'selectedUnionId' => $selectedUnionId,
         ]);
     }
 
