@@ -1,0 +1,4 @@
+<?php
+namespace Database\Seeders;
+use App\Models\Complaint;use App\Models\GuildUnion;use App\Models\User;use Illuminate\Database\Seeder;
+class ComplaintSeeder extends Seeder{public function run():void{$union=GuildUnion::where('complaint_enabled',true)->first();$admin=User::first();if(!$union)return;foreach([['registered','در انتظار بررسی'],['in_progress','در حال بررسی'],['answered','پاسخ داده شده']] as $i=>$s){Complaint::updateOrCreate(['tracking_code'=>'CMP1405030'.($i+1)],['union_id'=>$union->id,'full_name'=>'شهروند نمونه '.$i+1,'national_code'=>'001000000'.$i,'mobile'=>'0911000000'.$i,'subject'=>'شکایت نمونه از واحد صنفی','body'=>'شرح شکایت نمونه برای تست پیگیری کد رهگیری.','status'=>$s[0],'admin_response'=>$i===2?'پاسخ نمونه کارشناس اتحادیه ثبت شد.':null,'answered_by'=>$i===2?$admin?->id:null,'answered_at'=>$i===2?now():null]);}}}
