@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementController;
 use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
@@ -45,6 +46,13 @@ use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
 use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login']);
+});
+Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');

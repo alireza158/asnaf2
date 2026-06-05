@@ -2,7 +2,7 @@
     $settings = app(\App\Services\SettingService::class);
     $siteTitle = $settings->get('site.site_title', 'اتاق اصناف شهرستان گرگان');
     $headerLogo = $settings->get('header.header_logo') ?: $settings->get('site.site_logo');
-    $logoUrl = $headerLogo ? Storage::url($headerLogo) : asset('assets/img/asnaf-logo.svg');
+    $logoUrl = $headerLogo ? Storage::url($headerLogo) : asset('assets/img/asnaf-wordmark.svg');
     $topText = $settings->get('header.top_text', 'اتاق اصناف شهرستان گرگان؛ پشتیبان کسب‌وکارهای صنفی');
     $topDateEnabled = $settings->get('header.top_date_enabled', true);
     $contactText = $settings->get('header.contact_button_text', 'تماس با اتاق');

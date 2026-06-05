@@ -1,6 +1,6 @@
 @php($settings = app(\App\Services\SettingService::class))
 @php($favicon = $settings->get('site.site_favicon'))
-@if ($favicon)<link rel="icon" href="{{ Storage::url($favicon) }}">@elseif ($frontendVariant === 'compact')<link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/asnaf-favicon.svg') }}">@endif
+@if ($favicon)<link rel="icon" href="{{ Storage::url($favicon) }}">@elseif ($frontendVariant === 'compact')<link rel="icon" type="image/svg+xml" href="{{ asset('favicon.ico') }}">@endif
 @if ($frontendVariant === 'compact')
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
