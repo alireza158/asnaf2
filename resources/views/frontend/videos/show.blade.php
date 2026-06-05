@@ -1,17 +1,16 @@
 @extends('frontend.layouts.app')
 
-@section('title', $video->title.' | اتاق اصناف شهرستان گرگان')
-@section('meta_description', Str::limit(strip_tags($video->description), 160))
-@section('footer_links_variant', 'short')
+@section('title', 'گزارش تصویری از خدمات اتاق اصناف | اتاق اصناف شهرستان گرگان')
+@section('meta_description', '')
 
 @section('content')
 <section class="page-header page-header-alt">
   <div class="site-container">
-    <h1>{{ $video->title }}</h1>
+    <h1>گزارش تصویری از خدمات اتاق اصناف گرگان</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('home') }}">خانه</a>
-      <a href="{{ route('videos.index') }}">ویدیوها</a>
-      <span>{{ $video->title }}</span>
+      <a href="index.html">خانه</a>
+      <a href="index.html#multimedia">چندرسانه‌ای</a>
+      <span>گزارش تصویری از خدمات اتاق اصناف</span>
     </nav>
   </div>
 </section>
@@ -21,49 +20,67 @@
     <div class="video-single-main">
       <div class="video-player-wrap">
         <div class="video-player">
-          @if ($video->video_type === 'upload' && $video->video_file)
-            <video controls playsinline poster="{{ $video->cover_image ? Storage::url($video->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" style="width:100%;height:100%;object-fit:contain;background:#000">
-              <source src="{{ Storage::url($video->video_file) }}">
-              مرورگر شما از نمایش ویدیو پشتیبانی نمی‌کند.
-            </video>
-          @elseif ($video->video_type === 'aparat' && $video->aparat_url)
-            <iframe src="{{ $video->aparat_embed_url }}" title="{{ $video->title }}" allowfullscreen style="width:100%;height:100%;border:0"></iframe>
-          @else
-            <img src="{{ $video->cover_image ? Storage::url($video->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $video->title }}" loading="lazy"/>
-            <div class="video-player-overlay"></div>
-          @endif
+          <img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو" loading="lazy"/>
+          <div class="video-player-overlay"></div>
+          <button class="video-big-play" type="button" aria-label="پخش ویدیو"></button>
         </div>
       </div>
       <div class="video-single-body">
         <div class="video-meta">
-          <span>📅 {{ jalali_date($video->published_at) ?: jalali_date($video->created_at) }}</span>
-          <span>🏢 {{ $video->union?->display_title ?: 'عمومی' }}</span>
-          <span>🎬 {{ $video->type_label }}</span>
+          <span>📅 ۲ اردیبهشت ۱۴۰۵</span>
+          <span>👁 ۱,۲۵۶ بازدید</span>
+          <span>⏱ ۱۲:۳۴ دقیقه</span>
         </div>
-        <h2>{{ $video->title }}</h2>
-        <p>{{ $video->description ?: 'توضیحاتی برای این ویدیو ثبت نشده است.' }}</p>
+        <h2>گزارش تصویری از خدمات اتاق اصناف گرگان به کسبه شهرستان</h2>
+        <p>در این ویدیو با بخشی از خدمات اتاق اصناف شهرستان گرگان از جمله صدور و تمدید پروانه کسب، بازرسی از واحدهای صنفی، برگزاری دوره‌های آموزشی و... آشنا خواهید شد. این گزارش تصویری در اردیبهشت ماه ۱۴۰۵ تهیه شده است.</p>
+        <p>اتاق اصناف شهرستان گرگان همواره در تلاش است تا با ارائه خدمات مطلوب و به‌روز، رضایت فعالان صنفی و شهروندان گرامی را جلب نماید.</p>
         <div class="video-tags">
-          <span class="post-tag">ویدیو</span>
-          <span class="post-tag">{{ $video->type_label }}</span>
-          @if ($video->union)<span class="post-tag">{{ $video->union->display_title }}</span>@endif
+          <span class="post-tag">گزارش تصویری</span>
+          <span class="post-tag">خدمات صنفی</span>
+          <span class="post-tag">اتاق اصناف</span>
+          <span class="post-tag">گرگان</span>
         </div>
-        @if ($video->video_type === 'aparat')
-          <p class="mt-3"><a class="post-tag" href="{{ $video->aparat_url }}" target="_blank">مشاهده در آپارات</a></p>
-        @endif
       </div>
     </div>
     <aside class="video-sidebar">
       <div class="video-sidebar-card">
         <h4>ویدیوهای مرتبط</h4>
         <div class="video-related-list">
-          @forelse ($relatedVideos as $related)
-            <a href="{{ route('videos.show', $related->slug) }}" class="video-related-item">
-              <div class="vri-thumb"><img src="{{ $related->cover_image ? Storage::url($related->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $related->title }}" loading="lazy"/><span class="vri-play-icon"></span></div>
-              <div class="vri-body"><strong>{{ $related->title }}</strong><span>{{ $related->type_label }}</span></div>
-            </a>
-          @empty
-            <p class="text-muted mb-0">ویدیوی مرتبطی برای نمایش وجود ندارد.</p>
-          @endforelse
+          <a href="video.html" class="video-related-item">
+            <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
+            <div class="vri-body">
+              <strong>راهنمای مراحل صدور و تمدید پروانه کسب</strong>
+              <span>۸:۲۱ دقیقه</span>
+            </div>
+          </a>
+          <a href="video.html" class="video-related-item">
+            <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
+            <div class="vri-body">
+              <strong>گفت‌وگو درباره آموزش احکام تجارت</strong>
+              <span>۱۵:۴۰ دقیقه</span>
+            </div>
+          </a>
+          <a href="video.html" class="video-related-item">
+            <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
+            <div class="vri-body">
+              <strong>بازدید میدانی بازرسان از واحدهای صنفی گرگان</strong>
+              <span>۱۰:۱۲ دقیقه</span>
+            </div>
+          </a>
+          <a href="video.html" class="video-related-item">
+            <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
+            <div class="vri-body">
+              <strong>نشست هماهنگی اتحادیه‌های صنفی شهرستان</strong>
+              <span>۲۲:۰۵ دقیقه</span>
+            </div>
+          </a>
+          <a href="video.html" class="video-related-item">
+            <div class="vri-thumb"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="ویدیو مرتبط" loading="lazy"/><span class="vri-play-icon"></span></div>
+            <div class="vri-body">
+              <strong>معرفی سامانه‌های الکترونیکی اصناف</strong>
+              <span>۶:۵۸ دقیقه</span>
+            </div>
+          </a>
         </div>
       </div>
     </aside>

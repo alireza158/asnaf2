@@ -1,36 +1,39 @@
 @extends('frontend.layouts.app')
 
-@section('title', $gallery->title.' | اتاق اصناف شهرستان گرگان')
-@section('meta_description', Str::limit(strip_tags($gallery->description), 160))
-@section('footer_links_variant', 'gallery-detail')
+@section('title', 'جلسه هیئت رئیسه اردیبهشت ۱۴۰۵ | اتاق اصناف شهرستان گرگان')
+@section('meta_description', '')
 
 @section('content')
 <section class="page-header page-header-alt">
   <div class="site-container">
-    <h1>{{ $gallery->title }}</h1>
+    <h1>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</h1>
     <nav class="breadcrumb">
-      <a href="{{ route('home') }}">خانه</a>
-      <a href="{{ route('galleries.index') }}">گالری</a>
-      <span>{{ $gallery->title }}</span>
+      <a href="index.html">خانه</a>
+      <a href="gallery.html">گالری</a>
+      <span>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</span>
     </nav>
   </div>
 </section>
 
 <section class="site-container">
   <div class="gallery-single-layout">
-    <div class="gallery-single-main">
-      <p class="gallery-desc">{{ $gallery->description ?: 'تصاویر منتخب این گالری را می‌توانید مشاهده کنید.' }}</p>
 
-      <div class="gallery-thumbs" data-gallery-group="gallery-{{ $gallery->id }}">
-        @forelse ($gallery->images as $image)
-          <div class="gallery-thumb" data-gallery-item="{{ Storage::url($image->image) }}">
-            <img src="{{ Storage::url($image->image) }}" alt="{{ $image->caption ?: $gallery->title }}" loading="lazy"/>
-          </div>
-        @empty
-          <div class="gallery-thumb" data-gallery-item="{{ $gallery->cover_image ? Storage::url($gallery->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}">
-            <img src="{{ $gallery->cover_image ? Storage::url($gallery->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $gallery->title }}" loading="lazy"/>
-          </div>
-        @endforelse
+    <div class="gallery-single-main">
+      <p class="gallery-desc">تصاویر جلسه ماهانه هیئت رئیسه اتاق اصناف شهرستان گرگان که در تاریخ ۲ اردیبهشت ۱۴۰۵ در سالن جلسات ساختمان اتاق اصناف برگزار شد. در این جلسه مباحث مربوط به صدور و تمدید پروانه‌های کسب، بررسی شکایات صنفی و برنامه‌های آموزشی سال جاری مطرح گردید.</p>
+
+      <div class="gallery-thumbs" data-gallery-group="g1">
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۲" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۳" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۴" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۵" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۶" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۷" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۸" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۹" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۰" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۱" loading="lazy"/></div>
+        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۲" loading="lazy"/></div>
       </div>
     </div>
 
@@ -38,23 +41,24 @@
       <div class="gallery-sidebar-card">
         <h4>سایر گالری‌ها</h4>
         <ul class="gallery-sidebar-list">
-          @forelse ($relatedGalleries as $related)
-            <li><a href="{{ route('galleries.show', $related->slug) }}">{{ $related->title }}</a></li>
-          @empty
-            <li>گالری دیگری برای نمایش وجود ندارد.</li>
-          @endforelse
+          <li><a href="gallery-single.html">نمایشگاه صنایع دستی گرگان</a></li>
+          <li><a href="gallery-single.html">دوره آموزشی قوانین کسب‌وکار</a></li>
+          <li><a href="gallery-single.html">افتتاح ساختمان جدید اتحادیه</a></li>
+          <li><a href="gallery-single.html">گزارش تصویری هفته اصناف</a></li>
+          <li><a href="gallery-single.html">بازدید از واحدهای صنفی</a></li>
+          <li><a href="gallery-single.html">همایش اقتصاد مقاومتی</a></li>
         </ul>
       </div>
       <div class="gallery-sidebar-card">
         <h4>آمار گالری</h4>
         <ul class="gallery-sidebar-list">
-          <li>تعداد تصاویر: {{ $gallery->images->count() }}</li>
-          <li>نوع گالری: {{ $gallery->union?->display_title ?: 'عمومی' }}</li>
-          <li>تاریخ انتشار: {{ jalali_date($gallery->published_at) ?: '—' }}</li>
-          <li>آخرین بروزرسانی: {{ jalali_date($gallery->updated_at) ?: '—' }}</li>
+          <li>تعداد تصاویر: ۱۲</li>
+          <li>تاریخ انتشار: ۲ اردیبهشت ۱۴۰۵</li>
+          <li>آخرین بروزرسانی: ۲ اردیبهشت ۱۴۰۵</li>
         </ul>
       </div>
     </aside>
+
   </div>
 </section>
 @endsection
