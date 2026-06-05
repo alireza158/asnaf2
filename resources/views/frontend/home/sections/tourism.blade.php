@@ -24,12 +24,12 @@
                                     <img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/>
                                     <div class="tourism-badge">{{ $place->home_badge }}</div>
                                 </div>
+                                <div class="tourism-card-body">
+                                    <h3>{{ $place->title }}</h3>
+                                    <p>{{ Str::limit($place->home_description, 120) ?: 'توضیحی برای این جاذبه ثبت نشده است.' }}</p>
+                                    <div class="tourism-card-footer"><span>{{ $place->home_location ?: 'موقعیت ثبت نشده است' }}</span></div>
+                                </div>
                             </a>
-                            <div class="tourism-card-body">
-                                <h3>{{ $place->title }}</h3>
-                                <p>{{ Str::limit($place->home_description, 120) ?: 'توضیحی برای این جاذبه ثبت نشده است.' }}</p>
-                                <div class="tourism-card-footer"><span>{{ $place->home_location ?: 'موقعیت ثبت نشده است' }}</span></div>
-                            </div>
                         </div>
                     @empty
                         <div class="tourism-card">
