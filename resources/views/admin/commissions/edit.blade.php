@@ -16,11 +16,11 @@
 <div class="col-md-6"><label class="form-label">افزودن پیوست</label><input class="form-control" type="file" name="attachments[]" multiple></div>
 <div class="col-12"><label class="form-label">اعضا (هر عضو در یک خط)</label><textarea class="form-control" name="members" rows="4">{{ old('members', collect($commission->members ?? [])->pluck('name')->implode("\n")) }}</textarea></div>
 @if(!empty($commission->attachments))<div class="col-12"><h4>پیوست‌های فعلی</h4>@foreach($commission->attachments as $index=>$file)<label class="d-flex gap-2"><input type="checkbox" name="existing_attachments[{{ $index }}][delete]" value="1"> حذف {{ $file['name'] ?? 'فایل' }}</label>@endforeach</div>@endif
-<div class="col-12"><label class="form-label">توضیحات</label><textarea class="form-control" name="description" rows="6">{{ old('description',$commission->description) }}</textarea></div>
+<div class="col-12"><label class="form-label">توضیحات</label><textarea class="form-control js-rich-editor" name="description" rows="6">{{ old('description',$commission->description) }}</textarea></div>
 <div class="col-12"><h3 class="h6 mt-2">وظایف کمیسیون</h3><p class="text-muted small">وظایف فعال در کارت کمیسیون و صفحه جزئیات نمایش داده می‌شود. برای حذف یک وظیفه، عنوان آن را خالی کنید.</p></div>
 @foreach($taskRows as $i => $task)
 <div class="col-md-4"><input type="hidden" name="tasks[{{ $i }}][id]" value="{{ $task['id'] ?? '' }}"><label class="form-label">عنوان وظیفه {{ $i + 1 }}</label><input class="form-control" name="tasks[{{ $i }}][title]" value="{{ $task['title'] ?? '' }}"></div>
-<div class="col-md-5"><label class="form-label">توضیح وظیفه {{ $i + 1 }}</label><input class="form-control" name="tasks[{{ $i }}][description]" value="{{ $task['description'] ?? '' }}"></div>
+<div class="col-md-5"><label class="form-label">توضیح وظیفه {{ $i + 1 }}</label><textarea class="form-control js-rich-editor" name="tasks[{{ $i }}][description]" rows="3">{{ $task['description'] ?? '' }}</textarea></div>
 <div class="col-md-2"><label class="form-label">ترتیب</label><input class="form-control" type="number" min="0" name="tasks[{{ $i }}][sort_order]" value="{{ $task['sort_order'] ?? $i }}"></div>
 <div class="col-md-1"><label class="form-label">فعال</label><select class="form-control" name="tasks[{{ $i }}][is_active]"><option value="1" @selected((string)($task['is_active'] ?? '1') === '1')>بله</option><option value="0" @selected((string)($task['is_active'] ?? '1') === '0')>خیر</option></select></div>
 @endforeach

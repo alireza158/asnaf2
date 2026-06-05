@@ -33,6 +33,8 @@ class SiteSettingController extends Controller
             'social_links' => ['nullable', 'json'],
         ]);
 
+        $validated = $this->sanitizeRichTextFields($validated, ['site_description']);
+
         foreach (['site_logo', 'site_favicon'] as $field) {
             if ($request->hasFile($field)) {
                 if ($old = $settings->get('site.'.$field)) {

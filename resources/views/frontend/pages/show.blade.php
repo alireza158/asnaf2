@@ -21,7 +21,7 @@
 <img class="post-featured-img" src="{{ image_url($page->featured_image) }}" alt="{{ $page->title }}" loading="lazy">
 @endif
 @if($page->excerpt)
-<p class="post-excerpt">{{ $page->excerpt }}</p>
+<div class="post-excerpt">{!! $page->excerpt !!}</div>
 @endif
 {!! $page->body ?: '<p>محتوایی برای این صفحه ثبت نشده است.</p>' !!}
 </div>

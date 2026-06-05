@@ -55,7 +55,7 @@ class TourismPlaceController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $status = $validated['status'];
 
         $place = TourismPlace::create([
@@ -87,7 +87,7 @@ class TourismPlaceController extends Controller
 
     public function update(Request $request, TourismPlace $tourism): RedirectResponse
     {
-        $validated = $this->validatedData($request, $tourism);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $tourism), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->placeData($validated, $tourism);
 
         if ($featuredImage = $this->storeImage($request, 'featured_image', 'tourism/featured')) {
@@ -181,6 +181,8 @@ class TourismPlaceController extends Controller
 
     private function placeData(array $validated, ?TourismPlace $place = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $status = $validated['status'];
         $publishedAt = $validated['published_at'] ?? null;
 

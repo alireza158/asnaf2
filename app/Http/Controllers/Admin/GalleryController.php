@@ -56,7 +56,7 @@ class GalleryController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $status = $validated['status'];
 
         $gallery = Gallery::create([
@@ -92,7 +92,7 @@ class GalleryController extends Controller
 
     public function update(Request $request, Gallery $gallery): RedirectResponse
     {
-        $validated = $this->validatedData($request, $gallery);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $gallery), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->galleryData($validated, $gallery);
 
         if ($coverImage = $this->storeImage($request, 'cover_image', 'galleries/covers')) {
@@ -168,6 +168,8 @@ class GalleryController extends Controller
 
     private function galleryData(array $validated, ?Gallery $gallery = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $status = $validated['status'];
         $publishedAt = $validated['published_at'] ?? null;
 

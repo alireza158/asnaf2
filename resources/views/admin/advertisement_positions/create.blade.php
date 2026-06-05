@@ -16,7 +16,7 @@
         <div class="col-md-4"><label class="form-label" for="width">عرض پیشنهادی</label><input class="form-control" id="width" name="width" type="number" min="1" value="{{ old('width') }}"></div>
         <div class="col-md-4"><label class="form-label" for="height">ارتفاع پیشنهادی</label><input class="form-control" id="height" name="height" type="number" min="1" value="{{ old('height') }}"></div>
         <div class="col-md-4"><label class="form-label" for="is_active">فعال</label><select class="form-control" id="is_active" name="is_active"><option value="1" @selected(old('is_active', '1') === '1')>فعال</option><option value="0" @selected(old('is_active') === '0')>غیرفعال</option></select></div>
-        <div class="col-12"><label class="form-label" for="description">توضیحات</label><textarea class="form-control" id="description" name="description" rows="4">{{ old('description') }}</textarea></div>
+        <div class="col-12"><label class="form-label" for="description">توضیحات</label><textarea class="form-control js-rich-editor" id="description" name="description" rows="4">{{ old('description') }}</textarea></div>
     </div>
     <div class="mt-3 d-flex gap-2"><button class="admin-primary-btn" type="submit">ذخیره جایگاه</button><a class="admin-secondary-btn" href="{{ route('admin.advertisement_positions.index') }}">انصراف</a></div>
 </form>

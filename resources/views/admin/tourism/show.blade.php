@@ -44,7 +44,7 @@
 <div class="admin-panel-card mt-3">
     <h3>توضیحات</h3>
     <p><strong>توضیح کوتاه:</strong> {{ $place->short_description ?: '—' }}</p>
-    <div>{!! nl2br(e($place->description ?: '—')) !!}</div>
+    <div>{!! $place->description ?: '—' !!}</div>
     @if ($place->rejected_reason)<hr><p><strong>دلیل رد:</strong> {{ $place->rejected_reason }}</p>@endif
 </div>
 

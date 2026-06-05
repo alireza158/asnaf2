@@ -77,7 +77,7 @@
                         <div class="card-body p-4 p-lg-5">
                             <h2 class="h4 fw-bold mb-3">معرفی {{ $title }}</h2>
                             <div class="text-secondary lh-lg fs-6">
-                                {!! $place->description ? nl2br(e($place->description)) : '<p class="mb-0">توضیحات کامل این مکان هنوز در پایگاه داده ثبت نشده است.</p>' !!}
+                                {!! $place->description ?: '<p class="mb-0">توضیحات کامل این مکان هنوز در پایگاه داده ثبت نشده است.</p>' !!}
                             </div>
                         </div>
                     </article>

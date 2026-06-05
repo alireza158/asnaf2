@@ -40,7 +40,7 @@ class CommissionController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
         $commission = Commission::create([
             ...$this->commissionData($validated),
@@ -70,7 +70,7 @@ class CommissionController extends Controller
 
     public function update(Request $request, Commission $commission): RedirectResponse
     {
-        $validated = $this->validatedData($request, $commission);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $commission), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->commissionData($validated, $commission);
 
         if ($request->hasFile('image')) {
@@ -135,6 +135,8 @@ class CommissionController extends Controller
 
     private function commissionData(array $validated, ?Commission $commission = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         return [
             'title' => $validated['title'],
             'slug' => $this->uniqueSlug($validated['slug'] ?: $validated['title'], $commission),
@@ -190,7 +192,7 @@ class CommissionController extends Controller
 
             $payload = [
                 'title' => $title,
-                'description' => $task['description'] ?? null,
+                'description' => $this->sanitizeRichText($task['description'] ?? null),
                 'sort_order' => $task['sort_order'] ?? $index,
                 'is_active' => (bool) ($task['is_active'] ?? true),
             ];

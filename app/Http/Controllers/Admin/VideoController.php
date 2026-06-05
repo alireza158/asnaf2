@@ -60,7 +60,7 @@ class VideoController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $this->validateVideoSource($request, $validated);
         $status = $validated['status'];
 
@@ -94,7 +94,7 @@ class VideoController extends Controller
 
     public function update(Request $request, Video $video): RedirectResponse
     {
-        $validated = $this->validatedData($request, $video);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $video), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $this->validateVideoSource($request, $validated, $video);
         $data = $this->videoData($validated, $video);
 
@@ -196,6 +196,8 @@ class VideoController extends Controller
 
     private function videoData(array $validated, ?Video $video = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $status = $validated['status'];
         $publishedAt = $validated['published_at'] ?? null;
 

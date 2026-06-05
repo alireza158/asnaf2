@@ -1,8 +1,8 @@
 @php
     $settings = app(\App\Services\SettingService::class);
     $footerItems = app(\App\Services\MenuService::class)->items('footer');
-    $logo = $settings->get('footer.logo', 'assets/img/asnaf-footer-mark.svg');
-    $description = $settings->get('footer.description', 'اتاق اصناف مرکز استان گلستان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.');
+    $logo = $settings->get('footer.footer_logo', $settings->get('footer.logo', 'assets/img/asnaf-footer-mark.svg'));
+    $description = $settings->get('footer.footer_description', $settings->get('footer.description', 'اتاق اصناف مرکز استان گلستان به عنوان نماینده جامعه صنفی شهرستان، پشتیبان کسب‌وکارهای صنفی، ناظر بر فعالیت اتحادیه‌های صنفی و تسهیل‌گر تعامل با دستگاه‌های اجرایی و نظارتی در راستای توسعه اقتصاد شهری می‌باشد. این اتاق با هدف حمایت از حقوق صنوف، ارتقای کیفیت خدمات و تسهیل فرآیندهای کسب‌وکار در سطح شهرستان گرگان فعالیت می‌نماید.'));
     $phone = $settings->get('site.phone', '۰۱۷-۳۲۱۵۲۹۱۲<br/>۰۱۷-۳۲۱۵۴۷۶۷');
     $address = $settings->get('site.address', 'گرگان، خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف');
     $email = $settings->get('site.email', 'info@asnaf-gorgan.ir');
@@ -36,7 +36,7 @@
 <div class="footer-main">
 <div class="footer-col footer-brand-col">
 <img alt="اتاق اصناف مرکز استان گلستان" src="{{ asset($logo) }}"/>
-<p>{{ $description }}</p>
+<div>{!! $description !!}</div>
 </div>
 <div class="footer-col">
 <h4>دسترسی سریع</h4>

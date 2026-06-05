@@ -80,6 +80,8 @@ class AdvertisementPositionController extends Controller
             'is_active' => 'فعال',
         ]);
 
+        $validated = $this->sanitizeRichTextFields($validated, ['description']);
+
         $validated['key'] = $this->uniqueKey($validated['key'] ?: $validated['title'], $position);
         $validated['is_active'] = (bool) $validated['is_active'];
 

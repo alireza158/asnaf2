@@ -51,7 +51,7 @@ class ElectronicServiceController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
         $service = ElectronicService::create([
             ...$this->serviceData($validated),
@@ -79,7 +79,7 @@ class ElectronicServiceController extends Controller
 
     public function update(Request $request, ElectronicService $electronicService): RedirectResponse
     {
-        $validated = $this->validatedData($request, $electronicService);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $electronicService), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->serviceData($validated, $electronicService);
 
         if ($request->hasFile('image')) {
@@ -145,6 +145,8 @@ class ElectronicServiceController extends Controller
 
     private function serviceData(array $validated, ?ElectronicService $service = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $linkType = $validated['link_type'];
 
         return [

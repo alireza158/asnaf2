@@ -34,11 +34,11 @@
         </div>
         <div class="col-12">
             <label class="form-label" for="short_description">توضیح کوتاه</label>
-            <textarea class="form-control" id="short_description" name="short_description" rows="3">{{ old('short_description', $union?->short_description) }}</textarea>
+            <textarea class="form-control js-rich-editor" id="short_description" name="short_description" rows="3">{{ old('short_description', $union?->short_description) }}</textarea>
         </div>
         <div class="col-12">
             <label class="form-label" for="description">توضیحات کامل</label>
-            <textarea class="form-control" id="description" name="description" rows="6">{{ old('description', $union?->description) }}</textarea>
+            <textarea class="form-control js-rich-editor" id="description" name="description" rows="6">{{ old('description', $union?->description) }}</textarea>
         </div>
         <div class="col-md-6">
             <label class="form-label" for="address">آدرس</label>

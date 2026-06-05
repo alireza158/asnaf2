@@ -14,11 +14,11 @@
 <div class="col-md-6"><label class="form-label">تصویر</label><input class="form-control" type="file" name="image" accept="image/*"></div>
 <div class="col-md-6"><label class="form-label">پیوست‌ها</label><input class="form-control" type="file" name="attachments[]" multiple></div>
 <div class="col-12"><label class="form-label">اعضا (هر عضو در یک خط)</label><textarea class="form-control" name="members" rows="4">{{ old('members') }}</textarea></div>
-<div class="col-12"><label class="form-label">توضیحات</label><textarea class="form-control" name="description" rows="6">{{ old('description') }}</textarea></div>
+<div class="col-12"><label class="form-label">توضیحات</label><textarea class="form-control js-rich-editor" name="description" rows="6">{{ old('description') }}</textarea></div>
 <div class="col-12"><h3 class="h6 mt-2">وظایف کمیسیون</h3><p class="text-muted small">برای نمایش در صفحه اول و صفحه جزئیات کمیسیون، عنوان و توضیح هر وظیفه را وارد کنید.</p></div>
 @for($i = 0; $i < 5; $i++)
 <div class="col-md-4"><label class="form-label">عنوان وظیفه {{ $i + 1 }}</label><input class="form-control" name="tasks[{{ $i }}][title]" value="{{ old('tasks.'.$i.'.title') }}"></div>
-<div class="col-md-5"><label class="form-label">توضیح وظیفه {{ $i + 1 }}</label><input class="form-control" name="tasks[{{ $i }}][description]" value="{{ old('tasks.'.$i.'.description') }}"></div>
+<div class="col-md-5"><label class="form-label">توضیح وظیفه {{ $i + 1 }}</label><textarea class="form-control js-rich-editor" name="tasks[{{ $i }}][description]" rows="3">{{ old('tasks.'.$i.'.description') }}</textarea></div>
 <div class="col-md-2"><label class="form-label">ترتیب</label><input class="form-control" type="number" min="0" name="tasks[{{ $i }}][sort_order]" value="{{ old('tasks.'.$i.'.sort_order', $i) }}"></div>
 <div class="col-md-1"><label class="form-label">فعال</label><select class="form-control" name="tasks[{{ $i }}][is_active]"><option value="1" @selected(old('tasks.'.$i.'.is_active','1')==='1')>بله</option><option value="0" @selected(old('tasks.'.$i.'.is_active')==='0')>خیر</option></select></div>
 @endfor

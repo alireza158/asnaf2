@@ -47,6 +47,8 @@ class HomeSectionController extends Controller
             'sort_order' => 'ترتیب نمایش',
         ]);
 
+        $validated = $this->sanitizeRichTextFields($validated, ['content']);
+
         $homeSection->update([
             'title' => $validated['title'],
             'subtitle' => $validated['subtitle'] ?? null,

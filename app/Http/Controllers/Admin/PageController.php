@@ -135,6 +135,8 @@ class PageController extends Controller
     /** @param array<string, mixed> $validated @return array<string, mixed> */
     private function pageData(array $validated, ?Page $page = null): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         $data = [
             'title' => $validated['title'],
             'slug' => $validated['slug'],

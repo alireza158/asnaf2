@@ -85,6 +85,8 @@ class RoleController extends Controller
      */
     private function roleData(array $validated): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['description']);
+
         return [
             'name' => $validated['name'],
             'label' => $validated['label'],

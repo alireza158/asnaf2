@@ -27,7 +27,7 @@
         <div class="post-meta"><span>🏷 {{ $system->category?->title ?: 'سامانه' }}</span><span>{{ $system->icon ?: '💻' }}</span></div>
         <h2>{{ $system->title }}</h2>
         @if ($system->short_description)<p class="lead">{{ $system->short_description }}</p>@endif
-        <p>{!! nl2br(e($system->description ?: 'توضیحات این سامانه هنوز تکمیل نشده است.')) !!}</p>
+        <p>{!! $system->description ?: '<p>توضیحات این سامانه هنوز تکمیل نشده است.</p>' !!}</p>
         @if ($system->link)
           <p class="mt-4"><a class="tab-pill active" href="{{ $system->link }}" target="{{ $system->target }}" @if($system->target === '_blank') rel="noopener" @endif>ورود به سامانه</a></p>
         @endif

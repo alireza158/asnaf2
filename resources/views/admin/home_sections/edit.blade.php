@@ -38,7 +38,7 @@
         </div>
         <div class="col-12">
             <label class="form-label" for="content">محتوا / متن جایگزین</label>
-            <textarea class="form-control" id="content" name="content" rows="4">{{ old('content', $section->content) }}</textarea>
+            <textarea class="form-control js-rich-editor" id="content" name="content" rows="4">{{ old('content', $section->content) }}</textarea>
         </div>
         <div class="col-12">
             <label class="form-label" for="settings">تنظیمات اختصاصی JSON</label>

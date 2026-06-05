@@ -1,7 +1,7 @@
 <div class="row g-3">
     <div class="col-md-8"><label class="form-label" for="title">عنوان</label><input class="form-control" id="title" name="title" value="{{ old('title', $page?->title) }}" required></div>
     <div class="col-md-4"><label class="form-label" for="slug">اسلاگ</label><input class="form-control" dir="ltr" id="slug" name="slug" value="{{ old('slug', $page?->slug) }}" required></div>
-    <div class="col-12"><label class="form-label" for="excerpt">خلاصه</label><textarea class="form-control" id="excerpt" name="excerpt" rows="2">{{ old('excerpt', $page?->excerpt) }}</textarea></div>
+    <div class="col-12"><label class="form-label" for="excerpt">خلاصه</label><textarea class="form-control js-rich-editor" id="excerpt" name="excerpt" rows="2">{{ old('excerpt', $page?->excerpt) }}</textarea></div>
     <div class="col-12"><label class="form-label" for="body">محتوای صفحه</label><textarea class="form-control js-rich-editor" id="body" name="body" rows="12">{{ old('body', $page?->body) }}</textarea></div>
     <div class="col-md-4"><label class="form-label" for="featured_image">تصویر شاخص</label><input class="form-control" id="featured_image" name="featured_image" type="file" accept="image/*">@if($page?->featured_image)<small><a href="{{ asset('storage/'.$page->featured_image) }}" target="_blank">مشاهده تصویر فعلی</a></small>@endif</div>
     <div class="col-md-4"><label class="form-label" for="template">قالب</label><select class="form-control" id="template" name="template">@foreach($templates as $template)<option value="{{ $template }}" @selected(old('template', $page?->template ?? 'default') === $template)>{{ $template }}</option>@endforeach</select></div>

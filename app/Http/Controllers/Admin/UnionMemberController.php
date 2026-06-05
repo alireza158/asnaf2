@@ -108,6 +108,8 @@ class UnionMemberController extends Controller
     /** @param array<string, mixed> $validated @return array<string, mixed> */
     private function memberData(array $validated): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         return [
             'union_id' => $validated['union_id'],
             'full_name' => $validated['full_name'],

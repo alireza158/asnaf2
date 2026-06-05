@@ -27,7 +27,7 @@ class CommissionSessionController extends Controller
 
     public function store(Request $request, Commission $commission): RedirectResponse
     {
-        $validated = $this->validatedData($request);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $session = $commission->sessions()->create([
             ...$this->sessionData($validated),
             'created_by' => $request->user()?->id,
@@ -61,7 +61,7 @@ class CommissionSessionController extends Controller
     public function update(Request $request, Commission $commission, CommissionSession $session): RedirectResponse
     {
         $this->ensureSessionBelongsToCommission($commission, $session);
-        $validated = $this->validatedData($request, $session);
+        $validated = $this->sanitizeRichTextFields($this->validatedData($request, $session), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->sessionData($validated);
 
         if ($request->hasFile('minutes_file')) {
@@ -116,6 +116,8 @@ class CommissionSessionController extends Controller
 
     private function sessionData(array $validated): array
     {
+        $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
+
         return [
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
