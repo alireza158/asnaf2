@@ -34,9 +34,9 @@
                 <dt class="col-5">موبایل</dt><dd class="col-7" dir="ltr">{{ $contactMessage->mobile }}</dd>
                 <dt class="col-5">ایمیل</dt><dd class="col-7" dir="ltr">{{ $contactMessage->email ?: '—' }}</dd>
                 <dt class="col-5">وضعیت</dt><dd class="col-7">{{ $contactMessage->is_read ? 'خوانده‌شده' : 'خوانده‌نشده' }}</dd>
-                <dt class="col-5">خوانده‌شده در</dt><dd class="col-7">{{ $contactMessage->read_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">خوانده‌شده در</dt><dd class="col-7">{{ jalali_datetime($contactMessage->read_at) ?: '—' }}</dd>
                 <dt class="col-5">IP</dt><dd class="col-7" dir="ltr">{{ $contactMessage->ip_address ?: '—' }}</dd>
-                <dt class="col-5">ثبت</dt><dd class="col-7">{{ $contactMessage->created_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">ثبت</dt><dd class="col-7">{{ jalali_datetime($contactMessage->created_at) ?: '—' }}</dd>
             </dl>
         </div>
 

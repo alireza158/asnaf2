@@ -26,7 +26,7 @@
             <div class="single-post-body">
                 <div class="post-meta">
                     <span>{{ $post->category?->title ?: 'اخبار' }}</span>
-                    <span>{{ $post->published_at?->format('Y/m/d') }}</span>
+                    <span>{{ jalali_date($post->published_at) }}</span>
                     <span>{{ number_format($post->views_count) }} بازدید</span>
                     @if ($post->union)<span>{{ $post->union->name }}</span>@endif
                     @if ($post->is_important)<span>خبر مهم</span>@endif

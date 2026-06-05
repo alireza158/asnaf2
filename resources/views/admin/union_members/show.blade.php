@@ -43,7 +43,7 @@
                 <dt class="col-5">کد عضویت</dt><dd class="col-7">{{ $member->membership_code ?: '—' }}</dd>
                 <dt class="col-5">وضعیت</dt><dd class="col-7"><span class="admin-status-badge status-{{ $member->status }}">{{ $member->status }}</span></dd>
                 <dt class="col-5">فعال</dt><dd class="col-7">{{ $member->is_active ? 'بله' : 'خیر' }}</dd>
-                <dt class="col-5">ثبت</dt><dd class="col-7">{{ $member->created_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">ثبت</dt><dd class="col-7">{{ jalali_datetime($member->created_at) ?: '—' }}</dd>
             </dl>
         </div>
     </div>

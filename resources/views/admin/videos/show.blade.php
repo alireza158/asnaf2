@@ -38,7 +38,7 @@
                 <dt class="col-5">اتحادیه</dt><dd class="col-7">{{ $video->union?->display_title ?: 'عمومی' }}</dd>
                 <dt class="col-5">وضعیت</dt><dd class="col-7"><span class="admin-status-badge status-{{ $video->status }}">{{ $video->status_label }}</span></dd>
                 <dt class="col-5">فعال</dt><dd class="col-7">{{ $video->is_active ? 'بله' : 'خیر' }}</dd>
-                <dt class="col-5">انتشار</dt><dd class="col-7">{{ $video->published_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">انتشار</dt><dd class="col-7">{{ jalali_datetime($video->published_at) ?: '—' }}</dd>
                 <dt class="col-5">ترتیب</dt><dd class="col-7">{{ $video->sort_order }}</dd>
                 <dt class="col-5">ایجادکننده</dt><dd class="col-7">{{ $video->creator?->name ?: '—' }}</dd>
                 <dt class="col-5">تاییدکننده</dt><dd class="col-7">{{ $video->approver?->name ?: '—' }}</dd>

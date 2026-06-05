@@ -33,7 +33,7 @@
 @else
 @php($activeMenu = trim($__env->yieldContent('active_menu', '')))
 <header class="site-header">
-<div class="header-top site-container"><div class="brand-note"><img alt="پرچم ایران" class="flag-img" src="{{ asset('assets/img/flag-iran.png') }}"/><div>@if($topDateEnabled)<span>{{ now()->format('Y/m/d') }}</span>@endif<strong>{{ $topText }}</strong></div></div><div class="header-left-actions" aria-label="راه‌های دسترسی سریع هدر">
+<div class="header-top site-container"><div class="brand-note"><img alt="پرچم ایران" class="flag-img" src="{{ asset('assets/img/flag-iran.png') }}"/><div>@if($topDateEnabled)<span>{{ jalali_date(now()) }}</span>@endif<strong>{{ $topText }}</strong></div></div><div class="header-left-actions" aria-label="راه‌های دسترسی سریع هدر">
 <a class="header-service-pill" href="{{ $serviceLink }}">{{ $serviceText }}</a>
 @foreach($specialLinks as $link)<a class="header-service-pill" href="{{ $link['url'] }}" style="{{ $link['color'] ? 'background:'.$link['color'].';color:#fff' : '' }}">{{ $link['icon'] }} {{ $link['title'] }}</a>@endforeach
 <a class="header-contact-card" href="{{ $contactLink }}"><span>{{ $contactText }}</span><strong>{{ $settings->get('site.phone', '۰۱۷۳۲۱۵۲۹۱۲') }}</strong></a>

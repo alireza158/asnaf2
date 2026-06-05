@@ -50,7 +50,7 @@
                             <span class="card-cat">{{ $announcement->category?->title ?: 'اطلاعیه' }}</span>
                             <h2>{{ $announcement->title }}</h2>
                             <p>{{ $announcement->excerpt ?: Str::limit(strip_tags($announcement->body), 150) }}</p>
-                            <span class="card-date">{{ $announcement->published_at?->format('Y/m/d') }}</span>
+                            <span class="card-date">{{ jalali_date($announcement->published_at) }}</span>
                             @if ($announcement->union)<span class="card-date">{{ $announcement->union->name }}</span>@endif
                             @if ($announcement->is_important)<span class="card-date">مهم</span>@endif
                         </div>

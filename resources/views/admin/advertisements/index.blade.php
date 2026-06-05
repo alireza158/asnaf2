@@ -47,7 +47,7 @@
                     <td><strong>{{ $advertisement->title }}</strong><br><small dir="ltr">{{ ($advertisement->link ? Str::limit($advertisement->link, 45) : 'بدون لینک') }}</small></td>
                     <td>{{ $advertisement->position?->title ?: '—' }}<br><small dir="ltr">{{ $advertisement->position?->key }}</small></td>
                     <td><span class="admin-badge">{{ $advertisement->status_label }}</span></td>
-                    <td><small>شروع: {{ $advertisement->starts_at?->format('Y/m/d H:i') }}</small><br><small>پایان: {{ $advertisement->expires_at?->format('Y/m/d H:i') ?: 'نامحدود' }}</small></td>
+                    <td><small>شروع: {{ jalali_datetime($advertisement->starts_at) }}</small><br><small>پایان: {{ jalali_datetime($advertisement->expires_at) ?: 'نامحدود' }}</small></td>
                     <td><small>نمایش: {{ $advertisement->views_count }}</small><br><small>کلیک: {{ $advertisement->clicks_count }}</small></td>
                     <td>{{ $advertisement->sort_order }}</td>
                     <td>
