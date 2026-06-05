@@ -1,19 +1,19 @@
 @if (($electronicServices ?? collect())->isNotEmpty())
-<section class="site-container howto-section">
-    <div class="section-heading section-heading-centered">
-        <h2>{{ $section->title }}</h2>
-        @if($section->subtitle)<p>{{ $section->subtitle }}</p>@endif
-    </div>
-    <div class="howto-grid">
+<section class="howto-section section-white" id="electronic-services">
+    <div class="site-container">
+        <div class="section-heading section-heading-centered"><h2>{{ $section->title }}</h2><p>{{ $section->subtitle }}</p></div>
+        <div class="howto-grid">
         @foreach ($electronicServices as $service)
-            <a class="howto-card" href="{{ route('electronic_services.show', $service->slug) }}">
-                <div class="howto-icon">{{ $service->icon ?: '⚡' }}</div>
-                <h3>{{ $service->title }}</h3>
-                <p>{{ Str::limit($service->short_description ?: strip_tags($service->body), 100) }}</p>
-                <span class="howto-link">مشاهده ←</span>
+            @php
+                $serviceHref = $service->link_type === 'external' && filled($service->link) && $service->link !== '#' ? $service->link : route('electronic-services.show', $service->slug);
+                $serviceTarget = $service->link_type === 'external' ? ($service->target ?? '_blank') : '_self';
+            @endphp
+            <a class="howto-card" href="{{ $serviceHref }}" target="{{ $serviceTarget }}" @if($serviceTarget === '_blank') rel="noopener" @endif>
+                <div class="howto-icon">{{ $service->icon ?: '⚡' }}</div><h3>{{ $service->title }}</h3><p>{{ $service->short_description ?: Str::limit(strip_tags($service->body), 120) }}</p><span class="howto-link">مشاهده خدمت ←</span>
             </a>
         @endforeach
+        </div>
+    <div class="section-more-link mt-4"><a class="tab-pill" href="{{ route('electronic-services.index') }}">مشاهده همه خدمات</a></div>
     </div>
-    <div class="section-more-link mt-4"><a class="tab-pill" href="{{ route('electronic_services.index') }}">مشاهده همه خدمات</a></div>
 </section>
 @endif

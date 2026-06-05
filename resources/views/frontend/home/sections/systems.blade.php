@@ -4,7 +4,11 @@
         <div class="section-heading"><h2>{{ $section->title }}</h2><a class="tab-pill" href="{{ route('systems.index') }}">مشاهده همه سامانه‌ها</a></div>
         <div class="fraction-grid">
             @foreach ($systems as $system)
-                <a href="{{ route('systems.show', $system->slug) }}" class="fraction-link"><span>{{ $system->icon ?: '💻' }}</span> {{ $system->title }}</a>
+                @php
+                    $systemHref = filled($system->link) ? $system->link : route('systems.show', $system->slug);
+                    $systemTarget = filled($system->link) ? ($system->target ?? '_blank') : '_self';
+                @endphp
+                <a href="{{ $systemHref }}" target="{{ $systemTarget }}" @if($systemTarget === '_blank') rel="noopener" @endif class="fraction-link"><span>{{ $system->icon ?: '💻' }}</span> {{ $system->title }}</a>
             @endforeach
         </div>
     </div>

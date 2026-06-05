@@ -75,7 +75,7 @@ class SearchController extends Controller
     private function services(string $term): array
     {
         return ElectronicService::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'body'], $term))->orderBy('sort_order')->limit(5)->get()
-            ->map(fn ($item) => $this->result($item->title, 'خدمات الکترونیک', $item->short_description ?: $item->body, route('electronic_services.show', $item->slug), $item->image))->all();
+            ->map(fn ($item) => $this->result($item->title, 'خدمات الکترونیک', $item->short_description ?: $item->body, route('electronic-services.show', $item->slug), $item->image))->all();
     }
 
     private function tourism(string $term): array

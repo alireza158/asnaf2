@@ -244,7 +244,7 @@ class DemoContentSeeder extends Seeder
                     ['title' => 'ثبت شکایت', 'route_name' => 'complaints.create', 'url' => route('complaints.create')],
                     ['title' => 'پیگیری شکایت', 'route_name' => 'complaints.track', 'url' => route('complaints.track')],
                     ['title' => 'سامانه‌ها', 'route_name' => 'systems.index', 'url' => route('systems.index')],
-                    ['title' => 'خدمات الکترونیک', 'route_name' => 'electronic_services.index', 'url' => route('electronic_services.index')],
+                    ['title' => 'خدمات الکترونیک', 'route_name' => 'electronic-services.index', 'url' => route('electronic-services.index')],
                 ],
                 default => [
                     ['title' => 'درباره ما', 'url' => route('pages.show', 'about-gorgan-guild-chamber')],

@@ -1,55 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Frontend;
-
-use App\Http\Controllers\Controller;
-use App\Models\GuildUnion;
-use App\Models\Post;
-use App\Models\Announcement;
-use App\Models\CongratulationMessage;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-
-class UnionController extends Controller
-{
-    public function index(Request $request): View
-    {
-        $search = trim((string) $request->query('search'));
-
-        $unions = GuildUnion::query()
-            ->active()
-            ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
-                ->where('title', 'like', "%{$search}%")
-                ->orWhere('name', 'like', "%{$search}%")
-                ->orWhere('manager_name', 'like', "%{$search}%")
-                ->orWhere('short_description', 'like', "%{$search}%")))
-            ->orderBy('sort_order')
-            ->orderBy('title')
-            ->paginate(12)
-            ->withQueryString();
-
-        return view('frontend.guilds.index', compact('unions', 'search'));
-    }
-
-    public function show(string $slug): View
-    {
-        $union = GuildUnion::query()
-            ->active()
-            ->where('slug', $slug)
-            ->firstOrFail();
-
-        $posts = $union->news_enabled
-            ? Post::query()->published()->where('union_id', $union->id)->latest('published_at')->take(6)->get()
-            : collect();
-
-        $announcements = $union->announcements_enabled
-            ? Announcement::query()->published()->where('union_id', $union->id)->latest('published_at')->take(6)->get()
-            : collect();
-
-        $congratulationMessages = $union->congratulations_enabled
-            ? CongratulationMessage::query()->forUnionPage()->where('union_id', $union->id)->orderBy('sort_order')->latest('published_at')->take(3)->get()
-            : collect();
-
-        return view('frontend.guilds.show', compact('union', 'posts', 'announcements', 'congratulationMessages'));
-    }
-}
+use App\Http\Controllers\Controller;use App\Models\Announcement;use App\Models\CongratulationMessage;use App\Models\Gallery;use App\Models\GuildUnion;use App\Models\Post;use App\Models\UnionMember;use App\Models\Video;use Illuminate\Http\Request;use Illuminate\View\View;
+class UnionController extends Controller{public function index(Request $request):View{$search=trim((string)$request->query('search'));$unions=GuildUnion::query()->active()->when($search!=='',fn($q)=>$q->where(fn($q)=>$q->where('title','like',"%{$search}%")->orWhere('name','like',"%{$search}%")->orWhere('manager_name','like',"%{$search}%")->orWhere('short_description','like',"%{$search}%")))->orderBy('sort_order')->orderBy('title')->paginate(12)->withQueryString();return view('frontend.guilds.index',compact('unions','search'));}
+public function show(string $slug):View{$union=GuildUnion::query()->active()->where('slug',$slug)->firstOrFail();$posts=$union->news_enabled?Post::query()->published()->where('union_id',$union->id)->latest('published_at')->take(6)->get():collect();$announcements=$union->announcements_enabled?Announcement::query()->published()->where('union_id',$union->id)->latest('published_at')->take(6)->get():collect();$members=$union->members_enabled?UnionMember::query()->where('union_id',$union->id)->where('is_active',true)->orderBy('full_name')->take(12)->get():collect();$galleries=$union->gallery_enabled?Gallery::query()->published()->withCount('images')->where('union_id',$union->id)->latest('published_at')->take(6)->get():collect();$videos=$union->videos_enabled?Video::query()->published()->where('union_id',$union->id)->latest('published_at')->take(6)->get():collect();$congratulationMessages=$union->congratulations_enabled?CongratulationMessage::query()->forUnionPage()->where('union_id',$union->id)->orderBy('sort_order')->latest('published_at')->take(3)->get():collect();return view('frontend.guilds.show',compact('union','posts','announcements','members','galleries','videos','congratulationMessages'));}}
