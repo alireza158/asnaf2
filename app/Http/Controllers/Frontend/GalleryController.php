@@ -22,8 +22,7 @@ class GalleryController extends Controller
                 ->orWhere('description', 'like', "%{$search}%")))
             ->orderBy('sort_order')
             ->latest('published_at')
-            ->paginate(12)
-            ->withQueryString();
+            ->get();
 
         return view('frontend.galleries.index', compact('galleries', 'search'));
     }
@@ -39,6 +38,8 @@ class GalleryController extends Controller
         $relatedGalleries = Gallery::query()
             ->published()
             ->whereKeyNot($gallery->id)
+            ->withCount('images')
+            ->orderBy('sort_order')
             ->latest('published_at')
             ->take(6)
             ->get();

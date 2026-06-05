@@ -83,16 +83,17 @@ class HomeController extends Controller
                 ->get()
             : collect();
 
-        $latestGalleries = $this->hasSection($sections, 'galleries')
+        $galleries = $this->hasSection($sections, 'galleries')
             ? Gallery::query()
                 ->published()
                 ->with('union')
                 ->withCount('images')
                 ->orderBy('sort_order')
                 ->latest('published_at')
-                ->take($this->sectionLimit($sections, 'galleries', 3))
+                ->take($this->sectionLimit($sections, 'galleries', 6))
                 ->get()
             : collect();
+        $latestGalleries = $galleries;
 
         $latestVideos = $this->hasSection($sections, 'videos')
             ? Video::query()
@@ -156,6 +157,7 @@ class HomeController extends Controller
             'importantAnnouncements',
             'homeUnions',
             'electronicServices',
+            'galleries',
             'latestGalleries',
             'latestVideos',
             'tourismPlaces',

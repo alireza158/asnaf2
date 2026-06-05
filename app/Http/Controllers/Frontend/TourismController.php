@@ -15,7 +15,7 @@ class TourismController extends Controller
         $category = trim((string) $request->query('category'));
         $search = trim((string) $request->query('search'));
 
-        $places = TourismPlace::query()
+        $placesQuery = TourismPlace::query()
             ->published()
             ->with('category')
             ->when($category !== '', fn ($query) => $query->whereHas('category', fn ($query) => $query
@@ -27,12 +27,20 @@ class TourismController extends Controller
                 ->orWhere('description', 'like', "%{$search}%")
                 ->orWhere('address', 'like', "%{$search}%")))
             ->orderBy('sort_order')
-            ->latest('published_at')
-            ->paginate(12)
-            ->withQueryString();
+            ->latest('published_at');
+
+        $places = $placesQuery->get();
+        $tourismNature = $places->where('type', 'nature')->values();
+        $tourismHistoric = $places->where('type', 'historic')->values();
+        $tourismShop = $places->where('type', 'shop')->values();
+        $galleryPlaces = $places->take(6);
 
         return view('frontend.tourism.index', [
             'places' => $places,
+            'tourismNature' => $tourismNature,
+            'tourismHistoric' => $tourismHistoric,
+            'tourismShop' => $tourismShop,
+            'galleryPlaces' => $galleryPlaces,
             'categories' => $this->categories(),
             'activeCategory' => $category,
             'search' => $search,

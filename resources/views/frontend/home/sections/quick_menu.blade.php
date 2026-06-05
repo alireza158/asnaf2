@@ -1,3 +1,4 @@
+@if (! (($sections ?? collect())->contains('key', 'hero_slider')))
 <section class="site-container my-4">
     <aside aria-label="{{ $section->title }}" class="quick-menu" style="position:relative;width:100%">
         <ul class="quick-menu-list">
@@ -20,3 +21,5 @@
         </ul>
     </aside>
 </section>
+
+@endif

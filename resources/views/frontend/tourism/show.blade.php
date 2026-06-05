@@ -56,37 +56,17 @@ $isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
 
 </section>
 
-<section class="tourism-intro">
-    <div class="site-container">
-        <div class="tourism-intro-grid">
-            <div class="tourism-intro-text">
-                <h2>{{ $place->title ?? 'مکان گردشگری' }}</h2>
+<section class="site-container">
+  <div class="news-single-layout">
+    <article class="news-single-main">
+      <div class="news-single-cover">
+        <img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/>
+      </div>
 
-
-            @if (! empty($place->short_description))
-                <p>{{ $place->short_description }}</p>
-            @endif
-
-            <p>
-                {!! nl2br(e($place->description ?: 'توضیحات این مکان گردشگری هنوز تکمیل نشده است.')) !!}
-            </p>
-
-            <div class="tourism-stats">
-                <div class="tourism-stat">
-                    <strong>📍</strong>
-                    <span>{{ $place->address ?: 'آدرس ثبت نشده' }}</span>
-                </div>
-
-                <div class="tourism-stat">
-                    <strong>⏰</strong>
-                    <span>{{ $place->working_hours ?: 'ساعت بازدید ثبت نشده' }}</span>
-                </div>
-
-                <div class="tourism-stat">
-                    <strong>🏷</strong>
-                    <span>{{ $categoryTitle }}</span>
-                </div>
-            </div>
+      <div class="news-single-body">
+        <div class="post-meta">
+          <span>📅 {{ jalali_date($place->published_at) ?: jalali_date($place->created_at) }}</span>
+          <span>🏷 {{ $place->category?->title ?: 'گردشگری' }}</span>
         </div>
 
         <div class="tourism-intro-img">
@@ -162,72 +142,37 @@ $isEmbeddableMap = $mapUrl && str_contains($mapUrl, 'embed');
                 </div>
             </div>
         @endif
+      </div>
 
-        @if (! empty($mapUrl))
-            <div class="tourism-card tourism-card-lg">
-                <div class="tourism-card-body">
-                    <h3>نقشه</h3>
-                    <p>برای مشاهده موقعیت این مکان روی نقشه، از لینک زیر استفاده کنید.</p>
-                    <div class="tourism-card-footer">
-                        <a href="{{ $mapUrl }}" target="_blank" rel="noopener">مشاهده نقشه</a>
-                    </div>
-                </div>
-            </div>
-        @endif
-    </div>
-
-    @if ($isEmbeddableMap)
-        <div class="tourism-map-wrap" style="margin-top:32px;border-radius:18px;overflow:hidden">
-            <div class="ratio ratio-16x9">
-                <iframe
-                    src="{{ $mapUrl }}"
-                    title="نقشه {{ $place->title }}"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    style="border:0"
-                    allowfullscreen>
-                </iframe>
-            </div>
+      <div class="admin-panel-card mt-4">
+        <h3>گالری تصاویر</h3>
+        <div class="tourism-gallery-grid" data-gallery-group="tourism-place-{{ $place->id }}">
+          @forelse (collect($place->gallery ?? [])->sortBy('sort_order') as $image)
+            @php
+              $path = is_array($image) ? ($image['path'] ?? $image['image'] ?? '') : $image;
+              $caption = is_array($image) ? ($image['caption'] ?? $place->title) : $place->title;
+              $imageUrl = filled($path) ? (Str::startsWith($path, ['http://', 'https://', '/']) ? $path : (Str::startsWith($path, 'assets/') ? asset($path) : Storage::url($path))) : asset('assets/img/asnaf-gorgan-default.jpg');
+            @endphp
+            <div class="tourism-gallery-item" data-gallery-item="{{ $imageUrl }}"><img src="{{ $imageUrl }}" alt="{{ $caption }}" loading="lazy"/></div>
+          @empty
+            <div class="tourism-gallery-item" data-gallery-item="{{ $place->home_image_url }}"><img src="{{ $place->home_image_url }}" alt="{{ $place->title }}" loading="lazy"/></div>
+          @endforelse
         </div>
-    @endif
-</div>
+      </div>
+    </article>
 
-
-</section>
-
-@if ($galleryItems->isNotEmpty()) <section class="tourism-gallery"> <div class="site-container"> <div class="section-heading section-heading-centered"> <h2>گالری تصاویر</h2> <p>تصاویری از {{ $place->title ?? 'این مکان گردشگری' }}</p> </div>
-
-
-        <div class="tourism-gallery-grid" data-gallery-group="tourism-place-gallery">
-            @foreach ($galleryItems as $image)
-                @php($galleryImageUrl = $imageUrl($image['path'] ?? null))
-
-                <div
-                    class="tourism-gallery-item"
-                    data-gallery-item="{{ $galleryImageUrl }}"
-                >
-                    <img
-                        src="{{ $galleryImageUrl }}"
-                        alt="{{ $image['caption'] ?? $place->title ?? 'تصویر گردشگری' }}"
-                        loading="lazy"
-                    >
-                </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-
-
-@endif
-
-<section class="tourism-cta">
-    <div class="site-container">
-        <div class="tourism-cta-box">
-            <h2>گردشگری و اصناف مرتبط</h2>
-            <p>
-                اتاق اصناف شهرستان گرگان با اتحادیه‌ها و واحدهای صنفی مرتبط با گردشگری، اقامت، رستوران‌ها و خدمات شهری همراه مسافران و شهروندان است.
-            </p>
-            <a href="{{ route('guilds.index') }}" class="cta-button">مشاهده اتحادیه‌های صنفی</a>
+    <aside class="news-sidebar">
+      <div class="news-sidebar-card">
+        <h4>مکان‌های مرتبط</h4>
+        <div class="related-post-list">
+          @forelse ($relatedPlaces as $related)
+            <a href="{{ route('tourism.show', $related->slug) }}" class="related-post-item">
+              <div class="related-post-thumb"><img src="{{ $related->home_image_url }}" alt="{{ $related->title }}" loading="lazy"/></div>
+              <div><strong>{{ $related->title }}</strong><span>{{ $related->category?->title ?: 'گردشگری' }}</span></div>
+            </a>
+          @empty
+            <p class="text-muted mb-0">مکان مرتبطی برای نمایش وجود ندارد.</p>
+          @endforelse
         </div>
     </div>
 </section>
