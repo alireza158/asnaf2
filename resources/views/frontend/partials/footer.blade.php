@@ -51,11 +51,10 @@
 <div class="footer-bottom">
 <div class="footer-social">
 @forelse($socials as $label => $link)
-<a href="{{ $link }}" aria-label="{{ $label }}">{{ mb_substr((string) $label, 0, 1) }}</a>
+@php($socialLink = filled($link) && $link !== '#' ? $link : route('contact.create'))
+<a href="{{ $socialLink }}" aria-label="{{ $label }}">{{ mb_substr((string) $label, 0, 1) }}</a>
 @empty
-<a href="#" aria-label="اینستاگرام">📷</a>
-<a href="#" aria-label="تلگرام">✈️</a>
-<a href="#" aria-label="واتساپ">💬</a>
+<a href="{{ route('contact.create') }}" aria-label="ارتباط با اتاق اصناف">☎️</a>
 @endforelse
 </div>
 <div class="footer-copy">{{ $copyright }}</div>

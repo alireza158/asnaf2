@@ -28,7 +28,8 @@ class PostController extends Controller
             ->when($categoryId, fn ($query) => $query->where('category_id', $categoryId))
             ->when($unionId, fn ($query) => $query->where('union_id', $unionId))
             ->orderByDesc('published_at')
-            ->get();
+            ->paginate(12)
+            ->withQueryString();
 
         return view('frontend.posts.index', [
             'posts' => $posts,

@@ -67,6 +67,6 @@
             </tbody>
         </table>
     </div>
-    {{ $videos->links() }}
+    @include('admin.partials.pagination', ['paginator' => $videos])
 </div>
 @endsection

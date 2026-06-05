@@ -27,12 +27,12 @@
     @if ($search !== '')<a class="tab-pill" href="{{ route('videos.index') }}">حذف جستجو</a>@endif
   </form>
 
-  <div class="tourism-grid">
+  <div class="media-grid">
     @forelse ($videos as $video)
-      <div class="tourism-card">
+      <article class="media-card {{ $loop->first ? 'media-card-lg' : '' }}">
         <a href="{{ route('videos.show', $video->slug) }}">
           <div class="tourism-img-wrap">
-            <img alt="{{ $video->title }}" src="{{ $video->cover_image ? Storage::url($video->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" loading="lazy"/>
+            <img alt="{{ $video->title }}" src="{{ image_url($video->cover_image) }}" loading="lazy"/>
             <div class="tourism-badge">{{ $video->type_label }}</div>
           </div>
           <div class="tourism-card-body">
@@ -40,7 +40,7 @@
             <p>{{ Str::limit(strip_tags($video->description), 110) ?: 'ویدیوی منتشرشده اتاق اصناف شهرستان گرگان' }}</p>
           </div>
         </a>
-      </div>
+      </article>
     @empty
       <p class="text-muted text-center">ویدیوی منتشرشده‌ای یافت نشد.</p>
     @endforelse

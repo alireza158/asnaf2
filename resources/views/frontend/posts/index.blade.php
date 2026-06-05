@@ -43,6 +43,7 @@
 <p class="text-muted">هیچ پست فعالی برای نمایش وجود ندارد.</p>
 @endforelse
 </div>
+{{ $posts->links('frontend.partials.pagination') }}
 <aside class="archive-sidebar">
 <div class="sidebar-card">
 <h3>جستجو در نوشته‌ها</h3>

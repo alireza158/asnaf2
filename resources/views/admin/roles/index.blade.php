@@ -63,6 +63,6 @@
         </table>
     </div>
 
-    {{ $roles->links() }}
+    @include('admin.partials.pagination', ['paginator' => $roles])
 </div>
 @endsection
