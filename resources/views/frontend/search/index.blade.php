@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'جستجو | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'جستجوی کلی در محتوای سایت اتاق اصناف شهرستان گرگان')
+@section('title', 'جستجو | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'جستجوی کلی در محتوای سایت اتاق اصناف مرکز استان گلستان')
 @section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 

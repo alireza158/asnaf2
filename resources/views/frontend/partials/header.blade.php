@@ -2,7 +2,7 @@
     $settings = app(\App\Services\SettingService::class);
     $topItems = app(\App\Services\MenuService::class)->items('top');
     $mainItems = app(\App\Services\MenuService::class)->items('main');
-    $topText = $settings->get('header.top_text', 'اتاق اصناف شهرستان گرگان؛ پشتیبان کسب‌وکارهای صنفی');
+    $topText = $settings->get('header.top_text', 'اتاق اصناف مرکز استان گلستان؛ پشتیبان کسب‌وکارهای صنفی');
     $serviceText = $settings->get('header.service_button_text', 'سامانه خدمات صنفی');
     $serviceLink = $settings->get('header.service_button_link', '#commissions');
     $phone = $settings->get('site.phone', '۰۱۷۳۲۱۵۲۹۱۲');
@@ -21,6 +21,9 @@
 <strong>{{ $topText }}</strong>
 </div>
 </div>
+<a class="header-center-brand" href="{{ route('home') }}" aria-label="اتاق اصناف مرکز استان گلستان">
+<img class="header-logo-simple" src="{{ asset('assets/img/asnaf-wordmark.svg') }}" alt="اتاق اصناف مرکز استان گلستان">
+</a>
 
 <div class="header-left-actions" aria-label="راه‌های دسترسی سریع هدر">
 @if($topItems->isNotEmpty())

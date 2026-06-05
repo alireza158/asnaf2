@@ -30,6 +30,7 @@ class UpdatePostRequest extends FormRequest
             'type' => ['required', 'string', Rule::in(Post::TYPES)],
             'is_important' => ['required', 'boolean'],
             'is_featured' => ['required', 'boolean'],
+            'is_top' => ['required', 'boolean'],
             'status' => ['required', 'string', Rule::in($this->allowedStatuses())],
             'published_at' => ['nullable', 'date'],
             'rejected_reason' => ['nullable', 'string', 'max:1000'],
