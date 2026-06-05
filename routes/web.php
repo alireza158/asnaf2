@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\HeaderSettingController;
 use App\Http\Controllers\Admin\HomeSectionController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
+use App\Http\Controllers\Admin\MarketPriceController as AdminMarketPriceController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\PendingApprovalController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
@@ -90,6 +91,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/', [AdminDashboardController::class, 'index'])
         ->middleware('permission:dashboard.view')
         ->name('dashboard');
+
+    Route::get('market-prices', [AdminMarketPriceController::class, 'index'])->middleware('permission:market_prices.view')->name('market_prices.index');
+    Route::post('market-prices/fetch', [AdminMarketPriceController::class, 'fetch'])->middleware('permission:market_prices.fetch')->name('market_prices.fetch');
+    Route::get('market-prices/{marketPrice}/edit', [AdminMarketPriceController::class, 'edit'])->middleware('permission:market_prices.edit')->name('market_prices.edit');
+    Route::put('market-prices/{marketPrice}', [AdminMarketPriceController::class, 'update'])->middleware('permission:market_prices.edit')->name('market_prices.update');
 
     Route::get('pending-approvals', [PendingApprovalController::class, 'index'])
         ->middleware('permission:pending_approvals.view')

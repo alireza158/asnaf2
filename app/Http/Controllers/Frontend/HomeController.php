@@ -18,13 +18,14 @@ use App\Models\TourismPlace;
 use App\Models\Video;
 use App\Services\AdvertisementService;
 use App\Services\MenuService;
+use App\Services\MarketPriceService;
 use App\Services\SettingService;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(AdvertisementService $advertisementService, MenuService $menus, SettingService $settings): View
+    public function index(AdvertisementService $advertisementService, MenuService $menus, SettingService $settings, MarketPriceService $marketPriceService): View
     {
         $sections = HomeSection::query()
             ->active()
@@ -178,6 +179,7 @@ class HomeController extends Controller
         $mainMenu = $menus->items('main');
         $footerMenu = $menus->items('footer');
         $priceItems = $this->priceItems($settings);
+        $marketPrices = $marketPriceService->getActivePrices();
         $siteSettings = $settings->all();
         $homeSections = $sections;
         $unions = $homeUnions;
@@ -217,7 +219,8 @@ class HomeController extends Controller
             'footerMenu',
             'siteSettings',
             'homeSections',
-            'priceItems'
+            'priceItems',
+            'marketPrices'
         ));
     }
 

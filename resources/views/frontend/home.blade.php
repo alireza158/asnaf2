@@ -205,6 +205,39 @@
 </div>
 </section>
 
+@if(!empty($marketPrices) && $marketPrices->count())
+<section class="market-prices-section site-container">
+    <div class="market-prices-header">
+        <div>
+            <h2>قیمت روز طلا و ارز</h2>
+            <p>
+                آخرین بروزرسانی:
+                {{ optional($marketPrices->max('fetched_at'))->format('Y/m/d H:i') ?? 'ثبت نشده' }}
+            </p>
+        </div>
+    </div>
+
+    <div class="market-prices-grid">
+        @foreach($marketPrices as $item)
+            <div class="market-price-card">
+                <span>{{ $item->title }}</span>
+                <strong>{{ is_null($item->price) ? '—' : number_format((float) $item->price) }} {{ $item->currency }}</strong>
+                @if($item->unit)
+                    <small>برای هر {{ $item->unit }}</small>
+                @endif
+
+                @if(!is_null($item->change_percent))
+                    <em class="{{ $item->change_percent >= 0 ? 'price-up' : 'price-down' }}">
+                        {{ $item->change_percent >= 0 ? '▲' : '▼' }}
+                        {{ abs((float) $item->change_percent) }}٪
+                    </em>
+                @endif
+            </div>
+        @endforeach
+    </div>
+</section>
+@endif
+
 <section class="site-container howto-section">
 <div class="section-heading section-heading-centered">
 <h2>خدمات الکترونیک صنفی</h2>
