@@ -104,15 +104,11 @@ class HomeController extends Controller
                 ->get()
             : collect();
 
-        $tourismPlaces = $this->hasSection($sections, 'tourism')
-            ? TourismPlace::query()
-                ->published()
-                ->with('category')
-                ->orderBy('sort_order')
-                ->latest('published_at')
-                ->take($this->sectionLimit($sections, 'tourism', 4))
-                ->get()
-            : collect();
+        $tourismLimit = $this->sectionLimit($sections, 'tourism', 4);
+        $tourismNature = $this->tourismPlacesByType($sections, 'nature', $tourismLimit);
+        $tourismHistoric = $this->tourismPlacesByType($sections, 'historic', $tourismLimit);
+        $tourismShop = $this->tourismPlacesByType($sections, 'shop', $tourismLimit);
+        $tourismPlaces = $tourismNature->concat($tourismHistoric)->concat($tourismShop);
 
         $systems = $this->hasSection($sections, 'systems')
             ? System::query()
@@ -163,12 +159,31 @@ class HomeController extends Controller
             'latestGalleries',
             'latestVideos',
             'tourismPlaces',
+            'tourismNature',
+            'tourismHistoric',
+            'tourismShop',
             'systems',
             'commissions',
             'congratulationMessages',
             'homeAdvertisements',
             'quickMenuItems'
         ));
+    }
+
+    private function tourismPlacesByType(Collection $sections, string $type, int $limit): Collection
+    {
+        if (! $this->hasSection($sections, 'tourism')) {
+            return collect();
+        }
+
+        return TourismPlace::query()
+            ->published()
+            ->where('type', $type)
+            ->with('category')
+            ->orderBy('sort_order')
+            ->latest('published_at')
+            ->take($limit)
+            ->get();
     }
 
     private function sectionLimit(Collection $sections, string $key, int $default): int

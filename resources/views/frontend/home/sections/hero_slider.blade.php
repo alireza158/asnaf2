@@ -1,3 +1,6 @@
+@php
+    $imageUrl = fn ($path) => $path ? (Str::startsWith($path, ['http://', 'https://', '/', 'assets/']) ? (Str::startsWith($path, 'assets/') ? asset($path) : $path) : Storage::url($path)) : asset('assets/img/asnaf-gorgan-default.jpg');
+@endphp
 <section class="hero-section site-container">
     <div class="hero-grid" style="grid-template-columns:1fr">
         <div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper" dir="ltr">
@@ -5,7 +8,7 @@
                 @forelse (($heroPosts ?? $importantPosts ?? collect()) as $post)
                     <article class="news-card news-card-main swiper-slide">
                         <a href="{{ route('posts.show', $post->slug) }}">
-                            <img alt="{{ $post->title }}" src="{{ $post->featured_image ? Storage::url($post->featured_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
+                            <img alt="{{ $post->title }}" src="{{ $imageUrl($post->featured_image) }}" loading="lazy"/>
                             <div class="news-overlay"></div>
                             <div class="news-content"><span class="news-kicker">{{ $post->category?->title ?: 'خبر مهم' }}</span><h1>{{ $post->title }}</h1></div>
                         </a>
