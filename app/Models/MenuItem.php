@@ -69,6 +69,33 @@ class MenuItem extends Model
 
     public function getResolvedUrlAttribute(): string
     {
+        if ($this->type === 'custom') {
+            return $this->url ?: '#';
+        }
+
+        $routeMap = [
+            'page' => ['pages.show', \App\Models\Page::class],
+            'post' => ['posts.show', \App\Models\Post::class],
+            'union' => ['guilds.show', \App\Models\GuildUnion::class],
+            'tourism' => ['tourism.show', \App\Models\TourismPlace::class],
+            'gallery' => ['galleries.show', \App\Models\Gallery::class],
+            'video' => ['videos.show', \App\Models\Video::class],
+            'system' => ['systems.show', \App\Models\System::class],
+            'service' => ['electronic_services.show', \App\Models\ElectronicService::class],
+        ];
+
+        if (isset($routeMap[$this->type]) && $this->reference_id) {
+            [$routeName, $modelClass] = $routeMap[$this->type];
+            try {
+                $model = $modelClass::query()->find($this->reference_id);
+                if ($model && Route::has($routeName)) {
+                    return route($routeName, $model->getRouteKey());
+                }
+            } catch (Throwable) {
+                return $this->url ?: '#';
+            }
+        }
+
         if ($this->route_name && Route::has($this->route_name)) {
             try {
                 return route($this->route_name);
