@@ -10,6 +10,7 @@ use App\Models\ElectronicService;
 use App\Models\Gallery;
 use App\Models\GuildUnion;
 use App\Models\HomeSection;
+use App\Models\OrgLink;
 use App\Models\Post;
 use App\Models\System;
 use App\Models\TourismPlace;
@@ -95,6 +96,10 @@ class HomeController extends Controller
             ->take($this->sectionLimit($sections, 'unions', 24))
             ->get();
 
+        $productionUnions = $this->unionsByType(GuildUnion::TYPE_PRODUCTION);
+        $distributionUnions = $this->unionsByType(GuildUnion::TYPE_DISTRIBUTION);
+        $serviceUnions = $this->unionsByType(GuildUnion::TYPE_SERVICE);
+
         $electronicServices = ElectronicService::query()
             ->published()
             ->with('category')
@@ -151,6 +156,12 @@ class HomeController extends Controller
             ->take($this->sectionLimit($sections, 'congratulation_messages', 3))
             ->get();
 
+        $orgLinks = OrgLink::query()
+            ->active()
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
         $homeAdvertisements = $advertisementService->getByPosition(
             (string) (data_get($sections->firstWhere('key', 'advertisements')?->settings, 'position') ?: 'home_top'),
             $this->sectionLimit($sections, 'advertisements', 2)
@@ -179,6 +190,9 @@ class HomeController extends Controller
             'announcements',
             'homeUnions',
             'unions',
+            'productionUnions',
+            'distributionUnions',
+            'serviceUnions',
             'electronicServices',
             'galleries',
             'latestGalleries',
@@ -191,6 +205,7 @@ class HomeController extends Controller
             'systems',
             'commissions',
             'congratulationMessages',
+            'orgLinks',
             'homeAdvertisements',
             'advertisements',
             'quickMenuItems',
@@ -200,6 +215,17 @@ class HomeController extends Controller
             'siteSettings',
             'homeSections'
         ));
+    }
+
+    private function unionsByType(string $type): Collection
+    {
+        return GuildUnion::query()
+            ->active()
+            ->where('union_type', $type)
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->take(10)
+            ->get();
     }
 
     private function tourismPlacesByType(string $type, int $limit): Collection
