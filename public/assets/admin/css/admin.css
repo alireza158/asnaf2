@@ -1129,3 +1129,85 @@ table.admin-table {
 .admin-logout-form {
     margin: 0;
 }
+
+/* Admin pagination/loading stability */
+.admin-pagination-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.admin-pagination-wrapper-empty {
+    justify-content: flex-start;
+}
+
+.admin-pagination-summary {
+    color: var(--admin-muted);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.admin-pagination-links nav,
+.admin-pagination-links .pagination {
+    margin: 0;
+}
+
+.admin-pagination-links .pagination {
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.admin-pagination-links .page-link {
+    min-width: 38px;
+    min-height: 38px;
+    border-color: var(--admin-border);
+    border-radius: 12px !important;
+    color: var(--admin-text);
+    text-align: center;
+}
+
+.admin-pagination-links .page-item.active .page-link {
+    border-color: var(--admin-primary);
+    background: var(--admin-primary);
+    color: #fff;
+}
+
+.admin-pagination-links .page-item.disabled .page-link,
+.admin-secondary-btn.is-disabled {
+    pointer-events: none;
+    opacity: .55;
+}
+
+.admin-pagination-fallback {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.table-responsive {
+    max-width: 100%;
+    min-height: 1px;
+    overflow-x: auto;
+    overflow-y: visible;
+}
+
+body.admin-page-ready [data-admin-loader],
+body.admin-page-ready .admin-loader,
+body.admin-page-ready .loading-overlay {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .admin-pagination-wrapper {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .admin-pagination-fallback,
+    .admin-pagination-fallback .admin-secondary-btn {
+        width: 100%;
+    }
+}

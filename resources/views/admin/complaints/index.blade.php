@@ -60,6 +60,6 @@
             </tbody>
         </table>
     </div>
-    {{ $complaints->links() }}
+    @include('admin.partials.pagination', ['paginator' => $complaints])
 </div>
 @endsection

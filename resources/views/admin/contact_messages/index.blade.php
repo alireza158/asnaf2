@@ -77,6 +77,6 @@
             </tbody>
         </table>
     </div>
-    {{ $messages->links() }}
+    @include('admin.partials.pagination', ['paginator' => $messages])
 </div>
 @endsection

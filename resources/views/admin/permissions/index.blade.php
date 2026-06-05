@@ -59,6 +59,6 @@
         </table>
     </div>
 
-    {{ $permissions->links() }}
+    @include('admin.partials.pagination', ['paginator' => $permissions])
 </div>
 @endsection

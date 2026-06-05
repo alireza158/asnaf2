@@ -51,6 +51,6 @@
             </tbody>
         </table>
     </div>
-    {{ $positions->links() }}
+    @include('admin.partials.pagination', ['paginator' => $positions])
 </div>
 @endsection

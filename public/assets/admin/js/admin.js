@@ -216,3 +216,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const markPageReady = () => {
+        document.documentElement.classList.remove('loading', 'is-loading', 'admin-loading');
+        document.body.classList.remove('loading', 'is-loading', 'admin-loading');
+        document.body.classList.add('admin-page-ready');
+    };
+
+    markPageReady();
+    window.addEventListener('load', markPageReady);
+    window.addEventListener('pageshow', markPageReady);
+
+    document.querySelectorAll('[data-admin-pagination] a[href]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+            const href = link.getAttribute('href');
+
+            if (!href || href === '#' || link.getAttribute('aria-disabled') === 'true') {
+                event.preventDefault();
+                markPageReady();
+                return;
+            }
+
+            link.dataset.adminPaginationClicked = 'true';
+        });
+    });
+});

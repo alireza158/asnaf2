@@ -49,6 +49,6 @@
         </table>
     </div>
 
-    {{ $menus->links() }}
+    @include('admin.partials.pagination', ['paginator' => $menus])
 </div>
 @endsection
