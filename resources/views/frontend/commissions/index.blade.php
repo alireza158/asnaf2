@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
-@section('title', 'کمیسیون‌ها | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'معرفی کمیسیون‌های اتاق اصناف شهرستان گرگان و جلسات مرتبط')
+@section('title', 'کمیسیون‌ها | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'معرفی کمیسیون‌های اتاق اصناف مرکز استان گلستان و جلسات مرتبط')
 @section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 @section('content')
