@@ -1,16 +1,16 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'جلسه هیئت رئیسه اردیبهشت ۱۴۰۵ | اتاق اصناف شهرستان گرگان')
-@section('meta_description', '')
+@section('title', $gallery->title.' | اتاق اصناف شهرستان گرگان')
+@section('meta_description', Str::limit(strip_tags($gallery->description), 160))
 
 @section('content')
 <section class="page-header page-header-alt">
   <div class="site-container">
-    <h1>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</h1>
+    <h1>{{ $gallery->title }}</h1>
     <nav class="breadcrumb">
-      <a href="index.html">خانه</a>
-      <a href="gallery.html">گالری</a>
-      <span>جلسه هیئت رئیسه اردیبهشت ۱۴۰۵</span>
+      <a href="{{ route('home') }}">خانه</a>
+      <a href="{{ route('galleries.index') }}">گالری</a>
+      <span>{{ $gallery->title }}</span>
     </nav>
   </div>
 </section>
@@ -19,21 +19,18 @@
   <div class="gallery-single-layout">
 
     <div class="gallery-single-main">
-      <p class="gallery-desc">تصاویر جلسه ماهانه هیئت رئیسه اتاق اصناف شهرستان گرگان که در تاریخ ۲ اردیبهشت ۱۴۰۵ در سالن جلسات ساختمان اتاق اصناف برگزار شد. در این جلسه مباحث مربوط به صدور و تمدید پروانه‌های کسب، بررسی شکایات صنفی و برنامه‌های آموزشی سال جاری مطرح گردید.</p>
+      <p class="gallery-desc">{{ $gallery->description ?: 'توضیحی برای این گالری ثبت نشده است.' }}</p>
 
-      <div class="gallery-thumbs" data-gallery-group="g1">
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۲" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۳" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۴" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۵" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۶" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۷" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۸" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۹" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۰" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۱" loading="lazy"/></div>
-        <div class="gallery-thumb" data-gallery-item="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"><img src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="تصویر ۱۲" loading="lazy"/></div>
+      <div class="gallery-thumbs" data-gallery-group="gallery-{{ $gallery->id }}">
+        @forelse ($gallery->images as $image)
+          <div class="gallery-thumb" data-gallery-item="{{ $image->image_url }}">
+            <img src="{{ $image->image_url }}" alt="{{ $image->caption ?? $gallery->title }}" loading="lazy"/>
+          </div>
+        @empty
+          <div class="gallery-thumb" data-gallery-item="{{ $gallery->cover_image_url }}">
+            <img src="{{ $gallery->cover_image_url }}" alt="{{ $gallery->title }}" loading="lazy"/>
+          </div>
+        @endforelse
       </div>
     </div>
 
@@ -41,20 +38,19 @@
       <div class="gallery-sidebar-card">
         <h4>سایر گالری‌ها</h4>
         <ul class="gallery-sidebar-list">
-          <li><a href="gallery-single.html">نمایشگاه صنایع دستی گرگان</a></li>
-          <li><a href="gallery-single.html">دوره آموزشی قوانین کسب‌وکار</a></li>
-          <li><a href="gallery-single.html">افتتاح ساختمان جدید اتحادیه</a></li>
-          <li><a href="gallery-single.html">گزارش تصویری هفته اصناف</a></li>
-          <li><a href="gallery-single.html">بازدید از واحدهای صنفی</a></li>
-          <li><a href="gallery-single.html">همایش اقتصاد مقاومتی</a></li>
+          @forelse ($relatedGalleries as $relatedGallery)
+            <li><a href="{{ route('galleries.show', $relatedGallery->slug) }}">{{ $relatedGallery->title }}</a></li>
+          @empty
+            <li>گالری مرتبطی برای نمایش وجود ندارد.</li>
+          @endforelse
         </ul>
       </div>
       <div class="gallery-sidebar-card">
         <h4>آمار گالری</h4>
         <ul class="gallery-sidebar-list">
-          <li>تعداد تصاویر: ۱۲</li>
-          <li>تاریخ انتشار: ۲ اردیبهشت ۱۴۰۵</li>
-          <li>آخرین بروزرسانی: ۲ اردیبهشت ۱۴۰۵</li>
+          <li>تعداد تصاویر: {{ $gallery->images->count() }}</li>
+          <li>تاریخ انتشار: {{ jalali_date($gallery->published_at) ?: '—' }}</li>
+          <li>آخرین بروزرسانی: {{ jalali_date($gallery->updated_at) ?: '—' }}</li>
         </ul>
       </div>
     </aside>

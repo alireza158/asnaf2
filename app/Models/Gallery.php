@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Gallery extends Model
 {
@@ -36,6 +38,31 @@ class Gallery extends Model
             'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];
+    }
+
+
+    public function getFeaturedImageAttribute(): ?string
+    {
+        return $this->cover_image;
+    }
+
+    public function getCoverImageUrlAttribute(): string
+    {
+        $image = $this->cover_image;
+
+        if (! $image) {
+            return asset('assets/img/asnaf-gorgan-default.jpg');
+        }
+
+        if (Str::startsWith($image, ['http://', 'https://', '/'])) {
+            return $image;
+        }
+
+        if (Str::startsWith($image, ['assets/'])) {
+            return asset($image);
+        }
+
+        return Storage::url($image);
     }
 
     public function union(): BelongsTo
