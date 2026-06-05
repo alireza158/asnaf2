@@ -68,7 +68,7 @@ class ComplaintController extends Controller
         return view('frontend.complaints.track');
     }
 
-    public function lookup(Request $request): View|RedirectResponse
+    public function trackResult(Request $request): View|RedirectResponse
     {
         $validated = $request->validate([
             'tracking_code' => ['required', 'string', 'max:30'],
@@ -92,6 +92,12 @@ class ComplaintController extends Controller
             'complaint' => $complaint,
             'isNew' => false,
         ]);
+    }
+
+
+    public function lookup(Request $request): View|RedirectResponse
+    {
+        return $this->trackResult($request);
     }
 
     private function enabledUnions()

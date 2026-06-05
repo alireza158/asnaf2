@@ -13,49 +13,49 @@
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>درباره اتاق اصناف</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">معرفی اتاق اصناف گرگان</a></li><li><a href="#">هیئت رئیسه و ساختار اداری</a></li><li><a href="#">شرح وظایف و اختیارات</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('pages.show', 'about-gorgan-guild-chamber') }}">معرفی اتاق اصناف گرگان</a></li><li><a href="{{ route('pages.show', 'about-gorgan-guild-chamber') }}">هیئت رئیسه و ساختار اداری</a></li><li><a href="{{ route('pages.show', 'guild-rules') }}">شرح وظایف و اختیارات</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>خدمات متقاضیان</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">راهنمای صدور پروانه کسب</a></li><li><a href="#">تمدید و انتقال پروانه</a></li><li><a href="#">پیگیری درخواست‌ها</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('electronic-services.index') }}">راهنمای صدور پروانه کسب</a></li><li><a href="{{ route('electronic-services.index') }}">تمدید و انتقال پروانه</a></li><li><a href="{{ route('systems.index') }}">پیگیری درخواست‌ها</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>اتحادیه‌های صنفی</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">فهرست اتحادیه‌های گرگان</a></li><li><a href="#">اطلاعات تماس اتحادیه‌ها</a></li><li><a href="#">رسته‌های شغلی</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('guilds.index') }}">فهرست اتحادیه‌های گرگان</a></li><li><a href="{{ route('guilds.index') }}">اطلاعات تماس اتحادیه‌ها</a></li><li><a href="{{ route('guilds.index') }}">رسته‌های شغلی</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>بازرسی و نظارت</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">ثبت شکایت صنفی</a></li><li><a href="#">گزارش تخلف</a></li><li><a href="#">پیگیری بازرسی‌ها</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('complaints.create') }}">ثبت شکایت صنفی</a></li><li><a href="{{ route('complaints.create') }}">گزارش تخلف</a></li><li><a href="{{ route('complaints.track') }}">پیگیری بازرسی‌ها</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>آموزش و احکام تجارت</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">دوره‌های آموزشی</a></li><li><a href="#">احکام تجارت و کسب‌وکار</a></li><li><a href="#">راهنمای متقاضیان</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('electronic-services.index') }}">دوره‌های آموزشی</a></li><li><a href="{{ route('electronic-services.index') }}">احکام تجارت و کسب‌وکار</a></li><li><a href="{{ route('electronic-services.index') }}">راهنمای متقاضیان</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>اطلاعیه‌ها</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">بخشنامه‌ها</a></li><li><a href="#">اخبار اتاق اصناف</a></li><li><a href="#">رویدادهای صنفی</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('announcements.index') }}">بخشنامه‌ها</a></li><li><a href="{{ route('posts.index') }}">اخبار اتاق اصناف</a></li><li><a href="{{ route('posts.index') }}">رویدادهای صنفی</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>سامانه‌ها</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">سامانه نوین اصناف</a></li><li><a href="#">سامانه آموزش اصناف</a></li><li><a href="#">فرم‌ها و درخواست‌ها</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('systems.index') }}">سامانه نوین اصناف</a></li><li><a href="{{ route('systems.index') }}">سامانه آموزش اصناف</a></li><li><a href="{{ route('electronic-services.index') }}">فرم‌ها و درخواست‌ها</a></li></ul>
 </li>
 <li class="quick-menu-item has-submenu">
 <button aria-expanded="false" class="quick-menu-link" type="button">
 <span>ارتباط با ما</span><b></b>
 </button>
-<ul class="quick-submenu"><li><a href="#">آدرس و تلفن</a></li><li><a href="#">ارسال پیام</a></li><li><a href="#">راهنمای مراجعه حضوری</a></li></ul>
+<ul class="quick-submenu"><li><a href="{{ route('contact.create') }}">آدرس و تلفن</a></li><li><a href="{{ route('contact.create') }}">ارسال پیام</a></li><li><a href="{{ route('contact.create') }}">راهنمای مراجعه حضوری</a></li></ul>
 </li>
 </ul>
 </aside>
@@ -110,37 +110,37 @@
 <p>نحوه انجام خدمات و دریافت مجوزها و ثبت درخواست‌ها</p>
 </div>
 <div class="howto-grid">
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">📋</div>
 <h3>نحوه صدور پروانه کسب</h3>
 <p>راهنمای گام‌به‌گام دریافت پروانه کسب جدید و تشکیل پرونده صنفی برای متقاضیان</p>
 <span class="howto-link">مشاهده راهنما ←</span>
 </a>
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">🔄</div>
 <h3>نحوه تمدید پروانه کسب</h3>
 <p>مراحل تمدید سالانه پروانه کسب، مدارک مورد نیاز و فرآیند بررسی در اتحادیه مربوطه</p>
 <span class="howto-link">مشاهده راهنما ←</span>
 </a>
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">⚖️</div>
 <h3>نحوه ثبت شکایت صنفی</h3>
 <p>ثبت گزارش تخلفات صنفی، شکایات مردمی و نحوه پیگیری از طریق کمیسیون نظارت</p>
 <span class="howto-link">مشاهده راهنما ←</span>
 </a>
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">📁</div>
 <h3>فرم‌ها و بخشنامه‌ها</h3>
 <p>دانلود فرم‌های مورد نیاز، بخشنامه‌های جاری و اطلاعیه‌های جدید اتاق اصناف</p>
 <span class="howto-link">مشاهده فرم‌ها ←</span>
 </a>
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">💻</div>
 <h3>سامانه نوین اصناف</h3>
 <p>ورود به سامانه الکترونیک اصناف برای پیگیری پرونده و استعلام وضعیت پروانه کسب</p>
 <span class="howto-link">ورود به سامانه ←</span>
 </a>
-<a class="howto-card" href="#">
+<a class="howto-card" href="{{ route('electronic-services.index') }}">
 <div class="howto-icon">🎓</div>
 <h3>آموزش احکام تجارت</h3>
 <p>ثبت‌نام در دوره‌های آموزش احکام تجارت و کسب‌وکار مورد نیاز صدور پروانه کسب</p>
@@ -149,12 +149,12 @@
 </div>
 </section>
 <section class="home-ad-banners site-container">
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(0)?->link) && $homeAdvertisements->get(0)?->link !== '#' ? $homeAdvertisements->get(0)->link : route('systems.index') }}" target="{{ $homeAdvertisements->get(0)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
 </a>
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(1)?->link) && $homeAdvertisements->get(1)?->link !== '#' ? $homeAdvertisements->get(1)->link : route('electronic-services.index') }}" target="{{ $homeAdvertisements->get(1)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
@@ -217,12 +217,12 @@
 </div>
 </section>
 <section class="home-ad-banners site-container mid-ad">
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(2)?->link) && $homeAdvertisements->get(2)?->link !== '#' ? $homeAdvertisements->get(2)->link : route('guilds.index') }}" target="{{ $homeAdvertisements->get(2)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
 </a>
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(3)?->link) && $homeAdvertisements->get(3)?->link !== '#' ? $homeAdvertisements->get(3)->link : route('contact.create') }}" target="{{ $homeAdvertisements->get(3)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
@@ -241,16 +241,16 @@
 </div>
 <div class="tab-panels" data-tab-panels="commissions">
 <div class="tab-panel active" data-tab-panel="com-12">
-<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="#"><strong>صدور پروانه</strong><span>ثبت، بررسی و راهنمای صدور پروانه کسب</span></a><a class="commission-item green" href="#"><strong>تمدید پروانه</strong><span>تمدید، تغییر نشانی و انتقال واحد صنفی</span></a><a class="commission-item blue" href="#"><strong>استعلام صنفی</strong><span>پیگیری وضعیت درخواست‌ها و مجوزها</span></a><a class="commission-item green" href="#"><strong>رسته‌های شغلی</strong><span>راهنمای انتخاب رسته و اتحادیه مرتبط</span></a><a class="commission-item blue" href="#"><strong>فرم‌ها</strong><span>دریافت فرم‌های اداری و درخواست‌ها</span></a><a class="commission-item green" href="#"><strong>بخشنامه‌ها</strong><span>آخرین ابلاغیه‌های مرتبط با اصناف</span></a><a class="commission-item blue" href="#"><strong>مشاوره صنفی</strong><span>راهنمایی متقاضیان و مباشرین</span></a><a class="commission-item green" href="#"><strong>پرونده صنفی</strong><span>تکمیل و اصلاح مدارک پرونده‌ها</span></a><a class="commission-item blue" href="#"><strong>شناسه صنفی</strong><span>راهنمای دریافت شناسه و کد واحد</span></a><a class="commission-item green" href="#"><strong>نوبت‌دهی</strong><span>مدیریت مراجعه حضوری و پیگیری</span></a><a class="commission-item blue" href="#"><strong>آمار اصناف</strong><span>گزارش‌های آماری و اطلاعات رسته‌ها</span></a><a class="commission-item green" href="#"><strong>اطلاع‌رسانی</strong><span>خبرها و اطلاعیه‌های مهم اتاق</span></a></div></div>
+<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="{{ route('electronic-services.index') }}"><strong>صدور پروانه</strong><span>ثبت، بررسی و راهنمای صدور پروانه کسب</span></a><a class="commission-item green" href="{{ route('electronic-services.index') }}"><strong>تمدید پروانه</strong><span>تمدید، تغییر نشانی و انتقال واحد صنفی</span></a><a class="commission-item blue" href="{{ route('systems.index') }}"><strong>استعلام صنفی</strong><span>پیگیری وضعیت درخواست‌ها و مجوزها</span></a><a class="commission-item green" href="{{ route('guilds.index') }}"><strong>رسته‌های شغلی</strong><span>راهنمای انتخاب رسته و اتحادیه مرتبط</span></a><a class="commission-item blue" href="{{ route('electronic-services.index') }}"><strong>فرم‌ها</strong><span>دریافت فرم‌های اداری و درخواست‌ها</span></a><a class="commission-item green" href="{{ route('announcements.index') }}"><strong>بخشنامه‌ها</strong><span>آخرین ابلاغیه‌های مرتبط با اصناف</span></a><a class="commission-item blue" href="{{ route('contact.create') }}"><strong>مشاوره صنفی</strong><span>راهنمایی متقاضیان و مباشرین</span></a><a class="commission-item green" href="{{ route('electronic-services.index') }}"><strong>پرونده صنفی</strong><span>تکمیل و اصلاح مدارک پرونده‌ها</span></a><a class="commission-item blue" href="{{ route('systems.index') }}"><strong>شناسه صنفی</strong><span>راهنمای دریافت شناسه و کد واحد</span></a><a class="commission-item green" href="{{ route('contact.create') }}"><strong>نوبت‌دهی</strong><span>مدیریت مراجعه حضوری و پیگیری</span></a><a class="commission-item blue" href="{{ route('guilds.index') }}"><strong>آمار اصناف</strong><span>گزارش‌های آماری و اطلاعات رسته‌ها</span></a><a class="commission-item green" href="{{ route('posts.index') }}"><strong>اطلاع‌رسانی</strong><span>خبرها و اطلاعیه‌های مهم اتاق</span></a></div></div>
 </div>
 <div class="tab-panel" data-tab-panel="com-11">
-<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="#"><strong>بازرسی</strong><span>نظارت بر واحدهای صنفی و رعایت مقررات</span></a><a class="commission-item green" href="#"><strong>شکایات</strong><span>ثبت و پیگیری شکایات شهروندان</span></a><a class="commission-item blue" href="#"><strong>تخلفات صنفی</strong><span>گزارش تخلف و ارجاع به مراجع ذی‌ربط</span></a><a class="commission-item green" href="#"><strong>نرخ‌گذاری</strong><span>اطلاع‌رسانی ضوابط قیمت و نرخ خدمات</span></a><a class="commission-item blue" href="#"><strong>حقوق مصرف‌کننده</strong><span>صیانت از حقوق مردم و کسبه</span></a><a class="commission-item green" href="#"><strong>صلح و سازش</strong><span>رسیدگی اولیه به اختلافات صنفی</span></a><a class="commission-item blue" href="#"><strong>بهداشت و ایمنی</strong><span>هماهنگی با دستگاه‌های نظارتی مرتبط</span></a><a class="commission-item green" href="#"><strong>طرح‌های نظارتی</strong><span>اجرای طرح‌های مناسبتی و دوره‌ای</span></a></div></div>
+<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="{{ route('commissions.index') }}"><strong>بازرسی</strong><span>نظارت بر واحدهای صنفی و رعایت مقررات</span></a><a class="commission-item green" href="{{ route('complaints.create') }}"><strong>شکایات</strong><span>ثبت و پیگیری شکایات شهروندان</span></a><a class="commission-item blue" href="{{ route('complaints.create') }}"><strong>تخلفات صنفی</strong><span>گزارش تخلف و ارجاع به مراجع ذی‌ربط</span></a><a class="commission-item green" href="{{ route('commissions.index') }}"><strong>نرخ‌گذاری</strong><span>اطلاع‌رسانی ضوابط قیمت و نرخ خدمات</span></a><a class="commission-item blue" href="{{ route('commissions.index') }}"><strong>حقوق مصرف‌کننده</strong><span>صیانت از حقوق مردم و کسبه</span></a><a class="commission-item green" href="{{ route('commissions.index') }}"><strong>صلح و سازش</strong><span>رسیدگی اولیه به اختلافات صنفی</span></a><a class="commission-item blue" href="{{ route('commissions.index') }}"><strong>بهداشت و ایمنی</strong><span>هماهنگی با دستگاه‌های نظارتی مرتبط</span></a><a class="commission-item green" href="{{ route('commissions.index') }}"><strong>طرح‌های نظارتی</strong><span>اجرای طرح‌های مناسبتی و دوره‌ای</span></a></div></div>
 </div>
 <div class="tab-panel" data-tab-panel="com-10">
-<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="#"><strong>احکام تجارت</strong><span>دوره‌های آموزشی متقاضیان پروانه کسب</span></a><a class="commission-item green" href="#"><strong>آموزش آنلاین</strong><span>معرفی سامانه آموزش الکترونیکی اصناف</span></a><a class="commission-item blue" href="#"><strong>قانون نظام صنفی</strong><span>آشنایی با تکالیف و حقوق واحد صنفی</span></a><a class="commission-item green" href="#"><strong>مالیات</strong><span>راهنمای تکالیف مالیاتی کسب‌وکارها</span></a><a class="commission-item blue" href="#"><strong>بیمه</strong><span>اطلاع‌رسانی بیمه و روابط کار</span></a><a class="commission-item green" href="#"><strong>بهداشت صنفی</strong><span>راهنمای الزامات بهداشتی کسب‌وکار</span></a><a class="commission-item blue" href="#"><strong>تجارت دیجیتال</strong><span>نکات فروش اینترنتی و کسب‌وکار آنلاین</span></a><a class="commission-item green" href="#"><strong>سوالات پرتکرار</strong><span>پاسخ به پرسش‌های متقاضیان</span></a></div></div>
+<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="{{ route('electronic-services.index') }}"><strong>احکام تجارت</strong><span>دوره‌های آموزشی متقاضیان پروانه کسب</span></a><a class="commission-item green" href="{{ route('systems.index') }}"><strong>آموزش آنلاین</strong><span>معرفی سامانه آموزش الکترونیکی اصناف</span></a><a class="commission-item blue" href="{{ route('pages.show', 'guild-rules') }}"><strong>قانون نظام صنفی</strong><span>آشنایی با تکالیف و حقوق واحد صنفی</span></a><a class="commission-item green" href="{{ route('electronic-services.index') }}"><strong>مالیات</strong><span>راهنمای تکالیف مالیاتی کسب‌وکارها</span></a><a class="commission-item blue" href="{{ route('electronic-services.index') }}"><strong>بیمه</strong><span>اطلاع‌رسانی بیمه و روابط کار</span></a><a class="commission-item green" href="{{ route('electronic-services.index') }}"><strong>بهداشت صنفی</strong><span>راهنمای الزامات بهداشتی کسب‌وکار</span></a><a class="commission-item blue" href="{{ route('electronic-services.index') }}"><strong>تجارت دیجیتال</strong><span>نکات فروش اینترنتی و کسب‌وکار آنلاین</span></a><a class="commission-item green" href="{{ route('contact.create') }}"><strong>سوالات پرتکرار</strong><span>پاسخ به پرسش‌های متقاضیان</span></a></div></div>
 </div>
 <div class="tab-panel" data-tab-panel="com-all">
-<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="#"><strong>اتحادیه‌ها</strong><span>هماهنگی بین اتحادیه‌های صنفی شهرستان</span></a><a class="commission-item green" href="#"><strong>اداره صمت</strong><span>تعامل با اداره صنعت، معدن و تجارت</span></a><a class="commission-item blue" href="#"><strong>تعزیرات</strong><span>همکاری در پرونده‌های نظارتی و تخلفات</span></a><a class="commission-item green" href="#"><strong>شهرداری</strong><span>هماهنگی مسائل شهری واحدهای صنفی</span></a><a class="commission-item blue" href="#"><strong>امور مالیاتی</strong><span>پیگیری میز خدمت و آموزش مالیاتی</span></a><a class="commission-item green" href="#"><strong>اتاق ایران</strong><span>ارتباط با اتاق اصناف ایران و سامانه‌های ملی</span></a><a class="commission-item blue" href="#"><strong>رویدادها</strong><span>نشست‌ها، نمایشگاه‌ها و جلسات صنفی</span></a><a class="commission-item green" href="#"><strong>کمیسیون نظارت</strong><span>پیگیری مصوبات و الزامات نظارتی</span></a></div></div>
+<div class="commission-card"><div class="commission-grid compact-grid"><a class="commission-item blue" href="{{ route('guilds.index') }}"><strong>اتحادیه‌ها</strong><span>هماهنگی بین اتحادیه‌های صنفی شهرستان</span></a><a class="commission-item green" href="{{ route('contact.create') }}"><strong>اداره صمت</strong><span>تعامل با اداره صنعت، معدن و تجارت</span></a><a class="commission-item blue" href="{{ route('contact.create') }}"><strong>تعزیرات</strong><span>همکاری در پرونده‌های نظارتی و تخلفات</span></a><a class="commission-item green" href="{{ route('contact.create') }}"><strong>شهرداری</strong><span>هماهنگی مسائل شهری واحدهای صنفی</span></a><a class="commission-item blue" href="{{ route('contact.create') }}"><strong>امور مالیاتی</strong><span>پیگیری میز خدمت و آموزش مالیاتی</span></a><a class="commission-item green" href="{{ route('systems.index') }}"><strong>اتاق ایران</strong><span>ارتباط با اتاق اصناف ایران و سامانه‌های ملی</span></a><a class="commission-item blue" href="{{ route('posts.index') }}"><strong>رویدادها</strong><span>نشست‌ها، نمایشگاه‌ها و جلسات صنفی</span></a><a class="commission-item green" href="{{ route('commissions.index') }}"><strong>کمیسیون نظارت</strong><span>پیگیری مصوبات و الزامات نظارتی</span></a></div></div>
 </div>
 </div>
 </div>
@@ -262,42 +262,42 @@
 <p>کمیسیون‌های تخصصی اتاق اصناف شهرستان گرگان متشکل از فعالان صنفی، کارشناسان و نمایندگان دستگاه‌های اجرایی</p>
 </div>
 <div class="comreal-grid">
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">⚖️</div>
 <h3>کمیسیون نظارت و بازرسی</h3>
 <p>نظارت بر عملکرد واحدهای صنفی، اجرای طرح‌های بازرسی دوره‌ای و رسیدگی به تخلفات صنفی در سطح شهرستان</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">🎓</div>
 <h3>کمیسیون آموزش</h3>
 <p>برنامه‌ریزی و برگزاری دوره‌های آموزش احکام تجارت و کسب‌وکار برای متقاضیان پروانه کسب و فعالان صنفی</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">🤝</div>
 <h3>کمیسیون حل اختلاف</h3>
 <p>رسیدگی به اختلافات صنفی میان اعضای اتحادیه‌ها و ارائه راهکارهای سازش و مصالحه</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">📊</div>
 <h3>کمیسیون بازاریابی و توسعه</h3>
 <p>حمایت از بازاریابی محصولات صنفی، توسعه بازارچه‌های محلی و برگزاری نمایشگاه‌های تخصصی</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">🏛</div>
 <h3>کمیسیون صنایع دستی</h3>
 <p>حمایت از هنرمندان و فعالان صنایع دستی، ساماندهی تولید و فروش محصولات سنتی و محلی</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">🌿</div>
 <h3>کمیسیون گردشگری</h3>
 <p>هماهنگی با فعالان حوزه گردشگری، هتل‌داران، رستوران‌داران و آژانس‌های مسافرتی شهرستان</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">💳</div>
 <h3>کمیسیون مالی و اداری</h3>
 <p>مدیریت منابع مالی، بودجه‌ریزی، امور اداری و پشتیبانی از فعالیت‌های اتاق اصناف شهرستان</p>
 </a>
-<a href="#" class="comreal-card">
+<a href="{{ route('commissions.index') }}" class="comreal-card">
 <div class="comreal-icon">📋</div>
 <h3>کمیسیون امور صنفی</h3>
 <p>پیگیری مسائل و نیازهای صنفی اتحادیه‌ها، صدور و تمدید پروانه‌های کسب و رسیدگی به درخواست‌ها</p>
@@ -311,24 +311,24 @@
 <h2>موضوعات پیگیری اصناف</h2>
 </div>
 <div class="fraction-grid">
-<a href="#" class="fraction-link">تسهیل صدور پروانه کسب</a>
-<a href="#" class="fraction-link">کاهش زمان پاسخگویی</a>
-<a href="#" class="fraction-link">راهنمای تکمیل مدارک</a>
-<a href="#" class="fraction-link">شفاف‌سازی مراحل اداری</a>
-<a href="#" class="fraction-link">به‌روزرسانی اطلاعات واحدها</a>
-<a href="#" class="fraction-link">پیگیری درخواست‌های متقاضیان</a>
-<a href="#" class="fraction-link">ساماندهی رسته‌های شغلی</a>
-<a href="#" class="fraction-link">همکاری با اتحادیه‌ها</a>
-<a href="#" class="fraction-link">اطلاع‌رسانی بخشنامه‌ها</a>
-<a href="#" class="fraction-link">مدیریت مراجعات حضوری</a>
-<a href="#" class="fraction-link">ثبت و اصلاح پرونده‌ها</a>
-<a href="#" class="fraction-link">پشتیبانی کسب‌وکارهای کوچک</a>
-<a href="#" class="fraction-link">حمایت از تولید و فروش محلی</a>
-<a href="#" class="fraction-link">توسعه خدمات الکترونیکی</a>
-<a href="#" class="fraction-link">تعامل با دستگاه‌های اجرایی</a>
-<a href="#" class="fraction-link">افزایش رضایت مراجعه‌کنندگان</a>
-<a href="#" class="fraction-link">پاسخگویی به اصناف</a>
-<a href="#" class="fraction-link">تقویت اعتماد عمومی</a>
+<a href="{{ route('electronic-services.index') }}" class="fraction-link">تسهیل صدور پروانه کسب</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">کاهش زمان پاسخگویی</a>
+<a href="{{ route('electronic-services.index') }}" class="fraction-link">راهنمای تکمیل مدارک</a>
+<a href="{{ route('electronic-services.index') }}" class="fraction-link">شفاف‌سازی مراحل اداری</a>
+<a href="{{ route('systems.index') }}" class="fraction-link">به‌روزرسانی اطلاعات واحدها</a>
+<a href="{{ route('systems.index') }}" class="fraction-link">پیگیری درخواست‌های متقاضیان</a>
+<a href="{{ route('guilds.index') }}" class="fraction-link">ساماندهی رسته‌های شغلی</a>
+<a href="{{ route('guilds.index') }}" class="fraction-link">همکاری با اتحادیه‌ها</a>
+<a href="{{ route('announcements.index') }}" class="fraction-link">اطلاع‌رسانی بخشنامه‌ها</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">مدیریت مراجعات حضوری</a>
+<a href="{{ route('electronic-services.index') }}" class="fraction-link">ثبت و اصلاح پرونده‌ها</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">پشتیبانی کسب‌وکارهای کوچک</a>
+<a href="{{ route('posts.index') }}" class="fraction-link">حمایت از تولید و فروش محلی</a>
+<a href="{{ route('electronic-services.index') }}" class="fraction-link">توسعه خدمات الکترونیکی</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">تعامل با دستگاه‌های اجرایی</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">افزایش رضایت مراجعه‌کنندگان</a>
+<a href="{{ route('contact.create') }}" class="fraction-link">پاسخگویی به اصناف</a>
+<a href="{{ route('posts.index') }}" class="fraction-link">تقویت اعتماد عمومی</a>
 </div>
 </div>
 </section>
@@ -348,12 +348,12 @@
 </div>
 </section>
 <section class="home-ad-banners site-container mid-ad">
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(0)?->link) && $homeAdvertisements->get(0)?->link !== '#' ? $homeAdvertisements->get(0)->link : route('systems.index') }}" target="{{ $homeAdvertisements->get(0)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
 </a>
-<a class="ad-banner" href="#">
+<a class="ad-banner" href="{{ filled($homeAdvertisements->get(1)?->link) && $homeAdvertisements->get(1)?->link !== '#' ? $homeAdvertisements->get(1)->link : route('electronic-services.index') }}" target="{{ $homeAdvertisements->get(1)?->target ?? '_self' }}">
 <img alt="تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="ad-banner-overlay"></div>
 <div class="ad-banner-text">فضای تبلیغات شما</div>
@@ -373,7 +373,7 @@
 <div class="tab-panel active" data-tab-panel="tourism-nature">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="جنگل النگدره گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -385,7 +385,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="تالاب گمیشان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -397,7 +397,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="آبشار کبودوال" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -409,7 +409,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="پارک ملی گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">طبیعت</div>
@@ -425,7 +425,7 @@
 <div class="tab-panel" data-tab-panel="tourism-historic">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="برج گنبد قابوس" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -437,7 +437,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="دیوار دفاعی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -449,7 +449,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="مسجد جامع گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">تاریخی</div>
@@ -465,7 +465,7 @@
 <div class="tab-panel" data-tab-panel="tourism-shop">
 <div class="tourism-grid">
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="بازار بزرگ گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">خرید</div>
@@ -477,7 +477,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="پاساژ گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">خرید</div>
@@ -489,7 +489,7 @@
 </a>
 </div>
 <div class="tourism-card">
-<a href="tourism.html">
+<a href="{{ route('tourism.index') }}">
 <div class="tourism-img-wrap">
 <img alt="هتل شیرخان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="tourism-badge">اقامت</div>
@@ -519,7 +519,7 @@
 <div class="tab-panels" data-tab-panels="media">
 <div class="tab-panel active" data-tab-panel="media-video">
       <div class="media-grid">
-      <a href="video.html" class="media-card media-card-lg">
+      <a href="{{ route('videos.index') }}" class="media-card media-card-lg">
         <img alt="گزارش تصویری از خدمات اتاق اصناف گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -527,7 +527,7 @@
           <h3>گزارش تصویری از خدمات اتاق اصناف گرگان به کسبه شهرستان</h3>
         </div>
       </a>
-      <a href="video.html" class="media-card">
+      <a href="{{ route('videos.index') }}" class="media-card">
         <img alt="راهنمای مراحل صدور و تمدید پروانه کسب" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -535,7 +535,7 @@
           <h3>راهنمای مراحل صدور و تمدید پروانه کسب</h3>
         </div>
       </a>
-      <a href="video.html" class="media-card">
+      <a href="{{ route('videos.index') }}" class="media-card">
         <img alt="آموزش احکام تجارت برای متقاضیان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -543,7 +543,7 @@
           <h3>گفت‌وگو درباره آموزش احکام تجارت</h3>
         </div>
       </a>
-      <a href="video.html" class="media-card">
+      <a href="{{ route('videos.index') }}" class="media-card">
         <img alt="بازدید میدانی بازرسان از واحدهای صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -551,7 +551,7 @@
           <h3>بازدید میدانی بازرسان از واحدهای صنفی گرگان</h3>
         </div>
       </a>
-      <a href="video.html" class="media-card">
+      <a href="{{ route('videos.index') }}" class="media-card">
         <img alt="نشست هماهنگی اتحادیه‌های صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
         <div class="media-card-overlay"></div>
         <span class="media-play-btn"></span>
@@ -560,60 +560,60 @@
         </div>
       </a>
       </div>
-      <a class="media-view-all" href="#">مشاهده همه ویدیوها</a>
+      <a class="media-view-all" href="{{ route('videos.index') }}">مشاهده همه ویدیوها</a>
 </div>
 <div class="tab-panel" data-tab-panel="media-image">
 <div class="media-grid">
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="نمایی از ساختمان اتاق اصناف گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>نمایی از ساختمان و مراجعه حضوری فعالان صنفی</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="جلسه هم‌اندیشی اتحادیه‌های صنفی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>جلسه هم‌اندیشی اتحادیه‌های صنفی گرگان</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="خدمات مشاوره‌ای به متقاضیان پروانه کسب" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>ارائه خدمات مشاوره‌ای به متقاضیان پروانه کسب</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="دوره آموزشی احکام تجارت" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>برگزاری دوره آموزشی احکام تجارت و کسب‌وکار</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="طرح‌های نظارتی بازار گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>پیگیری طرح‌های نظارتی بازار در شهرستان گرگان</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="بخشنامه‌ها و دستورالعمل‌های صنفی" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>بخشنامه‌ها و دستورالعمل‌های جدید صنفی</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="بازار سنتی گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
 <h3>بازار سنتی گرگان و اصناف قدیمی شهر</h3>
 </div>
 </a>
-<a href="gallery-single.html" class="media-card">
+<a href="{{ route('galleries.index') }}" class="media-card">
 <img alt="نمایشگاه صنایع دستی گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
 <div class="media-card-overlay"></div>
 <div class="media-card-footer">
@@ -621,7 +621,7 @@
 </div>
 </a>
 </div>
-<a class="media-view-all" href="gallery.html">مشاهده همه تصاویر</a>
+<a class="media-view-all" href="{{ route('galleries.index') }}">مشاهده همه تصاویر</a>
 </div>
 </div>
 </div>

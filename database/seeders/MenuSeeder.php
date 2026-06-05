@@ -1,4 +1,117 @@
 <?php
+
 namespace Database\Seeders;
-use App\Models\Menu;use App\Models\MenuItem;use Illuminate\Database\Seeder;
-class MenuSeeder extends Seeder{public function run():void{$menus=['main'=>'منوی اصلی','top'=>'منوی بالایی','footer'=>'منوی فوتر','quick'=>'دسترسی سریع'];foreach($menus as $location=>$title){$menu=Menu::updateOrCreate(['location'=>$location],['title'=>$title,'is_active'=>true]);MenuItem::where('menu_id',$menu->id)->delete();$items=match($location){'main'=>[['صفحه اصلی','home'],['اخبار','posts.index'],['اطلاعیه‌ها','announcements.index'],['اتحادیه‌ها','guilds.index'],['خدمات الکترونیک','electronic_services.index'],['سامانه‌ها','systems.index'],['گالری تصاویر','galleries.index'],['گردشگری','tourism.index'],['تماس با ما','contact.create']],'top'=>[['ثبت شکایت','complaints.create'],['پیگیری شکایت','complaints.track'],['کمیسیون‌ها','commissions.index'],['سامانه‌ها','systems.index']],'quick'=>[['ثبت شکایت صنفی','complaints.create','📨'],['پیگیری شکایت','complaints.track','🔎'],['صدور و تمدید پروانه','electronic_services.index','📝'],['سامانه‌ها','systems.index','💻'],['اتحادیه‌ها','guilds.index','🏢'],['اخبار و اطلاعیه‌ها','posts.index','📰']],'footer'=>[['صفحه اصلی','home'],['آرشیو اخبار','posts.index'],['اطلاعیه‌ها','announcements.index'],['اتحادیه‌های صنفی','guilds.index'],['سامانه خدمات صنفی','systems.index'],['خدمات الکترونیک','electronic_services.index'],['گالری تصاویر','galleries.index'],['گردشگری','tourism.index'],['کمیسیون‌ها','commissions.index'],['تماس با ما','contact.create']],default=>[]};foreach($items as $i=>$it){MenuItem::create(['menu_id'=>$menu->id,'title'=>$it[0],'type'=>'custom','route_name'=>$it[1],'url'=>route($it[1]),'target'=>'_self','icon'=>$it[2]??null,'sort_order'=>$i+1,'is_active'=>true]);}if($location==='main'){$parent=MenuItem::where('menu_id',$menu->id)->where('title','خدمات الکترونیک')->first();foreach([['ثبت شکایت','complaints.create'],['پیگیری شکایت','complaints.track'],['کمیسیون‌ها','commissions.index']] as $j=>$child){MenuItem::create(['menu_id'=>$menu->id,'parent_id'=>$parent->id,'title'=>$child[0],'type'=>'custom','route_name'=>$child[1],'url'=>route($child[1]),'target'=>'_self','sort_order'=>$j+1,'is_active'=>true]);}}}}}
+
+use App\Models\ElectronicService;
+use App\Models\Menu;
+use App\Models\MenuItem;
+use App\Models\Page;
+use Illuminate\Database\Seeder;
+
+class MenuSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $aboutPage = Page::query()->where('slug', 'about-gorgan-guild-chamber')->first();
+        $licenseIssueService = ElectronicService::query()->where('slug', 'service-1')->first();
+        $licenseRenewalService = ElectronicService::query()->where('slug', 'service-2')->first();
+
+        $menus = [
+            'main' => [
+                'title' => 'منوی اصلی',
+                'items' => [
+                    ['title' => 'صفحه اصلی', 'type' => 'home'],
+                    ['title' => 'اخبار', 'type' => 'posts_index'],
+                    ['title' => 'اطلاعیه‌ها', 'type' => 'announcements_index'],
+                    ['title' => 'اتحادیه‌ها', 'type' => 'guilds_index'],
+                    ['title' => 'خدمات الکترونیک', 'type' => 'services_index', 'children' => [
+                        ['title' => 'ثبت شکایت صنفی', 'type' => 'complaints'],
+                        ['title' => 'پیگیری شکایت', 'type' => 'complaints_track'],
+                        ['title' => 'صدور پروانه کسب', 'type' => 'service', 'reference' => $licenseIssueService],
+                        ['title' => 'تمدید پروانه کسب', 'type' => 'service', 'reference' => $licenseRenewalService],
+                        ['title' => 'کمیسیون‌ها', 'type' => 'commissions_index'],
+                    ]],
+                    ['title' => 'سامانه‌ها', 'type' => 'systems_index'],
+                    ['title' => 'گالری تصاویر', 'type' => 'galleries_index'],
+                    ['title' => 'گردشگری', 'type' => 'tourism_index'],
+                    ['title' => 'تماس با ما', 'type' => 'contact'],
+                ],
+            ],
+            'top' => [
+                'title' => 'منوی بالایی',
+                'items' => [
+                    ['title' => 'ثبت شکایت', 'type' => 'complaints'],
+                    ['title' => 'پیگیری شکایت', 'type' => 'complaints_track'],
+                    ['title' => 'کمیسیون‌ها', 'type' => 'commissions_index'],
+                    ['title' => 'سامانه‌ها', 'type' => 'systems_index'],
+                ],
+            ],
+            'quick' => [
+                'title' => 'دسترسی سریع',
+                'items' => [
+                    ['title' => 'درباره اتاق اصناف', 'type' => $aboutPage ? 'page' : 'home', 'reference' => $aboutPage, 'icon' => '🏛'],
+                    ['title' => 'خدمات متقاضیان', 'type' => 'services_index', 'icon' => '📝'],
+                    ['title' => 'اتحادیه‌های صنفی', 'type' => 'guilds_index', 'icon' => '🏢'],
+                    ['title' => 'ثبت شکایت صنفی', 'type' => 'complaints', 'icon' => '📨'],
+                    ['title' => 'پیگیری شکایت', 'type' => 'complaints_track', 'icon' => '🔎'],
+                    ['title' => 'اخبار و اطلاعیه‌ها', 'type' => 'posts_index', 'icon' => '📰'],
+                    ['title' => 'سامانه‌ها', 'type' => 'systems_index', 'icon' => '💻'],
+                    ['title' => 'گردشگری', 'type' => 'tourism_index', 'icon' => '🌳'],
+                    ['title' => 'تماس با ما', 'type' => 'contact', 'icon' => '☎️'],
+                ],
+            ],
+            'footer' => [
+                'title' => 'منوی فوتر',
+                'items' => [
+                    ['title' => 'صفحه اصلی', 'type' => 'home'],
+                    ['title' => 'آرشیو اخبار', 'type' => 'posts_index'],
+                    ['title' => 'اطلاعیه‌ها', 'type' => 'announcements_index'],
+                    ['title' => 'اتحادیه‌های صنفی', 'type' => 'guilds_index'],
+                    ['title' => 'سامانه خدمات صنفی', 'type' => 'systems_index'],
+                    ['title' => 'خدمات الکترونیک', 'type' => 'services_index'],
+                    ['title' => 'گالری تصاویر', 'type' => 'galleries_index'],
+                    ['title' => 'گردشگری', 'type' => 'tourism_index'],
+                    ['title' => 'کمیسیون‌ها', 'type' => 'commissions_index'],
+                    ['title' => 'تماس با ما', 'type' => 'contact'],
+                ],
+            ],
+        ];
+
+        foreach ($menus as $location => $menuData) {
+            $menu = Menu::updateOrCreate(
+                ['location' => $location],
+                ['title' => $menuData['title'], 'is_active' => true]
+            );
+
+            MenuItem::query()->where('menu_id', $menu->id)->delete();
+
+            foreach ($menuData['items'] as $index => $itemData) {
+                $item = $this->createItem($menu, $itemData, $index + 1);
+
+                foreach ($itemData['children'] ?? [] as $childIndex => $childData) {
+                    $this->createItem($menu, $childData, $childIndex + 1, $item->id);
+                }
+            }
+        }
+    }
+
+    private function createItem(Menu $menu, array $data, int $sortOrder, ?int $parentId = null): MenuItem
+    {
+        $reference = $data['reference'] ?? null;
+
+        return MenuItem::create([
+            'menu_id' => $menu->id,
+            'parent_id' => $parentId,
+            'title' => $data['title'],
+            'type' => $data['type'],
+            'url' => $data['url'] ?? null,
+            'route_name' => null,
+            'reference_type' => $reference ? $reference::class : null,
+            'reference_id' => $reference?->getKey(),
+            'target' => $data['target'] ?? '_self',
+            'icon' => $data['icon'] ?? null,
+            'sort_order' => $sortOrder,
+            'is_active' => true,
+        ]);
+    }
+}

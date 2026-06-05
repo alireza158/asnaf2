@@ -12,7 +12,7 @@
 <header class="site-header">
 <div class="header-top site-container">
 <div class="brand-note">
-<img alt="اتاق اصناف شهرستان گرگان" class="flag-img" src="{{ asset($logo) }}"/>
+<a href="{{ route('home') }}"><img alt="اتاق اصناف شهرستان گرگان" class="flag-img" src="{{ asset($logo) }}"/></a>
 <div>
 <span>{{ jalali_date(now(), 'Y/m/d') }}</span>
 <strong>{{ $topText }}</strong>
@@ -57,7 +57,7 @@
 </button>
 </nav>
 <div class="header-search-panel site-container" hidden="" id="headerSearchPanel">
-<form autocomplete="off" action="{{ route('search') }}" method="get" class="header-search-form" role="search">
+<form autocomplete="off" action="{{ route('search') }}" method="GET" class="header-search-form" role="search">
 <label class="header-search-label" for="siteSearchInput">جستجو در سایت</label>
 <div class="header-search-field">
 <input id="siteSearchInput" name="q" value="{{ request('q') }}" placeholder="عبارت مورد نظر را وارد کنید؛ مثل اتحادیه، پروانه کسب، شکایت، آموزش..." type="search"/>

@@ -6,14 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Route;
-use Throwable;
+use App\Services\LinkResolverService;
 
 class MenuItem extends Model
 {
     use HasFactory;
 
-    public const TYPES = ['custom', 'page', 'post', 'union', 'tourism', 'gallery', 'video', 'system', 'service'];
+    public const TYPES = ['custom', 'home', 'posts_index', 'announcements_index', 'guilds_index', 'tourism_index', 'galleries_index', 'videos_index', 'systems_index', 'services_index', 'commissions_index', 'contact', 'complaints', 'complaints_track', 'page', 'post', 'announcement', 'union', 'tourism', 'gallery', 'video', 'system', 'service', 'commission'];
     public const TARGETS = ['_self', '_blank'];
 
     protected $fillable = [
@@ -69,41 +68,27 @@ class MenuItem extends Model
 
     public function getResolvedUrlAttribute(): string
     {
-        if ($this->type === 'custom') {
-            return $this->url ?: '#';
-        }
+        $model = null;
 
-        $routeMap = [
-            'page' => ['pages.show', \App\Models\Page::class],
-            'post' => ['posts.show', \App\Models\Post::class],
-            'union' => ['guilds.show', \App\Models\GuildUnion::class],
-            'tourism' => ['tourism.show', \App\Models\TourismPlace::class],
-            'gallery' => ['galleries.show', \App\Models\Gallery::class],
-            'video' => ['videos.show', \App\Models\Video::class],
-            'system' => ['systems.show', \App\Models\System::class],
-            'service' => ['electronic_services.show', \App\Models\ElectronicService::class],
-        ];
+        if ($this->reference_id) {
+            $modelMap = [
+                'page' => Page::class,
+                'post' => Post::class,
+                'announcement' => Announcement::class,
+                'union' => GuildUnion::class,
+                'tourism' => TourismPlace::class,
+                'gallery' => Gallery::class,
+                'video' => Video::class,
+                'system' => System::class,
+                'service' => ElectronicService::class,
+                'commission' => Commission::class,
+            ];
 
-        if (isset($routeMap[$this->type]) && $this->reference_id) {
-            [$routeName, $modelClass] = $routeMap[$this->type];
-            try {
-                $model = $modelClass::query()->find($this->reference_id);
-                if ($model && Route::has($routeName)) {
-                    return route($routeName, $model->getRouteKey());
-                }
-            } catch (Throwable) {
-                return $this->url ?: '#';
+            if (isset($modelMap[$this->type])) {
+                $model = $modelMap[$this->type]::query()->find($this->reference_id);
             }
         }
 
-        if ($this->route_name && Route::has($this->route_name)) {
-            try {
-                return route($this->route_name);
-            } catch (Throwable) {
-                return $this->url ?: '#';
-            }
-        }
-
-        return $this->url ?: '#';
+        return app(LinkResolverService::class)->resolve($this->type, $model, $this->url);
     }
 }

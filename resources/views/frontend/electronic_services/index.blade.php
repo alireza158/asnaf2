@@ -11,23 +11,23 @@
 <section class="site-container">
   <div class="section-heading section-heading-centered"><h2>خدمات الکترونیک صنفی</h2><p>دسترسی به خدمات، راهنماها و فرآیندهای آنلاین مرتبط با اصناف</p></div>
 
-  <form class="archive-filters mb-4" action="{{ route('electronic_services.index') }}" method="GET">
+  <form class="archive-filters mb-4" action="{{ route('electronic-services.index') }}" method="GET">
     @if ($activeCategory !== '')<input type="hidden" name="category" value="{{ $activeCategory }}">@endif
     <input class="form-control" name="search" value="{{ $search }}" placeholder="جستجو در خدمات..." type="search">
     <button class="tab-pill active" type="submit">جستجو</button>
-    @if ($search !== '' || $activeCategory !== '')<a class="tab-pill" href="{{ route('electronic_services.index') }}">نمایش همه</a>@endif
+    @if ($search !== '' || $activeCategory !== '')<a class="tab-pill" href="{{ route('electronic-services.index') }}">نمایش همه</a>@endif
   </form>
 
   <div class="tourism-tabs" aria-label="فیلتر دسته‌بندی خدمات">
-    <a class="tab-pill {{ $activeCategory === '' ? 'active' : '' }}" href="{{ route('electronic_services.index', array_filter(['search' => $search])) }}">همه خدمات</a>
+    <a class="tab-pill {{ $activeCategory === '' ? 'active' : '' }}" href="{{ route('electronic-services.index', array_filter(['search' => $search])) }}">همه خدمات</a>
     @foreach ($categories as $category)
-      <a class="tab-pill {{ $activeCategory === $category->slug || $activeCategory === (string) $category->id ? 'active' : '' }}" href="{{ route('electronic_services.index', array_filter(['category' => $category->slug, 'search' => $search])) }}">{{ $category->title }}</a>
+      <a class="tab-pill {{ $activeCategory === $category->slug || $activeCategory === (string) $category->id ? 'active' : '' }}" href="{{ route('electronic-services.index', array_filter(['category' => $category->slug, 'search' => $search])) }}">{{ $category->title }}</a>
     @endforeach
   </div>
 
   <div class="howto-grid mt-4">
     @forelse ($services as $service)
-      <a class="howto-card" href="{{ route('electronic_services.show', $service->slug) }}">
+      <a class="howto-card" href="{{ route('electronic-services.show', $service->slug) }}">
         <div class="howto-icon">{{ $service->icon ?: '⚡' }}</div>
         <h3>{{ $service->title }}</h3>
         <p>{{ Str::limit($service->short_description ?: strip_tags($service->body), 120) ?: 'توضیحات این خدمت به‌زودی تکمیل می‌شود.' }}</p>
