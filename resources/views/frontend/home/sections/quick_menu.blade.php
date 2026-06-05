@@ -1,18 +1,22 @@
+@if (($quickMenuItems ?? collect())->isNotEmpty())
 <section class="site-container my-4">
     <aside aria-label="{{ $section->title }}" class="quick-menu" style="position:relative;width:100%">
         <ul class="quick-menu-list">
-            @foreach ([
-                ['درباره اتاق اصناف', ['معرفی اتاق اصناف گرگان', 'هیئت رئیسه و ساختار اداری', 'شرح وظایف و اختیارات']],
-                ['خدمات متقاضیان', ['راهنمای صدور پروانه کسب', 'تمدید و انتقال پروانه', 'پیگیری درخواست‌ها']],
-                ['اتحادیه‌های صنفی', ['فهرست اتحادیه‌های گرگان', 'اطلاعات تماس اتحادیه‌ها', 'رسته‌های شغلی']],
-                ['بازرسی و نظارت', ['ثبت شکایت صنفی', 'گزارش تخلف', 'پیگیری بازرسی‌ها']],
-                ['سامانه‌ها', ['سامانه نوین اصناف', 'سامانه آموزش اصناف', 'فرم‌ها و درخواست‌ها']],
-            ] as [$title, $items])
-                <li class="quick-menu-item has-submenu">
-                    <button aria-expanded="false" class="quick-menu-link" type="button"><span>{{ $title }}</span><b></b></button>
-                    <ul class="quick-submenu">@foreach ($items as $item)<li><a href="#">{{ $item }}</a></li>@endforeach</ul>
+            @foreach ($quickMenuItems as $item)
+                <li class="quick-menu-item {{ $item->children->isNotEmpty() ? 'has-submenu' : '' }}">
+                    @if ($item->children->isNotEmpty())
+                        <button aria-expanded="false" class="quick-menu-link" type="button"><span>{{ $item->icon }} {{ $item->title }}</span><b></b></button>
+                        <ul class="quick-submenu">
+                            @foreach ($item->children as $child)
+                                <li><a href="{{ $child->resolved_url }}" target="{{ $child->target }}" @if($child->target === '_blank') rel="noopener" @endif>{{ $child->icon }} {{ $child->title }}</a></li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <a class="quick-menu-link" href="{{ $item->resolved_url }}" target="{{ $item->target }}" @if($item->target === '_blank') rel="noopener" @endif><span>{{ $item->icon }} {{ $item->title }}</span><b></b></a>
+                    @endif
                 </li>
             @endforeach
         </ul>
     </aside>
 </section>
+@endif

@@ -54,6 +54,9 @@ class Page extends Model
 
     public function scopePublished($query)
     {
-        return $query->where('status', 'published')->where('is_active', true);
+        return $query
+            ->where('status', 'published')
+            ->where('is_active', true)
+            ->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()));
     }
 }
