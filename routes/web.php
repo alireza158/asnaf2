@@ -82,6 +82,7 @@ Route::get('/complaints/create', [FrontendComplaintController::class, 'create'])
 Route::post('/complaints', [FrontendComplaintController::class, 'store'])->name('complaints.store');
 Route::get('/complaints/track', [FrontendComplaintController::class, 'track'])->name('complaints.track');
 Route::post('/complaints/track', [FrontendComplaintController::class, 'trackResult'])->name('complaints.track.result');
+Route::post('/complaints/lookup', [FrontendComplaintController::class, 'lookup'])->name('complaints.lookup');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])

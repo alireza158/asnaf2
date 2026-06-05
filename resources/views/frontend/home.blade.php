@@ -44,13 +44,26 @@
         'url' => route('posts.show', $post->slug),
         'image' => $post->featured_image_url,
     ])->values();
+    if ($heroItems->isEmpty()) {
+        $heroItems = ($importantAnnouncements ?? collect())->take(3)->map(fn ($announcement) => [
+            'title' => $announcement->title,
+            'kicker' => $announcement->category?->title ?? 'اطلاعیه',
+            'url' => route('announcements.show', $announcement->slug),
+            'image' => $assetImage($announcement->featured_image),
+        ])->values();
+    }
     $heroItems = $heroItems->isNotEmpty() ? $heroItems : $heroFallbacks;
 
-    $sideItems = ($latestPosts ?? collect())->take(2)->map(fn ($post) => [
+    $sideNewsSource = ($latestPosts ?? collect())->map(fn ($post) => [
         'title' => $post->title,
         'url' => route('posts.show', $post->slug),
         'image' => $post->featured_image_url,
-    ])->values();
+    ])->concat(($announcements ?? collect())->map(fn ($announcement) => [
+        'title' => $announcement->title,
+        'url' => route('announcements.show', $announcement->slug),
+        'image' => $assetImage($announcement->featured_image),
+    ]))->values();
+    $sideItems = $sideNewsSource->take(2)->values();
     if ($sideItems->isEmpty()) {
         $sideItems = collect([
             ['title' => 'آدرس اتاق اصناف گرگان: خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف', 'url' => $contactUrl, 'image' => $defaultImage],
@@ -81,14 +94,21 @@
         ['icon' => '💻', 'title' => 'سامانه نوین اصناف', 'description' => 'ورود به سامانه الکترونیک اصناف برای پیگیری پرونده و استعلام وضعیت پروانه کسب', 'url' => $systemsUrl, 'label' => 'ورود به سامانه ←'],
         ['icon' => '🎓', 'title' => 'آموزش احکام تجارت', 'description' => 'ثبت‌نام در دوره‌های آموزش احکام تجارت و کسب‌وکار مورد نیاز صدور پروانه کسب', 'url' => $servicesUrl, 'label' => 'ثبت‌نام دوره ←'],
     ]);
-    $serviceItems = ($electronicServices ?? collect())->take(6)->map(fn ($service) => [
+    $serviceItems = ($electronicServices ?? collect())->map(fn ($service) => [
         'icon' => $service->icon ?: '📋',
         'title' => $service->title,
         'description' => $service->short_description ?: $plain($service->body, 120),
         'url' => ($service->link_type === 'external' && filled($service->link)) ? $service->link : route('electronic-services.show', $service->slug),
         'target' => $service->target ?: '_self',
         'label' => 'مشاهده راهنما ←',
-    ])->values();
+    ])->concat(($systems ?? collect())->map(fn ($system) => [
+        'icon' => $system->icon ?: '💻',
+        'title' => $system->title,
+        'description' => $system->short_description ?: $plain($system->description, 120),
+        'url' => filled($system->link) ? $system->link : route('systems.show', $system->slug),
+        'target' => $system->target ?: '_self',
+        'label' => 'ورود به سامانه ←',
+    ]))->take(6)->values();
     $serviceItems = $serviceItems->isNotEmpty() ? $serviceItems : $serviceFallbacks;
 
     $adFallbacks = collect([
