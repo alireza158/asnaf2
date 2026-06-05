@@ -234,6 +234,9 @@
         qsa('input[type="search"]', panelWrap).forEach((input) => {
           input.value = '';
           filterList(input, '');
+          if (input.matches('[data-union-ajax-input]')) {
+            input.dispatchEvent(new Event('input', { bubbles: true }));
+          }
         });
       }
     });
@@ -263,6 +266,93 @@
         const isVisible = normalize(item.textContent).includes(normalizedQuery);
         item.toggleAttribute('data-filter-hidden', normalizedQuery && !isVisible);
       });
+    });
+  });
+
+
+
+  // Homepage unions AJAX search
+  function escapeHtml(value) {
+    return (value || '').toString()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function renderUnionAjaxItems(list, items) {
+    if (!list) return;
+
+    if (!items.length) {
+      list.innerHTML = '<li class="union-home-item union-home-empty"><span class="person-avatar avatar-1"></span><div><strong>نتیجه‌ای پیدا نشد</strong><small>عبارت دیگری را برای جستجوی اتحادیه امتحان کنید.</small></div></li>';
+      return;
+    }
+
+    list.innerHTML = items.map((item) => {
+      const socials = (item.social_links || [])
+        .filter((link) => link && link.url)
+        .map((link) => `<a href="${escapeHtml(link.url)}" target="_blank" rel="noopener">${escapeHtml(link.label)}</a>`)
+        .join('');
+
+      return `<li class="union-home-item">
+        <a href="${escapeHtml(item.url)}" class="d-flex align-items-center gap-2 text-decoration-none">
+          <span class="person-avatar ${escapeHtml(item.avatar_class || 'avatar-1')}"></span>
+          <div><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.description || '')}</small></div>
+        </a>
+        <div class="union-home-actions"><a href="${escapeHtml(item.complaint_url)}">ثبت شکایت</a>${socials}</div>
+      </li>`;
+    }).join('');
+  }
+
+  qsa('[data-union-ajax-input]').forEach((input) => {
+    const section = input.closest('[data-union-ajax-url]');
+    const panel = input.closest('[data-tab-panel]');
+    const list = panel ? qs('[data-union-results]', panel) : null;
+    const status = panel ? qs('[data-union-status]', panel) : null;
+    const endpoint = section ? section.getAttribute('data-union-ajax-url') : '';
+    let timer = null;
+    let controller = null;
+
+    const setStatus = (message) => {
+      if (!status) return;
+      status.hidden = !message;
+      status.textContent = message || '';
+    };
+
+    const runSearch = () => {
+      if (!endpoint || !list) return;
+      const params = new URLSearchParams({
+        q: input.value || '',
+        type: input.getAttribute('data-union-type') || ''
+      });
+
+      if (controller) controller.abort();
+      controller = new AbortController();
+      setStatus('در حال جستجوی اتحادیه‌ها...');
+
+      fetch(`${endpoint}?${params.toString()}`, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        signal: controller.signal
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('Union search failed');
+          return response.json();
+        })
+        .then((payload) => {
+          renderUnionAjaxItems(list, Array.isArray(payload.items) ? payload.items : []);
+          setStatus('');
+        })
+        .catch((error) => {
+          if (error.name === 'AbortError') return;
+          setStatus('خطا در جستجو؛ لطفاً دوباره تلاش کنید.');
+        });
+    };
+
+    input.addEventListener('input', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(runSearch, 250);
     });
   });
 

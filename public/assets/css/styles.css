@@ -3527,3 +3527,276 @@ img { display: block; max-width: 100%; }
   padding: 18px;
   box-shadow: 0 12px 32px rgba(15, 23, 42, .06);
 }
+
+/* =========================================================
+   Asnaf Golestan dynamic home refinements
+   ========================================================= */
+.news-card,
+.howto-card,
+.commission-item,
+.comreal-card,
+.archive-card {
+  border: 1px solid rgba(12, 116, 185, .10);
+}
+
+.news-card::after,
+.media-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+  z-index: 2;
+}
+
+.howto-card:nth-child(1n) { background: linear-gradient(180deg, #ffffff 0%, #eff8ff 100%); }
+.howto-card:nth-child(2n) { background: linear-gradient(180deg, #ffffff 0%, #effcf6 100%); }
+.howto-card:nth-child(3n) { background: linear-gradient(180deg, #ffffff 0%, #fff7ec 100%); }
+
+.home-ad-banners {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 52px);
+  padding: 34px 0 42px;
+}
+.ad-banner {
+  min-height: 165px;
+  box-shadow: 0 18px 45px rgba(17, 17, 17, .10);
+}
+.ad-banner-text {
+  font-size: clamp(18px, 2vw, 24px);
+}
+
+.price-ticker-section {
+  padding: 36px 0 24px;
+}
+.price-ticker-card {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+  padding: 20px;
+  border: 1px solid rgba(12, 116, 185, .12);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #f7fbff 0%, #ffffff 45%, #fff7e8 100%);
+  box-shadow: var(--shadow-card);
+}
+.price-ticker-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.price-ticker-heading > span {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #fff0c7;
+  font-size: 24px;
+}
+.price-ticker-heading h2 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  font-weight: 850;
+  color: var(--color-ink-950);
+}
+.price-ticker-heading p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-ink-500);
+  line-height: 1.8;
+}
+.price-ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.price-ticker-item {
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(17,17,17,.06);
+}
+.price-ticker-item span,
+.price-ticker-item small {
+  display: block;
+  color: var(--color-ink-500);
+  font-size: 11px;
+}
+.price-ticker-item strong {
+  display: block;
+  margin: 6px 0 2px;
+  color: var(--color-primary-700);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.union-home-item {
+  align-items: flex-start !important;
+  flex-direction: column;
+  background: linear-gradient(135deg, #ffffff 0%, #f2f9ff 100%);
+}
+.union-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+  padding-right: 46px;
+}
+.union-home-actions a {
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  background: rgba(12,116,185,.10);
+  color: var(--color-primary-700);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.office-services-section .commission-card {
+  background: transparent;
+  padding: 0;
+}
+.service-color-1 { background: linear-gradient(135deg, #eff8ff, #ffffff); }
+.service-color-2 { background: linear-gradient(135deg, #effcf6, #ffffff); }
+.service-color-3 { background: linear-gradient(135deg, #fff7ec, #ffffff); }
+.service-color-4 { background: linear-gradient(135deg, #f5f1ff, #ffffff); }
+.commission-item.service-color-1 strong { color: #075f9c; }
+.commission-item.service-color-2 strong { color: #1f8f66; }
+.commission-item.service-color-3 strong { color: #b66a00; }
+.commission-item.service-color-4 strong { color: #6741d9; }
+
+.comreal-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+}
+.commission-task-mini {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.commission-task-mini li {
+  position: relative;
+  padding-right: 16px;
+  margin-top: 6px;
+  color: var(--color-ink-600);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.commission-task-mini li::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: .8em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+@media (max-width: 991.98px) {
+  .price-ticker-card { grid-template-columns: 1fr; }
+  .price-ticker-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 575.98px) {
+  .price-ticker-grid { grid-template-columns: 1fr; }
+  .home-ad-banners { gap: 18px; }
+  .ad-banner { min-height: 140px; }
+}
+
+/* Dynamic guild Blade page refinements */
+.guild-logo-img {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+.guild-hero-breadcrumb,
+.guild-hero-breadcrumb a,
+.guild-hero-breadcrumb span {
+  color: rgba(255,255,255,.72) !important;
+}
+.guild-commission-dynamic {
+  align-items: flex-start;
+  background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+}
+.guild-task-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 5px;
+}
+.guild-task-list li {
+  position: relative;
+  padding-right: 14px;
+  color: var(--color-ink-600);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.guild-task-list li::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: .8em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+.guild-member-card,
+.guild-rule-item,
+.guild-article-item,
+.guild-edu-item,
+.guild-announce-item,
+.guild-minute-item,
+.guild-contact-card {
+  border-color: rgba(12,116,185,.12);
+}
+.guild-members-grid .guild-member-card:nth-child(1n) { background: linear-gradient(180deg, #fff, #eff8ff); }
+.guild-members-grid .guild-member-card:nth-child(2n) { background: linear-gradient(180deg, #fff, #effcf6); }
+.guild-members-grid .guild-member-card:nth-child(3n) { background: linear-gradient(180deg, #fff, #fff7ec); }
+.guild-announce-item {
+  text-decoration: none;
+  color: inherit;
+}
+.guild-article-list > .guild-info-card,
+.guild-announce-list > .guild-info-card,
+.guild-minutes-list > .guild-info-card,
+.guild-gallery-grid > .guild-info-card {
+  width: 100%;
+}
+.guild-gallery-grid > .guild-info-card {
+  grid-column: 1 / -1;
+}
+.guild-complaint-cta {
+  background: linear-gradient(135deg, #0c74b9 0%, #1f8f66 100%);
+}
+.guild-complaint-cta .tab-pill:not(.active) {
+  background: rgba(255,255,255,.14);
+  color: #fff;
+  border-color: rgba(255,255,255,.25);
+}
+.guild-complaint-cta .tab-pill.active {
+  background: #fff;
+  color: var(--color-primary-700);
+}
+.guild-social a {
+  background: #fff;
+}
+@media (max-width: 575.98px) {
+  .guild-head-card { grid-template-columns: 1fr; text-align: center; }
+  .guild-head-avatar { margin: 0 auto; }
+}
+
+.union-ajax-status {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: rgba(12, 116, 185, .08);
+  color: var(--color-primary-700);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+.union-home-empty {
+  background: linear-gradient(135deg, #fff7ec 0%, #ffffff 100%) !important;
+}

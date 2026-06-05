@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>@yield('title', 'اتاق اصناف شهرستان گرگان')</title>
-<meta content="@yield('meta_description', 'قالب اتاق اصناف شهرستان گرگان')" name="description"/>
+<title>@yield('title', 'اتاق اصناف مرکز استان گلستان')</title>
+<meta content="@yield('meta_description', 'قالب اتاق اصناف مرکز استان گلستان')" name="description"/>
 @include('frontend.partials.styles')
 </head>
 <body>

@@ -12,6 +12,7 @@ use App\Models\GuildUnion;
 use App\Models\HomeSection;
 use App\Models\OrgLink;
 use App\Models\Post;
+use App\Models\Price;
 use App\Models\System;
 use App\Models\TourismPlace;
 use App\Models\Video;
@@ -52,9 +53,10 @@ class HomeController extends Controller
 
         $heroPosts = Post::query()
             ->published()
-            ->where(fn ($query) => $query->where('is_important', true)->orWhere('is_featured', true))
+            ->where(fn ($query) => $query->where('is_top', true)->orWhere('is_important', true)->orWhere('is_featured', true))
             ->with(['category', 'union', 'galleries'])
             ->withCount('galleries')
+            ->orderByDesc('is_top')
             ->orderBy('sort_order')
             ->latest('published_at')
             ->take($this->sectionLimit($sections, 'hero_slider', 6))
@@ -91,7 +93,6 @@ class HomeController extends Controller
         $homeUnions = GuildUnion::query()
             ->active()
             ->withCount(['posts as published_posts_count' => fn ($query) => $query->published()])
-            ->orderBy('sort_order')
             ->orderBy('title')
             ->take($this->sectionLimit($sections, 'unions', 24))
             ->get();
@@ -142,6 +143,7 @@ class HomeController extends Controller
 
         $commissions = Commission::query()
             ->published()
+            ->with(['activeTasks'])
             ->withCount(['publishedSessions as sessions_count'])
             ->orderBy('sort_order')
             ->latest('published_at')
@@ -175,6 +177,7 @@ class HomeController extends Controller
         $quickMenu = $quickMenuItems;
         $mainMenu = $menus->items('main');
         $footerMenu = $menus->items('footer');
+        $priceItems = $this->priceItems($settings);
         $siteSettings = $settings->all();
         $homeSections = $sections;
         $unions = $homeUnions;
@@ -213,7 +216,8 @@ class HomeController extends Controller
             'mainMenu',
             'footerMenu',
             'siteSettings',
-            'homeSections'
+            'homeSections',
+            'priceItems'
         ));
     }
 
@@ -222,7 +226,6 @@ class HomeController extends Controller
         return GuildUnion::query()
             ->active()
             ->where('union_type', $type)
-            ->orderBy('sort_order')
             ->orderBy('title')
             ->take(10)
             ->get();
@@ -238,6 +241,40 @@ class HomeController extends Controller
             ->latest('published_at')
             ->take($limit)
             ->get();
+    }
+
+    private function priceItems(SettingService $settings): Collection
+    {
+        $prices = Price::query()
+            ->active()
+            ->whereIn('type', ['gold', 'coin', 'silver', 'currency'])
+            ->orderBy('sort_order')
+            ->latest('published_at')
+            ->take(4)
+            ->get()
+            ->map(fn (Price $price) => [
+                'label' => $price->title,
+                'value' => filled($price->amount) ? number_format((float) $price->amount) : '—',
+                'unit' => $price->unit,
+                'trend' => $price->source ?: '',
+            ]);
+
+        if ($prices->isNotEmpty()) {
+            return $prices->values();
+        }
+
+        $defaults = [
+            'gold' => ['label' => 'طلا ۱۸ عیار', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],
+            'coin' => ['label' => 'سکه امامی', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],
+            'silver' => ['label' => 'نقره', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],
+            'usd' => ['label' => 'دلار', 'value' => '—', 'unit' => 'تومان', 'trend' => ''],
+        ];
+
+        return collect($defaults)->map(function (array $fallback, string $key) use ($settings) {
+            $item = (array) $settings->get("prices.{$key}", []);
+
+            return array_merge($fallback, array_filter($item, fn ($value) => filled($value)));
+        })->values();
     }
 
     private function sectionLimit(Collection $sections, string $key, int $default): int
