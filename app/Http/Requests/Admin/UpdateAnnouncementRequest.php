@@ -13,6 +13,11 @@ class UpdateAnnouncementRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        normalize_jalali_request_dates($this, ['starts_at', 'expires_at', 'published_at']);
+    }
+
     /** @return array<string, mixed> */
     public function rules(): array
     {

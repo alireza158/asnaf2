@@ -47,7 +47,7 @@
                 <dt class="col-5">بازدید</dt><dd class="col-7">{{ number_format($post->views_count) }}</dd>
                 <dt class="col-5">نویسنده</dt><dd class="col-7">{{ $post->author?->name ?: '—' }}</dd>
                 <dt class="col-5">تاییدکننده</dt><dd class="col-7">{{ $post->approver?->name ?: '—' }}</dd>
-                <dt class="col-5">انتشار</dt><dd class="col-7">{{ $post->published_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">انتشار</dt><dd class="col-7">{{ jalali_datetime($post->published_at) }}</dd>
             </dl>
         </div>
         @if ($post->rejected_reason)

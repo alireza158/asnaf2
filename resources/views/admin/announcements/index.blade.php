@@ -40,9 +40,9 @@
                         <td>{{ $announcement->category?->title ?: '—' }}</td>
                         <td>{{ $announcement->union?->name ?: 'عمومی' }}</td>
                         <td><span class="admin-status-badge status-{{ $announcement->status }}">{{ $announcement->status }}</span></td>
-                        <td>{{ $announcement->starts_at?->format('Y/m/d H:i') ?: '—' }}<br><small>{{ $announcement->expires_at?->format('Y/m/d H:i') ?: 'بدون انقضا' }}</small></td>
+                        <td>{{ jalali_datetime($announcement->starts_at) }}<br><small>{{ jalali_datetime($announcement->expires_at) }}</small></td>
                         <td>{{ $announcement->is_important ? 'بله' : 'خیر' }}</td>
-                        <td>{{ $announcement->published_at?->format('Y/m/d H:i') ?: '—' }}</td>
+                        <td>{{ jalali_datetime($announcement->published_at) }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.announcements.show', $announcement) }}">مشاهده</a>

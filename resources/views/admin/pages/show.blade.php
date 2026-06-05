@@ -14,7 +14,7 @@
         <div><dt>وضعیت</dt><dd>{{ $page->status }}</dd></div>
         <div><dt>نویسنده</dt><dd>{{ $page->author?->name ?: '—' }}</dd></div>
         <div><dt>تاییدکننده</dt><dd>{{ $page->approver?->name ?: '—' }}</dd></div>
-        <div><dt>تاریخ انتشار</dt><dd>{{ $page->published_at?->format('Y/m/d H:i') ?: '—' }}</dd></div>
+        <div><dt>تاریخ انتشار</dt><dd>{{ jalali_datetime($page->published_at) }}</dd></div>
         <div><dt>فعال</dt><dd>{{ $page->is_active ? 'بله' : 'خیر' }}</dd></div>
         @if ($page->rejected_reason)<div><dt>دلیل رد</dt><dd>{{ $page->rejected_reason }}</dd></div>@endif
     </dl>

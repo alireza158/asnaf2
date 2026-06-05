@@ -13,6 +13,11 @@ class UpdatePostRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        normalize_jalali_request_dates($this, ['published_at']);
+    }
+
     /** @return array<string, mixed> */
     public function rules(): array
     {

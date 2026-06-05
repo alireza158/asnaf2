@@ -13,6 +13,11 @@ class StorePageRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        normalize_jalali_request_dates($this, ['published_at']);
+    }
+
     /** @return array<string, mixed> */
     public function rules(): array
     {
@@ -28,7 +33,7 @@ class StorePageRequest extends FormRequest
             'meta_keywords' => ['nullable', 'string', 'max:500'],
             'status' => ['required', 'string', Rule::in($this->allowedStatuses())],
             'published_at' => ['nullable', 'date'],
-            'rejected_reason' => ['nullable', 'string', 'max:1000'],
+            'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', 'boolean'],
         ];
@@ -37,6 +42,6 @@ class StorePageRequest extends FormRequest
     /** @return array<int, string> */
     private function allowedStatuses(): array
     {
-        return $this->user()?->hasPermission('pages.approve') ? Page::STATUSES : Page::LIMITED_STATUSES;
+        return app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($this->user(), ['pages.approve', 'pages.publish']);
     }
 }

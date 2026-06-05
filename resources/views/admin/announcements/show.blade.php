@@ -33,11 +33,11 @@
                 <dt class="col-5">مهم</dt><dd class="col-7">{{ $announcement->is_important ? 'بله' : 'خیر' }}</dd>
                 <dt class="col-5">صفحه اصلی</dt><dd class="col-7">{{ $announcement->show_on_home ? 'بله' : 'خیر' }}</dd>
                 <dt class="col-5">فعال</dt><dd class="col-7">{{ $announcement->is_active ? 'بله' : 'خیر' }}</dd>
-                <dt class="col-5">شروع</dt><dd class="col-7">{{ $announcement->starts_at?->format('Y/m/d H:i') ?: '—' }}</dd>
-                <dt class="col-5">انقضا</dt><dd class="col-7">{{ $announcement->expires_at?->format('Y/m/d H:i') ?: 'بدون انقضا' }}</dd>
+                <dt class="col-5">شروع</dt><dd class="col-7">{{ jalali_datetime($announcement->starts_at) }}</dd>
+                <dt class="col-5">انقضا</dt><dd class="col-7">{{ jalali_datetime($announcement->expires_at) }}</dd>
                 <dt class="col-5">نویسنده</dt><dd class="col-7">{{ $announcement->author?->name ?: '—' }}</dd>
                 <dt class="col-5">تاییدکننده</dt><dd class="col-7">{{ $announcement->approver?->name ?: '—' }}</dd>
-                <dt class="col-5">انتشار</dt><dd class="col-7">{{ $announcement->published_at?->format('Y/m/d H:i') ?: '—' }}</dd>
+                <dt class="col-5">انتشار</dt><dd class="col-7">{{ jalali_datetime($announcement->published_at) }}</dd>
             </dl>
         </div>
         @if ($announcement->rejected_reason)

@@ -21,7 +21,7 @@
         <div><dt>موبایل</dt><dd>{{ $user->mobile ?: '—' }}</dd></div>
         <div><dt>اتحادیه مربوطه</dt><dd>{{ $user->union?->name ?: '—' }}</dd></div>
         <div><dt>وضعیت</dt><dd>{{ $user->is_active ? 'فعال' : 'غیرفعال' }}</dd></div>
-        <div><dt>تاریخ ایجاد</dt><dd>{{ $user->created_at?->format('Y/m/d H:i') }}</dd></div>
+        <div><dt>تاریخ ایجاد</dt><dd>{{ jalali_datetime($user->created_at) }}</dd></div>
     </dl>
 
     <h3 class="admin-section-title">نقش‌های کاربر</h3>

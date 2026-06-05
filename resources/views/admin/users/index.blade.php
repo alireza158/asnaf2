@@ -58,7 +58,7 @@
                                 {{ $user->is_active ? 'فعال' : 'غیرفعال' }}
                             </span>
                         </td>
-                        <td>{{ $user->created_at?->format('Y/m/d') }}</td>
+                        <td>{{ jalali_date($user->created_at) }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.users.show', $user) }}">مشاهده</a>

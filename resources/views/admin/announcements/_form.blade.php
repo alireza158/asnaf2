@@ -41,15 +41,15 @@
         </div>
         <div class="col-md-3">
             <label class="form-label" for="starts_at">شروع نمایش</label>
-            <input class="form-control" id="starts_at" name="starts_at" type="datetime-local" value="{{ old('starts_at', $announcement?->starts_at?->format('Y-m-d\\TH:i')) }}">
+            <input class="form-control js-jalali-datetime" id="starts_at" name="starts_at" type="text" dir="ltr" value="{{ old('starts_at', jalali_form_datetime($announcement?->starts_at)) }}">
         </div>
         <div class="col-md-3">
             <label class="form-label" for="expires_at">تاریخ انقضا</label>
-            <input class="form-control" id="expires_at" name="expires_at" type="datetime-local" value="{{ old('expires_at', $announcement?->expires_at?->format('Y-m-d\\TH:i')) }}">
+            <input class="form-control js-jalali-datetime" id="expires_at" name="expires_at" type="text" dir="ltr" value="{{ old('expires_at', jalali_form_datetime($announcement?->expires_at)) }}">
         </div>
         <div class="col-md-3">
             <label class="form-label" for="published_at">تاریخ انتشار</label>
-            <input class="form-control" id="published_at" name="published_at" type="datetime-local" value="{{ old('published_at', $announcement?->published_at?->format('Y-m-d\\TH:i')) }}">
+            <input class="form-control js-jalali-datetime" id="published_at" name="published_at" type="text" dir="ltr" value="{{ old('published_at', jalali_form_datetime($announcement?->published_at)) }}">
         </div>
         <div class="col-md-3">
             <label class="form-label" for="sort_order">ترتیب نمایش</label>
