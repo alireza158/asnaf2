@@ -202,10 +202,10 @@
 
 @section('after_footer')
 <div class="lightbox">
-  <button class="lightbox-close" aria-label="بستن">✕</button>
-  <button class="lightbox-nav lightbox-prev" aria-label="قبلی">‹</button>
-  <button class="lightbox-nav lightbox-next" aria-label="بعدی">›</button>
-  <img class="lightbox-img" src="" alt="تصویر بزرگ"/>
-  <div class="lightbox-counter"></div>
+    <button class="lightbox-close" aria-label="بستن">✕</button>
+    <button class="lightbox-nav lightbox-prev" aria-label="قبلی">‹</button>
+    <button class="lightbox-nav lightbox-next" aria-label="بعدی">›</button>
+    <img class="lightbox-img" src="" alt="تصویر بزرگ"/>
+    <div class="lightbox-counter"></div>
 </div>
 @endsection
