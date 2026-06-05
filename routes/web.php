@@ -56,6 +56,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth
 
 Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+Route::get('/guilds/search', [FrontendUnionController::class, 'search'])->name('guilds.search');
 Route::get('/guilds/{union:slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
 Route::get('/posts', [FrontendPostController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post:slug}', [FrontendPostController::class, 'show'])->name('posts.show');

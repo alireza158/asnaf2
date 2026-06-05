@@ -323,7 +323,7 @@
 </div>
 </div>
 <div class="tab-panels" data-tab-panels="representatives">
-@foreach(['rep-production' => ['اتحادیه‌های تولیدی شهرستان گرگان', 'map-img'], 'rep-distribution' => ['اتحادیه‌های توزیعی شهرستان گرگان', 'map-img muted-map'], 'rep-service' => ['اتحادیه‌های خدماتی شهرستان گرگان', 'map-img faded-map']] as $panel => $map)
+@foreach(['rep-production' => ['اتحادیه‌های تولیدی شهرستان گرگان', 'map-img', 'production'], 'rep-distribution' => ['اتحادیه‌های توزیعی شهرستان گرگان', 'map-img muted-map', 'distribution'], 'rep-service' => ['اتحادیه‌های خدماتی شهرستان گرگان', 'map-img faded-map', 'service']] as $panel => $map)
 <div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
 <div class="representative-layout">
 <div class="representative-map">
@@ -331,9 +331,9 @@
 <img alt="تصویر پیش‌فرض اتاق اصناف مرکز استان گلستان" class="{{ $map[1] }}" src="{{ $defaultImage }}"/>
 </div>
 <aside class="people-panel" data-search-area="">
-<div class="searchbox"><span class="search-icon"></span><input data-filter-input="" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
+<div class="searchbox"><span class="search-icon"></span><input data-filter-input="" data-union-search-url="{{ route('guilds.search') }}" data-union-type="{{ $map[2] }}" placeholder="جستجوی سریع اتحادیه..." type="search"/></div>
 <div class="people-scroll-wrap">
-<ul class="person-list">
+<ul class="person-list" data-union-results>
 @forelse($unionPanels[$panel] as $union)
 <li class="union-home-item"><a href="{{ route('guilds.show', $union->slug) }}" class="d-flex align-items-center gap-2 text-decoration-none"><span class="person-avatar avatar-{{ ($loop->iteration % 6) + 1 }}"></span><div><strong>{{ $union->display_title }}</strong><small>{{ $union->short_description ?: $union->manager_name ?: $union->union_type_label }}</small></div></a><div class="union-home-actions"><a href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت</a>@foreach(($union->social_links ?? []) as $network => $link)@if(filled($link))<a href="{{ $link }}" target="_blank" rel="noopener">{{ $network }}</a>@endif @endforeach</div></li>
 @empty
