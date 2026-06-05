@@ -12,7 +12,7 @@
         <a class="ad-banner" href="{{ route('contact.create') }}">
             <img alt="فضای تبلیغات" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}" loading="lazy"/>
             <div class="ad-banner-overlay"></div>
-            <div class="ad-banner-text">فضای تبلیغات شما</div>
+            <div class="ad-banner-text">برای ثبت تبلیغات با اتاق اصناف تماس بگیرید</div>
         </a>
     @endforelse
 </section>

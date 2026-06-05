@@ -12,7 +12,19 @@ class MenuSeeder extends Seeder
 {
     public function run(): void
     {
-        $aboutPage = Page::query()->where('slug', 'about-gorgan-guild-chamber')->first();
+        $aboutPage = Page::updateOrCreate(
+            ['slug' => 'about-gorgan-guild-chamber'],
+            [
+                'title' => 'درباره اتاق اصناف شهرستان گرگان',
+                'excerpt' => 'معرفی مأموریت‌ها، خدمات و ساختار اتاق اصناف شهرستان گرگان.',
+                'body' => '<p>اتاق اصناف شهرستان گرگان مرجع هماهنگی، پشتیبانی و نظارت بر فعالیت اتحادیه‌های صنفی شهرستان است و خدمات صنفی، آموزشی و اطلاع‌رسانی را به فعالان اقتصادی و شهروندان ارائه می‌کند.</p>',
+                'template' => 'default',
+                'status' => 'published',
+                'published_at' => now(),
+                'is_active' => true,
+                'sort_order' => 1,
+            ]
+        );
         $licenseIssueService = ElectronicService::query()->where('slug', 'service-1')->first();
         $licenseRenewalService = ElectronicService::query()->where('slug', 'service-2')->first();
 

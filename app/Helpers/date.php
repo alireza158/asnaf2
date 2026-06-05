@@ -206,3 +206,25 @@ if (! function_exists('jalali_to_gregorian_datetime')) {
         return sprintf('%04d-%02d-%02d %02d:%02d:%02d', $year, $month, $day, $hour, $minute, $second);
     }
 }
+
+
+if (! function_exists('image_url')) {
+    function image_url(?string $path, string $fallback = 'assets/img/asnaf-gorgan-default.jpg'): string
+    {
+        $path = trim((string) $path);
+
+        if ($path === '') {
+            return asset($fallback);
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'assets/')) {
+            return asset($path);
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($path);
+    }
+}
