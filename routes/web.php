@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementCont
 use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
+use App\Http\Controllers\Admin\CongratulationMessageController as AdminCongratulationMessageController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\CommissionController as AdminCommissionController;
 use App\Http\Controllers\Admin\CommissionSessionController as AdminCommissionSessionController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\AnnouncementController as FrontendAnnouncementController;
 use App\Http\Controllers\Frontend\ComplaintController as FrontendComplaintController;
 use App\Http\Controllers\Frontend\CommissionController as FrontendCommissionController;
+use App\Http\Controllers\Frontend\CongratulationMessageController as FrontendCongratulationMessageController;
 use App\Http\Controllers\Frontend\ContactController as FrontendContactController;
 use App\Http\Controllers\Frontend\ElectronicServiceController as FrontendElectronicServiceController;
 use App\Http\Controllers\Frontend\GalleryController as FrontendGalleryController;
@@ -63,6 +65,7 @@ Route::get('/electronic-services', [FrontendElectronicServiceController::class, 
 Route::get('/electronic-services/{slug}', [FrontendElectronicServiceController::class, 'show'])->name('electronic_services.show');
 Route::get('/commissions', [FrontendCommissionController::class, 'index'])->name('commissions.index');
 Route::get('/commissions/{slug}', [FrontendCommissionController::class, 'show'])->name('commissions.show');
+Route::get('/congratulation-messages/{slug}', [FrontendCongratulationMessageController::class, 'show'])->name('congratulation_messages.show');
 Route::get('/search', [FrontendSearchController::class, 'index'])->name('search');
 Route::get('/contact', [FrontendContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [FrontendContactController::class, 'store'])->name('contact.store');
@@ -179,6 +182,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('electronic-services/{electronicService}/edit', [AdminElectronicServiceController::class, 'edit'])->middleware('permission:electronic_services.edit')->name('electronic_services.edit');
     Route::put('electronic-services/{electronicService}', [AdminElectronicServiceController::class, 'update'])->middleware('permission:electronic_services.edit')->name('electronic_services.update');
     Route::delete('electronic-services/{electronicService}', [AdminElectronicServiceController::class, 'destroy'])->middleware('permission:electronic_services.delete')->name('electronic_services.destroy');
+
+    Route::get('congratulation-messages', [AdminCongratulationMessageController::class, 'index'])->middleware('permission:congratulation_messages.view')->name('congratulation_messages.index');
+    Route::get('congratulation-messages/create', [AdminCongratulationMessageController::class, 'create'])->middleware('permission:congratulation_messages.create')->name('congratulation_messages.create');
+    Route::post('congratulation-messages', [AdminCongratulationMessageController::class, 'store'])->middleware('permission:congratulation_messages.create')->name('congratulation_messages.store');
+    Route::get('congratulation-messages/{congratulationMessage}', [AdminCongratulationMessageController::class, 'show'])->middleware('permission:congratulation_messages.view')->name('congratulation_messages.show');
+    Route::get('congratulation-messages/{congratulationMessage}/edit', [AdminCongratulationMessageController::class, 'edit'])->middleware('permission:congratulation_messages.edit')->name('congratulation_messages.edit');
+    Route::put('congratulation-messages/{congratulationMessage}', [AdminCongratulationMessageController::class, 'update'])->middleware('permission:congratulation_messages.edit')->name('congratulation_messages.update');
+    Route::delete('congratulation-messages/{congratulationMessage}', [AdminCongratulationMessageController::class, 'destroy'])->middleware('permission:congratulation_messages.delete')->name('congratulation_messages.destroy');
 
     Route::get('commissions', [AdminCommissionController::class, 'index'])->middleware('permission:commissions.view')->name('commissions.index');
     Route::get('commissions/create', [AdminCommissionController::class, 'create'])->middleware('permission:commissions.create')->name('commissions.create');

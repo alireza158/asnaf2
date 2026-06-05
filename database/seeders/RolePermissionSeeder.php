@@ -39,7 +39,7 @@ class RolePermissionSeeder extends Seeder
         'sms.view', 'sms.send', 'sms.logs',
         'contact_messages.view', 'contact_messages.delete',
         'settings.view', 'settings.edit',
-        'services.approve', 'services.publish', 'congratulation_messages.approve', 'congratulation_messages.publish',
+        'services.approve', 'services.publish', 'congratulation_messages.view', 'congratulation_messages.create', 'congratulation_messages.edit', 'congratulation_messages.delete', 'congratulation_messages.approve', 'congratulation_messages.publish',
     ];
 
     public function run(): void

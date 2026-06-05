@@ -17,6 +17,7 @@
         ['title' => 'تبلیغات', 'icon' => '📌', 'route' => 'admin.advertisements.index'],
         ['title' => 'سامانه‌ها', 'icon' => '💻', 'route' => 'admin.systems.index'],
         ['title' => 'خدمات الکترونیک', 'icon' => '⚡', 'route' => 'admin.electronic_services.index'],
+        ['title' => 'پیام‌های تبریک', 'icon' => '🎉', 'route' => 'admin.congratulation_messages.index'],
         ['title' => 'کمیسیون‌ها', 'icon' => '⚖️', 'route' => 'admin.commissions.index'],
         ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index'],
         ['title' => 'تنظیمات هدر', 'icon' => '🔝', 'route' => 'admin.header_settings.edit'],

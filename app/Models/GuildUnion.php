@@ -101,6 +101,11 @@ class GuildUnion extends Model
         return $this->hasMany(Video::class, 'union_id');
     }
 
+    public function congratulationMessages(): HasMany
+    {
+        return $this->hasMany(CongratulationMessage::class, 'union_id');
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

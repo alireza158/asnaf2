@@ -113,7 +113,7 @@
                 <section class="guild-section" id="guild-complaint"><h3 class="guild-section-title">ثبت شکایت صنفی</h3><p>فرم شکایت برای این اتحادیه فعال است.</p><a class="tab-pill active" href="{{ route('complaints.create', ['union_id' => $union->id]) }}">ثبت شکایت از این اتحادیه</a></section>
             @endif
             @if ($union->congratulations_enabled)
-                <section class="guild-section guild-section-alt" id="guild-congratulations"><h3 class="guild-section-title">پیام تبریک مدیر</h3><p>امکان نمایش پیام تبریک مدیر برای این اتحادیه فعال است.</p></section>
+                <section class="guild-section guild-section-alt" id="guild-congratulations"><h3 class="guild-section-title">پیام تبریک مدیر</h3><div class="howto-grid">@forelse($congratulationMessages as $message)<a class="howto-card" href="{{ route('congratulation_messages.show', $message->slug) }}"><div class="howto-icon">🎉</div><h3>{{ $message->title }}</h3><p>{{ Str::limit(strip_tags($message->body), 120) }}</p><span class="howto-link">مشاهده پیام ←</span></a>@empty<p>پیام تبریکی برای این اتحادیه منتشر نشده است.</p>@endforelse</div></section>
             @endif
 
             <section class="guild-section" id="guild-contact">

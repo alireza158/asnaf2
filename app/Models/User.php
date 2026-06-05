@@ -95,6 +95,16 @@ class User extends Authenticatable
         return $this->hasMany(ElectronicService::class, 'approved_by');
     }
 
+    public function createdCongratulationMessages(): HasMany
+    {
+        return $this->hasMany(CongratulationMessage::class, 'created_by');
+    }
+
+    public function approvedCongratulationMessages(): HasMany
+    {
+        return $this->hasMany(CongratulationMessage::class, 'approved_by');
+    }
+
     public function hasRole(string|Role $role): bool
     {
         $roleName = $role instanceof Role ? $role->name : $role;
