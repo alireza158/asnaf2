@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GuildUnion extends Model
@@ -13,6 +14,7 @@ class GuildUnion extends Model
     public const TYPE_PRODUCTION = 'production';
     public const TYPE_DISTRIBUTION = 'distribution';
     public const TYPE_SERVICE = 'service';
+    public const TYPE_SPECIALIZED = 'specialized';
 
     protected $table = 'unions';
 
@@ -31,9 +33,11 @@ class GuildUnion extends Model
         'website',
         'manager_name',
         'union_type',
+        'category_id',
         'manager_image',
         'working_hours',
         'social_links',
+        'settings',
         'complaint_enabled',
         'congratulations_enabled',
         'news_enabled',
@@ -53,6 +57,7 @@ class GuildUnion extends Model
     {
         return [
             'social_links' => 'array',
+            'settings' => 'array',
             'complaint_enabled' => 'boolean',
             'congratulations_enabled' => 'boolean',
             'news_enabled' => 'boolean',
@@ -64,6 +69,67 @@ class GuildUnion extends Model
             'is_active' => 'boolean',
             'sort_order' => 'integer',
         ];
+    }
+
+
+    public static function sectionDefaults(): array
+    {
+        return [
+            'show_manager' => true,
+            'show_board_members' => true,
+            'show_commissions' => true,
+            'show_commission_tasks' => true,
+            'show_rules' => true,
+            'show_news_slider' => true,
+            'show_news' => true,
+            'show_articles' => true,
+            'show_prices' => false,
+            'show_complaint' => true,
+            'show_minutes' => true,
+            'show_education' => true,
+            'show_announcements' => true,
+            'show_gallery' => true,
+            'show_videos' => true,
+            'show_search' => true,
+            'show_contact' => true,
+            'show_social_links' => true,
+        ];
+    }
+
+    public static function sectionLabels(): array
+    {
+        return [
+            'show_manager' => 'نمایش رئیس اتحادیه',
+            'show_board_members' => 'نمایش اعضای هیئت مدیره',
+            'show_commissions' => 'نمایش کمیسیون‌ها',
+            'show_commission_tasks' => 'نمایش وظایف کمیسیون‌ها',
+            'show_rules' => 'نمایش قوانین و دستورالعمل‌ها',
+            'show_news_slider' => 'نمایش اسلایدر خبری',
+            'show_news' => 'نمایش آخرین اخبار',
+            'show_articles' => 'نمایش مقاله‌ها',
+            'show_prices' => 'نمایش نرخ‌نامه',
+            'show_complaint' => 'نمایش ثبت شکایت',
+            'show_minutes' => 'نمایش صورتجلسه‌ها',
+            'show_education' => 'نمایش آموزش‌ها',
+            'show_announcements' => 'نمایش اطلاعیه‌ها و بخشنامه‌ها',
+            'show_gallery' => 'نمایش گالری تصاویر',
+            'show_videos' => 'نمایش ویدیوها',
+            'show_search' => 'نمایش جستجو',
+            'show_contact' => 'نمایش اطلاعات تماس',
+            'show_social_links' => 'نمایش شبکه‌های اجتماعی',
+        ];
+    }
+
+    public function isSectionEnabled(string $key, bool $default = true): bool
+    {
+        $settings = $this->settings ?? [];
+
+        return array_key_exists($key, $settings) ? (bool) $settings[$key] : $default;
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function users(): HasMany
@@ -116,6 +182,27 @@ class GuildUnion extends Model
         return $this->hasMany(UnionCommission::class, 'union_id')->orderBy('sort_order')->orderBy('id');
     }
 
+
+    public function rules(): HasMany
+    {
+        return $this->hasMany(UnionRule::class, 'union_id')->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function minutes(): HasMany
+    {
+        return $this->hasMany(UnionMinute::class, 'union_id')->orderByDesc('meeting_date')->orderBy('sort_order');
+    }
+
+    public function educations(): HasMany
+    {
+        return $this->hasMany(UnionEducation::class, 'union_id')->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function prices(): HasMany
+    {
+        return $this->hasMany(UnionPrice::class, 'union_id')->orderBy('sort_order')->orderBy('id');
+    }
+
     public function activeCommissions(): HasMany
     {
         return $this->commissions()->active();
@@ -136,6 +223,7 @@ class GuildUnion extends Model
             self::TYPE_PRODUCTION => 'اتحادیه‌های تولیدی',
             self::TYPE_DISTRIBUTION => 'اتحادیه‌های توزیعی',
             self::TYPE_SERVICE => 'اتحادیه‌های خدماتی',
+            self::TYPE_SPECIALIZED => 'اتحادیه‌های تخصصی',
         ];
     }
 

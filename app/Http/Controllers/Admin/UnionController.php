@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUnionRequest;
 use App\Http\Requests\Admin\UpdateUnionRequest;
+use App\Models\Category;
 use App\Models\GuildUnion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,7 +38,10 @@ class UnionController extends Controller
 
     public function create(): View
     {
-        return view('admin.unions.create', ['union' => null]);
+        return view('admin.unions.create', [
+            'union' => null,
+            'categories' => $this->unionCategories(),
+        ]);
     }
 
     public function store(StoreUnionRequest $request): RedirectResponse
@@ -61,7 +65,10 @@ class UnionController extends Controller
 
     public function edit(GuildUnion $union): View
     {
-        return view('admin.unions.edit', compact('union'));
+        return view('admin.unions.edit', [
+            'union' => $union,
+            'categories' => $this->unionCategories(),
+        ]);
     }
 
     public function update(UpdateUnionRequest $request, GuildUnion $union): RedirectResponse
@@ -102,7 +109,13 @@ class UnionController extends Controller
         $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
         $socialLinks = collect($validated['social_links'] ?? [])
+            ->map(fn ($url) => is_string($url) ? trim($url) : $url)
             ->filter(fn ($url) => filled($url))
+            ->all();
+
+        $submittedSettings = $validated['settings'] ?? [];
+        $settings = collect(GuildUnion::sectionDefaults())
+            ->map(fn ($default, $key) => array_key_exists($key, $submittedSettings) ? (bool) $submittedSettings[$key] : false)
             ->all();
 
         return [
@@ -117,8 +130,11 @@ class UnionController extends Controller
             'email' => $validated['email'] ?? null,
             'website' => $validated['website'] ?? null,
             'manager_name' => $validated['manager_name'] ?? null,
+            'union_type' => $validated['union_type'] ?? null,
+            'category_id' => $validated['category_id'] ?? null,
             'working_hours' => $validated['working_hours'] ?? null,
             'social_links' => $socialLinks === [] ? null : $socialLinks,
+            'settings' => $settings,
             'complaint_enabled' => (bool) $validated['complaint_enabled'],
             'congratulations_enabled' => (bool) $validated['congratulations_enabled'],
             'news_enabled' => (bool) $validated['news_enabled'],
@@ -133,6 +149,15 @@ class UnionController extends Controller
             'meta_description' => $validated['meta_description'] ?? null,
             'meta_keywords' => $validated['meta_keywords'] ?? null,
         ];
+    }
+
+    private function unionCategories()
+    {
+        return Category::query()
+            ->where(fn ($query) => $query->whereNull('type')->orWhere('type', 'union')->orWhere('type', 'union_type'))
+            ->orderBy('sort_order')
+            ->orderBy('title')
+            ->get();
     }
 
     private function storeImage(Request $request, string $field, string $directory): ?string

@@ -10,6 +10,8 @@
         'congratulations_enabled' => 'پیام تبریک مدیر',
     ];
     $socialLinks = old('social_links', $union?->social_links ?? []);
+    $settings = old('settings', $union?->settings ?? []);
+    $settingDefaults = \App\Models\GuildUnion::sectionDefaults();
 @endphp
 
 <div class="admin-panel-card">
@@ -52,9 +54,27 @@
         <div class="col-md-3"><label class="form-label" for="mobile">موبایل</label><input class="form-control" id="mobile" name="mobile" value="{{ old('mobile', $union?->mobile) }}"></div>
         <div class="col-md-3"><label class="form-label" for="email">ایمیل</label><input class="form-control" id="email" name="email" type="email" value="{{ old('email', $union?->email) }}"></div>
         <div class="col-md-3"><label class="form-label" for="website">وب‌سایت</label><input class="form-control" id="website" name="website" type="url" value="{{ old('website', $union?->website) }}" dir="ltr"></div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label class="form-label" for="manager_name">نام مدیر</label>
             <input class="form-control" id="manager_name" name="manager_name" value="{{ old('manager_name', $union?->manager_name) }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="union_type">نوع اتحادیه</label>
+            <select class="form-control" id="union_type" name="union_type">
+                <option value="">انتخاب نوع</option>
+                @foreach (\App\Models\GuildUnion::typeLabels() as $type => $label)
+                    <option value="{{ $type }}" @selected(old('union_type', $union?->union_type) === $type)>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="category_id">دسته‌بندی اتحادیه</label>
+            <select class="form-control" id="category_id" name="category_id">
+                <option value="">بدون دسته‌بندی</option>
+                @foreach (($categories ?? collect()) as $category)
+                    <option value="{{ $category->id }}" @selected((string) old('category_id', $union?->category_id) === (string) $category->id)>{{ $category->title }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="col-md-6">
             <label class="form-label" for="manager_image">تصویر مدیر</label>
@@ -62,8 +82,8 @@
             @if ($union?->manager_image)<a class="d-inline-block mt-2" href="{{ Storage::url($union->manager_image) }}" target="_blank">مشاهده تصویر فعلی مدیر</a>@endif
         </div>
         <div class="col-12"><h3 class="h6 mt-2">شبکه‌های اجتماعی</h3></div>
-        @foreach (['instagram' => 'اینستاگرام', 'telegram' => 'تلگرام', 'whatsapp' => 'واتساپ'] as $key => $label)
-            <div class="col-md-4">
+        @foreach (['instagram' => 'اینستاگرام', 'telegram' => 'تلگرام', 'whatsapp' => 'واتساپ', 'eitaa' => 'ایتا', 'bale' => 'بله', 'rubika' => 'روبیکا', 'website' => 'وب‌سایت'] as $key => $label)
+            <div class="col-md-3">
                 <label class="form-label" for="social_{{ $key }}">{{ $label }}</label>
                 <input class="form-control" id="social_{{ $key }}" name="social_links[{{ $key }}]" value="{{ $socialLinks[$key] ?? '' }}" dir="ltr" type="url">
             </div>
@@ -76,6 +96,16 @@
                     <option value="1" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled', 'complaint_enabled'], true))) === '1')>فعال</option>
                     <option value="0" @selected((string) old($field, (int) ($union?->{$field} ?? in_array($field, ['news_enabled', 'announcements_enabled', 'complaint_enabled'], true))) === '0')>غیرفعال</option>
                 </select>
+            </div>
+        @endforeach
+        <div class="col-12"><h3 class="h6 mt-2">تنظیمات صفحه اتحادیه</h3></div>
+        @foreach (\App\Models\GuildUnion::sectionLabels() as $key => $label)
+            @php($checked = array_key_exists($key, $settings) ? (bool) $settings[$key] : (bool) ($settingDefaults[$key] ?? true))
+            <div class="col-md-3">
+                <label class="form-check d-flex align-items-center gap-2" for="settings_{{ $key }}">
+                    <input class="form-check-input" id="settings_{{ $key }}" name="settings[{{ $key }}]" type="checkbox" value="1" @checked($checked)>
+                    <span>{{ $label }}</span>
+                </label>
             </div>
         @endforeach
         <div class="col-md-4">

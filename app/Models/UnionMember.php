@@ -15,6 +15,7 @@ class UnionMember extends Model
     protected $fillable = [
         'union_id',
         'full_name',
+        'position',
         'national_code',
         'mobile',
         'phone',
@@ -25,6 +26,7 @@ class UnionMember extends Model
         'status',
         'description',
         'attachments',
+        'sort_order',
         'is_active',
     ];
 
@@ -32,6 +34,7 @@ class UnionMember extends Model
     {
         return [
             'attachments' => 'array',
+            'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];
     }
