@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUnionRequest extends FormRequest
 {
@@ -27,10 +28,14 @@ class StoreUnionRequest extends FormRequest
             'email' => ['nullable', 'email', 'max:190'],
             'website' => ['nullable', 'url', 'max:190'],
             'manager_name' => ['nullable', 'string', 'max:190'],
+            'union_type' => ['nullable', Rule::in(array_keys(\App\Models\GuildUnion::typeLabels()))],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'manager_image' => ['nullable', 'image', 'max:2048'],
             'working_hours' => ['nullable', 'string', 'max:500'],
             'social_links' => ['nullable', 'array'],
             'social_links.*' => ['nullable', 'url', 'max:190'],
+            'settings' => ['nullable', 'array'],
+            'settings.*' => ['nullable', 'boolean'],
             'complaint_enabled' => ['required', 'boolean'],
             'congratulations_enabled' => ['required', 'boolean'],
             'news_enabled' => ['required', 'boolean'],
