@@ -108,6 +108,9 @@
                 </label>
             </div>
         @endforeach
+        <div class="col-12">
+            @include('admin.unions._page_sections_form')
+        </div>
         <div class="col-md-4">
             <label class="form-label" for="is_active">وضعیت</label>
             <select class="form-control" id="is_active" name="is_active">

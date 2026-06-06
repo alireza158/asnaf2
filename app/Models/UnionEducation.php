@@ -10,6 +10,8 @@ class UnionEducation extends Model
 {
     use HasFactory;
 
+    protected $table = 'union_educations';
+
     protected $fillable = ['union_id', 'title', 'description', 'icon', 'link', 'sort_order', 'is_active'];
 
     protected function casts(): array

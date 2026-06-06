@@ -23,6 +23,19 @@
             </div>
             <div class="admin-rich-content">{!! $union->description ?: '—' !!}</div>
         </div>
+
+        <div class="admin-panel-card mt-3">
+            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                <h3 class="h6 mb-0">بخش‌های قابل ویرایش صفحه اتحادیه</h3>
+                <a class="admin-secondary-btn" href="{{ route('admin.unions.edit', $union) }}">ویرایش بخش‌ها</a>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6"><strong>کمیسیون‌ها</strong><p class="text-muted mb-1">{{ $union->commissions->count() }} مورد</p><ul class="mb-0">@foreach($union->commissions->take(3) as $commission)<li>{{ $commission->title }} <small>({{ $commission->tasks->count() }} وظیفه)</small></li>@endforeach</ul></div>
+                <div class="col-md-6"><strong>صورتجلسه‌ها</strong><p class="text-muted mb-1">{{ $union->minutes->count() }} مورد</p><ul class="mb-0">@foreach($union->minutes->take(3) as $minute)<li>{{ $minute->title }}</li>@endforeach</ul></div>
+                <div class="col-md-6"><strong>قوانین و دستورالعمل‌ها</strong><p class="text-muted mb-1">{{ $union->rules->count() }} مورد</p><ul class="mb-0">@foreach($union->rules->take(3) as $rule)<li>{{ $rule->title }}</li>@endforeach</ul></div>
+                <div class="col-md-6"><strong>آموزش‌ها و نرخ‌نامه</strong><p class="text-muted mb-1">{{ $union->educations->count() }} آموزش / {{ $union->prices->count() }} نرخ</p><ul class="mb-0">@foreach($union->educations->take(2) as $education)<li>{{ $education->title }}</li>@endforeach @foreach($union->prices->take(1) as $price)<li>{{ $price->title }}</li>@endforeach</ul></div>
+            </div>
+        </div>
         <div class="admin-panel-card mt-3">
             <h3 class="h6">امکانات فعال</h3>
             <div class="d-flex flex-wrap gap-2">

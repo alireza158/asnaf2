@@ -7,6 +7,11 @@ use App\Http\Requests\Admin\StoreUnionRequest;
 use App\Http\Requests\Admin\UpdateUnionRequest;
 use App\Models\Category;
 use App\Models\GuildUnion;
+use App\Models\UnionCommission;
+use App\Models\UnionEducation;
+use App\Models\UnionMinute;
+use App\Models\UnionPrice;
+use App\Models\UnionRule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -52,6 +57,7 @@ class UnionController extends Controller
         $data['manager_image'] = $this->storeImage($request, 'manager_image', 'unions/managers');
 
         $union = GuildUnion::create($data);
+        $this->syncPageSections($union, $request->validated('related', []));
 
         return redirect()->route('admin.unions.show', $union)->with('success', 'اتحادیه با موفقیت ایجاد شد.');
     }
@@ -59,6 +65,7 @@ class UnionController extends Controller
     public function show(GuildUnion $union): View
     {
         $union->loadCount(['posts', 'announcements', 'users']);
+        $union->load(['commissions.tasks', 'rules', 'minutes', 'educations', 'prices']);
 
         return view('admin.unions.show', compact('union'));
     }
@@ -66,7 +73,7 @@ class UnionController extends Controller
     public function edit(GuildUnion $union): View
     {
         return view('admin.unions.edit', [
-            'union' => $union,
+            'union' => $union->load(['commissions.tasks', 'rules', 'minutes', 'educations', 'prices']),
             'categories' => $this->unionCategories(),
         ]);
     }
@@ -86,6 +93,7 @@ class UnionController extends Controller
         }
 
         $union->update($data);
+        $this->syncPageSections($union, $request->validated('related', []));
 
         return redirect()->route('admin.unions.show', $union)->with('success', 'اتحادیه با موفقیت ویرایش شد.');
     }
@@ -149,6 +157,120 @@ class UnionController extends Controller
             'meta_description' => $validated['meta_description'] ?? null,
             'meta_keywords' => $validated['meta_keywords'] ?? null,
         ];
+    }
+
+
+    /** @param array<string, mixed> $related */
+    private function syncPageSections(GuildUnion $union, array $related): void
+    {
+        $this->syncSimpleSection($union, $related['rules'] ?? [], UnionRule::class, ['title', 'description', 'icon', 'file', 'sort_order', 'is_active']);
+        $this->syncSimpleSection($union, $related['minutes'] ?? [], UnionMinute::class, ['title', 'meeting_date', 'file', 'description', 'sort_order', 'is_active']);
+        $this->syncSimpleSection($union, $related['educations'] ?? [], UnionEducation::class, ['title', 'description', 'icon', 'link', 'sort_order', 'is_active']);
+        $this->syncSimpleSection($union, $related['prices'] ?? [], UnionPrice::class, ['title', 'price', 'currency', 'type', 'updated_on', 'sort_order', 'is_active']);
+        $this->syncCommissions($union, $related['commissions'] ?? []);
+    }
+
+    /** @param array<int, array<string, mixed>> $items @param class-string<\Illuminate\Database\Eloquent\Model> $modelClass @param array<int, string> $fields */
+    private function syncSimpleSection(GuildUnion $union, array $items, string $modelClass, array $fields): void
+    {
+        foreach ($items as $item) {
+            $id = $item['id'] ?? null;
+            $record = $id ? $modelClass::query()->where('union_id', $union->id)->find($id) : null;
+
+            if (! empty($item['delete'])) {
+                $record?->delete();
+                continue;
+            }
+
+            if ($this->isBlankRelatedRow($item)) {
+                continue;
+            }
+
+            $data = $this->relatedData($item, $fields);
+            $record ? $record->update($data) : $union->{$this->relationNameFor($modelClass)}()->create($data);
+        }
+    }
+
+    /** @param array<int, array<string, mixed>> $commissions */
+    private function syncCommissions(GuildUnion $union, array $commissions): void
+    {
+        foreach ($commissions as $item) {
+            $commission = isset($item['id']) ? $union->commissions()->whereKey($item['id'])->first() : null;
+
+            if (! empty($item['delete'])) {
+                $commission?->delete();
+                continue;
+            }
+
+            if ($this->isBlankRelatedRow($item) && empty($item['tasks'])) {
+                continue;
+            }
+
+            $data = $this->relatedData($item, ['title', 'description', 'icon', 'sort_order', 'is_active']);
+            $commission = $commission ? tap($commission)->update($data) : $union->commissions()->create($data);
+            $this->syncCommissionTasks($commission, $item['tasks'] ?? []);
+        }
+    }
+
+    /** @param array<int, array<string, mixed>> $tasks */
+    private function syncCommissionTasks(UnionCommission $commission, array $tasks): void
+    {
+        foreach ($tasks as $item) {
+            $task = isset($item['id']) ? $commission->tasks()->whereKey($item['id'])->first() : null;
+
+            if (! empty($item['delete'])) {
+                $task?->delete();
+                continue;
+            }
+
+            if ($this->isBlankRelatedRow($item)) {
+                continue;
+            }
+
+            $data = $this->relatedData($item, ['title', 'description', 'sort_order', 'is_active']);
+            $task ? $task->update($data) : $commission->tasks()->create($data);
+        }
+    }
+
+    /** @param array<string, mixed> $item @param array<int, string> $fields @return array<string, mixed> */
+    private function relatedData(array $item, array $fields): array
+    {
+        $data = [];
+
+        foreach ($fields as $field) {
+            $value = $item[$field] ?? null;
+            if (in_array($field, ['description'], true)) {
+                $value = $this->sanitizeRichTextFields([$field => $value], [$field])[$field] ?? null;
+            }
+            if (in_array($field, ['sort_order'], true)) {
+                $value = (int) ($value ?? 0);
+            }
+            if ($field === 'is_active') {
+                $value = (bool) ($value ?? false);
+            }
+            if (is_string($value)) {
+                $value = trim($value);
+            }
+            $data[$field] = $value === '' ? null : $value;
+        }
+
+        return $data;
+    }
+
+    /** @param array<string, mixed> $item */
+    private function isBlankRelatedRow(array $item): bool
+    {
+        return blank($item['title'] ?? null);
+    }
+
+    private function relationNameFor(string $modelClass): string
+    {
+        return match ($modelClass) {
+            UnionRule::class => 'rules',
+            UnionMinute::class => 'minutes',
+            UnionEducation::class => 'educations',
+            UnionPrice::class => 'prices',
+        };
     }
 
     private function unionCategories()
