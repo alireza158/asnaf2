@@ -11,7 +11,7 @@
     </div>
     <div class="admin-date-card">
         <span>امروز</span>
-        <strong>۱۴ اردیبهشت ۱۴۰۵</strong>
+        <strong>{{ jalali_text_date(now('Asia/Tehran')) }}</strong>
     </div>
 </section>
 

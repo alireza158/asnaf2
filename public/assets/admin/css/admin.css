@@ -16,12 +16,28 @@
     box-sizing: border-box;
 }
 
+.admin-shell,
+.admin-shell *,
+.admin-auth-body,
+.admin-auth-body *,
+html[lang="fa"],
+html[lang="fa"] body,
+html[lang="fa"] body * {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+}
+
+html[lang="fa"] .persian-datepicker,
+html[lang="fa"] .persian-datepicker *,
+html[lang="fa"] .pdp-default,
+html[lang="fa"] .pdp-default * {
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif !important;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
     background: var(--admin-bg);
     color: var(--admin-text);
-    font-family: Vazirmatn, Tahoma, Arial, sans-serif;
 }
 
 .admin-shell {
@@ -807,7 +823,7 @@ body {
 .jalali-date-input {
     direction: ltr;
     text-align: left;
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Vazirmatn', Tahoma, Arial, sans-serif;
 }
 
 /* Phase 31: final admin UX refinements */
