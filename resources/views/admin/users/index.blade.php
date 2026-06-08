@@ -14,7 +14,7 @@
 <div class="admin-panel-card mb-3">
     <form class="admin-search-form" action="{{ route('admin.users.index') }}" method="GET">
         <label class="form-label mb-0" for="search">جستجو</label>
-        <input class="form-control" id="search" name="search" value="{{ $search }}" placeholder="نام، ایمیل یا موبایل را وارد کنید...">
+        <input class="form-control" id="search" name="search" value="{{ $search }}" placeholder="نام، ایمیل یا شماره تماس را وارد کنید...">
         <select class="form-control" name="status" aria-label="فیلتر وضعیت">
             <option value="">همه وضعیت‌ها</option>
             <option value="active" @selected($status === 'active')>فعال</option>
@@ -34,7 +34,7 @@
                 <tr>
                     <th>نام</th>
                     <th>ایمیل</th>
-                    <th>شماره موبایل</th>
+                    <th>شماره تماس</th>
                     <th>نقش‌ها</th>
                     <th>اتحادیه مربوطه</th>
                     <th>وضعیت</th>
