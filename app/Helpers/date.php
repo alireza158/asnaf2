@@ -17,6 +17,76 @@ if (! function_exists('jalali_normalize_digits')) {
     }
 }
 
+if (! function_exists('jalali_to_persian_digits')) {
+    function jalali_to_persian_digits(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        return strtr($value, [
+            '0' => '۰', '1' => '۱', '2' => '۲', '3' => '۳', '4' => '۴',
+            '5' => '۵', '6' => '۶', '7' => '۷', '8' => '۸', '9' => '۹',
+        ]);
+    }
+}
+
+if (! class_exists('JalaliDate')) {
+    final class JalaliDate
+    {
+        public function __construct(private readonly mixed $date)
+        {
+        }
+
+        public function format(string $format = 'Y/m/d'): string
+        {
+            return jalali_format($this->date, $format) ?? '';
+        }
+
+        public function persianFormat(string $format = 'Y/m/d'): string
+        {
+            return jalali_to_persian_digits($this->format($format)) ?? '';
+        }
+    }
+}
+
+if (! function_exists('jdate')) {
+    function jdate(mixed $date = null): JalaliDate
+    {
+        return new JalaliDate($date ?? now('Asia/Tehran'));
+    }
+}
+
+if (! function_exists('jalali_text_date')) {
+    function jalali_text_date(mixed $date = null): string
+    {
+        $carbon = jalali_carbon($date ?? now('Asia/Tehran'));
+
+        if (! $carbon) {
+            return '';
+        }
+
+        [$year, $month, $day] = gregorian_to_jalali_parts((int) $carbon->format('Y'), (int) $carbon->format('n'), (int) $carbon->format('j'));
+
+        $monthNames = [
+            1 => 'فروردین',
+            2 => 'اردیبهشت',
+            3 => 'خرداد',
+            4 => 'تیر',
+            5 => 'مرداد',
+            6 => 'شهریور',
+            7 => 'مهر',
+            8 => 'آبان',
+            9 => 'آذر',
+            10 => 'دی',
+            11 => 'بهمن',
+            12 => 'اسفند',
+        ];
+
+        return jalali_to_persian_digits(sprintf('%d %s %d', $day, $monthNames[$month], $year)) ?? '';
+    }
+}
+
 if (! function_exists('gregorian_to_jalali_parts')) {
     /** @return array{0:int,1:int,2:int} */
     function gregorian_to_jalali_parts(int $gy, int $gm, int $gd): array
