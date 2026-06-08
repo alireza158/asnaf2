@@ -16,6 +16,12 @@
             <span>🔎</span>
             <input type="search" placeholder="جستجو در پنل..." aria-label="جستجو در پنل مدیریت">
         </div>
+        <a class="admin-view-site" href="{{ route('admin.messages.inbox') }}">
+            پیام‌ها
+            @if (($unreadMessagesCount ?? 0) > 0)
+                <span class="badge bg-danger">{{ $unreadMessagesCount }}</span>
+            @endif
+        </a>
         <a class="admin-view-site" href="{{ route('home') }}" target="_blank" rel="noopener">مشاهده سایت</a>
         <div class="admin-user-card">
             <div class="admin-avatar">{{ mb_substr(auth()->user()?->name ?? 'م', 0, 1) }}</div>

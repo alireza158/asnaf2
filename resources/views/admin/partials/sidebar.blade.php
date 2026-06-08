@@ -38,6 +38,10 @@
             'title' => 'ارتباطات',
             'items' => [
                 ['title' => 'پیامک‌ها', 'icon' => '💬', 'route' => 'admin.sms.index', 'match' => 'admin.sms.*'],
+                ['title' => 'پیام‌های داخلی', 'icon' => '✉️', 'route' => 'admin.messages.inbox', 'match' => ['admin.messages.*'], 'badge' => $unreadMessagesCount ?? 0],
+                ['title' => 'صندوق ورودی', 'icon' => '📥', 'route' => 'admin.messages.inbox', 'match' => 'admin.messages.inbox', 'badge' => $unreadMessagesCount ?? 0],
+                ['title' => 'ارسال‌شده‌ها', 'icon' => '📤', 'route' => 'admin.messages.sent', 'match' => 'admin.messages.sent'],
+                ['title' => 'ارسال پیام جدید', 'icon' => '✍️', 'route' => 'admin.messages.create', 'match' => 'admin.messages.create', 'permission' => 'messages.send'],
                 ['title' => 'پیام‌های تماس', 'icon' => '☎️', 'route' => 'admin.contact_messages.index', 'match' => 'admin.contact_messages.*'],
             ],
         ],
@@ -77,13 +81,18 @@
             <section class="admin-nav-group" aria-label="{{ $group['title'] }}">
                 <h2 class="admin-nav-group-title">{{ $group['title'] }}</h2>
                 @foreach ($group['items'] as $item)
+                    @continue(isset($item['permission']) && ! request()->user()->hasPermission($item['permission']))
                     @php
                         $matchPatterns = (array) ($item['match'] ?? $item['route']);
                         $isActive = collect($matchPatterns)->contains(fn ($pattern) => request()->routeIs($pattern));
+                        $badge = (int) ($item['badge'] ?? 0);
                     @endphp
                     <a class="admin-nav-link {{ $isActive ? 'is-active' : '' }}" href="{{ route($item['route']) }}" @if($isActive) aria-current="page" @endif>
                         <span class="admin-nav-icon">{{ $item['icon'] }}</span>
                         <span>{{ $item['title'] }}</span>
+                        @if ($badge > 0)
+                            <span class="badge bg-danger ms-auto">{{ $badge }}</span>
+                        @endif
                     </a>
                 @endforeach
             </section>
