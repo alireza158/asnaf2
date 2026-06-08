@@ -81,13 +81,13 @@ class RolePermissionSeeder extends Seeder
 
         $adminUser = User::updateOrCreate(
             ['email' => 'admin@example.com'],
-            ['name' => 'مدیرکل سامانه', 'password' => Hash::make('password')]
+            ['name' => 'مدیرکل سامانه', 'mobile' => '09110000000', 'password' => Hash::make('password'), 'is_active' => true]
         );
         $adminUser->roles()->syncWithoutDetaching([$superAdmin->id]);
 
         $expertUser = User::updateOrCreate(
             ['email' => 'union-expert@example.com'],
-            ['name' => 'کارشناس اتحادیه', 'password' => Hash::make('password')]
+            ['name' => 'کارشناس اتحادیه', 'mobile' => '09110000001', 'password' => Hash::make('password'), 'is_active' => true]
         );
         $expertUser->roles()->syncWithoutDetaching([$unionExpert->id]);
 

@@ -25,16 +25,16 @@
             <form class="admin-form" action="{{ route('login') }}" method="POST" novalidate>
                 @csrf
                 <div>
-                    <label class="form-label" for="email">ایمیل مدیر</label>
-                    <input class="form-control @error('email') is-invalid @enderror" id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" placeholder="admin@example.com" required autofocus>
-                    @error('email')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                    <label class="form-label" for="mobile">شماره تماس مدیر</label>
+                    <input class="form-control @error('mobile') is-invalid @enderror" dir="ltr" id="mobile" name="mobile" type="tel" value="{{ old('mobile') }}" autocomplete="tel" inputmode="tel" placeholder="09110000000" required autofocus>
+                    @error('mobile')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                 </div>
 
                 <div>
                     <label class="form-label" for="password">رمز عبور</label>
                     <input class="form-control @error('password') is-invalid @enderror" id="password" name="password" type="password" autocomplete="current-password" placeholder="رمز عبور حساب مدیریت" required>
                     @error('password')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                    <div class="form-text">کاربر مدیرکل پیش‌فرض با اجرای seeder ساخته می‌شود.</div>
+                    <div class="form-text">برای کاربر پیش‌فرض پس از اجرای seeder از شماره 09110000000 استفاده کنید.</div>
                 </div>
 
                 <label class="form-check admin-auth-check" for="remember">
