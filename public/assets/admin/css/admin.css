@@ -16,6 +16,10 @@
     box-sizing: border-box;
 }
 
+.admin-shell,
+.admin-shell *,
+.admin-auth-body,
+.admin-auth-body *,
 html[lang="fa"],
 html[lang="fa"] body,
 html[lang="fa"] body * {
