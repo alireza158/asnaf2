@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\FooterSettingController;
 use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\HeaderSettingController;
 use App\Http\Controllers\Admin\HomeSectionController;
+use App\Http\Controllers\Admin\InternalMessageController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\MenuItemController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
@@ -98,6 +99,31 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('pending-approvals', [PendingApprovalController::class, 'index'])
         ->middleware('permission:pending_approvals.view')
         ->name('pending_approvals.index');
+
+    Route::get('messages', [InternalMessageController::class, 'index'])
+        ->name('messages.index')
+        ->middleware('permission:messages.view');
+    Route::get('messages/inbox', [InternalMessageController::class, 'inbox'])
+        ->name('messages.inbox')
+        ->middleware('permission:messages.view');
+    Route::get('messages/sent', [InternalMessageController::class, 'sent'])
+        ->name('messages.sent')
+        ->middleware('permission:messages.view');
+    Route::get('messages/create', [InternalMessageController::class, 'create'])
+        ->name('messages.create')
+        ->middleware('permission:messages.send');
+    Route::post('messages', [InternalMessageController::class, 'store'])
+        ->name('messages.store')
+        ->middleware('permission:messages.send');
+    Route::get('messages/{message}', [InternalMessageController::class, 'show'])
+        ->name('messages.show')
+        ->middleware('permission:messages.view');
+    Route::post('messages/{message}/reply', [InternalMessageController::class, 'storeReply'])
+        ->name('messages.reply')
+        ->middleware('permission:messages.reply');
+    Route::delete('messages/{message}', [InternalMessageController::class, 'destroy'])
+        ->name('messages.destroy')
+        ->middleware('permission:messages.delete');
     Route::patch('pending-approvals/{type}/{id}/approve', [PendingApprovalController::class, 'approve'])
         ->name('pending_approvals.approve');
     Route::patch('pending-approvals/{type}/{id}/reject', [PendingApprovalController::class, 'reject'])

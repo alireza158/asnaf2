@@ -16,6 +16,7 @@ class RolePermissionSeeder extends Seeder
     /** @var array<int, string> */
     private array $basePermissions = [
         'dashboard.view', 'pending_approvals.view',
+        'messages.view', 'messages.create', 'messages.send', 'messages.reply', 'messages.delete', 'messages.manage',
         'users.view', 'users.create', 'users.edit', 'users.delete',
         'roles.view', 'roles.create', 'roles.edit', 'roles.delete',
         'permissions.view', 'permissions.create', 'permissions.edit', 'permissions.delete',
@@ -69,6 +70,7 @@ class RolePermissionSeeder extends Seeder
             'union_members.view', 'union_members.create', 'union_members.edit', 'union_members.delete',
             'complaints.view', 'complaints.edit', 'complaints.reply',
             'sms.view', 'sms.send', 'sms.logs',
+            'messages.view', 'messages.reply', 'messages.delete',
         ];
 
         $unionExpert = Role::updateOrCreate(
@@ -123,13 +125,13 @@ class RolePermissionSeeder extends Seeder
             'galleries' => 'گالری تصاویر', 'videos' => 'ویدیوها', 'tourism' => 'گردشگری',
             'advertisements' => 'تبلیغات', 'systems' => 'سامانه‌ها', 'electronic_services' => 'خدمات الکترونیک', 'commissions' => 'کمیسیون‌ها',
             'home_sections' => 'تنظیمات صفحه اصلی', 'header_settings' => 'تنظیمات هدر', 'footer_settings' => 'تنظیمات فوتر',
-            'sms' => 'پیامک‌ها', 'contact_messages' => 'پیام‌های تماس', 'settings' => 'تنظیمات سایت',
+            'sms' => 'پیامک‌ها', 'messages' => 'پیام‌های داخلی', 'contact_messages' => 'پیام‌های تماس', 'settings' => 'تنظیمات سایت',
             'services' => 'خدمات', 'congratulation_messages' => 'پیام‌های تبریک',
         ];
 
         $actions = [
             'view' => 'مشاهده', 'create' => 'ایجاد', 'edit' => 'ویرایش', 'delete' => 'حذف',
-            'approve' => 'تایید', 'publish' => 'انتشار', 'reply' => 'پاسخ', 'send' => 'ارسال', 'logs' => 'گزارش‌ها',
+            'approve' => 'تایید', 'publish' => 'انتشار', 'reply' => 'پاسخ', 'send' => 'ارسال', 'logs' => 'گزارش‌ها', 'manage' => 'مدیریت',
         ];
 
         return ($actions[$action] ?? $action).' '.($groups[$group] ?? $group);
