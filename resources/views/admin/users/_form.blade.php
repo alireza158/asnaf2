@@ -8,8 +8,8 @@
         <input class="form-control" dir="ltr" id="email" name="email" type="email" value="{{ old('email', $user?->email) }}" required>
     </div>
     <div class="col-md-6">
-        <label class="form-label" for="mobile">موبایل</label>
-        <input class="form-control" dir="ltr" id="mobile" name="mobile" value="{{ old('mobile', $user?->mobile) }}" placeholder="09xxxxxxxxx">
+        <label class="form-label" for="mobile">شماره تماس</label>
+        <input class="form-control" dir="ltr" id="mobile" name="mobile" type="tel" value="{{ old('mobile', $user?->mobile) }}" autocomplete="tel" inputmode="tel" placeholder="09110000000" required>
     </div>
     <div class="col-md-6">
         <label class="form-label" for="union_id">اتحادیه مرتبط، اختیاری</label>
