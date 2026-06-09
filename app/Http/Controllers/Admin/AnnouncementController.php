@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreAnnouncementRequest;
 use App\Http\Requests\Admin\UpdateAnnouncementRequest;
 use App\Models\Announcement;
-use App\Models\AnnouncementCategory;
+use App\Models\Category;
 use App\Models\GuildUnion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -160,7 +160,9 @@ class AnnouncementController extends Controller
         return [
             'announcement' => $announcement,
             'statuses' => $this->allowedStatuses(),
-            'categories' => AnnouncementCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'categories' => Category::query()->active()->where('type', 'news')->orderBy('sort_order')->orderBy('title')->get(),
+            'statusLabels' => Announcement::statusLabels(),
+            'visibilityLabels' => Announcement::visibilityLabels(),
             'unions' => $this->activeUnions(),
         ];
     }
@@ -182,6 +184,7 @@ class AnnouncementController extends Controller
             'is_important' => (bool) $validated['is_important'],
             'show_on_home' => (bool) $validated['show_on_home'],
             'status' => $validated['status'],
+            'visibility' => $validated['visibility'],
             'published_at' => $validated['published_at'] ?: null,
             'rejected_reason' => $validated['rejected_reason'] ?? null,
             'sort_order' => $validated['sort_order'] ?? 0,

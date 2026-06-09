@@ -38,6 +38,10 @@ class PageController extends Controller
             'page' => null,
             'statuses' => $this->allowedStatuses(),
             'templates' => Page::TEMPLATES,
+            'templateLabels' => Page::templateLabels(),
+            'statusLabels' => Page::statusLabels(),
+            'templateLabels' => Page::templateLabels(),
+            'statusLabels' => Page::statusLabels(),
         ]);
     }
 
@@ -65,6 +69,10 @@ class PageController extends Controller
             'page' => $page,
             'statuses' => $this->allowedStatuses(),
             'templates' => Page::TEMPLATES,
+            'templateLabels' => Page::templateLabels(),
+            'statusLabels' => Page::statusLabels(),
+            'templateLabels' => Page::templateLabels(),
+            'statusLabels' => Page::statusLabels(),
         ]);
     }
 

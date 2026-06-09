@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ElectronicService;
-use App\Models\PostCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -60,9 +60,9 @@ class ElectronicServiceController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()
-            ->where('is_active', true)
-            ->whereHas('electronicServices', fn ($query) => $query->published())
+        return Category::query()
+            ->active()
+            ->where('type', 'service')
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();

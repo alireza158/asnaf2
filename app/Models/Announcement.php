@@ -27,6 +27,7 @@ class Announcement extends Model
         'is_important',
         'show_on_home',
         'status',
+        'visibility',
         'published_at',
         'created_by',
         'approved_by',
@@ -50,7 +51,7 @@ class Announcement extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(AnnouncementCategory::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function union(): BelongsTo
@@ -73,8 +74,51 @@ class Announcement extends Model
         return $query
             ->where('status', 'published')
             ->where('is_active', true)
+            ->where('visibility', 'public')
             ->where('starts_at', '<=', now())
             ->where(fn ($query) => $query->whereNull('expires_at')->orWhere('expires_at', '>=', now()));
+    }
+
+
+    public function scopePrivateVisibleTo($query, User $user)
+    {
+        return $query
+            ->where('visibility', 'private')
+            ->where('status', 'published')
+            ->where('is_active', true)
+            ->where(fn ($query) => $query->whereNull('starts_at')->orWhere('starts_at', '<=', now()))
+            ->where(fn ($query) => $query->whereNull('expires_at')->orWhere('expires_at', '>=', now()))
+            ->where(fn ($query) => $query->whereNull('union_id')->orWhere('union_id', $user->union_id ?: 0));
+    }
+
+    public static function visibilityLabels(): array
+    {
+        return [
+            'public' => 'عمومی',
+            'private' => 'خصوصی',
+        ];
+    }
+
+    public static function statusLabels(): array
+    {
+        return [
+            'draft' => 'پیش‌نویس',
+            'pending' => 'در انتظار تایید',
+            'approved' => 'تایید شده',
+            'rejected' => 'رد شده',
+            'published' => 'منتشر شده',
+            'archived' => 'آرشیو شده',
+        ];
+    }
+
+    public function getVisibilityLabelAttribute(): string
+    {
+        return self::visibilityLabels()[$this->visibility] ?? $this->visibility;
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::statusLabels()[$this->status] ?? $this->status;
     }
 
     public function scopeImportant($query)

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\PostCategory;
+use App\Models\Category;
 use App\Models\System;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -70,9 +70,9 @@ class SystemController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()
-            ->where('is_active', true)
-            ->whereHas('systems', fn ($query) => $query->published())
+        return Category::query()
+            ->active()
+            ->where('type', 'system')
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();

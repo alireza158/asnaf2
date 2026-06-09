@@ -13,7 +13,7 @@ class TourismPlace extends Model
     use HasFactory;
 
     public const STATUSES = ['draft', 'pending', 'approved', 'rejected', 'published', 'archived'];
-    public const TYPES = ['nature', 'historic', 'shop'];
+    public const TYPES = ['nature', 'historic', 'shopping', 'accommodation', 'restaurant', 'other'];
 
     protected $fillable = [
         'title',
@@ -23,6 +23,7 @@ class TourismPlace extends Model
         'featured_image',
         'gallery',
         'category_id',
+        'tourism_type',
         'badge',
         'image',
         'location',
@@ -111,7 +112,7 @@ class TourismPlace extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(PostCategory::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
 
     public function creator(): BelongsTo
@@ -130,6 +131,24 @@ class TourismPlace extends Model
             ->where('status', 'published')
             ->where('is_active', true)
             ->where(fn ($query) => $query->whereNull('published_at')->orWhere('published_at', '<=', now()));
+    }
+
+
+    public static function typeLabels(): array
+    {
+        return [
+            'nature' => 'طبیعی',
+            'historic' => 'تاریخی',
+            'shopping' => 'مراکز خرید',
+            'accommodation' => 'اقامت',
+            'restaurant' => 'رستوران',
+            'other' => 'سایر',
+        ];
+    }
+
+    public function getTourismTypeLabelAttribute(): string
+    {
+        return self::typeLabels()[$this->tourism_type] ?? $this->tourism_type;
     }
 
     public static function statusLabels(): array

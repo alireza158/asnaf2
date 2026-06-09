@@ -41,6 +41,11 @@ class Video extends Model
         ];
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
     public function union(): BelongsTo
     {
         return $this->belongsTo(GuildUnion::class, 'union_id');

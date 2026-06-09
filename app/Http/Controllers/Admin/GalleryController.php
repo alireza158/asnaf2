@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\GalleryImage;
 use App\Models\GuildUnion;
@@ -41,7 +42,9 @@ class GalleryController extends Controller
             'status' => $status,
             'unionId' => $unionId,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'gallery')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Gallery::statusLabels(),
+            'displayLocationLabels' => Gallery::displayLocationLabels(),
         ]);
     }
 
@@ -50,7 +53,9 @@ class GalleryController extends Controller
         return view('admin.galleries.create', [
             'gallery' => null,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'gallery')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Gallery::statusLabels(),
+            'displayLocationLabels' => Gallery::displayLocationLabels(),
         ]);
     }
 
@@ -86,7 +91,9 @@ class GalleryController extends Controller
         return view('admin.galleries.edit', [
             'gallery' => $gallery,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'gallery')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Gallery::statusLabels(),
+            'displayLocationLabels' => Gallery::displayLocationLabels(),
         ]);
     }
 
@@ -132,6 +139,20 @@ class GalleryController extends Controller
         return redirect()->route('admin.galleries.index')->with('success', 'گالری تصاویر با موفقیت حذف شد.');
     }
 
+    public function sort(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'items' => ['required', 'array'],
+            'items.*' => ['integer', 'exists:galleries,id'],
+        ]);
+
+        foreach ($validated['items'] as $index => $id) {
+            Gallery::query()->whereKey($id)->update(['sort_order' => ($index + 1) * 10]);
+        }
+
+        return back()->with('success', 'ترتیب گالری‌ها ذخیره شد.');
+    }
+
     private function validatedData(Request $request, ?Gallery $gallery = null): array
     {
         return $request->validate([
@@ -139,8 +160,9 @@ class GalleryController extends Controller
             'slug' => ['nullable', 'string', 'max:255', Rule::unique('galleries', 'slug')->ignore($gallery?->id)],
             'description' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'max:4096'],
-            'category_id' => ['nullable', 'integer', 'min:1'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'union_id' => ['nullable', 'exists:unions,id'],
+            'display_location' => ['required', Rule::in(['home', 'union', 'both'])],
             'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['galleries.approve', 'galleries.publish']))],
             'published_at' => ['nullable', 'date'],
             'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string'],
@@ -157,6 +179,7 @@ class GalleryController extends Controller
             'cover_image' => 'تصویر کاور',
             'category_id' => 'دسته‌بندی',
             'union_id' => 'اتحادیه',
+            'display_location' => 'محل نمایش',
             'status' => 'وضعیت',
             'published_at' => 'تاریخ انتشار',
             'rejected_reason' => 'دلیل رد',
@@ -183,6 +206,7 @@ class GalleryController extends Controller
             'description' => $validated['description'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
             'union_id' => $validated['union_id'] ?? null,
+            'display_location' => $validated['display_location'] ?? 'both',
             'status' => $status,
             'published_at' => $publishedAt,
             'rejected_reason' => $validated['rejected_reason'] ?? null,

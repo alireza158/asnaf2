@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\AdvertisementController as AdminAdvertisementController;
 use App\Http\Controllers\Admin\AdvertisementPositionController as AdminAdvertisementPositionController;
 use App\Http\Controllers\Admin\AnnouncementController as AdminAnnouncementController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\ComplaintController as AdminComplaintController;
 use App\Http\Controllers\Admin\CongratulationMessageController as AdminCongratulationMessageController;
 use App\Http\Controllers\Admin\ContactMessageController;
@@ -132,6 +133,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->name('pending_approvals.publish');
     Route::patch('pending-approvals/{type}/{id}/archive', [PendingApprovalController::class, 'archive'])
         ->name('pending_approvals.archive');
+
+    Route::resource('categories', AdminCategoryController::class)->except(['show']);
 
     Route::get('pages', [AdminPageController::class, 'index'])->middleware('permission:pages.view')->name('pages.index');
     Route::get('pages/create', [AdminPageController::class, 'create'])->middleware('permission:pages.create')->name('pages.create');
@@ -263,6 +266,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('galleries', [AdminGalleryController::class, 'index'])->middleware('permission:galleries.view')->name('galleries.index');
     Route::get('galleries/create', [AdminGalleryController::class, 'create'])->middleware('permission:galleries.create')->name('galleries.create');
     Route::post('galleries', [AdminGalleryController::class, 'store'])->middleware('permission:galleries.create')->name('galleries.store');
+    Route::post('galleries/sort', [AdminGalleryController::class, 'sort'])->middleware('permission:galleries.edit')->name('galleries.sort');
     Route::get('galleries/{gallery}', [AdminGalleryController::class, 'show'])->middleware('permission:galleries.view')->name('galleries.show');
     Route::get('galleries/{gallery}/edit', [AdminGalleryController::class, 'edit'])->middleware('permission:galleries.edit')->name('galleries.edit');
     Route::put('galleries/{gallery}', [AdminGalleryController::class, 'update'])->middleware('permission:galleries.edit')->name('galleries.update');

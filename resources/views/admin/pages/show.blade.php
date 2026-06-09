@@ -11,7 +11,7 @@
 <div class="admin-panel-card">
     <dl class="admin-detail-list">
         <div><dt>اسلاگ</dt><dd><code>{{ $page->slug }}</code></dd></div>
-        <div><dt>وضعیت</dt><dd>{{ $page->status }}</dd></div>
+        <div><dt>وضعیت</dt><dd>{{ \App\Models\Page::statusLabels()[$page->status] ?? $page->status }}</dd></div>
         <div><dt>نویسنده</dt><dd>{{ $page->author?->name ?: '—' }}</dd></div>
         <div><dt>تاییدکننده</dt><dd>{{ $page->approver?->name ?: '—' }}</dd></div>
         <div><dt>تاریخ انتشار</dt><dd>{{ jalali_datetime($page->published_at) ?: '—' }}</dd></div>

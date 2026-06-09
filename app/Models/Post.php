@@ -102,7 +102,39 @@ class Post extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(PostCategory::class, 'category_id');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public static function typeLabels(): array
+    {
+        return [
+            'news' => 'خبر',
+            'article' => 'مقاله',
+            'announcement' => 'اطلاعیه',
+            'video' => 'ویدیو',
+        ];
+    }
+
+    public static function statusLabels(): array
+    {
+        return [
+            'draft' => 'پیش‌نویس',
+            'pending' => 'در انتظار تایید',
+            'approved' => 'تایید شده',
+            'rejected' => 'رد شده',
+            'published' => 'منتشر شده',
+            'archived' => 'آرشیو شده',
+        ];
+    }
+
+    public function getTypeLabelAttribute(): string
+    {
+        return self::typeLabels()[$this->type] ?? $this->type;
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::statusLabels()[$this->status] ?? $this->status;
     }
 
     public function union(): BelongsTo

@@ -101,6 +101,27 @@
         @endif
     </div>
 
+
+
+    <div class="admin-panel-card">
+        <div class="admin-panel-header">
+            <h3>اطلاعیه‌های خصوصی</h3>
+            <span>ویژه کاربران پنل</span>
+        </div>
+        @if($privateAnnouncements->isNotEmpty())
+            <div class="admin-status-list">
+                @foreach($privateAnnouncements as $announcement)
+                    <div>
+                        <span>{{ $announcement->title }} @if($announcement->union) - {{ $announcement->union->display_title }} @endif</span>
+                        <small>{{ jalali_datetime($announcement->published_at) ?: jalali_datetime($announcement->starts_at) }}</small>
+                    </div>
+                @endforeach
+            </div>
+        @else
+            <p class="text-muted mb-0">اطلاعیه خصوصی جدیدی برای شما ثبت نشده است.</p>
+        @endif
+    </div>
+
     <div class="admin-panel-card">
         <div class="admin-panel-header">
             <h3>آخرین وضعیت سامانه</h3>

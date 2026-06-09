@@ -22,6 +22,7 @@ class Gallery extends Model
         'cover_image',
         'category_id',
         'union_id',
+        'display_location',
         'status',
         'published_at',
         'created_by',
@@ -65,6 +66,11 @@ class Gallery extends Model
         return Storage::url($image);
     }
 
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
     public function union(): BelongsTo
     {
         return $this->belongsTo(GuildUnion::class, 'union_id');
@@ -83,6 +89,31 @@ class Gallery extends Model
     public function images(): HasMany
     {
         return $this->hasMany(GalleryImage::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+
+    public static function displayLocationLabels(): array
+    {
+        return [
+            'home' => 'فقط صفحه اصلی',
+            'union' => 'فقط صفحه اتحادیه',
+            'both' => 'صفحه اصلی و اتحادیه',
+        ];
+    }
+
+    public function scopeForHome($query)
+    {
+        return $query->whereIn('display_location', ['home', 'both']);
+    }
+
+    public function scopeForUnion($query)
+    {
+        return $query->whereIn('display_location', ['union', 'both']);
+    }
+
+    public function getDisplayLocationLabelAttribute(): string
+    {
+        return self::displayLocationLabels()[$this->display_location] ?? $this->display_location;
     }
 
     public function scopePublished($query)

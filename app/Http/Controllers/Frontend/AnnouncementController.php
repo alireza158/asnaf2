@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
-use App\Models\AnnouncementCategory;
+use App\Models\Category;
 use App\Models\GuildUnion;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -34,7 +34,7 @@ class AnnouncementController extends Controller
 
         return view('frontend.announcements.index', [
             'announcements' => $announcements,
-            'categories' => AnnouncementCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'categories' => Category::query()->active()->where('type', 'news')->orderBy('sort_order')->orderBy('title')->get(),
             'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'search' => $search,
             'categoryId' => $categoryId,

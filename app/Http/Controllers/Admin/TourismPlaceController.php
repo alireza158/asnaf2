@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PostCategory;
+use App\Models\Category;
 use App\Models\TourismPlace;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,6 +41,7 @@ class TourismPlaceController extends Controller
             'categoryId' => $categoryId,
             'categories' => $this->categories(),
             'statusLabels' => TourismPlace::statusLabels(),
+            'typeLabels' => TourismPlace::typeLabels(),
         ]);
     }
 
@@ -50,6 +51,7 @@ class TourismPlaceController extends Controller
             'place' => null,
             'categories' => $this->categories(),
             'statusLabels' => TourismPlace::statusLabels(),
+            'typeLabels' => TourismPlace::typeLabels(),
         ]);
     }
 
@@ -61,6 +63,7 @@ class TourismPlaceController extends Controller
         $place = TourismPlace::create([
             ...$this->placeData($validated),
             'featured_image' => $this->storeImage($request, 'featured_image', 'tourism/featured'),
+            'image' => $this->storeImage($request, 'image', 'tourism/cards'),
             'gallery' => $this->storeGalleryImages($request),
             'created_by' => $request->user()->id,
             'approved_by' => in_array($status, ['approved', 'published'], true) ? $request->user()->id : null,
@@ -82,6 +85,7 @@ class TourismPlaceController extends Controller
             'place' => $tourism,
             'categories' => $this->categories(),
             'statusLabels' => TourismPlace::statusLabels(),
+            'typeLabels' => TourismPlace::typeLabels(),
         ]);
     }
 
@@ -89,6 +93,14 @@ class TourismPlaceController extends Controller
     {
         $validated = $this->sanitizeRichTextFields($this->validatedData($request, $tourism), ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
         $data = $this->placeData($validated, $tourism);
+
+        if ($cardImage = $this->storeImage($request, 'image', 'tourism/cards')) {
+            if ($tourism->image) {
+                Storage::disk('public')->delete($tourism->image);
+            }
+
+            $data['image'] = $cardImage;
+        }
 
         if ($featuredImage = $this->storeImage($request, 'featured_image', 'tourism/featured')) {
             if ($tourism->featured_image) {
@@ -134,11 +146,11 @@ class TourismPlaceController extends Controller
             'featured_image' => ['nullable', 'image', 'max:4096'],
             'gallery_images' => ['nullable', 'array'],
             'gallery_images.*' => ['image', 'max:4096'],
-            'category_id' => ['nullable', 'exists:post_categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'badge' => ['nullable', 'string', 'max:255'],
-            'image' => ['nullable', 'string', 'max:500'],
+            'image' => ['nullable', 'image', 'max:4096'],
             'location' => ['nullable', 'string', 'max:255'],
-            'type' => ['required', Rule::in(TourismPlace::TYPES)],
+            'tourism_type' => ['required', Rule::in(TourismPlace::TYPES)],
             'address' => ['nullable', 'string'],
             'map_url' => ['nullable', 'url', 'max:500'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
@@ -163,7 +175,7 @@ class TourismPlaceController extends Controller
             'badge' => 'برچسب',
             'image' => 'تصویر',
             'location' => 'موقعیت',
-            'type' => 'نوع گردشگری',
+            'tourism_type' => 'نوع گردشگری',
             'address' => 'آدرس',
             'map_url' => 'لینک نقشه',
             'latitude' => 'عرض جغرافیایی',
@@ -197,9 +209,10 @@ class TourismPlaceController extends Controller
             'short_description' => $validated['short_description'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
             'badge' => $validated['badge'] ?? null,
-            'image' => $validated['image'] ?? null,
+
             'location' => $validated['location'] ?? null,
-            'type' => $validated['type'] ?? 'nature',
+            'tourism_type' => $validated['tourism_type'] ?? 'nature',
+            'type' => $validated['tourism_type'] ?? 'nature',
             'address' => $validated['address'] ?? null,
             'map_url' => $validated['map_url'] ?? null,
             'latitude' => $validated['latitude'] ?? null,
@@ -281,6 +294,6 @@ class TourismPlaceController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get();
+        return Category::query()->active()->where('type', 'tourism')->orderBy('sort_order')->orderBy('title')->get();
     }
 }

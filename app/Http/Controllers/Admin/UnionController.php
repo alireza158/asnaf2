@@ -55,6 +55,7 @@ class UnionController extends Controller
         $data['logo'] = $this->storeImage($request, 'logo', 'unions/logos');
         $data['cover_image'] = $this->storeImage($request, 'cover_image', 'unions/covers');
         $data['manager_image'] = $this->storeImage($request, 'manager_image', 'unions/managers');
+        $data['price_list_image'] = $this->storeImage($request, 'price_list_image', 'unions/price-lists');
 
         $union = GuildUnion::create($data);
         $this->syncPageSections($union, $request->validated('related', []));
@@ -82,7 +83,7 @@ class UnionController extends Controller
     {
         $data = $this->unionData($request->validated());
 
-        foreach (['logo' => 'unions/logos', 'cover_image' => 'unions/covers', 'manager_image' => 'unions/managers'] as $field => $directory) {
+        foreach (['logo' => 'unions/logos', 'cover_image' => 'unions/covers', 'manager_image' => 'unions/managers', 'price_list_image' => 'unions/price-lists'] as $field => $directory) {
             if ($path = $this->storeImage($request, $field, $directory)) {
                 if ($union->{$field}) {
                     Storage::disk('public')->delete($union->{$field});
@@ -143,6 +144,7 @@ class UnionController extends Controller
             'working_hours' => $validated['working_hours'] ?? null,
             'social_links' => $socialLinks === [] ? null : $socialLinks,
             'settings' => $settings,
+            'price_list_mode' => $validated['price_list_mode'],
             'complaint_enabled' => (bool) $validated['complaint_enabled'],
             'congratulations_enabled' => (bool) $validated['congratulations_enabled'],
             'news_enabled' => (bool) $validated['news_enabled'],

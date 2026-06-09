@@ -119,6 +119,7 @@ class HomeController extends Controller
 
         $galleries = Gallery::query()
             ->published()
+            ->forHome()
             ->with('union')
             ->withCount('images')
             ->orderBy('sort_order')
@@ -138,7 +139,7 @@ class HomeController extends Controller
         $tourismLimit = $this->sectionLimit($sections, 'tourism', 4);
         $tourismNature = $this->tourismPlacesByType('nature', $tourismLimit);
         $tourismHistoric = $this->tourismPlacesByType('historic', $tourismLimit);
-        $tourismShop = $this->tourismPlacesByType('shop', $tourismLimit);
+        $tourismShop = $this->tourismPlacesByType('shopping', $tourismLimit);
         $tourismPlaces = $tourismNature->concat($tourismHistoric)->concat($tourismShop)->values();
 
         $commissions = Commission::query()
@@ -235,7 +236,7 @@ class HomeController extends Controller
     {
         return TourismPlace::query()
             ->published()
-            ->where('type', $type)
+            ->where('tourism_type', $type)
             ->with('category')
             ->orderBy('sort_order')
             ->latest('published_at')

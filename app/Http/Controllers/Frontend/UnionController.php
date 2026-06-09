@@ -92,8 +92,8 @@ class UnionController extends Controller
             'educations' => fn ($q) => $q->where('is_active', true)->orderBy('sort_order'),
             'prices' => fn ($q) => $q->where('is_active', true)->orderBy('sort_order'),
             'posts' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->latest('published_at'),
-            'announcements' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->latest('published_at'),
-            'galleries' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->with(['images'])->latest('published_at'),
+            'announcements' => fn ($q) => $q->published()->latest('published_at'),
+            'galleries' => fn ($q) => $q->published()->forUnion()->with(['images'])->latest('published_at'),
             'videos' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->latest('published_at'),
         ]);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GuildUnion;
+use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class VideoController extends Controller
             'videoType' => $videoType,
             'unionId' => $unionId,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'video')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Video::statusLabels(),
             'typeLabels' => Video::typeLabels(),
         ]);
@@ -53,6 +55,7 @@ class VideoController extends Controller
         return view('admin.videos.create', [
             'video' => null,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'video')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Video::statusLabels(),
             'typeLabels' => Video::typeLabels(),
         ]);
@@ -87,6 +90,7 @@ class VideoController extends Controller
         return view('admin.videos.edit', [
             'video' => $video,
             'unions' => $this->unions(),
+            'categories' => Category::query()->active()->where('type', 'video')->orderBy('sort_order')->orderBy('title')->get(),
             'statusLabels' => Video::statusLabels(),
             'typeLabels' => Video::typeLabels(),
         ]);
@@ -158,7 +162,7 @@ class VideoController extends Controller
             'video_type' => ['required', Rule::in(Video::VIDEO_TYPES)],
             'video_file' => ['nullable', 'file', 'mimes:mp4,mov,avi,wmv,webm,mkv', 'max:102400'],
             'aparat_url' => ['nullable', 'url', 'max:500'],
-            'category_id' => ['nullable', 'integer', 'min:1'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'union_id' => ['nullable', 'exists:unions,id'],
             'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['videos.approve', 'videos.publish']))],
             'published_at' => ['nullable', 'date'],

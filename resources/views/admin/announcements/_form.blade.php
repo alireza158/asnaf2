@@ -1,5 +1,6 @@
 @php
     $selectedStatus = old('status', $announcement?->status ?? 'draft');
+    $selectedVisibility = old('visibility', $announcement?->visibility ?? 'public');
 @endphp
 
 <div class="admin-panel-card">
@@ -34,10 +35,19 @@
             <label class="form-label" for="status">وضعیت</label>
             <select class="form-control" id="status" name="status" required>
                 @foreach ($statuses as $status)
-                    <option value="{{ $status }}" @selected($selectedStatus === $status)>{{ $status }}</option>
+                    <option value="{{ $status }}" @selected($selectedStatus === $status)>{{ $statusLabels[$status] ?? $status }}</option>
                 @endforeach
             </select>
             <small class="text-muted">انتخاب وضعیت‌های تایید/انتشار فقط برای مدیر دارای دسترسی مجاز است.</small>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label" for="visibility">نوع نمایش</label>
+            <select class="form-control" id="visibility" name="visibility" required>
+                @foreach ($visibilityLabels as $value => $label)
+                    <option value="{{ $value }}" @selected($selectedVisibility === $value)>{{ $label }}</option>
+                @endforeach
+            </select>
+            <small class="text-muted">خصوصی فقط در پنل کاربران نمایش داده می‌شود.</small>
         </div>
         <div class="col-md-3">
             <label class="form-label" for="starts_at">شروع نمایش</label>

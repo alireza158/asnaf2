@@ -14,6 +14,28 @@ class Page extends Model
     public const LIMITED_STATUSES = ['draft', 'pending'];
     public const TEMPLATES = ['default', 'blank', 'landing'];
 
+
+    public static function statusLabels(): array
+    {
+        return [
+            'draft' => 'پیش‌نویس',
+            'pending' => 'در انتظار تایید',
+            'approved' => 'تایید شده',
+            'rejected' => 'رد شده',
+            'published' => 'منتشر شده',
+            'archived' => 'آرشیو شده',
+        ];
+    }
+
+    public static function templateLabels(): array
+    {
+        return [
+            'default' => 'قالب پیش‌فرض',
+            'blank' => 'صفحه ساده',
+            'landing' => 'صفحه فرود',
+        ];
+    }
+
     protected $fillable = [
         'title',
         'slug',

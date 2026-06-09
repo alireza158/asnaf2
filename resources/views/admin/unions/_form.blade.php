@@ -98,6 +98,20 @@
                 </select>
             </div>
         @endforeach
+        <div class="col-12"><h3 class="h6 mt-2">نرخنامه اتحادیه</h3></div>
+        <div class="col-md-4">
+            <label class="form-label" for="price_list_mode">حالت نمایش نرخنامه</label>
+            <select class="form-control" id="price_list_mode" name="price_list_mode" required>
+                @foreach (\App\Models\GuildUnion::priceListModeLabels() as $mode => $label)
+                    <option value="{{ $mode }}" @selected(old('price_list_mode', $union?->price_list_mode ?? 'table') === $mode)>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-8">
+            <label class="form-label" for="price_list_image">عکس نرخنامه</label>
+            <input class="form-control" id="price_list_image" name="price_list_image" type="file" accept="image/*">
+            @if ($union?->price_list_image)<a class="d-inline-block mt-2" href="{{ Storage::url($union->price_list_image) }}" target="_blank">مشاهده عکس نرخنامه فعلی</a>@endif
+        </div>
         <div class="col-12"><h3 class="h6 mt-2">تنظیمات صفحه اتحادیه</h3></div>
         @foreach (\App\Models\GuildUnion::sectionLabels() as $key => $label)
             @php($checked = array_key_exists($key, $settings) ? (bool) $settings[$key] : (bool) ($settingDefaults[$key] ?? true))

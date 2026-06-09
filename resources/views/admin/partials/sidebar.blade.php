@@ -11,6 +11,7 @@
             'items' => [
                 ['title' => 'صفحات', 'icon' => '📄', 'route' => 'admin.pages.index', 'match' => 'admin.pages.*'],
                 ['title' => 'اخبار', 'icon' => '📰', 'route' => 'admin.posts.index', 'match' => 'admin.posts.*'],
+                ['title' => 'دسته‌بندی‌ها', 'icon' => '🏷️', 'route' => 'admin.categories.index', 'match' => 'admin.categories.*'],
                 ['title' => 'اطلاعیه‌ها', 'icon' => '📣', 'route' => 'admin.announcements.index', 'match' => 'admin.announcements.*'],
                 ['title' => 'پیام‌های تبریک', 'icon' => '🎉', 'route' => 'admin.congratulation_messages.index', 'match' => 'admin.congratulation_messages.*'],
                 ['title' => 'گردشگری', 'icon' => '🌿', 'route' => 'admin.tourism.index', 'match' => 'admin.tourism.*'],

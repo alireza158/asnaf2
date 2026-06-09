@@ -38,6 +38,8 @@ class GuildUnion extends Model
         'working_hours',
         'social_links',
         'settings',
+        'price_list_mode',
+        'price_list_image',
         'complaint_enabled',
         'congratulations_enabled',
         'news_enabled',
@@ -71,6 +73,20 @@ class GuildUnion extends Model
         ];
     }
 
+
+
+    public static function priceListModeLabels(): array
+    {
+        return [
+            'table' => 'جدول نرخنامه',
+            'image' => 'عکس نرخنامه',
+        ];
+    }
+
+    public function getPriceListModeLabelAttribute(): string
+    {
+        return self::priceListModeLabels()[$this->price_list_mode] ?? 'جدول نرخنامه';
+    }
 
     public static function sectionDefaults(): array
     {

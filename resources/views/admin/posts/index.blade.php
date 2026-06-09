@@ -15,13 +15,13 @@
         <select class="form-control" name="status" aria-label="فیلتر وضعیت">
             <option value="">همه وضعیت‌ها</option>
             @foreach (\App\Models\Post::STATUSES as $itemStatus)
-                <option value="{{ $itemStatus }}" @selected($status === $itemStatus)>{{ $itemStatus }}</option>
+                <option value="{{ $itemStatus }}" @selected($status === $itemStatus)>{{ \App\Models\Post::statusLabels()[$itemStatus] ?? $itemStatus }}</option>
             @endforeach
         </select>
         <select class="form-control" name="type" aria-label="فیلتر نوع">
             <option value="">همه نوع‌ها</option>
             @foreach (\App\Models\Post::TYPES as $itemType)
-                <option value="{{ $itemType }}" @selected($type === $itemType)>{{ $itemType }}</option>
+                <option value="{{ $itemType }}" @selected($type === $itemType)>{{ \App\Models\Post::typeLabels()[$itemType] ?? $itemType }}</option>
             @endforeach
         </select>
         <button class="admin-primary-btn" type="submit">اعمال</button>
@@ -39,8 +39,8 @@
                         <td><strong>{{ $post->title }}</strong><br><code>{{ $post->slug }}</code></td>
                         <td>{{ $post->category?->title ?: '—' }}</td>
                         <td>{{ $post->union?->name ?: 'عمومی' }}</td>
-                        <td>{{ $post->type }}</td>
-                        <td><span class="admin-status-badge status-{{ $post->status }}">{{ $post->status }}</span></td>
+                        <td>{{ $post->type_label }}</td>
+                        <td><span class="admin-status-badge status-{{ $post->status }}">{{ $post->status_label }}</span></td>
                         <td>{{ number_format($post->views_count) }}</td>
                         <td>{{ jalali_datetime($post->published_at) ?: '—' }}</td>
                         <td>

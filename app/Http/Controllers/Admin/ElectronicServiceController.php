@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ElectronicService;
-use App\Models\PostCategory;
+use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -118,7 +118,7 @@ class ElectronicServiceController extends Controller
             'link_type' => ['required', Rule::in(ElectronicService::LINK_TYPES)],
             'link' => ['nullable', 'required_unless:link_type,none', 'string', 'max:500'],
             'target' => ['required', Rule::in(ElectronicService::TARGETS)],
-            'category_id' => ['nullable', 'exists:post_categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['electronic_services.approve', 'electronic_services.publish']))],
             'published_at' => ['nullable', 'date'],
             'rejected_reason' => ['nullable', 'required_if:status,rejected', 'string', 'max:1000'],
@@ -183,7 +183,7 @@ class ElectronicServiceController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get();
+        return Category::query()->active()->where('type', 'service')->orderBy('sort_order')->orderBy('title')->get();
     }
 
     private function formData(): array
