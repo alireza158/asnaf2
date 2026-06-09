@@ -37,8 +37,8 @@
     <div class="col-lg-4">
         <div class="admin-panel-card">
             <dl class="row mb-0">
-                <dt class="col-5">وضعیت</dt><dd class="col-7"><span class="admin-status-badge status-{{ $post->status }}">{{ $post->status }}</span></dd>
-                <dt class="col-5">نوع</dt><dd class="col-7">{{ $post->type }}</dd>
+                <dt class="col-5">وضعیت</dt><dd class="col-7"><span class="admin-status-badge status-{{ $post->status }}">{{ $post->status_label }}</span></dd>
+                <dt class="col-5">نوع</dt><dd class="col-7">{{ $post->type_label }}</dd>
                 <dt class="col-5">دسته‌بندی</dt><dd class="col-7">{{ $post->category?->title ?: '—' }}</dd>
                 <dt class="col-5">اتحادیه</dt><dd class="col-7">{{ $post->union?->name ?: 'عمومی' }}</dd>
                 <dt class="col-5">مهم</dt><dd class="col-7">{{ $post->is_important ? 'بله' : 'خیر' }}</dd>

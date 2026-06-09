@@ -21,14 +21,14 @@
                     <option value="{{ $category->id }}" @selected((string) old('category_id', $post?->category_id) === (string) $category->id)>{{ $category->title }}</option>
                 @endforeach
             </select>
-            <small class="text-muted">دسته‌بندی‌ها از جدول post_categories خوانده می‌شوند.</small>
+            <small class="text-muted">انتخاب دسته‌بندی اختیاری است.</small>
         </div>
         <div class="col-md-4">
             <label class="form-label" for="union_id">اتحادیه مرتبط</label>
-            <select class="form-control" id="union_id" name="union_id">
+            <select class="form-control js-union-select" id="union_id" name="union_id" data-placeholder="خبر عمومی / بدون اتحادیه">
                 <option value="">خبر عمومی / بدون اتحادیه</option>
                 @foreach ($unions as $union)
-                    <option value="{{ $union->id }}" @selected((string) old('union_id', $post?->union_id) === (string) $union->id)>{{ $union->name }}</option>
+                    <option value="{{ $union->id }}" @selected((string) old('union_id', $post?->union_id) === (string) $union->id)>{{ $union->display_title }}</option>
                 @endforeach
             </select>
         </div>
@@ -36,7 +36,7 @@
             <label class="form-label" for="type">نوع محتوا</label>
             <select class="form-control" id="type" name="type" required>
                 @foreach ($types as $type)
-                    <option value="{{ $type }}" @selected($selectedType === $type)>{{ $type }}</option>
+                    <option value="{{ $type }}" @selected($selectedType === $type)>{{ $typeLabels[$type] ?? $type }}</option>
                 @endforeach
             </select>
         </div>
@@ -44,7 +44,7 @@
             <label class="form-label" for="status">وضعیت</label>
             <select class="form-control" id="status" name="status" required>
                 @foreach ($statuses as $status)
-                    <option value="{{ $status }}" @selected($selectedStatus === $status)>{{ $status }}</option>
+                    <option value="{{ $status }}" @selected($selectedStatus === $status)>{{ $statusLabels[$status] ?? $status }}</option>
                 @endforeach
             </select>
             <small class="text-muted">کاربران محتواگذار فقط می‌توانند draft یا pending انتخاب کنند.</small>
@@ -150,9 +150,12 @@
 </div>
 
 @push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet">
 <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 <script>
 document.querySelectorAll('.js-rich-editor').forEach((el) => ClassicEditor.create(el, {language: 'fa'}).catch(console.error));
+document.querySelectorAll('.js-union-select').forEach((el) => new TomSelect(el, {create: false, allowEmptyOption: true, sortField: {field: 'text', direction: 'asc'}, placeholder: el.dataset.placeholder || 'جستجوی اتحادیه'}));
 const galleryInput = document.getElementById('gallery_images');
 const galleryCaptionFields = document.getElementById('galleryCaptionFields');
 galleryInput?.addEventListener('change', () => {

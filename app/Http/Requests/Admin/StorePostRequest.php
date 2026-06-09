@@ -22,7 +22,7 @@ class StorePostRequest extends FormRequest
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'body' => ['nullable', 'string'],
             'featured_image' => ['nullable', 'image', 'max:4096'],
-            'category_id' => ['nullable', 'exists:post_categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'union_id' => ['nullable', 'exists:unions,id'],
             'type' => ['required', 'string', Rule::in(Post::TYPES)],
             'is_important' => ['required', 'boolean'],

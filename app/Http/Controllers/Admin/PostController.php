@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePostRequest;
 use App\Http\Requests\Admin\UpdatePostRequest;
+use App\Models\Category;
 use App\Models\GuildUnion;
 use App\Models\Post;
-use App\Models\PostCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -145,7 +145,9 @@ class PostController extends Controller
             'post' => $post,
             'statuses' => $this->allowedStatuses(),
             'types' => Post::TYPES,
-            'categories' => PostCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'typeLabels' => Post::typeLabels(),
+            'statusLabels' => Post::statusLabels(),
+            'categories' => Category::query()->active()->where('type', 'news')->orderBy('sort_order')->orderBy('title')->get(),
             'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
         ];
     }

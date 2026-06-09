@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\PostCategory;
+use App\Models\Category;
 use App\Models\TourismPlace;
 use App\Services\SettingService;
 use Illuminate\Http\Request;
@@ -31,9 +31,9 @@ class TourismController extends Controller
             ->latest('published_at');
 
         $places = $placesQuery->get();
-        $tourismNature = $places->where('type', 'nature')->values();
-        $tourismHistoric = $places->where('type', 'historic')->values();
-        $tourismShop = $places->where('type', 'shop')->values();
+        $tourismNature = $places->where('tourism_type', 'nature')->values();
+        $tourismHistoric = $places->where('tourism_type', 'historic')->values();
+        $tourismShop = $places->where('tourism_type', 'shopping')->values();
         $galleryPlaces = $places->take(6);
 
         return view('frontend.tourism.index', [
@@ -86,9 +86,9 @@ class TourismController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()
-            ->where('is_active', true)
-            ->whereHas('tourismPlaces', fn ($query) => $query->published())
+        return Category::query()
+            ->active()
+            ->where('type', 'tourism')
             ->orderBy('sort_order')
             ->orderBy('title')
             ->get();

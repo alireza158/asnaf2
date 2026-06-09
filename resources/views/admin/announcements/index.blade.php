@@ -32,14 +32,15 @@
 <div class="admin-panel-card">
     <div class="table-responsive">
         <table class="table admin-table align-middle">
-            <thead><tr><th>عنوان</th><th>دسته‌بندی</th><th>اتحادیه</th><th>وضعیت</th><th>شروع/انقضا</th><th>مهم</th><th>انتشار</th><th>عملیات</th></tr></thead>
+            <thead><tr><th>عنوان</th><th>دسته‌بندی</th><th>اتحادیه</th><th>وضعیت</th><th>نوع نمایش</th><th>شروع/انقضا</th><th>مهم</th><th>انتشار</th><th>عملیات</th></tr></thead>
             <tbody>
                 @forelse ($announcements as $announcement)
                     <tr>
                         <td><strong>{{ $announcement->title }}</strong><br><code>{{ $announcement->slug }}</code></td>
                         <td>{{ $announcement->category?->title ?: '—' }}</td>
                         <td>{{ $announcement->union?->name ?: 'عمومی' }}</td>
-                        <td><span class="admin-status-badge status-{{ $announcement->status }}">{{ $announcement->status }}</span></td>
+                        <td><span class="admin-status-badge status-{{ $announcement->status }}">{{ $announcement->status_label }}</span></td>
+                        <td>{{ $announcement->visibility_label }}</td>
                         <td>{{ jalali_datetime($announcement->starts_at) ?: '—' }}<br><small>{{ jalali_datetime($announcement->expires_at) ?: 'بدون انقضا' }}</small></td>
                         <td>{{ $announcement->is_important ? 'بله' : 'خیر' }}</td>
                         <td>{{ jalali_datetime($announcement->published_at) ?: '—' }}</td>
@@ -52,7 +53,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="text-center text-muted py-4">اطلاعیه‌ای یافت نشد.</td></tr>
+                    <tr><td colspan="9" class="text-center text-muted py-4">اطلاعیه‌ای یافت نشد.</td></tr>
                 @endforelse
             </tbody>
         </table>

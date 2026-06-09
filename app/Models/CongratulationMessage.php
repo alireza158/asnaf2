@@ -20,6 +20,12 @@ class CongratulationMessage extends Model
         'manager_position',
         'manager_image',
         'union_id',
+        'message_type',
+        'recipient_type',
+        'recipient_id',
+        'recipient_name',
+        'recipient_mobile',
+        'sms_log_id',
         'show_on_home',
         'show_on_union_page',
         'status',
@@ -73,6 +79,20 @@ class CongratulationMessage extends Model
     public function scopeForUnionPage($query)
     {
         return $query->published()->where('show_on_union_page', true);
+    }
+
+
+    public static function messageTypeLabels(): array
+    {
+        return [
+            'congratulation' => 'تبریک',
+            'condolence' => 'تسلیت',
+        ];
+    }
+
+    public function getMessageTypeLabelAttribute(): string
+    {
+        return self::messageTypeLabels()[$this->message_type] ?? $this->message_type;
     }
 
     public static function statusLabels(): array

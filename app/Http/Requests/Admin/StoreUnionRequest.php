@@ -36,6 +36,8 @@ class StoreUnionRequest extends FormRequest
             'social_links.*' => ['nullable', 'url', 'max:190'],
             'settings' => ['nullable', 'array'],
             'settings.*' => ['nullable', 'boolean'],
+            'price_list_mode' => ['required', Rule::in(['image', 'table'])],
+            'price_list_image' => ['nullable', 'image', 'max:4096'],
             'complaint_enabled' => ['required', 'boolean'],
             'congratulations_enabled' => ['required', 'boolean'],
             'news_enabled' => ['required', 'boolean'],

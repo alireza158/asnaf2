@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PostCategory;
+use App\Models\Category;
 use App\Models\System;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -123,7 +123,7 @@ class SystemController extends Controller
             'icon' => ['nullable', 'string', 'max:255'],
             'image' => ['nullable', 'image', 'max:4096'],
             'link' => ['nullable', 'url', 'max:500'],
-            'category_id' => ['nullable', 'exists:post_categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'target' => ['required', Rule::in(System::TARGETS)],
             'status' => ['required', Rule::in(app(\App\Services\ContentApprovalService::class)->allowedStatusesFor($request->user(), ['systems.approve', 'systems.publish']))],
             'published_at' => ['nullable', 'date'],
@@ -188,6 +188,6 @@ class SystemController extends Controller
 
     private function categories()
     {
-        return PostCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get();
+        return Category::query()->active()->where('type', 'system')->orderBy('sort_order')->orderBy('title')->get();
     }
 }

@@ -15,7 +15,7 @@
         <select class="form-control" name="status" aria-label="فیلتر وضعیت">
             <option value="">همه وضعیت‌ها</option>
             @foreach (\App\Models\Page::STATUSES as $itemStatus)
-                <option value="{{ $itemStatus }}" @selected($status === $itemStatus)>{{ $itemStatus }}</option>
+                <option value="{{ $itemStatus }}" @selected($status === $itemStatus)>{{ \App\Models\Page::statusLabels()[$itemStatus] ?? $itemStatus }}</option>
             @endforeach
         </select>
         <button class="admin-primary-btn" type="submit">اعمال</button>
@@ -32,7 +32,7 @@
                     <tr>
                         <td><strong>{{ $page->title }}</strong></td>
                         <td><code>{{ $page->slug }}</code></td>
-                        <td><span class="admin-status-badge status-{{ $page->status }}">{{ $page->status }}</span></td>
+                        <td><span class="admin-status-badge status-{{ $page->status }}">{{ \App\Models\Page::statusLabels()[$page->status] ?? $page->status }}</span></td>
                         <td>{{ $page->author?->name ?: '—' }}</td>
                         <td>{{ jalali_datetime($page->published_at) ?: '—' }}</td>
                         <td><span class="admin-status-badge {{ $page->is_active ? 'is-active' : 'is-inactive' }}">{{ $page->is_active ? 'فعال' : 'غیرفعال' }}</span></td>

@@ -34,17 +34,18 @@
 <div class="admin-panel-card">
     <div class="table-responsive">
         <table class="table admin-table align-middle">
-            <thead><tr><th>کاور</th><th>عنوان</th><th>نوع</th><th>تصاویر</th><th>وضعیت</th><th>انتشار</th><th>ترتیب</th><th>عملیات</th></tr></thead>
-            <tbody>
+            <thead><tr><th>جابجایی</th><th>کاور</th><th>عنوان</th><th>نوع</th><th>محل نمایش</th><th>تصاویر</th><th>وضعیت</th><th>انتشار</th><th>عملیات</th></tr></thead>
+            <tbody id="gallery-sortable">
                 @forelse ($galleries as $gallery)
-                    <tr>
+                    <tr draggable="true" data-id="{{ $gallery->id }}">
+                        <td class="text-muted" style="cursor:move">☰</td>
                         <td><img src="{{ $gallery->cover_image ? Storage::url($gallery->cover_image) : asset('assets/img/asnaf-gorgan-default.jpg') }}" alt="{{ $gallery->title }}" style="width:72px;height:52px;object-fit:cover;border-radius:10px"></td>
                         <td><strong>{{ $gallery->title }}</strong><br><small dir="ltr">{{ $gallery->slug }}</small></td>
                         <td>{{ $gallery->union?->display_title ?: 'عمومی' }}</td>
+                        <td>{{ $gallery->display_location_label }}</td>
                         <td>{{ $gallery->images_count }}</td>
                         <td><span class="admin-status-badge status-{{ $gallery->status }}">{{ $gallery->status_label }}</span><br><small>{{ $gallery->is_active ? 'فعال' : 'غیرفعال' }}</small></td>
                         <td>{{ jalali_datetime($gallery->published_at) ?: '—' }}</td>
-                        <td>{{ $gallery->sort_order }}</td>
                         <td>
                             <div class="admin-actions">
                                 <a href="{{ route('admin.galleries.show', $gallery) }}">مشاهده</a>
@@ -56,7 +57,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="8" class="text-center text-muted py-4">گالری‌ای یافت نشد.</td></tr>
+                    <tr><td colspan="9" class="text-center text-muted py-4">گالری‌ای یافت نشد.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -64,3 +65,30 @@
     @include('admin.partials.pagination', ['paginator' => $galleries])
 </div>
 @endsection
+
+
+@push('scripts')
+<script>
+const sortable = document.getElementById('gallery-sortable');
+let draggedRow = null;
+sortable?.addEventListener('dragstart', (event) => { draggedRow = event.target.closest('tr[data-id]'); });
+sortable?.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    const row = event.target.closest('tr[data-id]');
+    if (!row || row === draggedRow) return;
+    const box = row.getBoundingClientRect();
+    row.parentNode.insertBefore(draggedRow, event.clientY < box.top + box.height / 2 ? row : row.nextSibling);
+});
+sortable?.addEventListener('drop', () => {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route('admin.galleries.sort') }}';
+    form.innerHTML = '@csrf';
+    [...sortable.querySelectorAll('tr[data-id]')].forEach((row) => {
+        const input = document.createElement('input');
+        input.type = 'hidden'; input.name = 'items[]'; input.value = row.dataset.id; form.appendChild(input);
+    });
+    document.body.appendChild(form); form.submit();
+});
+</script>
+@endpush

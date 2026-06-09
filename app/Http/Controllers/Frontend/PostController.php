@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\GuildUnion;
 use App\Models\Post;
-use App\Models\PostCategory;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -33,7 +33,7 @@ class PostController extends Controller
 
         return view('frontend.posts.index', [
             'posts' => $posts,
-            'categories' => PostCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'categories' => Category::query()->active()->where('type', 'news')->orderBy('sort_order')->orderBy('title')->get(),
             'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'search' => $search,
             'categoryId' => $categoryId,
