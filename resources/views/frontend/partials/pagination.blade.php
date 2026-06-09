@@ -14,9 +14,9 @@
             @if (is_array($element))
                 @foreach ($element as $page => $url)
                     @if ($page == $paginator->currentPage())
-                        <span class="current" aria-current="page">{{ $page }}</span>
+                        <span class="current" aria-current="page">{{ fa_number($page) }}</span>
                     @else
-                        <a href="{{ $url }}">{{ $page }}</a>
+                        <a href="{{ $url }}">{{ fa_number($page) }}</a>
                     @endif
                 @endforeach
             @endif

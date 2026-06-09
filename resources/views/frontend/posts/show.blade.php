@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', $post->title.' | اتاق اصناف شهرستان گرگان')
+@section('title', $post->title.' | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', Str::limit($post->short_description ?? strip_tags($post->description), 160))
 
 @section('content')
@@ -25,9 +25,7 @@
 <div class="post-meta">
 <span>تاریخ انتشار: {{ jalali_date($post->published_at) ?: jalali_date($post->created_at) }}</span>
 <span class="dot"></span>
-<span>دسته‌بندی: {{ $post->category_title }}</span>
-<span class="dot"></span>
-<span>بازدید: {{ $post->views_count }}</span>
+<span>بازدید: {{ fa_number($post->views_count) }}</span>
 @if($post->type === 'video')
 <span class="dot"></span>
 <span>🎥 ویدیویی</span>
@@ -56,7 +54,6 @@
 </div>
 @endif
 <div class="post-tags">
-<span class="post-tag">{{ $post->category_title }}</span>
 @if($post->union)<span class="post-tag">{{ $post->union->display_title }}</span>@endif
 <span class="post-tag">{{ $post->type === 'video' ? 'ویدیو' : 'نوشته' }}</span>
 </div>
@@ -92,18 +89,10 @@
 </ul>
 </div>
 <div class="sidebar-card">
-<h3>دسته‌بندی</h3>
-<ul class="sidebar-list">
-<li><a href="{{ $post->category ? route('posts.index', ['category_id' => $post->category->id]) : route('posts.index') }}">{{ $post->category_title }}</a></li>
-@if($post->union)<li><a href="{{ route('posts.index', ['union_id' => $post->union->id]) }}">{{ $post->union->display_title }}</a></li>@endif
-</ul>
-</div>
-<div class="sidebar-card">
 <h3>برچسب‌ها</h3>
 <div class="post-tags">
 <span class="post-tag">اصناف</span>
 <span class="post-tag">گرگان</span>
-<span class="post-tag">{{ $post->category_title }}</span>
 @if($post->type === 'video')<span class="post-tag">ویدیو</span>@endif
 </div>
 </div>

@@ -178,7 +178,7 @@ class CongratulationMessageController extends Controller
 
     private function unions()
     {
-        return GuildUnion::query()->active()->orderBy('sort_order')->orderBy('title')->get();
+        return GuildUnion::query()->active()->orderBy('title')->orderBy('name')->get();
     }
 
     private function formData(): array

@@ -214,17 +214,36 @@ if (! function_exists('jalali_format')) {
     }
 }
 
+if (! function_exists('fa_number')) {
+    function fa_number(mixed $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+
+        if (is_float($value) || is_int($value)) {
+            $value = number_format($value);
+        }
+
+        return jalali_to_persian_digits((string) $value) ?? '';
+    }
+}
+
 if (! function_exists('jalali_date')) {
     function jalali_date(mixed $date, string $format = 'Y/m/d'): ?string
     {
-        return jalali_format($date, $format);
+        $formatted = jalali_format($date, $format);
+
+        return $formatted === null ? null : fa_number($formatted);
     }
 }
 
 if (! function_exists('jalali_datetime')) {
     function jalali_datetime(mixed $date, string $format = 'Y/m/d H:i'): ?string
     {
-        return jalali_format($date, $format);
+        $formatted = jalali_format($date, $format);
+
+        return $formatted === null ? null : fa_number($formatted);
     }
 }
 

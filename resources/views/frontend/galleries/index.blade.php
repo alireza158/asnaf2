@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'گالری تصاویر و ویدیوها | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'گالری تصاویر و گزارش‌های تصویری اتاق اصناف شهرستان گرگان')
+@section('title', 'گالری تصاویر و ویدیوها | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'گالری تصاویر و گزارش‌های تصویری اتاق اصناف مرکز استان گلستان')
 
 @section('content')
 <section class="page-header page-header-alt">

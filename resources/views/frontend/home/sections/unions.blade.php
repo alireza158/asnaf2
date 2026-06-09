@@ -8,9 +8,9 @@
         </div>
         <div class="tab-panels" data-tab-panels="representatives">
             @foreach([
-                'rep-production' => ['title' => 'اتحادیه‌های تولیدی شهرستان گرگان', 'alt' => 'اتحادیه‌های تولیدی', 'type' => 'production', 'items' => $productionUnions ?? collect()],
-                'rep-distribution' => ['title' => 'اتحادیه‌های توزیعی شهرستان گرگان', 'alt' => 'اتحادیه‌های توزیعی', 'type' => 'distribution', 'items' => $distributionUnions ?? collect()],
-                'rep-service' => ['title' => 'اتحادیه‌های خدماتی شهرستان گرگان', 'alt' => 'اتحادیه‌های خدماتی', 'type' => 'service', 'items' => $serviceUnions ?? collect()],
+                'rep-production' => ['title' => 'اتحادیه‌های تولیدی استان گلستان', 'alt' => 'اتحادیه‌های تولیدی', 'type' => 'production', 'items' => $productionUnions ?? collect()],
+                'rep-distribution' => ['title' => 'اتحادیه‌های توزیعی استان گلستان', 'alt' => 'اتحادیه‌های توزیعی', 'type' => 'distribution', 'items' => $distributionUnions ?? collect()],
+                'rep-service' => ['title' => 'اتحادیه‌های خدماتی استان گلستان', 'alt' => 'اتحادیه‌های خدماتی', 'type' => 'service', 'items' => $serviceUnions ?? collect()],
             ] as $panel => $data)
                 <div class="tab-panel {{ $loop->first ? 'active' : '' }}" data-tab-panel="{{ $panel }}">
                     <div class="representative-layout">

@@ -33,13 +33,13 @@
   const searchForm = qs('.header-search-form');
 
   const searchIndex = [
-    { title: 'اتاق اصناف شهرستان گرگان', type: 'معرفی', url: '#' },
+    { title: 'اتاق اصناف مرکز استان گلستان', type: 'معرفی', url: '#' },
     { title: 'اتحادیه‌های صنفی گرگان', type: 'اتحادیه‌ها', url: '#representatives' },
     { title: 'صدور و تمدید پروانه کسب', type: 'خدمات صنفی', url: '#commissions' },
     { title: 'ثبت شکایت و گزارش تخلف صنفی', type: 'بازرسی و نظارت', url: '#friendship' },
     { title: 'دوره آموزش احکام تجارت و کسب‌وکار', type: 'آموزش', url: '#fractions' },
     { title: 'بخشنامه‌ها و اطلاعیه‌های اصناف', type: 'اطلاعیه', url: '#multimedia' },
-    { title: 'آدرس و تلفن اتاق اصناف گرگان', type: 'تماس', url: '#friendship' },
+    { title: 'آدرس و تلفن اتاق اصناف مرکز استان گلستان', type: 'تماس', url: '#friendship' },
     { title: 'سامانه‌های الکترونیکی اصناف', type: 'سامانه‌ها', url: '#commissions' }
   ];
 

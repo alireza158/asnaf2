@@ -160,7 +160,7 @@ class AnnouncementController extends Controller
         return [
             'announcement' => $announcement,
             'statuses' => $this->allowedStatuses(),
-            'categories' => AnnouncementCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get(),
+            'categories' => AnnouncementCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'unions' => $this->activeUnions(),
         ];
     }
@@ -220,7 +220,7 @@ class AnnouncementController extends Controller
 
     private function activeUnions()
     {
-        return GuildUnion::query()->where('is_active', true)->orderBy('name')->get();
+        return GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get();
     }
 
     /** @return array<int, string> */

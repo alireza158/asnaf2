@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', $video->title.' | اتاق اصناف شهرستان گرگان')
+@section('title', $video->title.' | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', Str::limit(strip_tags($video->description), 160))
 
 @section('content')

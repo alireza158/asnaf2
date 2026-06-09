@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'پنل مدیریت') | اتاق اصناف شهرستان گرگان</title>
+    <title>@yield('title', 'پنل مدیریت') | اتاق اصناف مرکز استان گلستان</title>
     <link href="https://cdn.jsdelivr.net" rel="preconnect">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

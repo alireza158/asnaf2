@@ -3,14 +3,22 @@
     $topItems = app(\App\Services\MenuService::class)->items('top');
     $mainItems = app(\App\Services\MenuService::class)->items('main');
     $topText = $settings->get('header.top_text', 'اتاق اصناف مرکز استان گلستان؛ پشتیبان کسب‌وکارهای صنفی');
-    $serviceText = $settings->get('header.service_button_text', 'سامانه خدمات صنفی');
-    $serviceLink = $settings->get('header.service_button_link', '#commissions');
+    $desktopLogo = image_url($settings->get('header.desktop_logo', $settings->get('header.header_logo')), 'assets/img/asnaf-wordmark.svg');
+    $mobileLogo = image_url($settings->get('header.mobile_logo', $settings->get('header.desktop_logo', $settings->get('header.header_logo'))), 'assets/img/asnaf-wordmark.svg');
+    $headerButtons = collect($settings->get('header.header_buttons', [[
+        'title' => 'سامانه خدمات صنفی',
+        'url' => route('systems.index'),
+        'icon' => '💻',
+        'target' => '_self',
+        'is_active' => true,
+    ]]))->filter(fn ($button) => (bool) ($button['is_active'] ?? true) && filled($button['title'] ?? null) && filled($button['url'] ?? null))->values();
     $phone = $settings->get('site.phone', '۰۱۷۳۲۱۵۲۹۱۲');
     $contactText = $settings->get('header.contact_button_text', 'تماس با اتاق');
-    $jalaliParts = explode('/', jalali_date(now(), 'Y/m/d'));
+    $jalaliParts = explode('/', jalali_format(now(), 'Y/m/d'));
     $weekdays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
     $months = [1 => 'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'];
     $todayLabel = ($weekdays[now()->dayOfWeek] ?? '') . '، ' . (int) ($jalaliParts[2] ?? 1) . ' ' . ($months[(int) ($jalaliParts[1] ?? 1)] ?? '') . ' ' . ($jalaliParts[0] ?? '');
+    $todayLabel = fa_number($todayLabel);
 @endphp
 <header class="site-header">
 <div class="header-top site-container">
@@ -22,19 +30,24 @@
 </div>
 </div>
 <a class="header-center-brand" href="{{ route('home') }}" aria-label="اتاق اصناف مرکز استان گلستان">
-<img class="header-logo-simple" src="{{ asset('assets/img/asnaf-wordmark.svg') }}" alt="اتاق اصناف مرکز استان گلستان">
+<picture>
+<source media="(max-width: 767px)" srcset="{{ $mobileLogo }}">
+<img class="header-logo-simple" src="{{ $desktopLogo }}" alt="اتاق اصناف مرکز استان گلستان">
+</picture>
 </a>
 
 <div class="header-left-actions" aria-label="راه‌های دسترسی سریع هدر">
+@forelse($headerButtons as $button)
+<a class="header-service-pill" href="{{ $button['url'] }}" target="{{ $button['target'] ?? '_self' }}" @if(($button['target'] ?? '_self') === '_blank') rel="noopener" @endif><span>{{ $button['icon'] ?? '' }}</span> {{ $button['title'] }}</a>
+@empty
 @if($topItems->isNotEmpty())
 @php($topItem = $topItems->first())
-<a class="header-service-pill" href="{{ $topItem->resolved_url ?: $serviceLink }}" target="{{ $topItem->target }}">{{ $topItem->title }}</a>
-@else
-<a class="header-service-pill" href="{{ $serviceLink }}">{{ $serviceText }}</a>
+<a class="header-service-pill" href="{{ $topItem->resolved_url }}" target="{{ $topItem->target }}">{{ $topItem->title }}</a>
 @endif
+@endforelse
 <a class="header-contact-card" href="tel:{{ preg_replace('/[^0-9+]/', '', $phone) }}">
 <span>{{ $contactText }}</span>
-<strong>{{ $phone }}</strong>
+<strong>{{ fa_number($phone) }}</strong>
 </a>
 </div>
 </div>
@@ -53,7 +66,7 @@
 <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">صفحه اصلی</a></li>
 <li class="nav-item top-nav-item has-top-submenu">
 <button aria-expanded="false" class="nav-link top-nav-link" type="button">درباره اتاق<span class="top-submenu-caret"></span></button>
-<ul class="top-submenu"><li><a href="#representatives">معرفی اتاق اصناف گرگان</a></li><li><a href="#representatives">هیئت رئیسه و ساختار اداری</a></li><li><a href="#friendship">آدرس و راهنمای مراجعه</a></li></ul>
+<ul class="top-submenu"><li><a href="#representatives">معرفی اتاق اصناف مرکز استان گلستان</a></li><li><a href="#representatives">هیئت رئیسه و ساختار اداری</a></li><li><a href="#friendship">آدرس و راهنمای مراجعه</a></li></ul>
 </li>
 <li class="nav-item top-nav-item has-top-submenu">
 <button aria-expanded="false" class="nav-link top-nav-link" type="button">خدمات صنفی<span class="top-submenu-caret"></span></button>
@@ -95,4 +108,5 @@
 <div aria-live="polite" class="header-search-results"></div>
 </form>
 </div>
+@include('frontend.partials.market-ticker')
 </header>

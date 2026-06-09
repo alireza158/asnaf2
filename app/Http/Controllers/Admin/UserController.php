@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         return view('admin.users.create', [
             'roles' => Role::query()->orderBy('label')->get(),
-            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'selectedRoles' => collect(),
             'user' => null,
         ]);
@@ -66,7 +66,7 @@ class UserController extends Controller
         return view('admin.users.edit', [
             'user' => $user->load(['roles', 'union']),
             'roles' => Role::query()->orderBy('label')->get(),
-            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'selectedRoles' => $user->roles()->pluck('roles.id'),
         ]);
     }

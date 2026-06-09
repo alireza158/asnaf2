@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'ثبت شکایت از اتحادیه | اتاق اصناف شهرستان گرگان')
+@section('title', 'ثبت شکایت از اتحادیه | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', 'ثبت شکایت از اتحادیه‌های صنفی فعال و دریافت کد رهگیری')
 
 @section('content')

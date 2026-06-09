@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'آرشیو ویدیوها | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'آرشیو ویدیوهای آموزشی، خبری و گزارش‌های تصویری اتاق اصناف شهرستان گرگان')
+@section('title', 'آرشیو ویدیوها | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'آرشیو ویدیوهای آموزشی، خبری و گزارش‌های تصویری اتاق اصناف مرکز استان گلستان')
 @section('footer_links_variant', 'short')
 
 @section('content')
@@ -37,7 +37,7 @@
           </div>
           <div class="tourism-card-body">
             <h3>{{ $video->title }}</h3>
-            <p>{{ Str::limit(strip_tags($video->description), 110) ?: 'ویدیوی منتشرشده اتاق اصناف شهرستان گرگان' }}</p>
+            <p>{{ Str::limit(strip_tags($video->description), 110) ?: 'ویدیوی منتشرشده اتاق اصناف مرکز استان گلستان' }}</p>
           </div>
         </a>
       </article>

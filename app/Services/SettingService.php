@@ -32,6 +32,9 @@ class SettingService
 
     public function all(): array
     {
-        return Cache::rememberForever('site_settings.all', fn () => SiteSetting::query()->pluck('value', 'key')->all());
+        return Cache::rememberForever('site_settings.all', fn () => SiteSetting::query()
+            ->get(['key', 'value'])
+            ->mapWithKeys(fn (SiteSetting $setting) => [$setting->key => $setting->value])
+            ->all());
     }
 }

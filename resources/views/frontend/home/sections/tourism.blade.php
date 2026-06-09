@@ -40,7 +40,7 @@
                             <div class="tourism-card-body">
                                 <h3>موردی موجود نیست</h3>
                                 <p>در حال حاضر آیتمی برای این دسته گردشگری ثبت نشده است.</p>
-                                <div class="tourism-card-footer"><span>اتاق اصناف گرگان</span></div>
+                                <div class="tourism-card-footer"><span>اتاق اصناف مرکز استان گلستان</span></div>
                             </div>
                         </div>
                     @endforelse

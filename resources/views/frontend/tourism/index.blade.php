@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'گردشگری گرگان | اتاق اصناف شهرستان گرگان')
+@section('title', 'گردشگری گرگان | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', 'معرفی جاذبه‌های گردشگری، تاریخی و بازارهای گرگان')
 
 @section('content')
@@ -20,7 +20,7 @@
       <div class="tourism-intro-text">
         <h2>{{ $tourismSettings['tourism.intro_title'] ?? 'به شهر گرگان خوش آمدید' }}</h2>
         <p>{{ $tourismSettings['tourism.intro_text'] ?? 'گرگان با جاذبه‌های طبیعی، تاریخی و بازارهای متنوع، یکی از مقصدهای مهم گردشگری استان گلستان است.' }}</p>
-        <p>{{ $tourismSettings['tourism.intro_subtext'] ?? 'اتاق اصناف شهرستان گرگان با همراهی اتحادیه‌های صنفی، پشتیبان فعالان حوزه گردشگری و مسافران محترم است.' }}</p>
+        <p>{{ $tourismSettings['tourism.intro_subtext'] ?? 'اتاق اصناف مرکز استان گلستان با همراهی اتحادیه‌های صنفی، پشتیبان فعالان حوزه گردشگری و مسافران محترم است.' }}</p>
         <div class="tourism-stats">
           <div class="tourism-stat"><strong>{{ $places->count() }}</strong><span>جاذبه ثبت‌شده</span></div>
           <div class="tourism-stat"><strong>{{ $tourismNature->count() }}</strong><span>طبیعت‌گردی</span></div>
@@ -78,7 +78,7 @@
                 <div class="tourism-card-body">
                   <h3>موردی موجود نیست</h3>
                   <p>در حال حاضر آیتمی برای این دسته گردشگری ثبت نشده است.</p>
-                  <div class="tourism-card-footer"><span>📍 اتاق اصناف گرگان</span><span>گردشگری</span></div>
+                  <div class="tourism-card-footer"><span>📍 اتاق اصناف مرکز استان گلستان</span><span>گردشگری</span></div>
                 </div>
               </div>
             @endforelse
@@ -109,7 +109,7 @@
   <div class="site-container">
     <div class="tourism-cta-box">
       <h2>اصناف مرتبط با گردشگری</h2>
-      <p>اتاق اصناف شهرستان گرگان با اتحادیه‌های هتل‌داران، رستوران‌داران، صنایع دستی و آژانس‌های مسافرتی در خدمت فعالان این حوزه است.</p>
+      <p>اتاق اصناف مرکز استان گلستان با اتحادیه‌های هتل‌داران، رستوران‌داران، صنایع دستی و آژانس‌های مسافرتی در خدمت فعالان این حوزه است.</p>
       <a href="{{ route('guilds.index') }}" class="cta-button">مشاهده اتحادیه‌های صنفی</a>
     </div>
   </div>

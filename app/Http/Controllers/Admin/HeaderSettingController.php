@@ -19,40 +19,49 @@ class HeaderSettingController extends Controller
     public function update(Request $request, SettingService $settings): RedirectResponse
     {
         $validated = $request->validate([
+            'desktop_logo' => ['nullable', 'image', 'max:4096'],
+            'mobile_logo' => ['nullable', 'image', 'max:4096'],
             'header_logo' => ['nullable', 'image', 'max:4096'],
             'top_text' => ['nullable', 'string', 'max:255'],
             'top_date_enabled' => ['required', 'in:0,1'],
             'contact_button_text' => ['nullable', 'string', 'max:255'],
             'contact_button_link' => ['nullable', 'string', 'max:500'],
-            'service_button_text' => ['nullable', 'string', 'max:255'],
-            'service_button_link' => ['nullable', 'string', 'max:500'],
-            'special_link_1_title' => ['nullable', 'string', 'max:255'],
-            'special_link_1_url' => ['nullable', 'string', 'max:500'],
-            'special_link_1_icon' => ['nullable', 'string', 'max:100'],
-            'special_link_1_color' => ['nullable', 'string', 'max:50'],
-            'special_link_1_active' => ['required', 'in:0,1'],
-            'special_link_2_title' => ['nullable', 'string', 'max:255'],
-            'special_link_2_url' => ['nullable', 'string', 'max:500'],
-            'special_link_2_icon' => ['nullable', 'string', 'max:100'],
-            'special_link_2_color' => ['nullable', 'string', 'max:50'],
-            'special_link_2_active' => ['required', 'in:0,1'],
+            'header_buttons' => ['nullable', 'json'],
         ]);
 
-        if ($request->hasFile('header_logo')) {
-            if ($old = $settings->get('header.header_logo')) {
-                Storage::disk('public')->delete($old);
+        foreach (['desktop_logo', 'mobile_logo', 'header_logo'] as $field) {
+            if ($request->hasFile($field)) {
+                if ($old = $settings->get('header.'.$field)) {
+                    Storage::disk('public')->delete($old);
+                }
+                $validated[$field] = $request->file($field)->store('settings/header', 'public');
+            } else {
+                unset($validated[$field]);
             }
-            $validated['header_logo'] = $request->file('header_logo')->store('settings/header', 'public');
-        } else {
-            unset($validated['header_logo']);
         }
 
-        foreach (['top_date_enabled', 'special_link_1_active', 'special_link_2_active'] as $field) {
-            $validated[$field] = (bool) $validated[$field];
-        }
+        $validated['top_date_enabled'] = (bool) $validated['top_date_enabled'];
+        $validated['header_buttons'] = $this->jsonArray($validated['header_buttons'] ?? null);
 
         $settings->setMany($validated, 'header');
 
         return back()->with('success', 'تنظیمات هدر ذخیره شد.');
+    }
+
+    private function jsonArray(?string $value): array
+    {
+        if (! $value) {
+            return [];
+        }
+
+        $decoded = json_decode($value, true);
+
+        return is_array($decoded) ? collect($decoded)->map(fn ($button) => [
+            'title' => (string) ($button['title'] ?? ''),
+            'url' => (string) ($button['url'] ?? '#'),
+            'icon' => (string) ($button['icon'] ?? ''),
+            'target' => in_array(($button['target'] ?? '_self'), ['_self', '_blank'], true) ? $button['target'] : '_self',
+            'is_active' => filter_var($button['is_active'] ?? true, FILTER_VALIDATE_BOOLEAN),
+        ])->filter(fn ($button) => filled($button['title']) && filled($button['url']))->values()->all() : [];
     }
 }

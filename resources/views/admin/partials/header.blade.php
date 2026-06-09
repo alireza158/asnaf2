@@ -19,7 +19,7 @@
         <a class="admin-view-site" href="{{ route('admin.messages.inbox') }}">
             پیام‌ها
             @if (($unreadMessagesCount ?? 0) > 0)
-                <span class="badge bg-danger">{{ $unreadMessagesCount }}</span>
+                <span class="badge bg-danger">{{ fa_number($unreadMessagesCount) }}</span>
             @endif
         </a>
         <a class="admin-view-site" href="{{ route('home') }}" target="_blank" rel="noopener">مشاهده سایت</a>
