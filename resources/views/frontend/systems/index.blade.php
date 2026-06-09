@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'سامانه‌ها | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'لیست سامانه‌های پرکاربرد صنفی، خدمات الکترونیک و درگاه‌های مرتبط با اتاق اصناف شهرستان گرگان')
+@section('title', 'سامانه‌ها | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'لیست سامانه‌های پرکاربرد صنفی، خدمات الکترونیک و درگاه‌های مرتبط با اتاق اصناف مرکز استان گلستان')
 @section('frontend_variant', 'compact')
 @section('footer_links_variant', 'short')
 

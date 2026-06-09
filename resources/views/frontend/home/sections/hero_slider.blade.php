@@ -30,14 +30,14 @@
                         <a href="{{ route('posts.show', $post->slug) }}">
                             <img alt="{{ $post->title }}" src="{{ $post->featured_image_url }}" loading="lazy"/>
                             <div class="news-overlay"></div>
-                            <div class="news-content"><span class="news-kicker">{{ $post->category_title }}</span><h1>{{ $post->title }}</h1></div>
+                            <div class="news-content"><span class="news-kicker">خبر تاپ</span><h1>{{ $post->title }}</h1></div>
                         </a>
                     </article>
                 @empty
                     <article class="news-card news-card-main swiper-slide">
-                        <img alt="اتاق اصناف شهرستان گرگان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
+                        <img alt="اتاق اصناف مرکز استان گلستان" src="{{ asset('assets/img/asnaf-gorgan-default.jpg') }}"/>
                         <div class="news-overlay"></div>
-                        <div class="news-content"><span class="news-kicker">{{ $section->title }}</span><h1>{{ $section->subtitle ?: 'اطلاع‌رسانی خدمات صنفی، آموزش و پیگیری درخواست‌های کسب‌وکارهای شهرستان گرگان' }}</h1></div>
+                        <div class="news-content"><span class="news-kicker">{{ $section->title }}</span><h1>{{ $section->subtitle ?: 'اطلاع‌رسانی خدمات صنفی، آموزش و پیگیری درخواست‌های کسب‌وکارهای استان گلستان' }}</h1></div>
                     </article>
                 @endforelse
             </div>

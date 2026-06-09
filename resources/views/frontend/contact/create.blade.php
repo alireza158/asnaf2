@@ -1,7 +1,7 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'تماس با ما | اتاق اصناف شهرستان گرگان')
-@section('meta_description', 'ارسال پیام ارتباطی به اتاق اصناف شهرستان گرگان')
+@section('title', 'تماس با ما | اتاق اصناف مرکز استان گلستان')
+@section('meta_description', 'ارسال پیام ارتباطی به اتاق اصناف مرکز استان گلستان')
 @section('active_menu', 'contact')
 
 @section('content')
@@ -75,7 +75,7 @@
                     <p><strong>تلفن:</strong> {{ $settings->get('site.phone', '۰۱۷۳۲۱۵۲۹۱۲') }}</p>
                     <p><strong>موبایل:</strong> {{ $settings->get('site.mobile', '—') }}</p>
                     <p><strong>ایمیل:</strong> {{ $settings->get('site.email', 'info@example.com') }}</p>
-                    <p><strong>آدرس:</strong><br>{{ $settings->get('site.address', 'اتاق اصناف شهرستان گرگان') }}</p>
+                    <p><strong>آدرس:</strong><br>{{ $settings->get('site.address', 'اتاق اصناف مرکز استان گلستان') }}</p>
                     @if ($settings->get('site.map_url'))
                         <a class="tab-pill" href="{{ $settings->get('site.map_url') }}" target="_blank" rel="noopener">مشاهده روی نقشه</a>
                     @endif

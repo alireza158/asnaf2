@@ -13,15 +13,17 @@ class UnionController extends Controller
     public function index(Request $request): View
     {
         $search = trim((string) $request->query('search'));
+        $type = (string) $request->query('type', '');
+        $categoryId = (string) $request->query('category_id', '');
 
         $baseQuery = GuildUnion::query()
             ->active()
             ->with('category')
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->where('title', 'like', "%{$search}%")
-                ->orWhere('name', 'like', "%{$search}%")
-                ->orWhere('manager_name', 'like', "%{$search}%")
-                ->orWhere('short_description', 'like', "%{$search}%")));
+                ->orWhere('name', 'like', "%{$search}%")))
+            ->when(in_array($type, array_keys(GuildUnion::typeLabels()), true), fn ($query) => $query->where('union_type', $type))
+            ->when($categoryId !== '', fn ($query) => $query->where('category_id', $categoryId));
 
         $unions = (clone $baseQuery)->orderBy('title')->paginate(12)->withQueryString();
 
@@ -38,7 +40,9 @@ class UnionController extends Controller
             'distributionUnions',
             'serviceUnions',
             'specializedUnions',
-            'categories'
+            'categories',
+            'type',
+            'categoryId'
         ));
     }
 

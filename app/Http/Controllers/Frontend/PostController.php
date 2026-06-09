@@ -33,8 +33,8 @@ class PostController extends Controller
 
         return view('frontend.posts.index', [
             'posts' => $posts,
-            'categories' => PostCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get(),
-            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'categories' => PostCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
             'search' => $search,
             'categoryId' => $categoryId,
             'unionId' => $unionId,

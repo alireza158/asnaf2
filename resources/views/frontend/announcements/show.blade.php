@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', $announcement->title.' | اتاق اصناف شهرستان گرگان')
+@section('title', $announcement->title.' | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', $announcement->excerpt)
 
 @section('content')

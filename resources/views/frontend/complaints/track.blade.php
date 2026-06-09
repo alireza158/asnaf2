@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'پیگیری شکایت | اتاق اصناف شهرستان گرگان')
+@section('title', 'پیگیری شکایت | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', 'پیگیری وضعیت شکایت ثبت‌شده با شماره موبایل و کد رهگیری')
 
 @section('content')

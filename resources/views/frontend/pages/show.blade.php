@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', ($page->meta_title ?: $page->title).' | اتاق اصناف شهرستان گرگان')
+@section('title', ($page->meta_title ?: $page->title).' | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', $page->meta_description ?: Str::limit(strip_tags($page->excerpt ?: $page->body), 160))
 
 @section('content')

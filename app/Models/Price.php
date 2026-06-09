@@ -18,6 +18,7 @@ class Price extends Model
         'unit',
         'source',
         'published_at',
+        'fetched_at',
         'sort_order',
         'is_active',
     ];
@@ -27,6 +28,7 @@ class Price extends Model
         return [
             'amount' => 'decimal:0',
             'published_at' => 'datetime',
+            'fetched_at' => 'datetime',
             'sort_order' => 'integer',
             'is_active' => 'boolean',
         ];

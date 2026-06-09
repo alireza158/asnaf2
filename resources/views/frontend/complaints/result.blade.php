@@ -1,6 +1,6 @@
 @extends('frontend.layouts.app')
 
-@section('title', ($isNew ? 'کد رهگیری شکایت' : 'نتیجه پیگیری شکایت').' | اتاق اصناف شهرستان گرگان')
+@section('title', ($isNew ? 'کد رهگیری شکایت' : 'نتیجه پیگیری شکایت').' | اتاق اصناف مرکز استان گلستان')
 @section('meta_description', 'نمایش نتیجه ثبت یا پیگیری شکایت')
 
 @section('content')

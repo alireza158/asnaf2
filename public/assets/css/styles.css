@@ -3800,3 +3800,46 @@ img { display: block; max-width: 100%; }
 .union-home-empty {
   background: linear-gradient(135deg, #fff7ec 0%, #ffffff 100%) !important;
 }
+
+/* Project Visual Refinements */
+:root {
+  --project-card-border: rgba(12, 80, 132, .22);
+  --project-card-bg: linear-gradient(180deg, #ffffff 0%, #f5fbff 100%);
+  --project-card-shadow: 0 14px 32px rgba(15, 35, 52, .10);
+}
+.header-center-brand { min-width: 230px; }
+.header-logo-simple { width: auto; max-width: 280px; max-height: 86px; object-fit: contain; image-rendering: auto; }
+.brand-note strong { font-size: clamp(1rem, 1.6vw, 1.45rem); line-height: 1.8; color: #082f49; }
+.market-ticker-wrap { background: linear-gradient(90deg, #082f49, #0c74b9); border-top: 1px solid rgba(255,255,255,.18); border-bottom: 1px solid rgba(8,47,73,.22); color: #fff; }
+.market-ticker { min-height: 46px; display: flex; align-items: center; gap: 16px; overflow: hidden; }
+.market-ticker-title { flex: 0 0 auto; font-weight: 900; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.16); }
+.market-ticker-items { position: relative; flex: 1; min-height: 40px; }
+.market-ticker-item { position: absolute; inset: 0; display: flex; align-items: center; gap: 12px; opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .45s ease; pointer-events: none; }
+.market-ticker-item.is-active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.market-price { font-weight: 900; color: #fff7cc; }
+.market-ticker-item small { color: rgba(255,255,255,.86); }
+.archive-card, .service-card, .system-card, .commission-card, .gallery-card, .video-card, .tourism-card, .news-card, .sidebar-card, .admin-panel-card, .guild-info-card, .guild-head-card, .guild-card, .price-card, .quick-menu, .footer-col { border: 1px solid var(--project-card-border) !important; background: var(--project-card-bg); box-shadow: var(--project-card-shadow); }
+.archive-card:hover, .service-card:hover, .system-card:hover, .commission-card:hover, .gallery-card:hover, .video-card:hover, .tourism-card:hover, .guild-info-card:hover, .guild-card:hover, .price-card:hover { transform: translateY(-4px); box-shadow: 0 18px 38px rgba(15, 35, 52, .14); border-color: rgba(12,116,185,.36) !important; }
+.guild-filter-card { margin: 0 0 24px; padding: 18px; border: 1px solid rgba(12,116,185,.24); border-radius: var(--radius-md); background: linear-gradient(135deg, #f8fcff 0%, #eef8f3 100%); box-shadow: 0 14px 30px rgba(15,35,52,.08); }
+.guild-filter-card .form-label { font-weight: 800; color: #08334f; }
+.guild-filter-card .form-control { border: 1px solid rgba(12,116,185,.24); min-height: 46px; border-radius: 14px; }
+.hero-slider { min-height: 470px; }
+.news-card-main { min-height: 470px; }
+.news-card-main img { height: 100%; min-height: 470px; object-fit: cover; }
+.news-card-main .news-content h1 { font-size: clamp(1.7rem, 3vw, 2.65rem); line-height: 1.65; }
+.footer-brand-col img { max-width: 140px; height: auto; object-fit: contain; }
+.footer-social a { border: 1px solid rgba(255,255,255,.28); }
+@media (max-width: 991.98px) {
+  .hero-slider, .news-card-main, .news-card-main img { min-height: 390px; }
+  .market-ticker { align-items: flex-start; flex-direction: column; gap: 4px; padding-block: 8px; }
+  .market-ticker-items { width: 100%; min-height: 58px; }
+  .market-ticker-item { flex-wrap: wrap; align-content: center; }
+}
+@media (max-width: 767.98px) {
+  .header-center-brand { min-width: auto; }
+  .header-logo-simple { max-width: 180px; max-height: 64px; }
+  .brand-note strong { font-size: 1rem; }
+  .hero-slider, .news-card-main, .news-card-main img { min-height: 320px; }
+  .news-card-main .news-content h1 { font-size: 1.35rem; }
+  .market-ticker-item { font-size: .86rem; gap: 8px; }
+}

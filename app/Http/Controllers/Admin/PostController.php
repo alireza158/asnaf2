@@ -145,8 +145,8 @@ class PostController extends Controller
             'post' => $post,
             'statuses' => $this->allowedStatuses(),
             'types' => Post::TYPES,
-            'categories' => PostCategory::query()->where('is_active', true)->orderBy('sort_order')->orderBy('title')->get(),
-            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(),
+            'categories' => PostCategory::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(),
         ];
     }
 
@@ -160,8 +160,8 @@ class PostController extends Controller
             'slug' => $validated['slug'],
             'excerpt' => $validated['excerpt'] ?? null,
             'body' => $validated['body'] ?? null,
-            'category_id' => $validated['category_id'] ?? null,
-            'union_id' => $validated['union_id'] ?? null,
+            'category_id' => filled($validated['category_id'] ?? null) ? $validated['category_id'] : null,
+            'union_id' => filled($validated['union_id'] ?? null) ? $validated['union_id'] : null,
             'type' => $validated['type'],
             'is_important' => (bool) $validated['is_important'],
             'is_featured' => (bool) $validated['is_featured'],

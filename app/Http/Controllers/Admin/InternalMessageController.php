@@ -189,7 +189,7 @@ class InternalMessageController extends Controller
         return [
             'users' => User::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'email', 'mobile', 'union_id']),
             'roles' => Role::query()->orderBy('label')->orderBy('name')->get(['id', 'name', 'label']),
-            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'title']),
+            'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(['id', 'name', 'title']),
             'priorities' => InternalMessage::PRIORITIES,
         ];
     }

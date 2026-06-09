@@ -72,7 +72,7 @@
         <div class="admin-brand-mark">ا</div>
         <div>
             <strong>پنل مدیریت</strong>
-            <span>اتاق اصناف گرگان</span>
+            <span>اتاق اصناف مرکز استان گلستان</span>
         </div>
     </div>
 

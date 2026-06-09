@@ -19,12 +19,6 @@
 <div class="site-container">
 <div class="archive-header">
 <h1>همه نوشته‌ها</h1>
-<div class="archive-filters">
-<a class="tab-pill {{ blank($categoryId) ? 'active' : '' }}" href="{{ route('posts.index') }}">همه</a>
-@foreach ($categories->take(4) as $category)
-<a class="tab-pill {{ (string) $categoryId === (string) $category->id ? 'active' : '' }}" href="{{ route('posts.index', ['category_id' => $category->id]) }}">{{ $category->title }}</a>
-@endforeach
-</div>
 </div>
 <div class="archive-grid">
 @forelse($posts as $post)
@@ -32,7 +26,7 @@
 <a href="{{ route('posts.show', $post->slug) }}">
 <img alt="{{ $post->title }}" class="archive-card-img" src="{{ $post->featured_image_url }}" loading="lazy"/>
 <div class="archive-card-body">
-<span class="card-cat">{{ $post->category_title }} @if($post->type === 'video') 🎥 @elseif($post->galleries_count > 0) 🖼 @endif</span>
+@if($post->type === 'video')<span class="card-cat">🎥 ویدیو</span>@elseif($post->galleries_count > 0)<span class="card-cat">🖼 گالری</span>@endif
 <h2>{{ $post->title }}</h2>
 <p>{{ $post->short_description ?? Str::limit(strip_tags($post->description), 120) }}</p>
 <span class="card-date">{{ jalali_date($post->published_at) ?: jalali_date($post->created_at) }}</span>
@@ -53,15 +47,6 @@
 @if($unionId)<input type="hidden" name="union_id" value="{{ $unionId }}">@endif
 <button class="tab-pill active" type="submit">جستجو</button>
 </form>
-</div>
-<div class="sidebar-card">
-<h3>دسته‌بندی‌ها</h3>
-<ul class="sidebar-list">
-<li><a href="{{ route('posts.index') }}">همه نوشته‌ها</a></li>
-@foreach ($categories as $category)
-<li><a href="{{ route('posts.index', ['category_id' => $category->id]) }}">{{ $category->title }}</a></li>
-@endforeach
-</ul>
 </div>
 <div class="sidebar-card">
 <h3>اتحادیه‌ها</h3>

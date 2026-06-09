@@ -68,43 +68,43 @@ class SearchController extends Controller
 
     private function unions(string $term): array
     {
-        return GuildUnion::query()->active()->where(fn ($q) => $this->like($q, ['title', 'name', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return GuildUnion::query()->active()->where(fn ($q) => $this->like($q, ['title', 'name', 'short_description', 'description'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->display_title, 'اتحادیه', $item->short_description ?: $item->description, route('guilds.show', $item->slug), $item->logo ?: $item->cover_image))->all();
     }
 
     private function services(string $term): array
     {
-        return ElectronicService::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'body'], $term))->orderBy('sort_order')->limit(5)->get()
+        return ElectronicService::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'body'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'خدمات الکترونیک', $item->short_description ?: $item->body, route('electronic-services.show', $item->slug), $item->image))->all();
     }
 
     private function tourism(string $term): array
     {
-        return TourismPlace::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description', 'address'], $term))->orderBy('sort_order')->limit(5)->get()
+        return TourismPlace::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description', 'address'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'گردشگری', $item->short_description ?: $item->description, route('tourism.show', $item->slug), $item->featured_image))->all();
     }
 
     private function commissions(string $term): array
     {
-        return Commission::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return Commission::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'کمیسیون', $item->description, route('commissions.show', $item->slug), $item->image))->all();
     }
 
     private function systems(string $term): array
     {
-        return SystemModel::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return SystemModel::query()->published()->where(fn ($q) => $this->like($q, ['title', 'short_description', 'description'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'سامانه', $item->short_description ?: $item->description, route('systems.show', $item->slug), $item->image))->all();
     }
 
     private function videos(string $term): array
     {
-        return Video::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return Video::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'ویدیو', $item->description, route('videos.show', $item->slug), $item->cover_image))->all();
     }
 
     private function galleries(string $term): array
     {
-        return Gallery::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('sort_order')->limit(5)->get()
+        return Gallery::query()->published()->where(fn ($q) => $this->like($q, ['title', 'description'], $term))->orderBy('title')->limit(5)->get()
             ->map(fn ($item) => $this->result($item->title, 'گالری', $item->description, route('galleries.show', $item->slug), $item->cover_image))->all();
     }
 

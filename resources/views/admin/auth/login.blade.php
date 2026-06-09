@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ورود به پنل مدیریت | اتاق اصناف شهرستان گرگان</title>
+    <title>ورود به پنل مدیریت | اتاق اصناف مرکز استان گلستان</title>
     <link href="https://cdn.jsdelivr.net" rel="preconnect">
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

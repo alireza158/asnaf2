@@ -6,7 +6,7 @@
     <nav class="admin-pagination-wrapper" aria-label="صفحه‌بندی مدیریت" data-admin-pagination>
         @if (method_exists($paginator, 'firstItem'))
             <div class="admin-pagination-summary">
-                نمایش {{ $paginator->firstItem() }} تا {{ $paginator->lastItem() }} از {{ $paginator->total() }} مورد
+                نمایش {{ fa_number($paginator->firstItem()) }} تا {{ fa_number($paginator->lastItem()) }} از {{ fa_number($paginator->total()) }} مورد
             </div>
         @endif
 
@@ -30,6 +30,6 @@
     </nav>
 @elseif (method_exists($paginator, 'total'))
     <div class="admin-pagination-wrapper admin-pagination-wrapper-empty">
-        <div class="admin-pagination-summary">نمایش {{ $paginator->total() }} مورد</div>
+        <div class="admin-pagination-summary">نمایش {{ fa_number($paginator->total()) }} مورد</div>
     </div>
 @endif
