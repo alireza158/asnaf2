@@ -15,6 +15,7 @@ use App\Models\Post;
 use App\Models\Price;
 use App\Models\System;
 use App\Models\TourismPlace;
+use App\Models\UnionType;
 use App\Models\Video;
 use App\Services\AdvertisementService;
 use App\Services\MenuService;
@@ -97,9 +98,17 @@ class HomeController extends Controller
             ->take($this->sectionLimit($sections, 'unions', 24))
             ->get();
 
-        $productionUnions = $this->unionsByType(GuildUnion::TYPE_PRODUCTION);
-        $distributionUnions = $this->unionsByType(GuildUnion::TYPE_DISTRIBUTION);
-        $serviceUnions = $this->unionsByType(GuildUnion::TYPE_SERVICE);
+        $unionTypes = UnionType::query()->active()->orderBy('sort_order')->orderBy('title')->get();
+        $unionTypeTabs = $unionTypes->mapWithKeys(fn (UnionType $unionType) => [
+            $unionType->slug => [
+                'label' => $unionType->title,
+                'icon' => $unionType->icon,
+                'items' => $this->unionsByTypeId($unionType->id),
+            ],
+        ]);
+        $productionUnions = $unionTypeTabs->get('production')['items'] ?? collect();
+        $distributionUnions = $unionTypeTabs->get('distribution')['items'] ?? collect();
+        $serviceUnions = $unionTypeTabs->get('service')['items'] ?? collect();
 
         $electronicServices = ElectronicService::query()
             ->published()
@@ -151,12 +160,12 @@ class HomeController extends Controller
             ->take($this->sectionLimit($sections, 'commissions', 8))
             ->get();
 
-        $congratulationMessages = CongratulationMessage::query()
-            ->forHome()
+        $congratulationMessages = CongratulationMessage::where('is_active', true)
             ->with('union')
-            ->orderBy('sort_order')
+            ->where('status', 'published')
+            ->where('show_on_home', true)
             ->latest('published_at')
-            ->take($this->sectionLimit($sections, 'congratulation_messages', 3))
+            ->take($this->sectionLimit($sections, 'congratulation_messages', 6))
             ->get();
 
         $orgLinks = OrgLink::query()
@@ -194,6 +203,8 @@ class HomeController extends Controller
             'announcements',
             'homeUnions',
             'unions',
+            'unionTypes',
+            'unionTypeTabs',
             'productionUnions',
             'distributionUnions',
             'serviceUnions',
@@ -227,6 +238,16 @@ class HomeController extends Controller
         return GuildUnion::query()
             ->active()
             ->where('union_type', $type)
+            ->orderBy('title')
+            ->take(10)
+            ->get();
+    }
+
+    private function unionsByTypeId(int $typeId): Collection
+    {
+        return GuildUnion::query()
+            ->active()
+            ->where('union_type_id', $typeId)
             ->orderBy('title')
             ->take(10)
             ->get();

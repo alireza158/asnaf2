@@ -6,31 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Category extends Model
+class UnionType extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'type',
-        'description',
-        'icon',
-        'sort_order',
-        'is_active',
-    ];
+    protected $fillable = ['title', 'slug', 'icon', 'sort_order', 'is_active'];
 
     protected function casts(): array
     {
-        return [
-            'sort_order' => 'integer',
-            'is_active' => 'boolean',
-        ];
+        return ['is_active' => 'boolean', 'sort_order' => 'integer'];
     }
 
     public function unions(): HasMany
     {
-        return $this->hasMany(GuildUnion::class);
+        return $this->hasMany(GuildUnion::class, 'union_type_id');
     }
 
     public function scopeActive($query)

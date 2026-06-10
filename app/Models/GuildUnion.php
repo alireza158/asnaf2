@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GuildUnion extends Model
@@ -33,11 +34,14 @@ class GuildUnion extends Model
         'website',
         'manager_name',
         'union_type',
+        'union_type_id',
         'category_id',
         'manager_image',
         'working_hours',
         'social_links',
         'settings',
+        'news_mode',
+        'president_buttons',
         'price_list_mode',
         'price_list_image',
         'complaint_enabled',
@@ -60,6 +64,7 @@ class GuildUnion extends Model
         return [
             'social_links' => 'array',
             'settings' => 'array',
+            'president_buttons' => 'array',
             'complaint_enabled' => 'boolean',
             'congratulations_enabled' => 'boolean',
             'news_enabled' => 'boolean',
@@ -104,9 +109,9 @@ class GuildUnion extends Model
             'show_minutes' => true,
             'show_education' => true,
             'show_announcements' => true,
+            'show_congratulation_messages' => true,
             'show_gallery' => true,
             'show_videos' => true,
-            'show_search' => true,
             'show_contact' => true,
             'show_social_links' => true,
         ];
@@ -128,9 +133,9 @@ class GuildUnion extends Model
             'show_minutes' => 'نمایش صورتجلسه‌ها',
             'show_education' => 'نمایش آموزش‌ها',
             'show_announcements' => 'نمایش اطلاعیه‌ها و بخشنامه‌ها',
+            'show_congratulation_messages' => 'نمایش پیام‌های تبریک و تسلیت',
             'show_gallery' => 'نمایش گالری تصاویر',
             'show_videos' => 'نمایش ویدیوها',
-            'show_search' => 'نمایش جستجو',
             'show_contact' => 'نمایش اطلاعات تماس',
             'show_social_links' => 'نمایش شبکه‌های اجتماعی',
         ];
@@ -148,6 +153,11 @@ class GuildUnion extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function unionType(): BelongsTo
+    {
+        return $this->belongsTo(UnionType::class, 'union_type_id');
+    }
+
     public function users(): HasMany
     {
         return $this->hasMany(User::class, 'union_id');
@@ -161,6 +171,15 @@ class GuildUnion extends Model
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'union_id');
+    }
+
+    public function selectedPosts(): BelongsToMany
+    {
+        return $this->belongsToMany(Post::class, 'union_selected_posts', 'union_id', 'post_id')
+            ->withPivot('sort_order')
+            ->withTimestamps()
+            ->orderBy('union_selected_posts.sort_order')
+            ->orderByDesc('posts.published_at');
     }
 
     public function announcements(): HasMany
@@ -243,9 +262,27 @@ class GuildUnion extends Model
         ];
     }
 
+
+    public static function newsModeLabels(): array
+    {
+        return [
+            'auto' => 'خودکار بر اساس اخبار متصل به اتحادیه',
+            'manual' => 'انتخاب دستی خبرها',
+            'disabled' => 'غیرفعال',
+        ];
+    }
+
+    public function getActivePresidentButtonsAttribute(): array
+    {
+        return collect($this->president_buttons ?? [])
+            ->filter(fn ($button) => ! empty($button['is_active']) && filled($button['title'] ?? null) && filled($button['url'] ?? null))
+            ->values()
+            ->all();
+    }
+
     public function getUnionTypeLabelAttribute(): string
     {
-        return self::typeLabels()[$this->union_type] ?? 'نامشخص';
+        return $this->unionType?->title ?: (self::typeLabels()[$this->union_type] ?? 'نامشخص');
     }
 
     public function scopeActive($query)

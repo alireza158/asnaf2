@@ -53,6 +53,7 @@
                 ['title' => 'سامانه‌ها', 'icon' => '💻', 'route' => 'admin.systems.index', 'match' => 'admin.systems.*'],
                 ['title' => 'خدمات الکترونیک', 'icon' => '⚡', 'route' => 'admin.electronic_services.index', 'match' => 'admin.electronic_services.*'],
                 ['title' => 'تنظیمات صفحه اصلی', 'icon' => '🧩', 'route' => 'admin.home_sections.index', 'match' => 'admin.home_sections.*'],
+                ['title' => 'نوع اتحادیه‌ها', 'icon' => '🏷️', 'route' => 'admin.union-types.index', 'match' => 'admin.union-types.*'],
                 ['title' => 'تنظیمات هدر', 'icon' => '🔝', 'route' => 'admin.header_settings.edit', 'match' => 'admin.header_settings.*'],
                 ['title' => 'تنظیمات فوتر', 'icon' => '🔚', 'route' => 'admin.footer_settings.edit', 'match' => 'admin.footer_settings.*'],
                 ['title' => 'تنظیمات سایت', 'icon' => '⚙️', 'route' => 'admin.settings.edit', 'match' => 'admin.settings.*'],

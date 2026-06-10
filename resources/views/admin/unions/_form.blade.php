@@ -12,6 +12,8 @@
     $socialLinks = old('social_links', $union?->social_links ?? []);
     $settings = old('settings', $union?->settings ?? []);
     $settingDefaults = \App\Models\GuildUnion::sectionDefaults();
+    $presidentButtons = old('president_buttons', $union?->president_buttons ?? []);
+    $selectedPostIds = collect(old('selected_posts', $union?->selectedPosts?->pluck('id')->all() ?? []))->map(fn ($id) => (string) $id)->all();
 @endphp
 
 <div class="admin-panel-card">
@@ -59,13 +61,14 @@
             <input class="form-control" id="manager_name" name="manager_name" value="{{ old('manager_name', $union?->manager_name) }}">
         </div>
         <div class="col-md-4">
-            <label class="form-label" for="union_type">نوع اتحادیه</label>
-            <select class="form-control" id="union_type" name="union_type">
+            <label class="form-label" for="union_type_id">نوع اتحادیه</label>
+            <select class="form-control" id="union_type_id" name="union_type_id">
                 <option value="">انتخاب نوع</option>
-                @foreach (\App\Models\GuildUnion::typeLabels() as $type => $label)
-                    <option value="{{ $type }}" @selected(old('union_type', $union?->union_type) === $type)>{{ $label }}</option>
+                @foreach (($unionTypes ?? collect()) as $unionType)
+                    <option value="{{ $unionType->id }}" @selected((string) old('union_type_id', $union?->union_type_id) === (string) $unionType->id)>{{ $unionType->icon }} {{ $unionType->title }}</option>
                 @endforeach
             </select>
+            <input type="hidden" name="union_type" value="{{ old('union_type', $union?->union_type) }}">
         </div>
         <div class="col-md-4">
             <label class="form-label" for="category_id">دسته‌بندی اتحادیه</label>
@@ -98,6 +101,40 @@
                 </select>
             </div>
         @endforeach
+
+        <div class="col-12"><h3 class="h6 mt-2">خبرهای اتحادیه</h3></div>
+        <div class="col-md-4">
+            <label class="form-label" for="news_mode">حالت نمایش خبر</label>
+            <select class="form-control" id="news_mode" name="news_mode">
+                @foreach (\App\Models\GuildUnion::newsModeLabels() as $mode => $label)
+                    <option value="{{ $mode }}" @selected(old('news_mode', $union?->news_mode ?? 'auto') === $mode)>{{ $label }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col-md-8">
+            <label class="form-label" for="selected_posts">خبرهای انتخابی در حالت دستی</label>
+            <select class="form-control js-select2" id="selected_posts" name="selected_posts[]" multiple size="6">
+                @foreach (($selectablePosts ?? collect()) as $post)
+                    <option value="{{ $post->id }}" @selected(in_array((string) $post->id, $selectedPostIds, true))>{{ $post->title }}</option>
+                @endforeach
+            </select>
+            <small class="text-muted">این فیلد برای Select2 آماده شده است و در نبود کتابخانه، انتخاب چندگانه مرورگر را نمایش می‌دهد.</small>
+        </div>
+        <div class="col-12"><h3 class="h6 mt-2">دکمه‌های رئیس اتحادیه</h3></div>
+        <div class="col-12 union-dynamic-section" data-section="president-buttons" data-next-index="{{ count($presidentButtons) }}">
+            <div data-rows>
+                @foreach ($presidentButtons as $index => $button)
+                    <div class="border rounded p-3 mb-2" data-row><div class="row g-2 align-items-end">
+                        <div class="col-md-3"><label class="form-label">عنوان</label><input class="form-control" name="president_buttons[{{ $index }}][title]" value="{{ $button['title'] ?? '' }}"></div>
+                        <div class="col-md-3"><label class="form-label">لینک</label><input class="form-control" name="president_buttons[{{ $index }}][url]" value="{{ $button['url'] ?? '' }}" dir="ltr"></div>
+                        <div class="col-md-2"><label class="form-label">آیکون</label><input class="form-control" name="president_buttons[{{ $index }}][icon]" value="{{ $button['icon'] ?? '' }}"></div>
+                        <div class="col-md-2"><label class="form-label">باز شدن</label><select class="form-control" name="president_buttons[{{ $index }}][target]"><option value="_self" @selected(($button['target'] ?? '_self') === '_self')>همان صفحه</option><option value="_blank" @selected(($button['target'] ?? '_self') === '_blank')>صفحه جدید</option></select></div>
+                        <div class="col-md-2"><label class="form-check"><input class="form-check-input" type="checkbox" name="president_buttons[{{ $index }}][is_active]" value="1" @checked($button['is_active'] ?? true)> فعال</label></div>
+                    </div></div>
+                @endforeach
+            </div>
+            <button class="btn btn-outline-primary" type="button" data-add-row>افزودن دکمه رئیس</button>
+        </div>
         <div class="col-12"><h3 class="h6 mt-2">نرخنامه اتحادیه</h3></div>
         <div class="col-md-4">
             <label class="form-label" for="price_list_mode">حالت نمایش نرخنامه</label>
