@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\StoreUnionRequest;
 use App\Http\Requests\Admin\UpdateUnionRequest;
 use App\Models\Category;
 use App\Models\GuildUnion;
+use App\Models\Post;
+use App\Models\UnionType;
 use App\Models\UnionCommission;
 use App\Models\UnionEducation;
 use App\Models\UnionMinute;
@@ -46,6 +48,8 @@ class UnionController extends Controller
         return view('admin.unions.create', [
             'union' => null,
             'categories' => $this->unionCategories(),
+            'unionTypes' => $this->unionTypes(),
+            'selectablePosts' => $this->selectablePosts(),
         ]);
     }
 
@@ -59,6 +63,7 @@ class UnionController extends Controller
 
         $union = GuildUnion::create($data);
         $this->syncPageSections($union, $request->validated('related', []));
+        $this->syncSelectedPosts($union, $request->validated('selected_posts', []));
 
         return redirect()->route('admin.unions.show', $union)->with('success', 'اتحادیه با موفقیت ایجاد شد.');
     }
@@ -74,8 +79,10 @@ class UnionController extends Controller
     public function edit(GuildUnion $union): View
     {
         return view('admin.unions.edit', [
-            'union' => $union->load(['commissions.tasks', 'rules', 'minutes', 'educations', 'prices']),
+            'union' => $union->load(['commissions.tasks', 'rules', 'minutes', 'educations', 'prices', 'selectedPosts']),
             'categories' => $this->unionCategories(),
+            'unionTypes' => $this->unionTypes(),
+            'selectablePosts' => $this->selectablePosts(),
         ]);
     }
 
@@ -95,6 +102,7 @@ class UnionController extends Controller
 
         $union->update($data);
         $this->syncPageSections($union, $request->validated('related', []));
+        $this->syncSelectedPosts($union, $request->validated('selected_posts', []));
 
         return redirect()->route('admin.unions.show', $union)->with('success', 'اتحادیه با موفقیت ویرایش شد.');
     }
@@ -117,10 +125,25 @@ class UnionController extends Controller
     {
         $validated = $this->sanitizeRichTextFields($validated, ['body', 'excerpt', 'short_description', 'description', 'content', 'footer_description', 'site_description']);
 
+        $presidentButtons = collect($validated['president_buttons'] ?? [])->map(function ($button) {
+            return [
+                'title' => trim((string) ($button['title'] ?? '')),
+                'url' => trim((string) ($button['url'] ?? '')),
+                'icon' => trim((string) ($button['icon'] ?? '')),
+                'target' => in_array(($button['target'] ?? '_self'), ['_self', '_blank'], true) ? $button['target'] : '_self',
+                'is_active' => ! empty($button['is_active']),
+            ];
+        })->filter(fn ($button) => filled($button['title']) && filled($button['url']))->values()->all();
+
         $socialLinks = collect($validated['social_links'] ?? [])
             ->map(fn ($url) => is_string($url) ? trim($url) : $url)
             ->filter(fn ($url) => filled($url))
             ->all();
+
+        $selectedUnionTypeSlug = null;
+        if (! empty($validated['union_type_id'])) {
+            $selectedUnionTypeSlug = UnionType::query()->whereKey($validated['union_type_id'])->value('slug');
+        }
 
         $submittedSettings = $validated['settings'] ?? [];
         $settings = collect(GuildUnion::sectionDefaults())
@@ -139,11 +162,14 @@ class UnionController extends Controller
             'email' => $validated['email'] ?? null,
             'website' => $validated['website'] ?? null,
             'manager_name' => $validated['manager_name'] ?? null,
-            'union_type' => $validated['union_type'] ?? null,
+            'union_type' => $selectedUnionTypeSlug ?: ($validated['union_type'] ?? null),
+            'union_type_id' => $validated['union_type_id'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
             'working_hours' => $validated['working_hours'] ?? null,
             'social_links' => $socialLinks === [] ? null : $socialLinks,
             'settings' => $settings,
+            'news_mode' => $validated['news_mode'] ?? 'auto',
+            'president_buttons' => $presidentButtons === [] ? null : $presidentButtons,
             'price_list_mode' => $validated['price_list_mode'],
             'complaint_enabled' => (bool) $validated['complaint_enabled'],
             'congratulations_enabled' => (bool) $validated['congratulations_enabled'],
@@ -161,6 +187,25 @@ class UnionController extends Controller
         ];
     }
 
+
+
+    /** @param array<int, mixed> $selectedPosts */
+    private function syncSelectedPosts(GuildUnion $union, array $selectedPosts): void
+    {
+        if (($union->news_mode ?? 'auto') !== 'manual') {
+            $union->selectedPosts()->sync([]);
+            return;
+        }
+
+        $sync = [];
+        foreach (array_values($selectedPosts) as $index => $postId) {
+            if ($postId) {
+                $sync[(int) $postId] = ['sort_order' => ($index + 1) * 10];
+            }
+        }
+
+        $union->selectedPosts()->sync($sync);
+    }
 
     /** @param array<string, mixed> $related */
     private function syncPageSections(GuildUnion $union, array $related): void
@@ -273,6 +318,16 @@ class UnionController extends Controller
             UnionEducation::class => 'educations',
             UnionPrice::class => 'prices',
         };
+    }
+
+    private function unionTypes()
+    {
+        return UnionType::query()->orderBy('sort_order')->orderBy('title')->get();
+    }
+
+    private function selectablePosts()
+    {
+        return Post::query()->published()->where('type', 'news')->orderByDesc('published_at')->orderBy('title')->take(200)->get(['id', 'title', 'published_at']);
     }
 
     private function unionCategories()

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\CongratulationMessage;
 use App\Models\GuildUnion;
+use App\Models\UnionType;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -18,28 +20,30 @@ class UnionController extends Controller
 
         $baseQuery = GuildUnion::query()
             ->active()
-            ->with('category')
+            ->with(['category', 'unionType'])
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->where('title', 'like', "%{$search}%")
                 ->orWhere('name', 'like', "%{$search}%")))
-            ->when(in_array($type, array_keys(GuildUnion::typeLabels()), true), fn ($query) => $query->where('union_type', $type))
+            ->when($type !== '', fn ($query) => $query->whereHas('unionType', fn ($typeQuery) => $typeQuery->where('slug', $type)))
             ->when($categoryId !== '', fn ($query) => $query->where('category_id', $categoryId));
 
         $unions = (clone $baseQuery)->orderBy('title')->paginate(12)->withQueryString();
 
-        $productionUnions = (clone $baseQuery)->where('union_type', GuildUnion::TYPE_PRODUCTION)->orderBy('title')->get();
-        $distributionUnions = (clone $baseQuery)->where('union_type', GuildUnion::TYPE_DISTRIBUTION)->orderBy('title')->get();
-        $serviceUnions = (clone $baseQuery)->where('union_type', GuildUnion::TYPE_SERVICE)->orderBy('title')->get();
-        $specializedUnions = (clone $baseQuery)->where('union_type', GuildUnion::TYPE_SPECIALIZED)->orderBy('title')->get();
+        $unionTypes = UnionType::query()->active()->orderBy('sort_order')->orderBy('title')->get();
+        $typeTabs = $unionTypes->mapWithKeys(fn (UnionType $unionType) => [
+            $unionType->slug => [
+                'label' => $unionType->title,
+                'icon' => $unionType->icon,
+                'items' => (clone $baseQuery)->where('union_type_id', $unionType->id)->orderBy('title')->get(),
+            ],
+        ]);
         $categories = Category::query()->active()->where(fn ($query) => $query->whereNull('type')->orWhere('type', 'union')->orWhere('type', 'union_type'))->orderBy('sort_order')->orderBy('title')->get();
 
         return view('frontend.guilds.index', compact(
             'unions',
             'search',
-            'productionUnions',
-            'distributionUnions',
-            'serviceUnions',
-            'specializedUnions',
+            'unionTypes',
+            'typeTabs',
             'categories',
             'type',
             'categoryId'
@@ -53,7 +57,7 @@ class UnionController extends Controller
 
         $unions = GuildUnion::query()
             ->active()
-            ->when($search === '' && in_array($type, array_keys(GuildUnion::typeLabels()), true), fn ($query) => $query->where('union_type', $type))
+            ->when($search === '' && $type !== '', fn ($query) => $query->whereHas('unionType', fn ($typeQuery) => $typeQuery->where('slug', $type)))
             ->when($search !== '', fn ($query) => $query->where(fn ($query) => $query
                 ->where('title', 'like', "%{$search}%")
                 ->orWhere('name', 'like', "%{$search}%")
@@ -85,6 +89,7 @@ class UnionController extends Controller
 
         $union->load([
             'category',
+            'unionType',
             'members' => fn ($q) => $q->where('is_active', true)->where('status', 'active')->orderBy('sort_order')->orderBy('full_name'),
             'commissions' => fn ($q) => $q->where('is_active', true)->with(['tasks' => fn ($t) => $t->where('is_active', true)->orderBy('sort_order')])->orderBy('sort_order'),
             'rules' => fn ($q) => $q->where('is_active', true)->orderBy('sort_order'),
@@ -92,11 +97,22 @@ class UnionController extends Controller
             'educations' => fn ($q) => $q->where('is_active', true)->orderBy('sort_order'),
             'prices' => fn ($q) => $q->where('is_active', true)->orderBy('sort_order'),
             'posts' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->latest('published_at'),
+            'selectedPosts' => fn ($q) => $q->where('is_active', true)->where('status', 'published'),
             'announcements' => fn ($q) => $q->published()->latest('published_at'),
             'galleries' => fn ($q) => $q->published()->forUnion()->with(['images'])->latest('published_at'),
             'videos' => fn ($q) => $q->where('is_active', true)->where('status', 'published')->latest('published_at'),
         ]);
 
-        return view('frontend.guilds.show', ['union' => $union]);
+        $unionMessages = CongratulationMessage::where('is_active', true)
+            ->where('status', 'published')
+            ->where('show_on_union_page', true)
+            ->where(function ($q) use ($union) {
+                $q->whereNull('union_id')->orWhere('union_id', $union->id);
+            })
+            ->latest('published_at')
+            ->take(6)
+            ->get();
+
+        return view('frontend.guilds.show', ['union' => $union, 'unionMessages' => $unionMessages]);
     }
 }

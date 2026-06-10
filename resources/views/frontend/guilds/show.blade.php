@@ -13,10 +13,13 @@
     };
     $plain = fn ($value, $limit = 140) => \Illuminate\Support\Str::limit(trim(strip_tags((string) $value)), $limit);
     $initial = fn ($value) => mb_substr(trim((string) $value) ?: 'ا', 0, 1);
-    $posts = $union->posts->where('type', 'news')->values();
+    $newsMode = $union->news_mode ?? 'auto';
+    $posts = $newsMode === 'manual' ? $union->selectedPosts->where('type', 'news')->values() : ($newsMode === 'disabled' ? collect() : $union->posts->where('type', 'news')->values());
     $articles = $union->posts->where('type', 'article')->values();
     $sliderPosts = $posts->take(5);
     $socialLinks = collect($union->social_links ?? [])->filter(fn ($url) => filled($url));
+    $presidentButtons = collect($union->active_president_buttons);
+    $unionMessages = collect($unionMessages ?? []);
     $heroStats = [
         ['label' => 'اعضای فعال', 'value' => $union->members->count()],
         ['label' => 'کمیسیون‌ها', 'value' => $union->commissions->count()],
@@ -36,7 +39,7 @@
         ['key' => 'show_education', 'default' => true, 'id' => 'guild-education', 'label' => 'آموزش‌ها', 'visible' => $union->educations->isNotEmpty()],
         ['key' => 'show_announcements', 'default' => true, 'id' => 'guild-announcements', 'label' => 'اطلاعیه‌ها', 'visible' => $union->announcements->isNotEmpty()],
         ['key' => 'show_gallery', 'default' => true, 'id' => 'guild-gallery', 'label' => 'گالری', 'visible' => $union->galleries->isNotEmpty() || $union->videos->isNotEmpty()],
-        ['key' => 'show_search', 'default' => true, 'id' => 'guild-search', 'label' => 'جستجو', 'visible' => true],
+        ['key' => 'show_congratulation_messages', 'default' => true, 'id' => 'guild-messages', 'label' => 'پیام‌ها', 'visible' => $unionMessages->isNotEmpty()],
         ['key' => 'show_contact', 'default' => true, 'id' => 'guild-contact', 'label' => 'تماس', 'visible' => true],
     ])->filter(fn ($item) => $union->isSectionEnabled($item['key'], $item['default']) && $item['visible']);
 @endphp
@@ -83,8 +86,12 @@
                             <span>رئیس {{ $union->display_title }}</span>
                             <p>{{ $union->description ? $plain($union->description, 260) : 'توضیحات رئیس اتحادیه پس از تکمیل اطلاعات در پنل مدیریت نمایش داده می‌شود.' }}</p>
                             <div class="guild-head-contact">
-                                @if ($union->phone)<a href="tel:{{ $union->phone }}">تماس با اتحادیه</a>@endif
-                                @if ($union->email)<a href="mailto:{{ $union->email }}">ارسال ایمیل</a>@endif
+                                @forelse ($presidentButtons as $button)
+                                    <a href="{{ $button['url'] }}" target="{{ $button['target'] ?? '_self' }}" @if(($button['target'] ?? '_self') === '_blank') rel="noopener" @endif>{{ $button['icon'] ?? '' }} {{ $button['title'] }}</a>
+                                @empty
+                                    @if ($union->phone)<a href="tel:{{ $union->phone }}">تماس با اتحادیه</a>@endif
+                                    @if ($union->email)<a href="mailto:{{ $union->email }}">ارسال ایمیل</a>@endif
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -145,6 +152,10 @@
                 <section class="guild-section guild-section-alt" id="guild-complaint"><h3 class="guild-section-title">ثبت شکایت صنفی</h3><div class="guild-2col"><div class="guild-info-card"><h4>نحوه ثبت شکایت</h4><p>شهروندان می‌توانند شکایات خود را در خصوص این اتحادیه به صورت آنلاین ثبت و پیگیری نمایند.</p></div><div class="guild-complaint-cta"><strong>ثبت شکایت آنلاین</strong><a class="tab-pill active" href="{{ route('complaints.create', ['union' => $union->id]) }}">ثبت شکایت جدید</a><a class="tab-pill" href="{{ route('complaints.track') }}">پیگیری شکایت قبلی</a></div></div></section>
             @endif
 
+            @if($union->isSectionEnabled('show_congratulation_messages', true) && $unionMessages->isNotEmpty())
+                <section class="guild-section guild-section-alt" id="guild-messages"><h3 class="guild-section-title">پیام‌های تبریک و تسلیت</h3><div class="guild-announce-list">@foreach($unionMessages as $message)<a href="{{ route('congratulation_messages.show', $message->slug) }}"><strong>{{ $message->title }}</strong><span>{{ $message->summary ?: $plain($message->body) }}</span></a>@endforeach</div></section>
+            @endif
+
             @if($union->isSectionEnabled('show_minutes', true))
                 <section class="guild-section" id="guild-minutes"><h3 class="guild-section-title">صورتجلسه‌ها</h3><div class="guild-minutes-list">@forelse($union->minutes as $minute)<div class="guild-info-card"><h4>{{ $minute->title }}</h4><p>{{ $minute->description ?: 'شرح صورتجلسه ثبت نشده است.' }}</p><span>{{ $minute->meeting_date ? jalali_date($minute->meeting_date) : 'بدون تاریخ' }}</span>@if($minute->file)<a href="{{ $assetImage($minute->file) }}" target="_blank" rel="noopener">دانلود صورتجلسه</a>@endif</div>@empty<div class="guild-info-card"><h4>صورتجلسه‌ای برای نمایش ثبت نشده است.</h4></div>@endforelse</div></section>
             @endif
@@ -161,9 +172,6 @@
                 <section class="guild-section guild-section-alt" id="guild-gallery"><h3 class="guild-section-title">گالری تصاویر و ویدیوها</h3><div class="guild-gallery-grid">@if($union->isSectionEnabled('show_gallery', true))@foreach($union->galleries as $gallery)<a class="guild-gallery-item" href="{{ route('galleries.show', $gallery->slug) }}"><img alt="{{ $gallery->title }}" src="{{ $gallery->cover_image_url }}"><span>{{ $gallery->title }}</span></a>@endforeach @endif @if($union->isSectionEnabled('show_videos', true))@foreach($union->videos as $video)<a class="guild-gallery-item video" href="{{ route('videos.show', $video->slug) }}"><img alt="{{ $video->title }}" src="{{ $assetImage($video->cover_image) }}"><span>{{ $video->title }}</span></a>@endforeach @endif @if(($union->isSectionEnabled('show_gallery', true) && $union->galleries->isEmpty()) && ($union->isSectionEnabled('show_videos', true) && $union->videos->isEmpty()))<div class="guild-info-card"><h4>گالری یا ویدیویی برای این اتحادیه ثبت نشده است.</h4></div>@endif</div></section>
             @endif
 
-            @if($union->isSectionEnabled('show_search', true))
-                <section class="guild-section guild-section-alt" id="guild-search"><h3 class="guild-section-title">جستجو در محتوای اتحادیه</h3><p class="guild-search-desc">برای جستجوی کامل در خبرها، اطلاعیه‌ها، اتحادیه‌ها و خدمات سایت از فرم زیر استفاده کنید.</p><form class="guild-search-box" action="{{ route('search') }}" method="GET"><input name="q" value="{{ request('q') }}" placeholder="عبارت مورد نظر؛ مثل {{ $union->display_title }}، شکایت، آموزش..." type="search"><button type="submit">جستجو</button></form></section>
-            @endif
 
             @if($union->isSectionEnabled('show_contact', true))
                 <section class="guild-section" id="guild-contact"><h3 class="guild-section-title">تماس با اتحادیه و شبکه‌های اجتماعی</h3><div class="guild-contact-grid"><div class="guild-contact-card"><div class="contact-icon">📍</div><strong>آدرس</strong><span>{{ $union->address ?: 'آدرس ثبت نشده است.' }}</span></div><div class="guild-contact-card"><div class="contact-icon">📞</div><strong>تلفن</strong><span>{{ $union->phone ?: $union->mobile ?: 'شماره تماس ثبت نشده است.' }}</span></div><div class="guild-contact-card"><div class="contact-icon">✉️</div><strong>ایمیل</strong><span>{{ $union->email ?: 'ایمیل ثبت نشده است.' }}</span></div><div class="guild-contact-card"><div class="contact-icon">🕘</div><strong>ساعات کاری</strong><span>{{ $union->working_hours ?: 'ساعات کاری ثبت نشده است.' }}</span></div></div>

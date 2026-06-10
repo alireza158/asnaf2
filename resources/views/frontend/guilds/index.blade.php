@@ -5,13 +5,7 @@
 
 @php
     $assetImage = fn (?string $path) => image_url($path, 'assets/img/asnaf-gorgan-default.jpg');
-    $typeLabels = \App\Models\GuildUnion::typeLabels();
-    $typeTabs = [
-        'production' => ['label' => 'اتحادیه‌های تولیدی', 'items' => $productionUnions],
-        'distribution' => ['label' => 'اتحادیه‌های توزیعی', 'items' => $distributionUnions],
-        'service' => ['label' => 'اتحادیه‌های خدماتی', 'items' => $serviceUnions],
-        'specialized' => ['label' => 'اتحادیه‌های تخصصی', 'items' => $specializedUnions],
-    ];
+    $typeLabels = ($unionTypes ?? collect())->pluck('title', 'slug')->all();
 @endphp
 
 @section('content')
@@ -60,7 +54,7 @@
         @if ($search === '' && $type === '' && $categoryId === '')
             <div class="media-tabs" data-tab-group="guild-types">
                 @foreach ($typeTabs as $key => $tab)
-                    <button class="media-tab @if($loop->first) active @endif" data-tab-target="guild-type-{{ $key }}" type="button">{{ $tab['label'] }}</button>
+                    <button class="media-tab @if($loop->first) active @endif" data-tab-target="guild-type-{{ $key }}" type="button">{{ trim(($tab['icon'] ?? '').' '.$tab['label']) }}</button>
                 @endforeach
             </div>
             <div class="tab-panels" data-tab-panels="guild-types">

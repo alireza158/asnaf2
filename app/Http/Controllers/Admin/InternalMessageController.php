@@ -187,7 +187,7 @@ class InternalMessageController extends Controller
     private function formData(): array
     {
         return [
-            'users' => User::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'email', 'mobile', 'union_id']),
+            'users' => User::query()->where('is_active', true)->where('id', '!=', auth()->id())->orderBy('name')->get(['id', 'name', 'email', 'mobile', 'union_id']),
             'roles' => Role::query()->orderBy('label')->orderBy('name')->get(['id', 'name', 'label']),
             'unions' => GuildUnion::query()->where('is_active', true)->orderBy('title')->orderBy('name')->get(['id', 'name', 'title']),
             'priorities' => InternalMessage::PRIORITIES,
@@ -214,7 +214,7 @@ class InternalMessageController extends Controller
     /** @param array<string, mixed> $validated */
     private function resolveRecipientIds(array $validated): \Illuminate\Support\Collection
     {
-        $activeUsers = User::query()->where('is_active', true);
+        $activeUsers = User::query()->where('is_active', true)->where('id', '!=', auth()->id());
 
         $recipientIds = match ($validated['send_type']) {
             'direct' => $activeUsers->whereKey($validated['recipient_id'])->pluck('id'),

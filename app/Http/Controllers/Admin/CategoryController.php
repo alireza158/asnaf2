@@ -69,6 +69,7 @@ class CategoryController extends Controller
             'slug' => ['nullable', 'string', 'max:190', Rule::unique('categories', 'slug')->ignore($category?->id)],
             'type' => ['required', Rule::in(array_keys($this->typeLabels()))],
             'description' => ['nullable', 'string'],
+            'icon' => ['nullable', 'string', 'max:50'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['required', 'boolean'],
         ]);

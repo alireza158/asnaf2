@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SmsController;
 use App\Http\Controllers\Admin\SystemController as AdminSystemController;
 use App\Http\Controllers\Admin\TourismPlaceController as AdminTourismPlaceController;
 use App\Http\Controllers\Admin\UnionController as AdminUnionController;
+use App\Http\Controllers\Admin\UnionTypeController as AdminUnionTypeController;
 use App\Http\Controllers\Admin\UnionMemberController;
 use App\Http\Controllers\Admin\VideoController as AdminVideoController;
 use App\Http\Controllers\Admin\UserController;
@@ -46,6 +47,7 @@ use App\Http\Controllers\Frontend\SearchController as FrontendSearchController;
 use App\Http\Controllers\Frontend\SystemController as FrontendSystemController;
 use App\Http\Controllers\Frontend\TourismController as FrontendTourismController;
 use App\Http\Controllers\Frontend\UnionController as FrontendUnionController;
+use App\Http\Controllers\Frontend\UnionPresidentController;
 use App\Http\Controllers\Frontend\VideoController as FrontendVideoController;
 use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +61,7 @@ Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth
 
 Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/guilds', [FrontendUnionController::class, 'index'])->name('guilds.index');
+Route::get('/union-presidents', [UnionPresidentController::class, 'index'])->name('union-presidents.index');
 Route::get('/guilds/ajax-search', [FrontendUnionController::class, 'ajaxSearch'])->name('guilds.ajax-search');
 Route::get('/guilds/search', [FrontendUnionController::class, 'ajaxSearch'])->name('guilds.search');
 Route::get('/guilds/{union:slug}', [FrontendUnionController::class, 'show'])->name('guilds.show');
@@ -135,6 +138,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->name('pending_approvals.archive');
 
     Route::resource('categories', AdminCategoryController::class)->except(['show']);
+    Route::resource('union-types', AdminUnionTypeController::class)->except(['show']);
 
     Route::get('pages', [AdminPageController::class, 'index'])->middleware('permission:pages.view')->name('pages.index');
     Route::get('pages/create', [AdminPageController::class, 'create'])->middleware('permission:pages.create')->name('pages.create');

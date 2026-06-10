@@ -53,6 +53,8 @@
         <div class="admin-panel-card">
             <dl class="row mb-0">
                 <dt class="col-5">وضعیت</dt><dd class="col-7">{{ $union->is_active ? 'فعال' : 'غیرفعال' }}</dd>
+                <dt class="col-5">نوع اتحادیه</dt><dd class="col-7">{{ $union->union_type_label }}</dd>
+                <dt class="col-5">حالت خبر</dt><dd class="col-7">{{ \App\Models\GuildUnion::newsModeLabels()[$union->news_mode ?? 'auto'] ?? 'خودکار' }}</dd>
                 <dt class="col-5">مدیر</dt><dd class="col-7">{{ $union->manager_name ?: '—' }}</dd>
                 <dt class="col-5">تلفن</dt><dd class="col-7">{{ $union->phone ?: '—' }}</dd>
                 <dt class="col-5">موبایل</dt><dd class="col-7">{{ $union->mobile ?: '—' }}</dd>
