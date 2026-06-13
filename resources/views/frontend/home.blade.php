@@ -159,7 +159,9 @@
 <aside aria-label="دسترسی‌های عمودی" class="quick-menu">
 <ul class="quick-menu-list">
 @foreach($quickItems as $item)
-@php($children = collect($item['children'] ?? []))
+@php
+    $children = collect(data_get($item, 'children', []));
+@endphp
 <li class="quick-menu-item {{ $children->isNotEmpty() ? 'has-submenu' : '' }}">
 @if($children->isNotEmpty())
 <button aria-expanded="false" class="quick-menu-link" type="button">
