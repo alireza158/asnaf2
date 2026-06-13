@@ -72,17 +72,19 @@
     }
 
     $quickFallbacks = collect([
-        ['title' => 'صدور و تمدید پروانه کسب', 'url' => $servicesUrl, 'children' => collect([['title' => 'راهنمای صدور پروانه کسب', 'url' => $servicesUrl], ['title' => 'تمدید و انتقال پروانه کسب', 'url' => $servicesUrl], ['title' => 'مدارک مورد نیاز متقاضیان', 'url' => $servicesUrl]])],
-        ['title' => 'ثبت و پیگیری شکایات', 'url' => $complaintsUrl, 'children' => collect([['title' => 'ثبت شکایت صنفی', 'url' => $complaintsUrl], ['title' => 'گزارش تخلف واحد صنفی', 'url' => $complaintsUrl], ['title' => 'پیگیری نتیجه شکایت', 'url' => route('complaints.track')]])],
-        ['title' => 'اتحادیه‌های صنفی استان گلستان', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'رسته‌های شغلی', 'url' => $guildsUrl]])],
-        ['title' => 'سامانه‌ها و فرم‌ها', 'url' => $systemsUrl, 'children' => collect([['title' => 'سامانه نوین اصناف', 'url' => $systemsUrl], ['title' => 'فرم‌ها و بخشنامه‌ها', 'url' => $servicesUrl], ['title' => 'راهنمای خدمات الکترونیک', 'url' => $servicesUrl]])],
-        ['title' => 'اخبار و اطلاعیه‌ها', 'url' => $postsUrl, 'children' => collect([['title' => 'آرشیو اخبار', 'url' => $postsUrl], ['title' => 'اطلاعیه‌ها', 'url' => route('announcements.index')], ['title' => 'چندرسانه‌ای', 'url' => '#multimedia']])],
-        ['title' => 'ارتباط با اتاق', 'url' => $contactUrl, 'children' => collect([['title' => 'آدرس و تلفن تماس', 'url' => '#friendship'], ['title' => 'ارسال پیام', 'url' => $contactUrl], ['title' => 'راهنمای مراجعه حضوری', 'url' => '#friendship']])],
+        ['title' => 'درباره اتاق اصناف', 'url' => '#representatives', 'children' => collect([['title' => 'معرفی اتاق اصناف گرگان', 'url' => '#representatives'], ['title' => 'هیئت رئیسه و ساختار اداری', 'url' => '#representatives'], ['title' => 'شرح وظایف و اختیارات', 'url' => '#representatives']])],
+        ['title' => 'خدمات متقاضیان', 'url' => $servicesUrl, 'children' => collect([['title' => 'راهنمای صدور پروانه کسب', 'url' => $servicesUrl], ['title' => 'تمدید و انتقال پروانه', 'url' => $servicesUrl], ['title' => 'پیگیری درخواست‌ها', 'url' => $systemsUrl]])],
+        ['title' => 'اتحادیه‌های صنفی', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌های گرگان', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => '#friendship'], ['title' => 'رسته‌های شغلی', 'url' => '#representatives']])],
+        ['title' => 'بازرسی و نظارت', 'url' => $complaintsUrl, 'children' => collect([['title' => 'ثبت شکایت صنفی', 'url' => $complaintsUrl], ['title' => 'گزارش تخلف', 'url' => $complaintsUrl], ['title' => 'پیگیری بازرسی‌ها', 'url' => route('complaints.track')]])],
+        ['title' => 'آموزش و احکام تجارت', 'url' => $servicesUrl, 'children' => collect([['title' => 'دوره‌های آموزشی', 'url' => $servicesUrl], ['title' => 'احکام تجارت و کسب‌وکار', 'url' => $servicesUrl], ['title' => 'راهنمای متقاضیان', 'url' => $servicesUrl]])],
+        ['title' => 'اطلاعیه‌ها', 'url' => route('announcements.index'), 'children' => collect([['title' => 'بخشنامه‌ها', 'url' => route('announcements.index')], ['title' => 'اخبار اتاق اصناف', 'url' => $postsUrl], ['title' => 'رویدادهای صنفی', 'url' => $postsUrl]])],
+        ['title' => 'سامانه‌ها', 'url' => $systemsUrl, 'children' => collect([['title' => 'سامانه نوین اصناف', 'url' => $systemsUrl], ['title' => 'سامانه آموزش اصناف', 'url' => $systemsUrl], ['title' => 'فرم‌ها و درخواست‌ها', 'url' => $servicesUrl]])],
+        ['title' => 'ارتباط با ما', 'url' => $contactUrl, 'children' => collect([['title' => 'آدرس و تلفن', 'url' => '#friendship'], ['title' => 'ارسال پیام', 'url' => $contactUrl], ['title' => 'راهنمای مراجعه حضوری', 'url' => '#friendship']])],
     ]);
     $quickItems = ($quickMenuItems ?? collect())->map(fn ($item) => [
-        'title' => trim(($item->icon ? $item->icon.' ' : '').$item->title),
+        'title' => trim($item->title),
         'url' => $item->resolved_url ?: '#',
-        'children' => $item->children->map(fn ($child) => ['title' => trim(($child->icon ? $child->icon.' ' : '').$child->title), 'url' => $child->resolved_url ?: '#']),
+        'children' => $item->children->map(fn ($child) => ['title' => trim($child->title), 'url' => $child->resolved_url ?: '#']),
     ])->values();
     $quickItems = $quickItems->isNotEmpty() ? $quickItems : $quickFallbacks;
 
