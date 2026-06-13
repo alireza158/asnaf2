@@ -156,23 +156,28 @@
 <main>
 <section class="hero-section site-container">
 <div class="hero-grid">
-<nav aria-label="دسترسی سریع" class="quick-menu">
+<aside aria-label="دسترسی‌های عمودی" class="quick-menu">
 <ul class="quick-menu-list">
 @foreach($quickItems as $item)
-<li class="quick-menu-item">
-<a class="quick-menu-link" href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-@if(($item['children'] ?? collect())->isNotEmpty())
+@php($children = collect($item['children'] ?? []))
+<li class="quick-menu-item {{ $children->isNotEmpty() ? 'has-submenu' : '' }}">
+@if($children->isNotEmpty())
+<button aria-expanded="false" class="quick-menu-link" type="button">
+<span>{{ $item['title'] }}</span><b></b>
+</button>
 <ul class="quick-submenu">
-@foreach($item['children'] as $child)
+@foreach($children as $child)
 <li><a href="{{ $child['url'] }}">{{ $child['title'] }}</a></li>
 @endforeach
 </ul>
+@else
+<a class="quick-menu-link" href="{{ $item['url'] }}"><span>{{ $item['title'] }}</span><b></b></a>
 @endif
 </li>
 @endforeach
 </ul>
-</nav>
-<div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper">
+</aside>
+<div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper" dir="ltr">
 <div class="swiper-wrapper">
 @foreach($heroItems as $item)
 <article class="news-card news-card-main swiper-slide">
@@ -296,20 +301,6 @@
 </div>
 </section>
 
-<section class="price-ticker-section site-container" id="prices">
-<div class="price-ticker-card">
-<div class="price-ticker-heading"><span>💰</span><div><h2>قیمت روز طلا و ارز</h2><p>مقادیر از تنظیمات سایت خوانده می‌شود و در صورت نبود داده با خط تیره نمایش داده می‌شود.</p></div></div>
-<div class="price-ticker-grid">
-@foreach(($priceItems ?? collect()) as $price)
-<div class="price-ticker-item">
-<span>{{ $price['label'] }}</span>
-<strong>{{ $price['value'] }}</strong>
-<small>{{ $price['unit'] }} @if(filled($price['trend'] ?? null)) · {{ $price['trend'] }} @endif</small>
-</div>
-@endforeach
-</div>
-</div>
-</section>
 
 
 <section class="representatives-section section-white" id="representatives" data-union-ajax-url="{{ route('guilds.ajax-search') }}">
