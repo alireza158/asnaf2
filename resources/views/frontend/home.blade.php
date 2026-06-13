@@ -72,17 +72,19 @@
     }
 
     $quickFallbacks = collect([
-        ['title' => 'صدور و تمدید پروانه کسب', 'url' => $servicesUrl, 'children' => collect([['title' => 'راهنمای صدور پروانه کسب', 'url' => $servicesUrl], ['title' => 'تمدید و انتقال پروانه کسب', 'url' => $servicesUrl], ['title' => 'مدارک مورد نیاز متقاضیان', 'url' => $servicesUrl]])],
-        ['title' => 'ثبت و پیگیری شکایات', 'url' => $complaintsUrl, 'children' => collect([['title' => 'ثبت شکایت صنفی', 'url' => $complaintsUrl], ['title' => 'گزارش تخلف واحد صنفی', 'url' => $complaintsUrl], ['title' => 'پیگیری نتیجه شکایت', 'url' => route('complaints.track')]])],
-        ['title' => 'اتحادیه‌های صنفی استان گلستان', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => $guildsUrl], ['title' => 'رسته‌های شغلی', 'url' => $guildsUrl]])],
-        ['title' => 'سامانه‌ها و فرم‌ها', 'url' => $systemsUrl, 'children' => collect([['title' => 'سامانه نوین اصناف', 'url' => $systemsUrl], ['title' => 'فرم‌ها و بخشنامه‌ها', 'url' => $servicesUrl], ['title' => 'راهنمای خدمات الکترونیک', 'url' => $servicesUrl]])],
-        ['title' => 'اخبار و اطلاعیه‌ها', 'url' => $postsUrl, 'children' => collect([['title' => 'آرشیو اخبار', 'url' => $postsUrl], ['title' => 'اطلاعیه‌ها', 'url' => route('announcements.index')], ['title' => 'چندرسانه‌ای', 'url' => '#multimedia']])],
-        ['title' => 'ارتباط با اتاق', 'url' => $contactUrl, 'children' => collect([['title' => 'آدرس و تلفن تماس', 'url' => '#friendship'], ['title' => 'ارسال پیام', 'url' => $contactUrl], ['title' => 'راهنمای مراجعه حضوری', 'url' => '#friendship']])],
+        ['title' => 'درباره اتاق اصناف', 'url' => '#representatives', 'children' => collect([['title' => 'معرفی اتاق اصناف گرگان', 'url' => '#representatives'], ['title' => 'هیئت رئیسه و ساختار اداری', 'url' => '#representatives'], ['title' => 'شرح وظایف و اختیارات', 'url' => '#representatives']])],
+        ['title' => 'خدمات متقاضیان', 'url' => $servicesUrl, 'children' => collect([['title' => 'راهنمای صدور پروانه کسب', 'url' => $servicesUrl], ['title' => 'تمدید و انتقال پروانه', 'url' => $servicesUrl], ['title' => 'پیگیری درخواست‌ها', 'url' => $systemsUrl]])],
+        ['title' => 'اتحادیه‌های صنفی', 'url' => $guildsUrl, 'children' => collect([['title' => 'فهرست اتحادیه‌های گرگان', 'url' => $guildsUrl], ['title' => 'اطلاعات تماس اتحادیه‌ها', 'url' => '#friendship'], ['title' => 'رسته‌های شغلی', 'url' => '#representatives']])],
+        ['title' => 'بازرسی و نظارت', 'url' => $complaintsUrl, 'children' => collect([['title' => 'ثبت شکایت صنفی', 'url' => $complaintsUrl], ['title' => 'گزارش تخلف', 'url' => $complaintsUrl], ['title' => 'پیگیری بازرسی‌ها', 'url' => route('complaints.track')]])],
+        ['title' => 'آموزش و احکام تجارت', 'url' => $servicesUrl, 'children' => collect([['title' => 'دوره‌های آموزشی', 'url' => $servicesUrl], ['title' => 'احکام تجارت و کسب‌وکار', 'url' => $servicesUrl], ['title' => 'راهنمای متقاضیان', 'url' => $servicesUrl]])],
+        ['title' => 'اطلاعیه‌ها', 'url' => route('announcements.index'), 'children' => collect([['title' => 'بخشنامه‌ها', 'url' => route('announcements.index')], ['title' => 'اخبار اتاق اصناف', 'url' => $postsUrl], ['title' => 'رویدادهای صنفی', 'url' => $postsUrl]])],
+        ['title' => 'سامانه‌ها', 'url' => $systemsUrl, 'children' => collect([['title' => 'سامانه نوین اصناف', 'url' => $systemsUrl], ['title' => 'سامانه آموزش اصناف', 'url' => $systemsUrl], ['title' => 'فرم‌ها و درخواست‌ها', 'url' => $servicesUrl]])],
+        ['title' => 'ارتباط با ما', 'url' => $contactUrl, 'children' => collect([['title' => 'آدرس و تلفن', 'url' => '#friendship'], ['title' => 'ارسال پیام', 'url' => $contactUrl], ['title' => 'راهنمای مراجعه حضوری', 'url' => '#friendship']])],
     ]);
     $quickItems = ($quickMenuItems ?? collect())->map(fn ($item) => [
-        'title' => trim(($item->icon ? $item->icon.' ' : '').$item->title),
+        'title' => trim($item->title),
         'url' => $item->resolved_url ?: '#',
-        'children' => $item->children->map(fn ($child) => ['title' => trim(($child->icon ? $child->icon.' ' : '').$child->title), 'url' => $child->resolved_url ?: '#']),
+        'children' => $item->children->map(fn ($child) => ['title' => trim($child->title), 'url' => $child->resolved_url ?: '#']),
     ])->values();
     $quickItems = $quickItems->isNotEmpty() ? $quickItems : $quickFallbacks;
 
@@ -156,23 +158,30 @@
 <main>
 <section class="hero-section site-container">
 <div class="hero-grid">
-<nav aria-label="دسترسی سریع" class="quick-menu">
+<aside aria-label="دسترسی‌های عمودی" class="quick-menu">
 <ul class="quick-menu-list">
 @foreach($quickItems as $item)
-<li class="quick-menu-item">
-<a class="quick-menu-link" href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-@if(($item['children'] ?? collect())->isNotEmpty())
+@php
+    $children = collect(data_get($item, 'children', []));
+@endphp
+<li class="quick-menu-item {{ $children->isNotEmpty() ? 'has-submenu' : '' }}">
+@if($children->isNotEmpty())
+<button aria-expanded="false" class="quick-menu-link" type="button">
+<span>{{ $item['title'] }}</span><b></b>
+</button>
 <ul class="quick-submenu">
-@foreach($item['children'] as $child)
+@foreach($children as $child)
 <li><a href="{{ $child['url'] }}">{{ $child['title'] }}</a></li>
 @endforeach
 </ul>
+@else
+<a class="quick-menu-link" href="{{ $item['url'] }}"><span>{{ $item['title'] }}</span><b></b></a>
 @endif
 </li>
 @endforeach
 </ul>
-</nav>
-<div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper">
+</aside>
+<div aria-label="اسلایدر خبرهای اصلی" class="hero-slider swiper" dir="ltr">
 <div class="swiper-wrapper">
 @foreach($heroItems as $item)
 <article class="news-card news-card-main swiper-slide">
@@ -296,20 +305,6 @@
 </div>
 </section>
 
-<section class="price-ticker-section site-container" id="prices">
-<div class="price-ticker-card">
-<div class="price-ticker-heading"><span>💰</span><div><h2>قیمت روز طلا و ارز</h2><p>مقادیر از تنظیمات سایت خوانده می‌شود و در صورت نبود داده با خط تیره نمایش داده می‌شود.</p></div></div>
-<div class="price-ticker-grid">
-@foreach(($priceItems ?? collect()) as $price)
-<div class="price-ticker-item">
-<span>{{ $price['label'] }}</span>
-<strong>{{ $price['value'] }}</strong>
-<small>{{ $price['unit'] }} @if(filled($price['trend'] ?? null)) · {{ $price['trend'] }} @endif</small>
-</div>
-@endforeach
-</div>
-</div>
-</section>
 
 
 <section class="representatives-section section-white" id="representatives" data-union-ajax-url="{{ route('guilds.ajax-search') }}">
