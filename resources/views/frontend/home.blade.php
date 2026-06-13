@@ -40,7 +40,7 @@
     ]);
     $heroItems = ($heroPosts ?? collect())->take(3)->map(fn ($post) => [
         'title' => $post->title,
-        'kicker' => $post->category_title ?? 'اخبار اتاق',
+        'kicker' => $post->category?->title ?? 'خبر',
         'url' => route('posts.show', $post->slug),
         'image' => $post->featured_image_url,
     ])->values();
@@ -54,16 +54,11 @@
     }
     $heroItems = $heroItems->isNotEmpty() ? $heroItems : $heroFallbacks;
 
-    $sideNewsSource = ($latestPosts ?? collect())->map(fn ($post) => [
+    $sideItems = ($sidePosts ?? collect())->take(2)->map(fn ($post) => [
         'title' => $post->title,
         'url' => route('posts.show', $post->slug),
         'image' => $post->featured_image_url,
-    ])->concat(($announcements ?? collect())->map(fn ($announcement) => [
-        'title' => $announcement->title,
-        'url' => route('announcements.show', $announcement->slug),
-        'image' => $assetImage($announcement->featured_image),
-    ]))->values();
-    $sideItems = $sideNewsSource->take(2)->values();
+    ])->values();
     if ($sideItems->isEmpty()) {
         $sideItems = collect([
             ['title' => 'آدرس اتاق اصناف مرکز استان گلستان: خیابان مطهری جنوبی، روبروی پمپ بنزین، ساختمان اتاق اصناف', 'url' => $contactUrl, 'image' => $defaultImage],
