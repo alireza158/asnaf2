@@ -54,17 +54,30 @@ class HomeController extends Controller
 
         $heroPosts = Post::query()
             ->published()
-            ->where(fn ($query) => $query->where('is_top', true)->orWhere('is_important', true)->orWhere('is_featured', true))
+            ->where('is_top', true)
             ->with(['category', 'union', 'galleries'])
             ->withCount('galleries')
-            ->orderByDesc('is_top')
-            ->orderBy('sort_order')
             ->latest('published_at')
-            ->take($this->sectionLimit($sections, 'hero_slider', 6))
+            ->latest('id')
+            ->take(3)
             ->get();
 
         if ($heroPosts->isEmpty()) {
-            $heroPosts = $latestPosts->take($this->sectionLimit($sections, 'hero_slider', 6));
+            $heroPosts = $latestPosts->take(3);
+        }
+
+        $sidePosts = Post::query()
+            ->published()
+            ->where('is_top', false)
+            ->with(['category', 'union', 'galleries'])
+            ->withCount('galleries')
+            ->latest('published_at')
+            ->latest('id')
+            ->take(2)
+            ->get();
+
+        if ($sidePosts->isEmpty()) {
+            $sidePosts = $latestPosts->whereNotIn('id', $heroPosts->pluck('id'))->take(2)->values();
         }
 
         $announcements = Announcement::query()
@@ -199,6 +212,7 @@ class HomeController extends Controller
             'importantPosts',
             'latestPosts',
             'heroPosts',
+            'sidePosts',
             'importantAnnouncements',
             'announcements',
             'homeUnions',
