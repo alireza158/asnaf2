@@ -108,11 +108,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->name('messages.index')
         ->middleware('permission:messages.view');
     Route::get('messages/inbox', [InternalMessageController::class, 'inbox'])
-        ->name('messages.inbox')
-        ->middleware('permission:messages.view');
+        ->name('messages.inbox');
     Route::get('messages/sent', [InternalMessageController::class, 'sent'])
-        ->name('messages.sent')
-        ->middleware('permission:messages.view');
+        ->name('messages.sent');
     Route::get('messages/create', [InternalMessageController::class, 'create'])
         ->name('messages.create')
         ->middleware('permission:messages.send');
@@ -120,8 +118,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
         ->name('messages.store')
         ->middleware('permission:messages.send');
     Route::get('messages/{message}', [InternalMessageController::class, 'show'])
-        ->name('messages.show')
-        ->middleware('permission:messages.view');
+        ->name('messages.show');
     Route::post('messages/{message}/reply', [InternalMessageController::class, 'storeReply'])
         ->name('messages.reply')
         ->middleware('permission:messages.reply');
